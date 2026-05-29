@@ -1,26 +1,615 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* ============================================
+   SKILLBOOK AGENTS — Premium Cyberpunk Design System
+   ============================================ */
+
+@theme {
+  /* Premium Slate Backgrounds */
+  --color-bg-primary: hsl(224 25% 6%);
+  --color-bg-secondary: hsl(224 24% 10%);
+  --color-bg-tertiary: hsl(224 24% 14%);
+  --color-bg-card: hsl(224 24% 12%);
+  --color-bg-card-hover: hsl(224 24% 16%);
+  --color-bg-glass: hsla(224 25% 6% / 0.65);
+
+  /* Typography Colors */
+  --color-text-primary: hsl(220 25% 96%);
+  --color-text-secondary: hsl(220 15% 75%);
+  --color-text-muted: hsl(220 12% 50%);
+  --color-text-accent: var(--color-cyber-violet);
+
+  /* Standard Borders */
+  --color-border: hsla(220 25% 90% / 0.05);
+  --color-border-hover: hsla(220 25% 90% / 0.12);
+  --color-border-accent: hsla(285 100% 64% / 0.3);
+
+  /* Glowing Cyberpunk Accents (HSL) */
+  --color-neon-indigo: hsl(230 100% 67%);
+  --color-cyber-violet: hsl(285 100% 64%);
+  --color-emerald-tech: hsl(158 100% 52%);
+
+  --color-accent-primary: var(--color-cyber-violet);
+  --color-accent-secondary: var(--color-neon-indigo);
+  --color-accent-glow: hsla(285 100% 64% / 0.15);
+
+  /* Premium Design Gradients */
+  --gradient-hero: linear-gradient(135deg, var(--color-cyber-violet) 0%, var(--color-neon-indigo) 100%);
+  --gradient-emerald: linear-gradient(135deg, var(--color-emerald-tech) 0%, var(--color-neon-indigo) 100%);
+  --gradient-card: linear-gradient(135deg, hsla(285 100% 64% / 0.08) 0%, hsla(230 100% 67% / 0.04) 100%);
+  --gradient-text: linear-gradient(135deg, #ffffff 0%, var(--color-cyber-violet) 50%, var(--color-neon-indigo) 100%);
+  --gradient-text-emerald: linear-gradient(135deg, #ffffff 0%, var(--color-emerald-tech) 50%, var(--color-neon-indigo) 100%);
+  --gradient-bg-radial: radial-gradient(ellipse at top, hsla(285 100% 64% / 0.08) 0%, transparent 60%);
+
+  /* Motion & Animation Tokens */
+  --duration-instant: 100ms;
+  --duration-fast: 200ms;
+  --duration-normal: 300ms;
+  --duration-slow: 500ms;
+  --duration-dramatic: 800ms;
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out-back: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  /* Spacing Scale Extension */
+  --spacing-section: 8rem;
+
+  /* Border Radius Constraints */
+  --radius-card: 1rem;
+  --radius-badge: 0.5rem;
+  --radius-pill: 9999px;
+
+  /* Font Families */
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* ============================================
+   Base Styles
+   ============================================ */
+
+* {
+  box-sizing: border-box;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--color-bg-primary);
+  color: var(--color-text-primary);
+  font-family: var(--font-sans);
+  line-height: 1.7;
+  overflow-x: hidden;
 }
+
+::selection {
+  background-color: hsla(285 100% 64% / 0.25);
+  color: #fff;
+}
+
+/* Cyberpunk Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-bg-primary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: hsla(230 100% 67% / 0.25);
+  border-radius: 3px;
+  border: 1px solid var(--color-border);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: hsla(285 100% 64% / 0.4);
+  box-shadow: 0 0 10px hsla(285 100% 64% / 0.5);
+}
+
+/* ============================================
+   Premium Styling Primitives & Custom Utilities
+   ============================================ */
+
+/* 1. Glass Panel (Frosted Translucent Container) & Legacy Glass Card Wrapper */
+.glass-panel, .glass-card {
+  background: var(--color-bg-glass);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 
+    0 8px 32px 0 rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.05);
+  border-radius: var(--radius-card);
+  transition: all var(--duration-normal) var(--ease-out-expo);
+}
+
+.glass-panel:hover, .glass-card:hover {
+  border-color: rgba(255, 255, 255, 0.08);
+  background: rgba(14, 18, 32, 0.75);
+  box-shadow: 
+    0 12px 40px 0 rgba(0, 0, 0, 0.5),
+    0 0 20px hsla(285 100% 64% / 0.08),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.08);
+  transform: translateY(-1px);
+}
+
+/* 2. Glow Border (Outline Neon Highlighter) */
+.glow-border {
+  position: relative;
+  border-radius: var(--radius-card);
+  background: linear-gradient(var(--color-bg-card), var(--color-bg-card)) padding-box,
+              linear-gradient(135deg, var(--color-cyber-violet), var(--color-neon-indigo)) border-box;
+  border: 1px solid transparent;
+  transition: all var(--duration-normal) var(--ease-out-expo);
+}
+
+.glow-border::after {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  z-index: -1;
+  background: linear-gradient(135deg, var(--color-cyber-violet), var(--color-neon-indigo));
+  border-radius: var(--radius-card);
+  opacity: 0;
+  filter: blur(12px);
+  transition: opacity var(--duration-normal) var(--ease-out-expo);
+}
+
+.glow-border:hover {
+  box-shadow: 0 0 20px hsla(285 100% 64% / 0.15);
+}
+
+.glow-border:hover::after {
+  opacity: 0.5;
+}
+
+/* Glow Border - Emerald Tech Variant */
+.glow-border--emerald {
+  background: linear-gradient(var(--color-bg-card), var(--color-bg-card)) padding-box,
+              linear-gradient(135deg, var(--color-emerald-tech), var(--color-neon-indigo)) border-box;
+}
+
+.glow-border--emerald::after {
+  background: linear-gradient(135deg, var(--color-emerald-tech), var(--color-neon-indigo));
+}
+
+/* 3. Glow Core (Ambient Glowing Backdrop) */
+.glow-core {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  pointer-events: none;
+  z-index: 0;
+  mix-blend-mode: plus-lighter;
+  opacity: 0.35;
+  background: radial-gradient(circle, var(--color-cyber-violet) 0%, var(--color-neon-indigo) 70%);
+  width: var(--glow-size, 35rem);
+  height: var(--glow-size, 35rem);
+}
+
+.glow-core--emerald {
+  background: radial-gradient(circle, var(--color-emerald-tech) 0%, var(--color-neon-indigo) 70%);
+}
+
+.glow-core--indigo {
+  background: radial-gradient(circle, var(--color-neon-indigo) 0%, transparent 70%);
+}
+
+/* ============================================
+   Gradient Text
+   ============================================ */
+
+.gradient-text {
+  background: var(--gradient-text);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.gradient-text--emerald {
+  background: var(--gradient-text-emerald);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ============================================
+   Glow Effects (Soft Shadows)
+   ============================================ */
+
+.glow-accent {
+  box-shadow: 0 0 20px hsla(285 100% 64% / 0.15),
+              0 0 60px hsla(285 100% 64% / 0.05);
+}
+
+.glow-accent-hover:hover {
+  box-shadow: 0 0 30px hsla(285 100% 64% / 0.25),
+              0 0 80px hsla(285 100% 64% / 0.1);
+}
+
+/* ============================================
+   Interactive Elements / Buttons
+   ============================================ */
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.875rem 2rem;
+  background: var(--gradient-hero);
+  color: #fff;
+  font-weight: 600;
+  border-radius: var(--radius-pill);
+  border: none;
+  cursor: pointer;
+  transition: all var(--duration-normal) var(--ease-out-expo);
+  text-decoration: none;
+  font-size: 1rem;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 8px 32px hsla(285 100% 64% / 0.3),
+              0 0 60px hsla(230 100% 67% / 0.2);
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background: transparent;
+  color: var(--color-text-primary);
+  font-weight: 500;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--color-border);
+  cursor: pointer;
+  transition: all var(--duration-normal) var(--ease-out-expo);
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+.btn-secondary:hover {
+  border-color: var(--color-accent-primary);
+  background: var(--color-accent-glow);
+  color: var(--color-text-primary);
+  box-shadow: 0 0 15px hsla(285 100% 64% / 0.1);
+}
+
+/* ============================================
+   Badges / Chips
+   ============================================ */
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  border-radius: var(--radius-pill);
+  background: hsla(220 25% 90% / 0.05);
+  border: 1px solid var(--color-border);
+  color: var(--color-text-secondary);
+  transition: all var(--duration-fast) ease;
+  white-space: nowrap;
+}
+
+.chip:hover {
+  background: hsla(220 25% 90% / 0.08);
+  border-color: var(--color-border-hover);
+}
+
+.chip--active {
+  background: var(--color-accent-glow);
+  border-color: var(--color-border-accent);
+  color: var(--color-accent-primary);
+  box-shadow: 0 0 10px hsla(285 100% 64% / 0.15);
+}
+
+/* ============================================
+   Skill Catalog Cards
+   ============================================ */
+
+.skill-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1.25rem 1.5rem;
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  cursor: pointer;
+  transition: all var(--duration-normal) var(--ease-out-expo);
+  text-decoration: none;
+  color: inherit;
+}
+
+.skill-card:hover {
+  border-color: var(--color-border-accent);
+  background: var(--color-bg-card-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3),
+              0 0 15px hsla(285 100% 64% / 0.08);
+}
+
+.skill-card__command {
+  font-family: var(--font-mono);
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--color-accent-primary);
+}
+
+.skill-card__description {
+  font-size: 0.9rem;
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.skill-card__meta {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-top: 0.25rem;
+}
+
+/* ============================================
+   Section Titles
+   ============================================ */
+
+.section-title {
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--color-text-muted);
+}
+
+/* ============================================
+   Markdown Formatting (Skill Detail View)
+   ============================================ */
+
+.skill-content h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 2.5rem 0 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--color-border);
+  color: var(--color-text-primary);
+}
+
+.skill-content h3 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin: 2rem 0 0.75rem;
+  color: var(--color-text-primary);
+}
+
+.skill-content p {
+  margin: 1rem 0;
+  color: var(--color-text-secondary);
+  line-height: 1.8;
+}
+
+.skill-content ul,
+.skill-content ol {
+  margin: 1rem 0;
+  padding-left: 1.5rem;
+  color: var(--color-text-secondary);
+}
+
+.skill-content li {
+  margin: 0.5rem 0;
+  line-height: 1.7;
+}
+
+.skill-content code {
+  font-family: var(--font-mono);
+  font-size: 0.875em;
+  background: hsla(285 100% 64% / 0.12);
+  padding: 0.15em 0.4em;
+  border-radius: 0.3em;
+  color: var(--color-accent-primary);
+}
+
+.skill-content pre {
+  margin: 1.5rem 0;
+  padding: 1.25rem;
+  background: var(--color-bg-secondary) !important;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  overflow-x: auto;
+  font-size: 0.875rem;
+  line-height: 1.7;
+}
+
+.skill-content pre code {
+  background: none;
+  padding: 0;
+  color: var(--color-text-primary);
+}
+
+.skill-content blockquote {
+  margin: 1.5rem 0;
+  padding: 1rem 1.5rem;
+  border-left: 3px solid var(--color-accent-primary);
+  background: var(--color-accent-glow);
+  border-radius: 0 var(--radius-card) var(--radius-card) 0;
+  color: var(--color-text-secondary);
+}
+
+.skill-content strong {
+  color: var(--color-text-primary);
+  font-weight: 600;
+}
+
+.skill-content a {
+  color: var(--color-accent-primary);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  transition: opacity var(--duration-fast) ease;
+}
+
+.skill-content a:hover {
+  opacity: 0.8;
+}
+
+/* ============================================
+   Premium Cyberpunk Animations
+   ============================================ */
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 20px hsla(285 100% 64% / 0.15); }
+  50% { box-shadow: 0 0 40px hsla(285 100% 64% / 0.3); }
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scroll-indicator {
+  0%, 100% {
+    opacity: 0.4;
+    transform: translateY(0);
+  }
+  50% {
+    opacity: 1;
+    transform: translateY(6px);
+  }
+}
+
+/* Neon Cyberpunk Flicker Animation */
+@keyframes neon-flicker {
+  0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+    opacity: 1;
+  }
+  20%, 24%, 55% {
+    opacity: 0.7;
+  }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 3s ease-in-out infinite;
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 0.6s var(--ease-out-expo) both;
+}
+
+.animate-scroll-indicator {
+  animation: scroll-indicator 2s ease-in-out infinite;
+}
+
+.animate-flicker {
+  animation: neon-flicker 4s infinite alternate;
+}
+
+/* Stagger delays */
+.delay-100 { animation-delay: 100ms; }
+.delay-200 { animation-delay: 200ms; }
+.delay-300 { animation-delay: 300ms; }
+.delay-400 { animation-delay: 400ms; }
+.delay-500 { animation-delay: 500ms; }
+
+/* ============================================
+   NEW: Milestone 2 Premium Animations
+   ============================================ */
+
+/* 1. Hero Glow Core performance optimization */
+.hero-glow-core {
+  will-change: transform, opacity;
+  transform-origin: center;
+}
+
+/* 2. Evolution Stage SVG Neon Rings Keyframes & Classes */
+@keyframes neon-dash {
+  to {
+    stroke-dashoffset: -40;
+  }
+}
+
+.animate-neon-ring-fast {
+  animation: neon-dash 2s linear infinite;
+}
+
+.animate-neon-ring-slow {
+  animation: neon-dash 4s linear infinite;
+}
+
+.animate-neon-ring-reverse {
+  animation: neon-dash 3s linear infinite reverse;
+}
+
+/* 3. Cyberpunk Laser Scan Line */
+@keyframes radar-laser {
+  0% {
+    top: 0%;
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    top: 100%;
+    opacity: 0;
+  }
+}
+
+.laser-scan-line {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 2px;
+  pointer-events: none;
+  z-index: 10;
+  animation: radar-laser 4s linear infinite;
+  will-change: top;
+}
+
+.horizontal-track {
+  will-change: transform;
+}
+
+/* 4. Cyberpunk Abstract Background Soft Pulse Animation */
+@keyframes bg-pulse-soft {
+  0%, 100% {
+    transform: scale(1.02) translate(0px, 0px);
+  }
+  50% {
+    transform: scale(1.06) translate(6px, -6px);
+  }
+}
+
+.animate-bg-pulse {
+  animation: bg-pulse-soft 25s infinite ease-in-out;
+  will-change: transform;
+}
+
