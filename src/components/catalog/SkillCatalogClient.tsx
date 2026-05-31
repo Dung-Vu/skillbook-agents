@@ -3,7 +3,7 @@
 import React, { useState, useMemo, useEffect, useCallback } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence, Variants } from "framer-motion";
-import { Search, ArrowRight, Sparkles } from "lucide-react";
+import { Search, ArrowRight, Copy, Check } from "lucide-react";
 import Fuse from "fuse.js";
 import { cn } from "@/lib/utils";
 import {
@@ -14,6 +14,12 @@ import {
   PlatformId,
 } from "@/types/skill";
 import { CATEGORIES } from "@/lib/categories";
+import { MeshGridBackground } from "@/components/ui/MeshGridBackground";
+import { useTransitionNavigator } from "@/hooks/useTransitionNavigator";
+
+interface CustomWindow extends Window {
+  __canvasPaused?: boolean;
+}
 
 interface SkillCatalogClientProps {
   skills: Skill[];
@@ -21,150 +27,131 @@ interface SkillCatalogClientProps {
 }
 
 // ============================================================================
-// ANIMATION VARIANTS (R2.3 - Stagger Transitions & Elegant Spring Motions)
+// ANIMATION VARIANTS
 // ============================================================================
 const containerVariants: Variants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.06,
-      delayChildren: 0.02,
+      staggerChildren: 0.04,
+      delayChildren: 0.01,
     },
   },
   exit: {
     opacity: 0,
     transition: {
-      staggerChildren: 0.03,
+      staggerChildren: 0.02,
       staggerDirection: -1,
     },
   },
 };
 
 const cardVariants: Variants = {
-  hidden: { opacity: 0, y: 15, scale: 0.98 },
+  hidden: { opacity: 0, y: 10, scale: 0.99 },
   visible: {
     opacity: 1,
     y: 0,
     scale: 1,
     transition: {
       type: "spring",
-      stiffness: 120,
-      damping: 14,
+      stiffness: 150,
+      damping: 16,
       mass: 0.8,
     },
   },
   exit: {
     opacity: 0,
-    y: -10,
-    scale: 0.98,
+    y: -6,
+    scale: 0.99,
     transition: {
-      duration: 0.2,
+      duration: 0.12,
       ease: "easeInOut",
     },
   },
 };
 
 // ============================================================================
-// MEMOIZED SKILL CARD COMPONENT (R1.3 & R2.1/R2.2 - Upgraded with Glassmorphism & Mouse Tracker)
+// ULTRA MINIMALIST SKILL ROW COMPONENT
 // ============================================================================
-interface SkillCardProps {
+interface SkillRowProps {
   skill: Skill;
+  navigateTo: (e: React.MouseEvent<HTMLAnchorElement>, href: string) => void;
 }
 
-const SkillCard = React.memo(function SkillCard({ skill }: SkillCardProps): React.ReactElement {
-  const [coords, setCoords] = useState({ x: 0, y: 0 });
+const SkillRow = React.memo(function SkillRow({ skill, navigateTo }: SkillRowProps): React.ReactElement {
+  const [copied, setCopied] = useState(false);
 
-  const handleMouseMove = useCallback((e: React.MouseEvent<HTMLAnchorElement>) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    setCoords({ x, y });
-  }, []);
+  const handleCopy = useCallback((e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    navigator.clipboard.writeText(skill.command);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 1500);
+  }, [skill.command]);
 
   return (
     <Link
       href={`/skills/${skill.slug}`}
-      className="skill-card glass-panel group relative overflow-hidden border border-white/5 bg-[var(--color-bg-glass)] hover:border-white/10 transition-all duration-300 skill-card-glow cursor-pointer"
+      onClick={(e) => navigateTo(e as unknown as React.MouseEvent<HTMLAnchorElement>, `/skills/${skill.slug}`)}
+      className="skill-card flex flex-col sm:flex-row sm:items-center justify-between py-3 px-4 border-b border-slate-100 hover:bg-slate-50/50 transition-all duration-300 group font-mono text-xs cursor-pointer block"
       id={`skill-${skill.slug}`}
-      onMouseMove={handleMouseMove}
-      style={{
-        "--mouse-x": `${coords.x}px`,
-        "--mouse-y": `${coords.y}px`,
-      } as React.CSSProperties}
     >
-      {/* Cyberpunk Laser Scan Line */}
-      <div className="laser-scan-line absolute inset-x-0 h-[1.5px] bg-gradient-to-r from-transparent via-[var(--color-cyber-violet)] to-transparent opacity-0 group-hover:opacity-40 transition-opacity duration-300 pointer-events-none" />
-
-      {/* Card Content Grid */}
-      <div className="flex items-center justify-between z-10 relative">
-        <span className="skill-card__command gradient-text">
+      <div className="flex items-center gap-2 sm:w-[35%] shrink-0">
+        <span className="font-bold font-mono text-[11px] sm:text-xs bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 bg-clip-text text-transparent group-hover:brightness-110 transition-all duration-200 truncate">
           {skill.command}
         </span>
-        <div className="flex items-center gap-2">
-          <span
-            className="text-xs font-medium px-2 py-0.5 rounded-full"
-            style={{
-              color: COMPLEXITY_CONFIG[skill.complexity]?.color || "#22c55e",
-              background: `${COMPLEXITY_CONFIG[skill.complexity]?.color || "#22c55e"}15`,
-            }}
-          >
-            {COMPLEXITY_CONFIG[skill.complexity]?.dot || "🟢"}{" "}
-            {COMPLEXITY_CONFIG[skill.complexity]?.label || "Starter"}
-          </span>
-          {skill.featured && (
-            <Sparkles
-              size={14}
-              className="text-yellow-400 animate-pulse"
-            />
+        <button
+          onClick={handleCopy}
+          className="p-1 rounded bg-slate-100 border border-slate-200/60 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50/80 opacity-0 group-hover:opacity-100 focus:opacity-100 transition-all duration-200 shrink-0 ml-1 flex items-center justify-center cursor-pointer"
+          title="Sao chép lệnh"
+        >
+          {copied ? (
+            <Check size={8} className="text-emerald-600 font-bold" />
+          ) : (
+            <Copy size={8} />
           )}
-          <ArrowRight
-            size={16}
-            className="text-[var(--color-text-muted)] group-hover:text-[var(--color-accent-primary)] group-hover:translate-x-1 transition-all duration-200"
-          />
-        </div>
+        </button>
       </div>
 
-      <p className="skill-card__description z-10 relative mt-2 text-[var(--color-text-secondary)]">
-        {skill.description}
-      </p>
+      <div className="text-[10px] sm:text-[11px] text-slate-500 group-hover:text-slate-800 transition-colors duration-150 sm:w-[60%] mt-1 sm:mt-0 font-sans line-clamp-2 sm:line-clamp-1 leading-relaxed">
+        {skill.oneLiner || skill.description}
+      </div>
 
-      <div className="skill-card__meta z-10 relative mt-4">
-        {skill.platforms.slice(0, 4).map((p) => (
-          <span
-            key={p}
-            className="text-xs px-2 py-0.5 rounded-full bg-white/5 text-[var(--color-text-muted)] border border-white/5"
-          >
-            {PLATFORM_CONFIG[p as PlatformId]?.label || p}
-          </span>
-        ))}
-        {skill.platforms.length > 4 && (
-          <span className="text-xs text-[var(--color-text-muted)]">
-            +{skill.platforms.length - 4}
-          </span>
-        )}
+      <div className="hidden sm:flex sm:w-[5%] justify-end text-slate-400 group-hover:text-indigo-600 group-hover:translate-x-1.5 transition-all duration-200 shrink-0">
+        <ArrowRight size={11} />
       </div>
     </Link>
   );
 });
 
+
 // ============================================================================
-// MAIN CATALOG CLIENT
+// MAIN ENCYCLOPEDIA CLIENT (2-Column Sidebar Layout)
 // ============================================================================
 export function SkillCatalogClient({
   skills = [],
   categoryCountMap = {},
 }: SkillCatalogClientProps): React.ReactElement {
-  // R1.1 - Two separate states to support fuzzy search debouncing (Fuse.js)
   const [searchVal, setSearchVal] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
 
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
   const [activePlatform, setActivePlatform] = useState<PlatformId | null>(null);
-  const [activeComplexity, setActiveComplexity] =
-    useState<ComplexityLevel | null>(null);
+  const [activeComplexity, setActiveComplexity] = useState<ComplexityLevel | null>(null);
 
-  // R1.1 - Synchronize searchVal to searchQuery after 200ms debounce
+  const [isCategoriesOpen, setIsCategoriesOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = (): void => {
+      setIsMobile(window.innerWidth < 640);
+    };
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
   useEffect(() => {
     const timer = setTimeout(() => {
       setSearchQuery(searchVal);
@@ -173,12 +160,29 @@ export function SkillCatalogClient({
   }, [searchVal]);
 
   const sortedCategories = useMemo(
-    () => Object.values(CATEGORIES).sort((a, b) => a.order - b.order),
-    []
+    () =>
+      Object.values(CATEGORIES)
+        .filter((cat) => (categoryCountMap[cat.id] || 0) > 0)
+        .sort((a, b) => a.order - b.order),
+    [categoryCountMap]
   );
 
-  const fuse = useMemo(() => {
-    return new Fuse(skills || [], {
+  const categoryScopedSkills = useMemo(() => {
+    let result = skills || [];
+    if (activeCategory) {
+      result = result.filter((s) => s.category === activeCategory);
+    }
+    if (activePlatform) {
+      result = result.filter((s) => s.platforms && s.platforms.includes(activePlatform));
+    }
+    if (activeComplexity) {
+      result = result.filter((s) => s.complexity === activeComplexity);
+    }
+    return result;
+  }, [skills, activeCategory, activePlatform, activeComplexity]);
+
+  const scopedFuse = useMemo(() => {
+    return new Fuse(categoryScopedSkills, {
       keys: [
         { name: "title", weight: 0.4 },
         { name: "command", weight: 0.3 },
@@ -187,43 +191,33 @@ export function SkillCatalogClient({
       ],
       threshold: 0.35,
     });
+  }, [categoryScopedSkills]);
+
+  const filteredSkills = useMemo(() => {
+    if (!searchQuery.trim()) {
+      return categoryScopedSkills;
+    }
+    const searchResults = scopedFuse.search(searchQuery);
+    return searchResults.map((r) => r.item);
+  }, [categoryScopedSkills, scopedFuse, searchQuery]);
+
+  const stats = useMemo(() => {
+    const total = skills.length;
+    const platformCounts: Record<string, number> = {};
+    skills.forEach((s) => {
+      s.platforms?.forEach((p) => {
+        platformCounts[p] = (platformCounts[p] || 0) + 1;
+      });
+    });
+    return {
+      total,
+      platformCompat: Object.keys(platformCounts).length,
+    };
   }, [skills]);
 
-  // R1.4 - Multi-Filter Combinations (Harmony logic)
-  const filteredSkills = useMemo(() => {
-    let result = skills || [];
+  const filteredTotal = categoryScopedSkills.length;
 
-    if (searchQuery.trim()) {
-      const searchResults = fuse.search(searchQuery);
-      result = searchResults.map((r) => r.item);
-    }
 
-    if (activeCategory) {
-      result = result.filter((s) => s.category === activeCategory);
-    }
-
-    if (activePlatform) {
-      result = result.filter((s) => s.platforms && s.platforms.includes(activePlatform));
-    }
-
-    if (activeComplexity) {
-      result = result.filter((s) => s.complexity === activeComplexity);
-    }
-
-    return result;
-  }, [skills, fuse, searchQuery, activeCategory, activePlatform, activeComplexity]);
-
-  // Group filtered skills by category
-  const groupedSkills = useMemo(() => {
-    const groups: Record<string, Skill[]> = {};
-    for (const skill of filteredSkills) {
-      if (!groups[skill.category]) groups[skill.category] = [];
-      groups[skill.category].push(skill);
-    }
-    return groups;
-  }, [filteredSkills]);
-
-  // R1.2 - Memoize event handlers using useCallback
   const handleCategoryClick = useCallback((categoryId: string | null): void => {
     setActiveCategory((prev) => (prev === categoryId ? null : categoryId));
   }, []);
@@ -244,270 +238,452 @@ export function SkillCatalogClient({
     setActiveComplexity(null);
   }, []);
 
-  // R1.2 - Memoize filter state check
   const hasFilters = useMemo(() => {
     return !!(searchVal || activeCategory || activePlatform || activeComplexity);
   }, [searchVal, activeCategory, activePlatform, activeComplexity]);
 
+  const { isExiting, navigateTo } = useTransitionNavigator();
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      (window as unknown as CustomWindow).__canvasPaused = false;
+      window.dispatchEvent(new CustomEvent("canvas-resume"));
+    }
+  }, []);
+
   return (
-    <div className="min-h-screen pt-24 bg-gradient-to-b from-[var(--color-bg-primary)] to-[var(--color-bg-secondary)] relative overflow-hidden">
-      {/* Animated Artistic Catalog Background Image */}
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img 
-        src="/images/catalog_mouse_glow.png" 
-        alt="Catalog Background"
-        className="absolute inset-0 w-full h-full object-cover select-none filter blur-[0.5px] animate-bg-pulse pointer-events-none z-0"
-        style={{ opacity: 0.45 }}
-      />
-      {/* Soft Vignette Overlay for Catalog */}
-      <div className="absolute inset-0 bg-gradient-to-b from-[var(--color-bg-primary)] via-transparent to-[var(--color-bg-primary)] opacity-50 pointer-events-none z-0" />
-      {/* Dynamic Background Ambient Lights */}
-      <div className="glow-core opacity-10 absolute -top-40 right-20 w-[40rem] h-[40rem] pointer-events-none" />
-      <div className="glow-core glow-core--indigo opacity-10 absolute top-[40%] -left-40 w-[35rem] h-[35rem] pointer-events-none" />
+    <div className="min-h-screen pt-24 bg-[#f4f6fc] text-slate-800 relative overflow-clip pb-16 transition-colors duration-300">
+      {/* Dynamic Background Cyberpunk Mesh Grid */}
+      <MeshGridBackground />
 
-      {/* Mini Hero */}
-      <div className="px-6 pb-8 z-10 relative">
-        <div className="max-w-6xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 25 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-          >
-            <p className="section-title mb-3 flex items-center gap-2">
-              <Sparkles size={14} className="text-[var(--color-accent-primary)] animate-pulse" />
-              Skill Encyclopedia
-            </p>
-            <h1 className="text-4xl md:text-5xl font-extrabold mb-2 tracking-tight">
-              Skills <span className="gradient-text">Catalog</span>
-            </h1>
-            <p className="text-[var(--color-text-secondary)] mb-8">
-              {skills.length} curated skills across {sortedCategories.length}{" "}
-              categories
-            </p>
+      <motion.div
+        variants={{
+          initial: { opacity: 1, scale: 1, filter: "blur(0px)" },
+          animate: { opacity: 1, scale: 1, filter: "blur(0px)" },
+          exit: {
+            opacity: 0,
+            scale: 0.97,
+            filter: "blur(4px)",
+            transition: { duration: 0.3, ease: "easeInOut" }
+          }
+        }}
+        initial="initial"
+        animate={isExiting ? "exit" : "animate"}
+        className="will-change-transform will-change-opacity origin-top transform-gpu"
+      >
+        {/* Main Layout Grid */}
+        <div className="max-w-6xl mx-auto px-6 relative z-10">
+        <div className="flex flex-col lg:flex-row gap-8 items-start">
+          
+          {/* ==================================================================
+              COL 1: SIDEBAR LEFT (280px / Index & Filters)
+              ================================================================== */}
+          <aside className="hidden lg:block lg:w-60 shrink-0 lg:sticky lg:top-20 max-h-[calc(100vh-120px)] overflow-y-auto pr-1 space-y-6 scrollbar-none select-none">
+            
+            {/* Desktop Categories Vertical Menu */}
+            <div className="hidden lg:block space-y-2">
+              <span className="text-[10px] font-mono tracking-[0.2em] font-bold text-slate-400 uppercase block mb-3">
+                ENCYCLOPEDIA / INDEX
+              </span>
+              <button
+                onClick={() => handleCategoryClick(null)}
+                className={cn(
+                  "w-full text-left font-mono text-xs px-3.5 py-2 rounded-xl transition-all duration-200 cursor-pointer flex items-center justify-between group border border-transparent",
+                  !activeCategory 
+                    ? "bg-indigo-50/80 text-indigo-600 font-bold border-indigo-100 shadow-sm" 
+                    : "text-slate-600 hover:text-indigo-600 hover:bg-white/80"
+                )}
+              >
+                <span>🌐 Tất cả tài liệu</span>
+                <span className="text-[10px] opacity-70 font-semibold">{skills.length}</span>
+              </button>
 
-            {/* Search Glassmorphism */}
-            <div className="relative max-w-xl glass-panel border border-white/5 focus-within:border-white/10 transition-all duration-300">
-              <Search
-                size={18}
-                className="absolute left-4 top-1/2 -translate-y-1/2 text-[var(--color-text-muted)]"
-              />
-              <input
-                type="text"
-                placeholder="Search skills... (e.g. chain-of-thought, MCP, Next.js)"
-                value={searchVal}
-                onChange={(e) => setSearchVal(e.target.value)}
-                className="w-full pl-11 pr-4 py-3.5 bg-transparent border-none rounded-xl text-sm text-[var(--color-text-primary)] placeholder:text-[var(--color-text-muted)] outline-none"
-                id="skill-search"
-              />
+              {sortedCategories.map((cat) => {
+                const isActive = activeCategory === cat.id;
+                return (
+                  <button
+                    key={cat.id}
+                    onClick={() => handleCategoryClick(cat.id)}
+                    className={cn(
+                      "w-full text-left font-mono text-xs px-3.5 py-2 rounded-xl transition-all duration-200 cursor-pointer flex items-center justify-between group border border-transparent",
+                      isActive 
+                        ? "bg-indigo-50/80 text-indigo-600 font-bold border-indigo-100 shadow-sm" 
+                        : "text-slate-600 hover:text-indigo-600 hover:bg-white/80"
+                    )}
+                  >
+                    <span className="truncate">{cat.icon} {cat.label}</span>
+                    <span className="text-[10px] opacity-70 font-semibold">
+                      {categoryCountMap[cat.id] || 0}
+                    </span>
+                  </button>
+                );
+              })}
             </div>
-          </motion.div>
-        </div>
-      </div>
 
-      {/* Filter Bar Glassmorphism */}
-      <div className="sticky top-[72px] z-30 bg-[var(--color-bg-primary)]/70 backdrop-blur-xl border-b border-white/5 px-6 py-4 shadow-[0_8px_30px_rgb(0,0,0,0.3)]">
-        <div className="max-w-6xl mx-auto space-y-4">
-          {/* Category Filters with Sliding active bubble tab indicator (R2.4) */}
-          <div className="flex items-center gap-2 flex-wrap">
-            <button
-              onClick={() => handleCategoryClick(null)}
-              className={cn(
-                "chip cursor-pointer relative z-10 transition-colors duration-300 font-medium px-4 py-1.5",
-                !activeCategory ? "text-[var(--color-accent-primary)] border-transparent bg-transparent shadow-none" : "text-[var(--color-text-secondary)]"
-              )}
-            >
-              {!activeCategory && (
-                <motion.span
-                  layoutId="activeCategoryTab"
-                  className="absolute inset-0 bg-gradient-to-r from-purple-500/15 to-indigo-500/15 border border-[var(--color-border-accent)] rounded-full -z-10 shadow-[0_0_15px_rgba(139,92,246,0.15)]"
-                  transition={{ type: "spring", stiffness: 380, damping: 30 }}
-                />
-              )}
-              All
-            </button>
-            {sortedCategories.map((cat) => {
-              const isActive = activeCategory === cat.id;
-              return (
-                <button
-                  key={cat.id}
-                  onClick={() => handleCategoryClick(cat.id)}
-                  className={cn(
-                    "chip cursor-pointer relative z-10 transition-colors duration-300 font-medium px-4 py-1.5",
-                    isActive ? "text-[var(--color-accent-primary)] border-transparent bg-transparent shadow-none" : "text-[var(--color-text-secondary)]"
-                  )}
-                >
-                  {isActive && (
-                    <motion.span
-                      layoutId="activeCategoryTab"
-                      className="absolute inset-0 bg-gradient-to-r from-purple-500/15 to-indigo-500/15 border border-[var(--color-border-accent)] rounded-full -z-10 shadow-[0_0_15px_rgba(139,92,246,0.15)]"
-                      transition={{ type: "spring", stiffness: 380, damping: 30 }}
-                    />
-                  )}
-                  <span>{cat.icon} {cat.label}</span>
-                  <span className="ml-1.5 opacity-60 text-xs">
-                    {categoryCountMap[cat.id] || 0}
-                  </span>
-                </button>
-              );
-            })}
-          </div>
+            {/* Compact Platform Sub-Filters */}
+            <div className="space-y-2">
+              <span className="text-[10px] font-mono tracking-[0.2em] font-bold text-slate-400 uppercase block mb-2">
+                IDE / PLATFORMS
+              </span>
+              <div className="flex flex-wrap lg:flex-col gap-1.5">
+                {(Object.keys(PLATFORM_CONFIG) as PlatformId[]).slice(0, 8).map((p) => {
+                  const isActive = activePlatform === p;
+                  return (
+                    <button
+                      key={p}
+                      onClick={() => handlePlatformClick(p)}
+                      className={cn(
+                        "text-[10px] font-mono text-left px-3 py-1.5 rounded-lg border cursor-pointer transition-all duration-150",
+                        isActive 
+                          ? "bg-indigo-50 border-indigo-200 text-indigo-600 font-bold shadow-sm" 
+                          : "bg-white/60 border-slate-200/60 text-slate-600 hover:text-indigo-600 hover:bg-white"
+                      )}
+                    >
+                      {PLATFORM_CONFIG[p].label}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
 
-          {/* Platform + Complexity Sub-Filters with micro-glass tabs */}
-          <div className="flex items-center gap-2 flex-wrap text-xs pt-1 border-t border-white/5">
-            <span className="text-[var(--color-text-muted)] font-medium mr-1 uppercase tracking-wider text-[10px]">
-              Platform:
-            </span>
-            {(
-              Object.keys(PLATFORM_CONFIG) as PlatformId[]
-            ).slice(0, 8).map((p) => (
-              <button
-                key={p}
-                onClick={() => handlePlatformClick(p)}
-                className={cn(
-                  "chip cursor-pointer text-xs transition-all duration-200 px-3 py-1",
-                  activePlatform === p ? "chip--active bg-[var(--color-accent-glow)] border-[var(--color-border-accent)]" : "bg-white/5 border-white/5"
-                )}
-              >
-                {PLATFORM_CONFIG[p].label}
-              </button>
-            ))}
+            {/* Compact Complexity Sub-Filters */}
+            <div className="space-y-2">
+              <span className="text-[10px] font-mono tracking-[0.2em] font-bold text-slate-400 uppercase block mb-2">
+                COMPLEXITY / LEVEL
+              </span>
+              <div className="flex flex-wrap lg:flex-col gap-1.5">
+                {(Object.keys(COMPLEXITY_CONFIG) as ComplexityLevel[]).map((c) => {
+                  const isActive = activeComplexity === c;
+                  return (
+                    <button
+                      key={c}
+                      onClick={() => handleComplexityClick(c)}
+                      className={cn(
+                        "text-[10px] font-mono text-left px-3 py-1.5 rounded-lg border cursor-pointer transition-all duration-150",
+                        isActive 
+                          ? "bg-indigo-50 border-indigo-200 text-indigo-600 font-bold shadow-sm" 
+                          : "bg-white/60 border-slate-200/60 text-slate-600 hover:text-indigo-600 hover:bg-white"
+                      )}
+                    >
+                      {COMPLEXITY_CONFIG[c].dot} {COMPLEXITY_CONFIG[c].label}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
 
-            <span className="text-[var(--color-text-muted)] font-medium ml-3 mr-1 uppercase tracking-wider text-[10px]">
-              Level:
-            </span>
-            {(
-              Object.keys(COMPLEXITY_CONFIG) as ComplexityLevel[]
-            ).map((c) => (
-              <button
-                key={c}
-                onClick={() => handleComplexityClick(c)}
-                className={cn(
-                  "chip cursor-pointer text-xs transition-all duration-200 px-3 py-1",
-                  activeComplexity === c ? "chip--active bg-[var(--color-accent-glow)] border-[var(--color-border-accent)]" : "bg-white/5 border-white/5"
-                )}
-              >
-                {COMPLEXITY_CONFIG[c].dot} {COMPLEXITY_CONFIG[c].label}
-              </button>
-            ))}
-
-            {hasFilters && (
-              <button
-                onClick={clearFilters}
-                className="text-xs text-[var(--color-accent-primary)] font-semibold ml-2 cursor-pointer hover:underline bg-transparent border-none py-1 px-2"
-              >
-                Clear all
-              </button>
-            )}
-          </div>
-        </div>
-      </div>
-
-      {/* Skill List */}
-      <div className="px-6 py-10 z-10 relative">
-        <div className="max-w-6xl mx-auto">
-          {filteredSkills.length === 0 ? (
-            // ========================================================================
-            // BEAUTIFUL "NO RESULTS FOUND" CONTAINER WITH CURRENT FILTER TAGS
-            // ========================================================================
-            <motion.div
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -15 }}
-              className="flex flex-col items-center justify-center text-center py-20 px-6 rounded-2xl border border-white/5 bg-[var(--color-bg-glass)] backdrop-blur-md max-w-lg mx-auto shadow-2xl"
-            >
-              <div className="relative mb-6 p-5 rounded-full bg-red-500/10 text-red-500/80 animate-pulse border border-red-500/20">
-                <Search size={36} />
-                <span className="absolute -top-1 -right-1 flex h-3 w-3">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
+            {/* System Status Metrics Summary */}
+            <div className="border border-slate-200/60 bg-white/50 p-3.5 rounded-xl font-mono text-[9px] text-slate-400 space-y-1">
+              <div className="flex justify-between">
+                <span>SYSTEM STATUS:</span>
+                <span className="text-emerald-500 font-bold flex items-center gap-1">
+                  ONLINE <span className="h-1.5 w-1.5 bg-emerald-500 rounded-full inline-block animate-pulse" />
                 </span>
               </div>
+              <div className="flex justify-between">
+                <span>TOTAL ENGINE:</span>
+                <span className="text-slate-600">{stats.total} SKILLS</span>
+              </div>
+              <div className="flex justify-between">
+                <span>COMPAT IDE:</span>
+                <span className="text-slate-600">{stats.platformCompat} PLATFORMS</span>
+              </div>
+              <div className="flex justify-between">
+                <span>INTEGRATION:</span>
+                <span className="text-indigo-600 font-bold">ANTIGRAVITY</span>
+              </div>
+            </div>
 
-              <h3 className="text-2xl font-bold text-[var(--color-text-primary)] mb-2">
-                Không tìm thấy kỹ năng nào phù hợp
-              </h3>
-              <p className="text-sm text-[var(--color-text-secondary)] mb-8 max-w-sm">
-                Chúng tôi không tìm thấy kết quả nào khớp với các tiêu chí tìm kiếm của bạn. Hãy thử thay đổi từ khóa hoặc xóa các bộ lọc.
+          </aside>
+
+          {/* ==================================================================
+              COL 2: MAIN CONTENT PANEL (75% / Search & List)
+              ================================================================== */}
+          <div className="flex-1 min-w-0 w-full space-y-6">
+            {/* SEO & Docs Header Title */}
+            <div className="border-b border-slate-200/60 pb-4">
+              <h1 className="text-xl sm:text-2xl font-bold font-mono tracking-tight text-indigo-600 uppercase">
+                Skills Catalog
+              </h1>
+              <p className="text-xs text-slate-500 mt-1 font-mono">
+                Bách khoa toàn thư kỹ năng dành cho AI Agents.
               </p>
+            </div>
 
-              {hasFilters && (
-                <div className="flex flex-wrap gap-2 justify-center mb-8 max-w-md p-4 bg-white/5 rounded-xl border border-white/5">
-                  {searchVal && (
-                    <span className="text-xs px-2.5 py-1.5 rounded-md bg-white/5 border border-white/10 text-[var(--color-text-secondary)]">
-                      Từ khóa: <strong className="text-[var(--color-text-primary)]">&quot;{searchVal}&quot;</strong>
-                    </span>
-                  )}
-                  {activeCategory && (
-                    <span className="text-xs px-2.5 py-1.5 rounded-md bg-white/5 border border-white/10 text-[var(--color-text-secondary)]">
-                      Danh mục: <strong className="text-[var(--color-text-primary)]">{CATEGORIES[activeCategory]?.label || activeCategory}</strong>
-                    </span>
-                  )}
-                  {activePlatform && (
-                    <span className="text-xs px-2.5 py-1.5 rounded-md bg-white/5 border border-white/10 text-[var(--color-text-secondary)]">
-                      Nền tảng: <strong className="text-[var(--color-text-primary)]">{PLATFORM_CONFIG[activePlatform]?.label}</strong>
-                    </span>
-                  )}
-                  {activeComplexity && (
-                    <span className="text-xs px-2.5 py-1.5 rounded-md bg-white/5 border border-white/10 text-[var(--color-text-secondary)]">
-                      Độ khó: <strong className="text-[var(--color-text-primary)]">{COMPLEXITY_CONFIG[activeComplexity]?.label}</strong>
-                    </span>
+            {/* Mobile Categories Collapsible List */}
+            <div className="lg:hidden w-full select-none">
+              <button
+                onClick={() => setIsCategoriesOpen(!isCategoriesOpen)}
+                className="w-full py-3 px-4 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-xs font-mono font-bold text-slate-700 flex items-center justify-between cursor-pointer shadow-sm active:scale-[0.99] transition-all"
+              >
+                <div className="flex items-center gap-2 min-w-0">
+                  {activeCategory ? (
+                    <>
+                      <span className="shrink-0">{CATEGORIES[activeCategory]?.icon}</span>
+                      <span className="truncate text-left text-slate-800 font-sans font-semibold">
+                        {CATEGORIES[activeCategory]?.label}
+                      </span>
+                    </>
+                  ) : (
+                    <>
+                      <span className="shrink-0">🌐</span>
+                      <span className="truncate text-left text-slate-800 font-sans font-semibold">
+                        Tất cả tài liệu
+                      </span>
+                    </>
                   )}
                 </div>
-              )}
-
-              <button
-                onClick={clearFilters}
-                className="px-6 py-3 text-sm font-bold rounded-xl bg-gradient-to-r from-[var(--color-cyber-violet)] to-[var(--color-neon-indigo)] hover:scale-[1.03] text-white transition-all duration-200 cursor-pointer shadow-lg shadow-purple-500/20"
-              >
-                Xóa tất cả bộ lọc
+                <span className="text-[9px] text-indigo-500 font-bold shrink-0 ml-2">
+                  {isCategoriesOpen ? "[ẨN]" : "[HIỆN]"}
+                </span>
               </button>
-            </motion.div>
-          ) : (
-            <div className="space-y-16">
-              {sortedCategories
-                .filter((cat) => groupedSkills[cat.id])
-                .map((cat) => (
-                  <div key={cat.id} id={`cat-${cat.id}`}>
-                    {/* Category Header */}
-                    <div className="flex items-center gap-3 mb-6">
-                      <span className="text-3xl">{cat.icon}</span>
-                      <h2 className="text-2xl font-bold tracking-tight">{cat.label}</h2>
-                      <span className="text-sm font-mono text-[var(--color-text-muted)] bg-white/5 px-2.5 py-0.5 rounded-full border border-white/5">
-                        {groupedSkills[cat.id].length} skills
-                      </span>
-                      <div className="flex-1 h-px bg-gradient-to-r from-white/10 to-transparent ml-4" />
-                    </div>
 
-                    {/* Skill Cards Grid with Stagger Entrance (R2.3) */}
-                    <AnimatePresence mode="popLayout">
-                      <motion.div
-                        key={`${cat.id}-${activePlatform}-${activeComplexity}-${searchQuery}`}
-                        variants={containerVariants}
-                        initial="hidden"
-                        animate="visible"
-                        exit="exit"
-                        className="grid grid-cols-1 md:grid-cols-2 gap-5"
-                      >
-                        {groupedSkills[cat.id].map((skill) => (
-                          <motion.div
-                            key={skill.slug}
-                            variants={cardVariants}
-                            layout="position"
-                          >
-                            <SkillCard skill={skill} />
-                          </motion.div>
-                        ))}
-                      </motion.div>
-                    </AnimatePresence>
-                  </div>
-                ))}
+              <AnimatePresence initial={false}>
+                {isCategoriesOpen && (
+                  <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: "auto", opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.2 }}
+                    className="overflow-hidden mt-2 bg-white/80 border border-slate-200 rounded-2xl p-2 space-y-1 shadow-sm"
+                  >
+                    <button
+                      onClick={() => {
+                        handleCategoryClick(null);
+                        setIsCategoriesOpen(false);
+                      }}
+                      className={cn(
+                        "w-full text-left font-mono text-[11px] px-3.5 py-2.5 rounded-xl transition-all duration-200 cursor-pointer flex items-center justify-between group border border-transparent",
+                        !activeCategory 
+                          ? "bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-bold shadow-sm" 
+                          : "text-slate-600 hover:text-indigo-600 hover:bg-white/80"
+                      )}
+                    >
+                      <span>🌐 Tất cả tài liệu</span>
+                      <span className={cn(
+                        "text-[9px] font-bold px-1.5 py-0.5 rounded",
+                        !activeCategory ? "bg-white/20 text-white" : "bg-slate-100 text-slate-500"
+                      )}>{skills.length}</span>
+                    </button>
+
+                    {sortedCategories.map((cat) => {
+                      const isActive = activeCategory === cat.id;
+                      return (
+                        <button
+                          key={cat.id}
+                          onClick={() => {
+                            handleCategoryClick(cat.id);
+                            setIsCategoriesOpen(false);
+                          }}
+                          className={cn(
+                            "w-full text-left font-mono text-[11px] px-3.5 py-2.5 rounded-xl transition-all duration-200 cursor-pointer flex items-center justify-between group border border-transparent",
+                            isActive 
+                              ? "bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-bold shadow-sm" 
+                              : "text-slate-600 hover:text-indigo-600 hover:bg-white/80"
+                          )}
+                        >
+                          <span className="truncate">{cat.icon} {cat.label}</span>
+                          <span className={cn(
+                            "text-[9px] font-bold px-1.5 py-0.5 rounded",
+                            isActive ? "bg-white/20 text-white" : "bg-slate-100 text-slate-500"
+                          )}>
+                            {categoryCountMap[cat.id] || 0}
+                          </span>
+                        </button>
+                      );
+                    })}
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
-          )}
+
+
+
+            {/* Search Control Hub */}
+            <div className="flex items-center gap-3">
+              <div className="relative flex-1 bg-white/80 border border-slate-200 focus-within:border-indigo-500/50 focus-within:shadow-[0_0_15px_rgba(99,102,241,0.1)] transition-all duration-300 flex items-center rounded-xl">
+                <Search
+                  size={15}
+                  className="absolute left-3.5 text-slate-400"
+                />
+                <input
+                  type="text"
+                  placeholder={isMobile ? "Tra cứu" : "Tra cứu bách khoa toàn thư kỹ năng..."}
+                  value={searchVal}
+                  onChange={(e) => setSearchVal(e.target.value)}
+                  className="w-full pl-10 pr-32 py-2.5 bg-transparent border-none rounded-xl text-xs text-slate-800 placeholder:text-slate-400 outline-none font-mono"
+                  id="skill-search"
+                />
+                
+                {/* Tech Badge Status Indicator */}
+                <div className="absolute right-3 font-mono text-[9px] font-bold px-2 py-0.5 rounded bg-slate-100 border border-slate-200 select-none pointer-events-none flex items-center gap-1.5">
+                  <span className={cn(
+                    "h-1 w-1 rounded-full transition-all duration-300",
+                    searchVal ? "bg-indigo-500 animate-pulse" : "bg-emerald-500"
+                  )} />
+                  <span className="text-slate-500">
+                    {searchVal ? `FOUND: ${filteredSkills.length}` : `TOTAL: ${filteredTotal}`}
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            {/* Active filters display bar (hidden on mobile, visible on desktop/tablet) */}
+            {hasFilters && (
+              <div className="hidden sm:flex items-center gap-1.5 flex-wrap text-[10px] font-mono text-slate-400">
+                <span>BỘ LỌC ĐANG HOẠT ĐỘNG:</span>
+                {searchVal && (
+                  <span className="px-2 py-0.5 rounded bg-slate-100 border border-slate-200 text-slate-600">
+                    TÌM KIẾM: &quot;{searchVal}&quot;
+                  </span>
+                )}
+                {activeCategory && (
+                  <span className="px-2 py-0.5 rounded bg-slate-100 border border-slate-200 text-slate-600">
+                    CHUYÊN MỤC: {CATEGORIES[activeCategory]?.label || activeCategory}
+                  </span>
+                )}
+                {activePlatform && (
+                  <span className="px-2 py-0.5 rounded bg-slate-100 border border-slate-200 text-slate-600">
+                    IDE: {PLATFORM_CONFIG[activePlatform]?.label}
+                  </span>
+                )}
+                {activeComplexity && (
+                  <span className="px-2 py-0.5 rounded bg-slate-100 border border-slate-200 text-slate-600">
+                    ĐỘ KHÓ: {COMPLEXITY_CONFIG[activeComplexity]?.label}
+                  </span>
+                )}
+                <button
+                  onClick={clearFilters}
+                  className="text-indigo-600 hover:underline border-none bg-transparent cursor-pointer font-bold pl-1"
+                >
+                  [XÓA TẤT CẢ LỌC]
+                </button>
+              </div>
+            )}
+
+            {/* Encyclopedia Content Output */}
+            <div className="min-h-[40vh]">
+              {filteredSkills.length === 0 ? (
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  className="flex flex-col items-center justify-center text-center py-16 px-6 rounded-xl border border-slate-200 bg-white/70 backdrop-blur-md max-w-md mx-auto shadow-lg"
+                >
+                  <div className="mb-4 p-4 rounded-full bg-red-500/10 text-red-500/70 border border-red-500/10">
+                    <Search size={24} />
+                  </div>
+                  <h3 className="text-base font-bold font-mono text-slate-800 mb-1">
+                    Không tìm thấy kỹ năng nào phù hợp
+                  </h3>
+                  <p className="text-xs text-slate-500 mb-6 max-w-xs leading-relaxed">
+                    Vui lòng điều chỉnh từ khóa tra cứu hoặc xóa các bộ lọc hiện tại trên bảng điều khiển.
+                  </p>
+                  <button
+                    onClick={clearFilters}
+                    className="px-4 py-2 text-xs font-bold rounded-lg bg-gradient-to-r from-indigo-600 to-purple-600 hover:scale-[1.02] text-white transition-all duration-150 cursor-pointer shadow-lg"
+                  >
+                    Xóa bộ lọc tra cứu
+                  </button>
+                </motion.div>
+              ) : (
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  className="skills-table-container border-0 sm:border border-slate-200 bg-transparent sm:bg-white/70 backdrop-blur-none sm:backdrop-blur-md rounded-none sm:rounded-xl overflow-hidden shadow-none sm:shadow-[0_8px_30px_rgba(0,0,0,0.025)]"
+                >
+                  {/* Header Row */}
+                  <div className="hidden sm:flex items-center justify-between py-2.5 px-4 bg-slate-50/50 border-b border-slate-200/60 text-[10px] text-slate-400 uppercase tracking-wider font-mono font-bold">
+                    <div className="w-[35%]">Cú pháp / Lệnh</div>
+                    <div className="w-[60%]">Mô tả cơ bản</div>
+                    <div className="w-[5%] text-right">Tài liệu</div>
+                  </div>
+
+                  {/* Skills flat list with smooth transition */}
+                  <motion.div
+                    variants={containerVariants}
+                    initial="hidden"
+                    animate="visible"
+                    className="grid grid-cols-2 gap-3 sm:flex sm:flex-col sm:divide-y sm:divide-slate-100"
+                  >
+                    <AnimatePresence mode="popLayout">
+                      {filteredSkills.map((skill) => (
+                        <motion.div
+                          key={skill.slug}
+                          variants={cardVariants}
+                          layout
+                          className="w-full"
+                        >
+                          <SkillRow skill={skill} navigateTo={navigateTo} />
+                        </motion.div>
+                      ))}
+                    </AnimatePresence>
+                  </motion.div>
+                </motion.div>
+              )}
+            </div>
+
+
+          </div>
+
         </div>
       </div>
 
-      {/* Modular styled element containing custom CSS for coordinate-based hover effects */}
+      {/* Embedded style elements for Hologram cards hover shadow effects and card override resets */}
       <style dangerouslySetInnerHTML={{ __html: `
+        @media (min-width: 640px) {
+          /* Override global .skill-card card-like styles inside the skills list container */
+          .skills-table-container .skill-card {
+            display: flex !important;
+            flex-direction: row !important;
+            align-items: center !important;
+            justify-content: space-between !important;
+            gap: 0 !important;
+            padding: 0.75rem 1rem !important;
+            background: transparent !important;
+            border: none !important;
+            border-bottom: 1px solid rgba(148, 163, 184, 0.12) !important;
+            border-radius: 0 !important;
+            transform: none !important;
+            box-shadow: none !important;
+            transition: background 0.15s ease !important;
+          }
+          
+          .skills-table-container .skill-card:hover {
+            background: rgba(99, 102, 241, 0.025) !important;
+            border-bottom-color: rgba(148, 163, 184, 0.25) !important;
+            transform: none !important;
+            box-shadow: none !important;
+          }
+        }
+
+        @media (max-width: 639px) {
+          /* Style .skill-card as beautiful compact light-themed cards on mobile view */
+          .skills-table-container .skill-card {
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 0.35rem !important;
+            padding: 0.75rem 0.85rem !important;
+            background: #ffffff !important;
+            border: 1px solid rgba(226, 232, 240, 0.9) !important;
+            border-radius: 0.75rem !important;
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.02), 
+                        0 1px 2px rgba(0, 0, 0, 0.025) !important;
+            transform: none !important;
+            transition: all 0.2s ease-in-out !important;
+            color: #1e293b !important;
+          }
+          
+          .skills-table-container .skill-card:hover,
+          .skills-table-container .skill-card:active {
+            background: #f8fafc !important;
+            border-color: rgba(99, 102, 241, 0.35) !important;
+            box-shadow: 0 6px 16px rgba(99, 102, 241, 0.05), 
+                        0 1px 3px rgba(99, 102, 241, 0.02) !important;
+            transform: translateY(-1px) !important;
+          }
+        }
+
         .skill-card-glow {
           position: relative;
         }
@@ -515,12 +691,12 @@ export function SkillCatalogClient({
           content: '';
           position: absolute;
           inset: 0;
-          border-radius: var(--radius-card, 1rem);
-          padding: 1.5px;
+          border-radius: 0.75rem;
+          padding: 1.1px;
           background: radial-gradient(
-            220px circle at var(--mouse-x, 0px) var(--mouse-y, 0px),
-            var(--color-cyber-violet) 0%,
-            var(--color-neon-indigo) 50%,
+            180px circle at var(--mouse-x, 0px) var(--mouse-y, 0px),
+            rgba(99, 102, 241, 0.25) 0%,
+            rgba(167, 139, 250, 0.15) 50%,
             transparent 100%
           );
           -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
@@ -538,11 +714,11 @@ export function SkillCatalogClient({
           content: '';
           position: absolute;
           inset: 0;
-          border-radius: var(--radius-card, 1rem);
+          border-radius: 0.75rem;
           background: radial-gradient(
-            320px circle at var(--mouse-x, 0px) var(--mouse-y, 0px),
-            hsla(285, 100%, 64%, 0.12) 0%,
-            hsla(230, 100%, 67%, 0.04) 50%,
+            220px circle at var(--mouse-x, 0px) var(--mouse-y, 0px),
+            rgba(99, 102, 241, 0.03) 0%,
+            rgba(167, 139, 250, 0.01) 50%,
             transparent 100%
           );
           pointer-events: none;
@@ -554,6 +730,7 @@ export function SkillCatalogClient({
           opacity: 1;
         }
       `}} />
+      </motion.div>
     </div>
   );
 }

@@ -73,7 +73,6 @@
 }
 
 html {
-  scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -114,6 +113,15 @@ body {
 /* ============================================
    Premium Styling Primitives & Custom Utilities
    ============================================ */
+
+/* Utility to hide scrollbars while preserving scrolling */
+.scrollbar-none::-webkit-scrollbar {
+  display: none !important;
+}
+.scrollbar-none {
+  -ms-overflow-style: none !important;  /* IE and Edge */
+  scrollbar-width: none !important;  /* Firefox */
+}
 
 /* 1. Glass Panel (Frosted Translucent Container) & Legacy Glass Card Wrapper */
 .glass-panel, .glass-card {
@@ -379,11 +387,11 @@ body {
    ============================================ */
 
 .skill-content h2 {
-  font-size: 1.5rem;
+  font-size: 1.35rem;
   font-weight: 700;
-  margin: 2.5rem 0 1rem;
-  padding-bottom: 0.5rem;
-  border-bottom: 1px solid var(--color-border);
+  margin: 2.5rem 0 1.25rem;
+  padding-left: 0.75rem;
+  border-left: 3px solid var(--color-accent-primary);
   color: var(--color-text-primary);
 }
 
@@ -423,13 +431,15 @@ body {
 
 .skill-content pre {
   margin: 1.5rem 0;
-  padding: 1.25rem;
+  padding: 1rem;
   background: var(--color-bg-secondary) !important;
   border: 1px solid var(--color-border);
   border-radius: var(--radius-card);
   overflow-x: auto;
   font-size: 0.875rem;
   line-height: 1.7;
+  white-space: pre-wrap;
+  word-break: break-word;
 }
 
 .skill-content pre code {
@@ -612,4 +622,20 @@ body {
   animation: bg-pulse-soft 25s infinite ease-in-out;
   will-change: transform;
 }
+
+@media (max-width: 640px) {
+  .skill-content h2 {
+    font-size: 1.1rem !important;
+  }
+
+  .skill-content h3 {
+    font-size: 0.95rem !important;
+  }
+
+  .skill-content pre {
+    padding: 0.75rem 3rem 0.75rem 0.75rem !important;
+    font-size: 0.8rem !important;
+  }
+}
+
 

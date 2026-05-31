@@ -1,115 +1,97 @@
 ---
 slug: "uniprot-database"
-title: "UniProt Protein Metadata Retrieval"
+title: "UniProt Protein Database"
 command: "/uniprot-database"
-category: "data-knowledge"
+category: "bioinformatics-genomics"
 tags:
   - "uniprot"
-  - "proteins"
-  - "proteomics"
-  - "protein-sequence"
+  - "protein"
+  - "function"
+  - "annotation"
+  - "taxonomy"
 complexity: "intermediate"
 platforms:
   - "cursor"
   - "claude-code"
   - "windsurf"
+  - "gemini-cli"
   - "universal"
-featured: false
-description: "Truy cập cơ sở dữ liệu UniProtKB để tra cứu siêu dữ liệu protein, chức năng sinh học, phân loại học và trình tự acid amin."
-oneLiner: "Retrieve comprehensive protein metadata and sequences from UniProt."
+featured: true
+description: "Truy cập cơ sở tri thức protein toàn cầu UniProtKB để tra cứu mô tả chức năng, đột biến điểm và tài liệu liên quan."
+oneLiner: "Tra cứu chú giải chức năng protein và trình tự từ UniProt."
 sourceUrl: "https://www.uniprot.org/"
-sourceAuthor: "Antigravity"
-lastVerified: "2026-05-29"
+sourceAuthor: "Google DeepMind"
+lastVerified: "2026-05-30"
 relatedSkills:
-  - "pymol"
-  - "protein-sequence-msa"
-  - "quickgo-database"
-seoTitle: "UniProt Protein Metadata Retrieval - Skillbook Agents"
-seoDescription: "Hướng dẫn tích hợp UniProt để tự động hóa việc truy xuất cấu trúc, chức năng và trình tự protein qua AI Agent."
+  - "interpro-database"
+  - "alphafold-database"
+  - "string-database"
+  - "pdb-database"
+seoTitle: "UniProt Protein Database — Skillbook Agents"
+seoDescription: "Hướng dẫn Agent truy xuất protein metadata, function annotations, và sequences từ UniProtKB."
 ---
 
 ## 📖 Tại Sao Cần Skill Này?
 
-Trong nghiên cứu sinh học tế bào và proteomics, protein là đối tượng nghiên cứu cốt lõi. Việc nắm rõ chức năng sinh học, tương tác phân tử và chuỗi amino acid của protein là chìa khóa để giải quyết các bài toán y sinh. Một AI Agent thông thường dễ vướng phải các rào cản:
-- **Trình bày sai chuỗi FASTA**: Tự sáng tạo hoặc làm mất các amino acid trong chuỗi sequence của protein.
-- **Thiếu thông tin phân vùng (Domain/Active site)**: Không chỉ ra được vị trí chính xác của các cầu disulfua, vùng xuyên màng, hoặc trung tâm hoạt động của enzyme.
-- **Sử dụng mã định danh lỗi thời**: Nhầm lẫn giữa các ID của các cơ sở dữ liệu khác nhau (PDB, RefSeq, GenBank).
+UniProt là **bách khoa toàn thư về protein** — chứa thông tin chức năng, cấu trúc, taxonomy, và cross-references cho hàng trăm triệu protein sequences. Đây là điểm khởi đầu cho hầu hết mọi phân tích protein.
 
-Skill này giúp Agent khai thác cơ sở dữ liệu UniProtKB thông qua UniProt MCP tool để định danh chính xác protein bằng Accession Number tiêu chuẩn và trích xuất siêu dữ liệu sinh học đầy đủ, cập nhật nhất.
+- **Functional annotation**: Protein làm gì, catalyze phản ứng nào, nằm ở đâu trong tế bào
+- **ID mapping**: Chuyển đổi giữa UniProt ↔ Ensembl ↔ PDB ↔ RefSeq ↔ Gene Name
+- **Sequence retrieval**: Canonical và isoform sequences
+- **Swiss-Prot vs TrEMBL**: Reviewed (curated) vs Unreviewed (automated)
 
 ## ⚙️ Cách Hoạt Động
 
-UniProt Protein Metadata Retrieval hoạt động bằng cách hướng dẫn Agent sử dụng giao thức truy vấn REST API của UniProt. Quy trình xử lý gồm:
-1. **Phân giải Accession ID**: Nhận diện các mã UniProt định dạng chuẩn (ví dụ: `P0DTC2` cho Spike protein của SARS-CoV-2 hoặc `P68871` cho Beta-globin).
-2. **Truy xuất thông tin chức năng**: Lấy dữ liệu mô tả chức năng (Function), các con đường chuyển hóa liên quan (Pathways) và vị trí dưới tế bào (Subcellular Location).
-3. **Phân tích cấu trúc miền (Miền chức năng)**: Trích xuất tọa độ các Domain, Active Sites và các biến đổi sau dịch mã (Post-translational modifications - PTM).
-4. **Lấy chuỗi Sequence**: Trích xuất chuỗi acid amin định dạng FASTA chuẩn mực, phục vụ cho các phân tích căn chỉnh chuỗi sinh học tiếp theo.
+```
+Protein name / Gene / ID → UniProt REST API → 
+Return functional annotations, sequences, cross-references, publications
+```
+
+1. **Search**: Free-text search hoặc ID lookup (P00520, KRAS_HUMAN)
+2. **Annotations**: Function, catalytic activity, subcellular location, disease associations
+3. **Cross-references**: Links to PDB, Ensembl, InterPro, STRING, Reactome
 
 ## 🚀 Cách Sử Dụng
 
 ### Universal
 
-Hãy yêu cầu Agent tra cứu thông tin toàn diện về một protein đích bằng cách cung cấp Accession ID hoặc tên gen cụ thể:
-
 ```markdown
-Hãy sử dụng UniProt MCP tool để tra cứu thông tin chi tiết về protein sau:
-1. UniProt Accession: "P68871" (Hemoglobin subunit beta)
-2. Thu thập các thông tin: Tên khoa học của sinh vật, chức năng sinh học chính của protein, vị trí hoạt động trong tế bào và chuỗi amino acid định dạng FASTA.
-3. Chỉ ra các bệnh lý liên quan khi có đột biến xảy ra trên gen mã hóa protein này.
+# UniProt Query Rules
+- UniProt là starting point cho protein information. Luôn check UniProt trước.
+- Ưu tiên Swiss-Prot entries (reviewed, curated) over TrEMBL (automated).
+- Dùng ID mapping service để convert giữa database identifiers.
+- KHÔNG dùng cho: sequence alignment (dùng MSA skill), protein folding, similarity search.
 ```
 
 ### Cursor (.cursorrules)
 
 ```markdown
-# UniProt Query Rules
-- Khi người dùng đề cập đến một protein, luôn ưu tiên sử dụng UniProt Accession ID để truy xuất siêu dữ liệu thay vì sử dụng tên gọi thông thường để tránh nhầm lẫn.
-- Trình bày chuỗi FASTA trong các thẻ code block chuẩn xác với đầy đủ ký tự amino acid viết tắt (1 chữ cái).
-- Luôn hiển thị trạng thái kiểm chứng (Verified status) của protein: Gold Star (Swiss-Prot / Reviewed) vs Grey Star (TrEMBL / Unreviewed).
+# UniProt
+- Swiss-Prot = reviewed by human curators. TrEMBL = automated annotation.
+- UniProt ID format: P00520 (accession) hoặc ABL1_HUMAN (entry name).
+- Function, GO terms, disease associations, literature — tất cả trong UniProt entry.
 ```
 
-### Claude Code
+## 💡 Kịch Bản Lập Trình Thực Tế
 
-```markdown
-# Claude Code UniProt Instructions
-- Retrieve protein sequences and biological annotations using the UniProt REST API.
-- Keep structural domain boundaries accurate when describing active sites.
-```
+### 🧑‍💻 Nhà phát triển:
+> "Tôi muốn lấy toàn bộ thông tin chức năng, các vị trí hoạt động (active sites) và các biến đổi sau dịch mã (PTMs) của protein Insulin người từ UniProt."
 
-### Windsurf
-
-```markdown
-# Windsurf UniProt Tooling
-- Resolve gene symbols to UniProt Accession IDs.
-- Extract catalytic activity details and cofactor requirements for enzymes.
-```
-
-## 💡 Ví Dụ Thực Tế
-
-### ❌ Không có skill (Thông tin chung chung, chuỗi amino acid bị cắt xén):
-
-```markdown
-Protein Hemoglobin subunit beta mã hóa bởi gen HBB. Đây là thành phần của hemoglobin giúp vận chuyển oxy. Chuỗi amino acid của nó bắt đầu bằng MVHLT... và dài khoảng 147 acid amin.
-*(Lưu ý: Thiếu tính chính xác và không có định dạng FASTA tiêu chuẩn để máy tính xử lý tiếp)*
-```
-
-### ✅ Có skill (Truy xuất UniProtKB chính xác cao):
-
-```markdown
-Dữ liệu truy xuất trực tiếp từ UniProtKB cho **Hemoglobin subunit beta (Accession: P68871)**:
-- **Trạng thái**: Reviewed (Swiss-Prot)
-- **Sinh vật**: *Homo sapiens* (Người)
-- **Chức năng**: Tham gia vận chuyển oxy từ phổi đến các mô ngoại vi thông qua việc tạo phức tetramer gồm 2 chuỗi alpha và 2 chuỗi beta hemoglobin.
-- **Chuỗi FASTA**:
-```fasta
->sp|P68871|HBB_HUMAN Hemoglobin subunit beta OS=Homo sapiens OX=9606 GN=HBB PE=1 SV=2
-MVHLTPEEKSAVTALWGKVNVDEVGGEALGRLLVVYPWTQRFFESFGDLSTPDAVMGNPK
-VKAHGKKVLGAFSDGLAHLDNLKGTFATLSELCDLHVDDPENFRLLGNVLVCVLAHHFGK
-EFTPPVQAAYQKVVAGVANALAHKYH
-```
-- **Bệnh học liên quan**: Các biến thể trên gen *HBB* là nguyên nhân trực tiếp gây ra bệnh **Hồng cầu hình liềm** (Sickle Cell Anemia - đột biến Glu-6 thành Val) và bệnh **Beta-thalassemia**.
-```
+### 🤖 AI Agent (Đã được trang bị Kỹ năng):
+> "Tôi sẽ kết nối trực tiếp với cơ sở dữ liệu UniProtKB để trích xuất hồ sơ protein Insulin toàn diện cho bạn:"
+>
+> 1. **Xác định Accession ID chuẩn**: Tôi tìm kiếm Insulin người và xác định mã ID chuẩn là **P01308**.
+> 2. **Truy xuất thông tin chức năng**: Tôi trích xuất mô tả chi tiết về chức năng điều hòa đường huyết của Insulin.
+> 3. **Lấy các tọa độ chức năng di truyền (Features)**:
+>    * **Vị trí hoạt động (Active sites)**: Xác định các gốc amino acid liên kết với thụ thể Insulin.
+>    * **Biến đổi sau dịch mã (PTMs)**: Tải thông tin về 3 liên kết disulfide cốt lõi quyết định cấu trúc gập nếp của protein.
+>    * **Isoforms**: Liệt kê các biến thể phiên bản dịch mã khác nhau của Insulin.
+>
+> *Hồ sơ protein UniProt chi tiết đã sẵn sàng, hỗ trợ tối đa cho các phân tích sinh học cấu trúc và sinh hóa của bạn.*
 
 ## ⚠️ Lưu Ý & Gotchas
 
-- **Reviewed vs Unreviewed**: UniProt gồm hai phân mục: **Swiss-Prot** (đã được các chuyên gia thủ công kiểm chứng và chú giải, độ tin cậy rất cao) và **TrEMBL** (chú giải tự động bằng máy, quy mô lớn nhưng có thể chứa sai sót). Nhắc Agent luôn ưu tiên thông tin từ Swiss-Prot.
-- **Trình tự đồng dạng (Isoforms)**: Một số gen có thể tạo ra nhiều isoform protein khác nhau do quá trình cắt nối lựa chọn (alternative splicing). Khi phân tích chuỗi, Agent cần làm rõ đang sử dụng chuỗi đại diện (canonical sequence) hay một isoform cụ thể.
+- **Swiss-Prot preferred**: Khi có nhiều entries cho cùng protein, ưu tiên reviewed Swiss-Prot entry.
+- **Canonical vs isoforms**: UniProt chọn 1 canonical sequence — isoforms có thể khác đáng kể.
+- **Not for alignment**: Dùng protein-sequence-msa hoặc protein-sequence-similarity-search cho alignment tasks.
+- **ID mapping delays**: UniProt ID mapping service có thể chậm cho large batch requests.

@@ -40,7 +40,7 @@ export function SmoothScroll({ children }: SmoothScrollProps): React.JSX.Element
       lenis.raf(time * 1000); // Đổi giây sang mili-giây cho Lenis
     };
     gsap.ticker.add(updateTicker);
-    gsap.ticker.lagSmoothing(0); // Tắt lag smoothing để tránh giật lag khi chuyển tiếp khung hình lớn
+    // gsap.ticker.lagSmoothing(0); // Disabled to allow GSAP to automatically smooth motion during large frame drops
 
     // 4. Cleanup khi component unmount
     return () => {

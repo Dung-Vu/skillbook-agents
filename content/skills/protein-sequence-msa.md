@@ -1,144 +1,95 @@
 ---
 slug: "protein-sequence-msa"
-title: "Multiple Sequence Alignment"
+title: "Protein Multiple Sequence Alignment"
 command: "/protein-sequence-msa"
-category: "workflow-orchestration"
+category: "bioinformatics-genomics"
 tags:
   - "msa"
   - "clustal-omega"
-  - "bioinformatics"
   - "sequence-alignment"
-complexity: "advanced"
+  - "protein"
+  - "conservation"
+complexity: "intermediate"
 platforms:
   - "cursor"
   - "claude-code"
   - "windsurf"
+  - "gemini-cli"
   - "universal"
 featured: false
-description: "Thực hiện căn chỉnh đa trình tự protein (Multiple Sequence Alignment - MSA) bằng Clustal Omega để phân tích tiến hóa, miền bảo tồn và vị trí đột biến."
-oneLiner: "Align multiple protein sequences with Clustal Omega."
-sourceUrl: "https://www.ebi.ac.uk/Tools/msa/clustalo/"
-sourceAuthor: "Antigravity"
-lastVerified: "2026-05-29"
+description: "Căn chỉnh nhiều trình tự protein để đánh giá mức độ tương đồng di truyền, vùng domain bảo tồn và các axit amin quan trọng."
+oneLiner: "Thực hiện đa căn chỉnh trình tự protein (MSA) bằng Clustal Omega."
+sourceUrl: "https://www.ebi.ac.uk/jdispatcher/msa/clustalo"
+sourceAuthor: "Google DeepMind"
+lastVerified: "2026-05-30"
 relatedSkills:
+  - "protein-sequence-similarity-search"
   - "uniprot-database"
-  - "pymol"
-  - "web-research"
-seoTitle: "Multiple Sequence Alignment - Skillbook Agents"
-seoDescription: "Hướng dẫn tích hợp Clustal Omega để căn chỉnh chuỗi protein sinh học tự động qua AI Agent."
+  - "interpro-database"
+seoTitle: "Protein Multiple Sequence Alignment — Skillbook Agents"
+seoDescription: "Hướng dẫn Agent thực hiện MSA protein với Clustal Omega để phân tích conservation và residue quan trọng."
 ---
 
 ## 📖 Tại Sao Cần Skill Này?
 
-Trong nghiên cứu sinh học tiến hóa và tin sinh học, việc so sánh nhiều trình tự protein (Multiple Sequence Alignment - MSA) là bước đi tiên quyết để phát hiện ra các amino acid có tính bảo tồn cao (highly conserved residues) - thường là các vị trí hoạt động quan trọng của protein. Khi thiếu skill này, AI Agent thường:
-- **Căn chỉnh chuỗi thủ công sai lệch**: Tự ý chèn các khoảng trống (gaps) không đúng quy luật sinh học, làm hỏng khung đọc mở.
-- **Không hiểu định dạng chuỗi**: Gặp lỗi khi đọc hoặc xuất ra các định dạng file sinh học tiêu chuẩn như FASTA, Clustal, hay Stockholm.
-- **Mất dấu tiến hóa**: Không thể giải thích ý nghĩa sinh học của các ký hiệu bảo tồn (sao `*`, hai chấm `:`, chấm `.`).
+Multiple Sequence Alignment (MSA) là bước nền tảng trong sinh học phân tử — so sánh nhiều chuỗi protein cùng lúc để phát hiện vùng bảo tồn (conserved regions) và residue quan trọng cho chức năng.
 
-Skill này hướng dẫn Agent khai thác các công cụ căn chỉnh chuỗi (như Clustal Omega hoặc MUSCLE) thông qua MSA MCP tool để tự động căn chỉnh hàng chục chuỗi protein, phát hiện vùng bảo tồn và vẽ cây tiến hóa (phylogenetic tree) chính xác.
+- **Conservation analysis**: Residue nào được bảo tồn qua hàng triệu năm tiến hóa → likely quan trọng cho chức năng/cấu trúc
+- **Domain detection**: Vùng nào align tốt → shared domain; vùng gap nhiều → insertion/deletion đặc thù loài
+- **Mutation impact**: Nếu mutation xảy ra ở vị trí highly conserved → có khả năng gây hại cao
+
+Agent mặc định không có khả năng chạy alignment tool nào — skill này kết nối với EBI Clustal Omega API.
 
 ## ⚙️ Cách Hoạt Động
 
-Multiple Sequence Alignment hoạt động bằng cách gửi một tập hợp chuỗi protein ở định dạng FASTA đến công cụ căn chỉnh (ví dụ: API Clustal Omega tại EMBL-EBI). Quy trình bao gồm:
-1. **Chuẩn hóa đầu vào**: Nhận danh sách các chuỗi dạng FASTA. Kiểm tra tính hợp lệ của các chữ cái đại diện cho amino acid (loại bỏ ký tự không hợp lệ).
-2. **Gửi Task không đồng bộ (Asynchronous Job)**: Đăng ký một tiến trình MSA trên server EBI, nhận về một mã `Job ID` để theo dõi.
-3. **Giám sát trạng thái (Polling status)**: Kiểm tra định kỳ trạng thái của Job (`RUNNING`, `FINISHED`, `ERROR`).
-4. **Nhận kết quả (Fetch Results)**: Khi hoàn thành, tải về file căn chỉnh (Alignment output) và cây tiến hóa dạng Newick format.
-5. **Phân tích vùng bảo tồn**: Đọc file căn chỉnh để chỉ ra các vùng acid amin hoàn toàn không thay đổi qua hàng triệu năm tiến hóa.
+```
+Multiple sequences (FASTA) → Submit to Clustal Omega API → 
+Wait for result → Return aligned sequences + conservation scores
+```
+
+1. **Input**: Từ 2 đến 4000 protein sequences (format FASTA), max 4 MB
+2. **Alignment**: Clustal Omega sử dụng HMM profile-profile alignment
+3. **Output**: Aligned sequences với gap characters, conservation indicators (`*` = identical, `:` = conserved, `.` = semi-conserved)
 
 ## 🚀 Cách Sử Dụng
 
 ### Universal
 
-Yêu cầu Agent thực hiện căn chỉnh một danh sách chuỗi protein và phân tích các acid amin bảo tồn:
-
 ```markdown
-Hãy sử dụng Clustal Omega MSA MCP tool để thực hiện căn chỉnh đa chuỗi cho các trình tự protein Hemoglobin subunit beta của 3 loài dưới đây:
-1. Trình tự đầu vào định dạng FASTA:
-```fasta
->Human
-MVHLTPEEKSAVTALWGKVNVDEVGGEALGRLLVVYPWTQRFFESFGDLSTPDAVMGNPKVKAHGKKVLGAFSDGLAHLDNLKGTFATLSELCDLHVDDPENFRLLGNVLVCVLAHHFGKEFTPPVQAAYQKVVAGVANALAHKYH
->Chimpanzee
-MVHLTPEEKSAVTALWGKVNVDEVGGEALGRLLVVYPWTQRFFESFGDLSTPDAVMGNPKVKAHGKKVLGAFSDGLAHLDNLKGTFATLSELCDLHVDDPENFRLLGNVLVCVLAHHFGKEFTPPVQAAYQKVVAGVANALAHKYH
->Mouse
-MVHLTDAEKSAVSCLWGKVDVDEVGGEALGRLLVVYPWTQRYFDSFGDLSSASAIMGNPKVKAHGKKVINAFNDGLKHLDNLKGTFAHLSELCDLHVDDPENFRLLGNMIVIVLGHHLGKEFTPCAQAAFQKVVAGVASALAHKYH
-```
-2. Thực hiện căn chỉnh chuỗi và hiển thị kết quả định dạng Clustal.
-3. Chỉ ra vị trí các amino acid được bảo tồn hoàn toàn ở cả 3 loài (kí hiệu `*`).
-4. Giải thích ý nghĩa của vị trí đột biến Glu-6 ở người liên quan đến bệnh hồng cầu hình liềm so với chuột.
+# Protein MSA Rules
+- Yêu cầu ít nhất 2 protein sequences ở format FASTA.
+- KHÔNG dùng cho DNA/RNA alignment — chỉ protein.
+- KHÔNG dùng nếu chỉ có 1 sequence — dùng protein-sequence-similarity-search để tìm homologs trước.
+- Tóm tắt conservation patterns: residue nào identical, vùng nào variable.
 ```
 
 ### Cursor (.cursorrules)
 
 ```markdown
-# MSA Alignment Rules
-- Luôn kiểm tra định dạng đầu vào của các chuỗi: Phải là định dạng FASTA chuẩn (mỗi chuỗi bắt đầu bằng dòng tiêu đề `>ID` và theo sau là chuỗi amino acid trên các dòng tiếp theo).
-- Hiển thị kết quả căn chỉnh trong một khối code block có độ rộng lớn, sử dụng font chữ monospace để các cột amino acid thẳng hàng hoàn hảo.
-- Giải thích rõ ý nghĩa các ký hiệu bảo tồn ở dòng cuối cùng của khối căn chỉnh:
-  - `*`: Vị trí bảo tồn hoàn toàn (identical residues).
-  - `:`: Bảo tồn nhóm chức năng hóa học tương tự mạnh (strongly similar properties).
-  - `.`: Bảo tồn nhóm chức năng hóa học tương tự yếu (weakly similar properties).
+# MSA Analysis
+- Chạy Clustal Omega qua EBI API, không cài local tools.
+- Highlight residue 100% conserved — đây là candidate functional sites.
+- Kết hợp với InterPro để verify domain boundaries.
 ```
 
-### Claude Code
+## 💡 Kịch Bản Lập Trình Thực Tế
 
-```markdown
-# Claude Code MSA Instructions
-- Submit MSA jobs asynchronously to EMBL-EBI Clustal Omega API.
-- Poll the job status using the provided Job ID every 3 seconds until finished.
-```
+### 🧑‍💻 Nhà phát triển:
+> "Tôi có chuỗi amino acid của 5 loại hemoglobin từ các loài động vật khác nhau. Hãy chạy căn chỉnh đa chuỗi (MSA) để tôi tìm vùng bảo thủ chức năng."
 
-### Windsurf
-
-```markdown
-# Windsurf MSA Integration
-- Automate Clustal Omega or MUSCLE runs inside the bio-project environment.
-- Read phylogenetic Newick trees and convert them to readable ASCII graphics.
-```
-
-## 💡 Ví Dụ Thực Tế
-
-### ❌ Không có skill (Căn chỉnh chuỗi thủ công lệch lạc, không hiểu quy luật):
-
-```markdown
-Căn chỉnh chuỗi Hemoglobin:
-Human: MVHLTPEEKSAVTALW...
-Mouse: MVHLTDAEKSAVSCLW...
-Hai chuỗi này rất giống nhau, chỉ khác nhau ở vị trí số 6 là E và D.
-*(Lưu ý: Thiếu sự chuyên nghiệp, không thể căn chỉnh chính xác khi số lượng chuỗi tăng lên hoặc có gap)*
-```
-
-### ✅ Có skill (Kết quả căn chỉnh sinh học chuẩn xác từ Clustal Omega):
-
-```markdown
-Dữ liệu căn chỉnh đa trình tự sinh học từ **Clustal Omega**:
-
-```text
-CLUSTAL O(1.2.4) multiple sequence alignment
-
-Human           MVHLTPEEKSAVTALWGKVNVDEVGGEALGRLLVVYPWTQRFFESFGDLSTPDAVMGNPK 60
-Chimpanzee      MVHLTPEEKSAVTALWGKVNVDEVGGEALGRLLVVYPWTQRFFESFGDLSTPDAVMGNPK 60
-Mouse           MVHLTDAEKSAVSCLWGKVDVDEVGGEALGRLLVVYPWTQRYFDSFGDLSSASAIMGNPK 60
-                ***** :******.*****:*********************:*:******: .*::****
-
-Human           VKAHGKKVLGAFSDGLAHLDNLKGTFATLSELCDLHVDDPENFRLLGNVLVCVLAHHFGK 120
-Chimpanzee      VKAHGKKVLGAFSDGLAHLDNLKGTFATLSELCDLHVDDPENFRLLGNVLVCVLAHHFGK 120
-Mouse           VKAHGKKVINAFNDGLKHLDNLKGTFAHLSELCDLHVDDPENFRLLGNMIVIVLGHHLGK 120
-                ********:.**:**: ********** ********************::* **.**:**
-
-Human           EFTPPVQAAYQKVVAGVANALAHKYH 146
-Chimpanzee      EFTPPVQAAYQKVVAGVANALAHKYH 146
-Mouse           EFTPCAQAAFQKVVAGVASALAHKYH 146
-                **** .***:********.*******
-```
-
-**Phân tích bảo tồn**:
-- Dòng ký hiệu dưới cùng cho thấy mức độ bảo tồn rất cao giữa 3 loài (rất nhiều dấu `*` bảo tồn tuyệt đối).
-- **Vị trí đột biến**: Ở vị trí số 6, chuỗi người (Human) và tinh tinh (Chimpanzee) có acid amin là **Glu (E)** (tính acid, phân cực), trong khi chuột (Mouse) có **Asp (D)** (cũng tính acid, phân cực). Điều này thể hiện một đột biến thay thế bảo tồn tính chất lý hóa của amino acid.
-- Tuy nhiên, trong bệnh hồng cầu hình liềm ở người, **Glu-6** đột biến thành **Val-6** (kị nước, không phân cực), tạo ra một điểm kị nước trên bề mặt protein khiến các phân tử hemoglobin kết chùm thành sợi dài, làm biến dạng tế bào hồng cầu.
-```
+### 🤖 AI Agent (Đã được trang bị Kỹ năng):
+> "Tôi sẽ thực hiện căn chỉnh đa chuỗi bằng công cụ Clustal Omega của viện EBI thông qua quy trình tự động hóa:"
+>
+> 1. **Chuẩn bị dữ liệu FASTA**: Tôi kiểm tra và định dạng chuỗi của 5 loài thành một tệp tin FASTA chung.
+> 2. **Chạy căn chỉnh Clustal Omega**: Tôi gửi dữ liệu đến máy chủ EBI để khởi chạy thuật toán căn chỉnh đa chuỗi.
+> 3. **Phân tích vùng bảo thủ**: Tôi đọc kết quả căn chỉnh, xác định chính xác các vị trí amino acid bảo thủ 100% (như các vị trí histidine liên kết với nhân heme) và đánh giá độ tương đồng chuỗi.
+> 4. **Trình bày kết quả trực quan**: Tôi tạo biểu đồ căn chỉnh dạng chữ, sử dụng các ký tự đặc biệt (*, :, .) để biểu thị mức độ bảo thủ và đề xuất xây dựng cây phát sinh chủng loại sơ bộ.
+>
+> *Kết quả căn chỉnh đa chuỗi trực quan giúp bạn xác định ngay lập tức ranh giới các vùng chức năng quan trọng của protein.*
 
 ## ⚠️ Lưu Ý & Gotchas
 
-- **Giới hạn số chuỗi**: Công cụ Clustal Omega qua API công cộng thường giới hạn tối đa 4000 chuỗi hoặc dung lượng file đầu vào dưới 4MB. Hãy nhắc Agent kiểm soát số lượng chuỗi đầu vào.
-- **Loại trình tự (Type of sequences)**: Clustal Omega yêu cầu khai báo rõ loại trình tự (Protein, DNA, hoặc RNA) hoặc nó sẽ tự động phát hiện. Việc truyền nhầm chuỗi DNA vào chế độ căn chỉnh Protein sẽ gây ra lỗi nghiêm trọng hoặc làm lệch kết quả căn chỉnh.
+- **Chỉ protein**: Không dùng cho DNA, RNA, hay nucleotide sequences.
+- **Giới hạn**: Max 4000 sequences, max 4 MB file size.
+- **Chỉ cần ≥2 sequences**: Nếu chỉ có 1 → dùng sequence similarity search trước để tìm homologs.
+- **Async job**: Clustal Omega chạy trên server EBI, có thể mất vài giây đến vài phút tùy kích thước input.

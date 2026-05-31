@@ -20,9 +20,10 @@ export default defineConfig({
     },
   ],
   webServer: {
-    command: "npm run dev -- -p 3002",
+    command: "npm run start -- -p 3002",
     url: "http://localhost:3002",
     reuseExistingServer: !process.env.CI,
     timeout: 120 * 1000,
   },
 });
+

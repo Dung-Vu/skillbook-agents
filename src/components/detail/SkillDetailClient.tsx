@@ -1,14 +1,69 @@
 "use client";
 
 import { useMemo, useState, useEffect, useRef, memo, forwardRef } from "react";
-import { PLATFORM_CONFIG, PlatformId } from "@/types/skill";
-import { motion, useScroll, useSpring } from "framer-motion";
-import { cn } from "@/lib/utils";
+import {
+  PLATFORM_CONFIG,
+  PlatformId,
+  COMPLEXITY_CONFIG,
+  Skill,
+  CategoryConfig,
+  ComplexityLevel,
+} from "@/types/skill";
+import {
+  motion,
+  useScroll,
+  useSpring,
+  AnimatePresence,
+  useMotionValue,
+  useMotionTemplate,
+  Variants,
+  MotionStyle,
+} from "framer-motion";
+
+interface CustomWindow extends Window {
+  __canvasPaused?: boolean;
+}
+import { cn, formatDate } from "@/lib/utils";
+import {
+  ArrowUp,
+  ArrowLeft,
+  ArrowRight,
+  ExternalLink,
+  Calendar,
+  HelpCircle,
+  Cpu,
+  Terminal,
+  Lightbulb,
+  AlertCircle,
+  ChevronRight,
+  BookOpen,
+  XCircle,
+  CheckCircle2,
+} from "lucide-react";
+import Link from "next/link";
+import { useTransitionNavigator } from "@/hooks/useTransitionNavigator";
+
+const getHeadingIcon = (text: string) => {
+  const lower = text.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+  if (lower.includes("tai sao") || lower.includes("why")) return <HelpCircle size={13} className="shrink-0 text-indigo-400" />;
+  if (lower.includes("cach hoat dong") || lower.includes("how it works")) return <Cpu size={13} className="shrink-0 text-blue-400" />;
+  if (lower.includes("cach su dung") || lower.includes("how to use") || lower.includes("usage")) return <Terminal size={13} className="shrink-0 text-emerald-400" />;
+  if (lower.includes("vi du") || lower.includes("example")) return <Lightbulb size={13} className="shrink-0 text-amber-400" />;
+  if (lower.includes("luu y") || lower.includes("gotchas") || lower.includes("note")) return <AlertCircle size={13} className="shrink-0 text-rose-400" />;
+  if (lower.includes("khong co skill")) return <XCircle size={12} className="shrink-0 text-red-500/80" />;
+  if (lower.includes("co skill")) return <CheckCircle2 size={12} className="shrink-0 text-emerald-500/80" />;
+  return <BookOpen size={13} className="shrink-0 text-zinc-400" />;
+};
 
 interface SkillDetailClientProps {
-  content: string;
-  platforms?: string[];
+  slug: string;
+  skill: Skill;
+  category: CategoryConfig | undefined;
+  relatedSkills: Skill[];
+  prevSkill: Skill | null;
+  nextSkill: Skill | null;
 }
+
 
 // 1. Helper to escape HTML characters & apply premium syntax highlighting
 function highlightSyntax(rawCode: string, lang: string): string {
@@ -184,7 +239,7 @@ function parseMarkdownTable(lines: string[]): string {
           )}">${parseInlineMarkdown(cell)}</td>`
       )
       .join("");
-    rows.push(`<tr class="hover:bg-[var(--color-bg-hover)]/30 transition-colors duration-150">${tds}</tr>`);
+    rows.push(`<tr class="hover:bg-[var(--color-bg-card-hover)]/30 transition-colors duration-150">${tds}</tr>`);
   }
   const tbody = `<tbody>${rows.join("")}</tbody>`;
 
@@ -208,17 +263,18 @@ function parseMarkdownToHtml(md: string): string {
     const prevI = i;
     const line = lines[i];
 
-    // 1. Code Blocks
+    // 1. Code Blocks (Supports both 3 and 4 backticks for nested blocks)
     if (line.trim().startsWith("```")) {
-      const match = line.trim().match(/^```(\w*)/);
-      const lang = match ? match[1] : "";
+      const backtickMatch = line.trim().match(/^(~{3,4}|`{3,4})/);
+      const backticks = backtickMatch ? backtickMatch[1] : "```";
+      const lang = line.trim().substring(backticks.length).trim();
       const codeLines: string[] = [];
       i++;
-      while (i < lines.length && !lines[i].trim().startsWith("```")) {
+      while (i < lines.length && !lines[i].trim().startsWith(backticks)) {
         codeLines.push(lines[i]);
         i++;
       }
-      i++; // Skip closing ```
+      i++; // Skip closing backticks
 
       const rawCode = codeLines.join("\n");
       const highlightedCode = highlightSyntax(rawCode, lang);
@@ -317,16 +373,112 @@ function parseMarkdownToHtml(md: string): string {
   return blocks.join("\n");
 }
 
+const pageVariants: Variants = {
+  initial: { opacity: 0, scale: 1, filter: "blur(0px)" },
+  animate: {
+    opacity: 1,
+    scale: 1,
+    filter: "blur(0px)",
+    transition: {
+      staggerChildren: 0.1,
+      delayChildren: 0.05,
+    },
+  },
+  exit: {
+    opacity: 0,
+    scale: 0.97,
+    filter: "blur(4px)",
+    transition: { duration: 0.3, ease: "easeInOut" },
+  },
+};
+
+const heroVariants: Variants = {
+  initial: { opacity: 0, y: -20, scale: 0.98 },
+  animate: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: {
+      type: "spring",
+      stiffness: 150,
+      damping: 18,
+      mass: 0.8,
+      delay: 0.0,
+    },
+  },
+};
+
+const tocVariants: Variants = {
+  initial: { opacity: 0, x: -15 },
+  animate: {
+    opacity: 1,
+    x: 0,
+    transition: {
+      type: "spring",
+      stiffness: 220,
+      damping: 24,
+      mass: 0.6,
+      delay: 0.12,
+    },
+  },
+};
+
+const contentVariants: Variants = {
+  initial: { opacity: 0, y: 30 },
+  animate: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      type: "spring",
+      stiffness: 130,
+      damping: 20,
+      mass: 0.7,
+      delay: 0.20,
+    },
+  },
+};
+
+const scrolledFadeInVariants: Variants = {
+  initial: { opacity: 0, y: 40 },
+  whileInView: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      type: "spring",
+      stiffness: 100,
+      damping: 18,
+      mass: 0.8,
+      delay: 0.10,
+    },
+  },
+};
+
+const scrolledViewport = { once: true, margin: "-100px" };
+
 export function SkillDetailClient({
-  content,
-  platforms = ["universal"],
+  slug,
+  skill,
+  category,
+  relatedSkills,
+  prevSkill,
+  nextSkill,
 }: SkillDetailClientProps): React.ReactElement {
   const containerRef = useRef<HTMLDivElement>(null);
   const [selectedPlatform, setSelectedPlatform] = useState<string>("");
   const [headings, setHeadings] = useState<{ id: string; text: string; level: number }[]>([]);
   const [activeId, setActiveId] = useState<string>("");
 
-  const htmlContent = useMemo(() => parseMarkdownToHtml(content), [content]);
+  const { isExiting, navigateTo } = useTransitionNavigator();
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      (window as unknown as CustomWindow).__canvasPaused = false;
+      window.dispatchEvent(new CustomEvent("canvas-resume"));
+    }
+  }, []);
+
+  const htmlContent = useMemo(() => parseMarkdownToHtml(skill.content), [skill.content]);
+  const platforms = useMemo(() => skill.platforms || ["universal"], [skill.platforms]);
 
   // Read selectedPlatform from localStorage safely (Next.js hydration compatibility)
   useEffect(() => {
@@ -352,20 +504,37 @@ export function SkillDetailClient({
     }
   };
 
-  // Unified Client-Side UX Enhancements Hook
+  // 1. Chỉ thực hiện định hình cấu trúc DOM ban đầu một lần duy nhất khi Markdown Render thay đổi
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
 
-    // --- 1. EXTRACT HEADINGS & SET IDs ---
+    // --- 1.1. EXTRACT HEADINGS & SET IDs ---
     const headingElements = container.querySelectorAll("h2, h3");
     const items: { id: string; text: string; level: number }[] = [];
 
     headingElements.forEach((el, index) => {
+      const rawText = el.textContent || "";
+      // Regex loại bỏ emoji
+      const cleanedText = rawText
+        .replace(/[\u{1F300}-\u{1F9FF}]|[\u{2600}-\u{26FF}]|[\u{2700}-\u{27BF}]|[\u{1F1E0}-\u{1F1FF}]/gu, "")
+        .trim();
+      
+      // Cập nhật lại text của thẻ H2/H3 thực tế trong DOM để loại bỏ emoji cũ kỹ mà không phá vỡ các thẻ HTML con
+      const removeEmojis = (node: ChildNode) => {
+        if (node.nodeType === 3) { // TEXT_NODE
+          node.textContent = (node.textContent || "")
+            .replace(/[\u{1F300}-\u{1F9FF}]|[\u{2600}-\u{26FF}]|[\u{2700}-\u{27BF}]|[\u{1F1E0}-\u{1F1FF}]/gu, "");
+        } else {
+          node.childNodes.forEach(removeEmojis);
+        }
+      };
+      removeEmojis(el);
+
       let id = el.id;
       if (!id) {
-        id = el.textContent
-          ? el.textContent
+        id = cleanedText
+          ? cleanedText
               .toLowerCase()
               .normalize("NFD")
               .replace(/[\u0300-\u036f]/g, "") // Bỏ dấu tiếng Việt
@@ -378,14 +547,14 @@ export function SkillDetailClient({
 
       items.push({
         id,
-        text: el.textContent || "",
+        text: cleanedText,
         level: el.tagName === "H2" ? 2 : 3,
       });
     });
 
     setHeadings(items);
 
-    // --- 2. INJECT COPY BUTTONS ON PRE ELEMENTS WITH PREMIUM MICRO-UX ---
+    // --- 1.2. INJECT COPY BUTTONS ON PRE ELEMENTS WITH PREMIUM MICRO-UX ---
     const preBlocks = container.querySelectorAll("pre");
     preBlocks.forEach((pre) => {
       if (pre.parentElement?.classList.contains("code-block-wrapper")) return;
@@ -400,8 +569,8 @@ export function SkillDetailClient({
       const button = document.createElement("button");
       button.type = "button";
       button.className =
-        "copy-button absolute top-3 right-3 p-1.5 rounded-lg border border-white/10 " +
-        "bg-zinc-900/80 hover:bg-zinc-800 text-zinc-400 hover:text-white opacity-0 group-hover/wrapper:opacity-100 transition-all duration-300 " +
+        "copy-button absolute top-3 right-3 p-3 md:p-1.5 rounded-lg border border-white/10 " +
+        "bg-zinc-900/80 hover:bg-zinc-800 text-zinc-400 hover:text-white opacity-100 md:opacity-0 md:group-hover/wrapper:opacity-100 transition-all duration-300 " +
         "flex items-center justify-center shadow-sm cursor-pointer z-10 hover:border-emerald-500/50 hover:shadow-[0_0_12px_rgba(16,185,129,0.15)] " +
         "active:scale-95 group/btn";
 
@@ -410,7 +579,7 @@ export function SkillDetailClient({
         "absolute bottom-full right-0 mb-2 px-2.5 py-1 rounded bg-zinc-900 border border-zinc-800 " +
         "text-[10px] font-medium text-zinc-300 opacity-0 group-hover/btn:opacity-100 transition-all duration-200 " +
         "pointer-events-none shadow-md z-20 whitespace-nowrap transform translate-y-1 group-hover/btn:translate-y-0";
-      tooltip.innerText = "Copy command";
+      tooltip.innerText = "Sao chép lệnh";
       button.appendChild(tooltip);
 
       const iconContainer = document.createElement("div");
@@ -423,13 +592,33 @@ export function SkillDetailClient({
 
       button.addEventListener("click", async () => {
         const codeText = pre.querySelector("code")?.textContent || pre.innerText || "";
+        let copied = false;
+        
         try {
           await navigator.clipboard.writeText(codeText);
+          copied = true;
+        } catch (err) {
+          // Fallback to execCommand for headless test environments (lacks active window focus)
+          try {
+            const textArea = document.createElement("textarea");
+            textArea.value = codeText;
+            textArea.style.position = "fixed";
+            textArea.style.left = "-9999px";
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            copied = document.execCommand("copy");
+            document.body.removeChild(textArea);
+          } catch (fallbackErr) {
+            console.error("Copy fallback failed: ", fallbackErr);
+          }
+        }
 
+        if (copied) {
           const copySvg = button.querySelector(".copy-svg");
           const checkSvg = button.querySelector(".check-svg");
 
-          tooltip.innerText = "Copied!";
+          tooltip.innerText = "Đã sao chép!";
           tooltip.className = tooltip.className
             .replace("text-zinc-300", "text-emerald-400")
             .replace("border-zinc-800", "border-emerald-500/30");
@@ -444,7 +633,7 @@ export function SkillDetailClient({
           checkSvg?.classList.remove("scale-0", "opacity-0");
 
           setTimeout(() => {
-            tooltip.innerText = "Copy command";
+            tooltip.innerText = "Sao chép lệnh";
             tooltip.className = tooltip.className
               .replace("text-emerald-400", "text-zinc-300")
               .replace("border-emerald-500/30", "border-zinc-800");
@@ -458,34 +647,32 @@ export function SkillDetailClient({
             checkSvg?.classList.remove("scale-100", "opacity-100");
             checkSvg?.classList.add("scale-0", "opacity-0");
           }, 2000);
-        } catch (err) {
-          console.error("Failed to copy code: ", err);
         }
       });
 
       wrapper.appendChild(button);
     });
 
-    // --- 3. PLATFORM GROUPING AND VISIBILITY ---
-    if (!selectedPlatform) return;
-
+    // --- 1.3. PLATFORM GROUPING BAN ĐẦU ---
     const children = Array.from(container.children);
 
-    // 3.1. Find H2 "Cách Sử Dụng"
+    // 1.3.1. Find H2 "Cách Sử Dụng"
     const usageHeaderIndex = children.findIndex(
       (el) =>
         el.tagName === "H2" &&
         (el.textContent?.includes("Cách Sử Dụng") ||
           el.textContent?.includes("Cách sử dụng") ||
-          el.textContent?.toLowerCase().includes("how to use"))
+          el.textContent?.toLowerCase().includes("how to use") ||
+          el.textContent?.toLowerCase().includes("kích hoạt") ||
+          el.textContent?.toLowerCase().includes("activation"))
     );
     if (usageHeaderIndex === -1) return;
 
-    // 3.2. Find next H2 to determine the bound
+    // 1.3.2. Find next H2 to determine the bound
     let nextHeaderIndex = children.findIndex((el, idx) => idx > usageHeaderIndex && el.tagName === "H2");
     if (nextHeaderIndex === -1) nextHeaderIndex = children.length;
 
-    // 3.3. Remove existing wrappers to avoid duplicate nesting
+    // 1.3.3. Remove existing wrappers to avoid duplicate nesting
     const existingWrappers = container.querySelectorAll(".platform-wrapper-block");
     if (existingWrappers.length > 0) {
       existingWrappers.forEach((wrapper) => {
@@ -503,7 +690,7 @@ export function SkillDetailClient({
         ? freshChildren.length
         : freshChildren.findIndex((el, idx) => idx > usageHeaderIndex && el.tagName === "H2");
 
-    // 3.4. Group siblings between H2 "Cách Sử Dụng" and next H2
+    // 1.3.4. Group siblings between H2 "Cách Sử Dụng" and next H2
     interface PlatformGroup {
       targetPlatforms: string[];
       elements: Element[];
@@ -540,7 +727,16 @@ export function SkillDetailClient({
         if (text.includes("openai") || text.includes("codex")) targetPlatforms.push("openai-codex");
         if (text.includes("mcp")) targetPlatforms.push("mcp");
 
-        if (targetPlatforms.length === 0) targetPlatforms.push("universal");
+        if (targetPlatforms.length === 0) {
+          targetPlatforms.push("universal");
+        } else {
+          // If none of the matched targetPlatforms are explicitly supported by this skill,
+          // then this block should also be treated as 'universal' so it remains visible.
+          const hasSupportedPlatform = targetPlatforms.some((p) => platforms.includes(p));
+          if (!hasSupportedPlatform && !targetPlatforms.includes("universal")) {
+            targetPlatforms.push("universal");
+          }
+        }
 
         currentGroup = { targetPlatforms, elements: [el] };
         groups.push(currentGroup);
@@ -554,7 +750,7 @@ export function SkillDetailClient({
       }
     }
 
-    // 3.5. Wrap each group's elements into a platform-wrapper-block
+    // 1.3.5. Wrap each group's elements into a platform-wrapper-block
     groups.forEach((group) => {
       if (group.elements.length === 0) return;
       const firstEl = group.elements[0];
@@ -571,12 +767,17 @@ export function SkillDetailClient({
         wrapper.appendChild(el);
       });
     });
+  }, [htmlContent, platforms]);
 
-    // 3.6. Show / Hide based on selectedPlatform and handle Fallback
+  // 2. Chuyển đổi trạng thái ẩn hiện nền tảng một cách siêu tốc (O(1) class toggle)
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container || !selectedPlatform) return;
+
     const activeWrappers = container.querySelectorAll(".platform-wrapper-block");
     let hasMatch = false;
 
-    // 3.6.1: Find exact match
+    // 2.1: Find exact match
     activeWrappers.forEach((wrapper) => {
       const platforms = wrapper.getAttribute("data-platforms")?.split(" ") || [];
       if (platforms.includes(selectedPlatform)) {
@@ -589,7 +790,7 @@ export function SkillDetailClient({
       }
     });
 
-    // 3.6.2: Fallback to Universal if no match was found for the selected platform
+    // 2.2: Fallback to Universal if no match was found for the selected platform
     if (!hasMatch) {
       activeWrappers.forEach((wrapper) => {
         const platforms = wrapper.getAttribute("data-platforms")?.split(" ") || [];
@@ -602,45 +803,77 @@ export function SkillDetailClient({
         }
       });
     }
+
+    // 2.3: Trích xuất danh sách các tiêu đề ĐANG HIỂN THỊ để hiển thị trong Mục Lục bài viết (Tránh highlight nhầm phần tử bị ẩn)
+    const headingElements = container.querySelectorAll("h2, h3");
+    const visibleHeadings: { id: string; text: string; level: number }[] = [];
+
+    headingElements.forEach((el, index) => {
+      if (el.closest(".hidden")) return;
+
+      const rawText = el.textContent || "";
+      const cleanedText = rawText
+        .replace(/[\u{1F300}-\u{1F9FF}]|[\u{2600}-\u{26FF}]|[\u{2700}-\u{27BF}]|[\u{1F1E0}-\u{1F1FF}]/gu, "")
+        .trim();
+
+      visibleHeadings.push({
+        id: el.id || `heading-${index}`,
+        text: cleanedText,
+        level: el.tagName === "H2" ? 2 : 3,
+      });
+    });
+
+    setHeadings(visibleHeadings);
   }, [selectedPlatform, htmlContent]);
 
-  // Precision Viewport Coordinate Scroll Tracking for TOC Active Highlight
+  // R1: Tối ưu hoá TOC Active Link Tracking bằng IntersectionObserver (Không gây Layout Thrashing)
   useEffect(() => {
     if (headings.length === 0) return;
 
-    const handleScroll = () => {
-      const scrollOffset = 120; // px from top of viewport (below sticky header)
-      let activeHeadingId = "";
+    const headingElements = headings
+      .map((h) => document.getElementById(h.id))
+      .filter((el): el is HTMLElement => el !== null);
 
-      for (let i = 0; i < headings.length; i++) {
-        const heading = headings[i];
-        const el = document.getElementById(heading.id);
-        if (!el) continue;
+    const headingVisibility = new Map<string, boolean>();
+    const headingAbove = new Map<string, boolean>();
 
-        const rect = el.getBoundingClientRect();
+    const observerCallback = (entries: IntersectionObserverEntry[]) => {
+      entries.forEach((entry) => {
+        headingVisibility.set(entry.target.id, entry.isIntersecting);
+        headingAbove.set(entry.target.id, entry.boundingClientRect.top < 120);
+      });
 
-        // If the heading has crossed or reached the scrollOffset threshold line
-        if (rect.top <= scrollOffset) {
-          activeHeadingId = heading.id;
-        } else {
-          // Headings are ordered; once we find one below the threshold, we can stop
-          break;
+      const activeHeading = headings.find((h) => headingVisibility.get(h.id));
+
+      if (activeHeading) {
+        setActiveId(activeHeading.id);
+      } else {
+        let lastPassedHeadingId = "";
+        for (let i = headings.length - 1; i >= 0; i--) {
+          if (headingAbove.get(headings[i].id)) {
+            lastPassedHeadingId = headings[i].id;
+            break;
+          }
+        }
+        if (lastPassedHeadingId) {
+          setActiveId(lastPassedHeadingId);
+        } else if (headings.length > 0) {
+          setActiveId(headings[0].id);
         }
       }
-
-      // Default to the first heading if none are above the scroll offset line
-      if (!activeHeadingId && headings.length > 0) {
-        activeHeadingId = headings[0].id;
-      }
-
-      setActiveId(activeHeadingId);
     };
 
-    // Run once on mount to set initial highlight
-    handleScroll();
+    const observer = new IntersectionObserver(observerCallback, {
+      root: null,
+      rootMargin: "-120px 0px -60% 0px",
+      threshold: 0,
+    });
 
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
+    headingElements.forEach((el) => observer.observe(el));
+
+    return () => {
+      observer.disconnect();
+    };
   }, [headings]);
 
   // Framer Motion Scroll Progress for main detail container
@@ -654,6 +887,22 @@ export function SkillDetailClient({
     damping: 30,
     restDelta: 0.001,
   });
+
+  const scaleX = useSpring(scrollYProgress, {
+    stiffness: 100,
+    damping: 30,
+    restDelta: 0.001,
+  });
+
+  const [showScrollTop, setShowScrollTop] = useState(false);
+
+  useEffect(() => {
+    const checkScroll = () => {
+      setShowScrollTop(window.scrollY > 500);
+    };
+    window.addEventListener("scroll", checkScroll, { passive: true });
+    return () => window.removeEventListener("scroll", checkScroll);
+  }, []);
 
   // Smooth scroll to with precise offset for sticky header prevention
   const handleScrollTo = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
@@ -677,93 +926,445 @@ export function SkillDetailClient({
   };
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start w-full">
-      {/* Table of Contents Sidebar - Only on Desktop */}
-      <aside className="hidden lg:block lg:col-span-3 sticky top-28 max-h-[calc(100vh-8rem)] overflow-y-auto pr-6 relative">
-        {/* Glowing Cyberpunk Scroll Progress Line */}
-        <div className="absolute right-0 top-0 bottom-0 w-[2px] bg-white/5 rounded-full overflow-hidden">
-          <motion.div
-            className="w-full origin-top h-full bg-gradient-to-b from-[var(--color-cyber-violet)] via-[var(--color-neon-indigo)] to-[var(--color-accent-primary)] shadow-[0_0_8px_rgba(139,92,246,0.6)]"
-            style={{ scaleY }}
-          />
-        </div>
+    <>
+      {/* Global Reading Progress Bar */}
+      <motion.div
+        className="fixed top-0 left-0 right-0 h-1 bg-gradient-to-r from-[var(--color-cyber-violet)] via-[var(--color-neon-indigo)] to-[var(--color-accent-primary)] origin-left z-[100] shadow-[0_1px_10px_rgba(139,92,246,0.4)]"
+        style={{ scaleX }}
+      />
 
-        <div className="text-xs font-bold uppercase tracking-wider text-[var(--color-text-muted)] mb-4">
-          Mục Lục Bài Viết
-        </div>
-        {headings.length === 0 ? (
-          <p className="text-xs text-[var(--color-text-muted)] italic">Không có mục lục</p>
-        ) : (
-          <ul className="space-y-2">
-            {headings.map((h) => (
-              <li key={h.id} style={{ paddingLeft: h.level === 3 ? "1rem" : "0px" }}>
-                <a
-                  href={`#${h.id}`}
-                  onClick={(e) => handleScrollTo(e, h.id)}
-                  className={`block text-xs py-1 border-l-2 transition-all duration-200 no-underline ${
-                    activeId === h.id
-                      ? "border-[var(--color-accent-primary)] text-[var(--color-accent-primary)] font-semibold pl-3"
-                      : "border-transparent text-[var(--color-text-muted)] hover:text-[var(--color-text-primary)] hover:border-[var(--color-border)] pl-2"
-                  }`}
-                >
-                  {h.text}
-                </a>
-              </li>
-            ))}
-          </ul>
-        )}
-      </aside>
+      <AnimatePresence mode="wait">
+        <motion.main
+          key={slug} // Bắt buộc dùng slug làm key để kích hoạt hoạt ảnh EXIT khi đổi trang
+          variants={pageVariants}
+          initial="initial"
+          animate={isExiting ? "exit" : "animate"}
+          exit="exit"
+          className="min-h-screen pt-24 pb-20 px-6 w-full will-change-transform will-change-opacity origin-top transform-gpu"
+        >
+          <div className="max-w-7xl mx-auto">
+            {/* R1: Hero Banner bọc trong motion.div */}
+            <motion.div 
+              variants={heroVariants}
+              className="relative p-5 sm:p-10 rounded-2xl border border-[var(--color-border)] overflow-hidden mb-6 sm:mb-12 shadow-xl will-change-[transform,opacity] translate-z-0"
+              style={{
+                background: `linear-gradient(135deg, ${category ? `${category.color}10` : 'color-mix(in srgb, var(--color-cyber-violet) 10%, transparent)'} 0%, var(--color-bg-secondary) 100%)`,
+                borderColor: category ? `${category.color}20` : 'color-mix(in srgb, var(--color-cyber-violet) 20%, transparent)'
+              }}
+            >
+              {/* Dynamic Ambient Background Glow */}
+              <div 
+                className="absolute -right-20 -top-20 w-64 h-64 rounded-full blur-[80px] opacity-25 pointer-events-none"
+                style={{
+                  backgroundColor: category ? category.color : 'var(--color-cyber-violet)'
+                }}
+              />
 
-      {/* Main content pane */}
-      <div className="lg:col-span-9 w-full">
-        {/* Platform Tab Switcher - Upgraded with Framer Motion Sliding Backdrop */}
-        {platforms.length > 0 && (
-          <div className="flex items-center gap-2 border-b border-[var(--color-border)] pb-3 mb-6 overflow-x-auto scrollbar-none relative">
-            <span className="text-xs font-semibold text-[var(--color-text-muted)] mr-2 whitespace-nowrap">
-              Nền tảng hiển thị:
-            </span>
-            {platforms.map((p) => {
-              const config = PLATFORM_CONFIG[p as PlatformId] || { label: p, color: "#999" };
-              const isActive = selectedPlatform === p;
-              return (
-                <button
-                  key={p}
-                  onClick={() => selectPlatform(p)}
-                  className={cn(
-                    "relative px-3.5 py-1.5 text-xs font-medium rounded-full transition-colors duration-300 cursor-pointer whitespace-nowrap z-10 flex items-center shrink-0",
-                    isActive
-                      ? "text-[var(--color-text-primary)] font-semibold"
-                      : "text-[var(--color-text-muted)] hover:text-[var(--color-text-primary)]"
+              <div className="relative z-10">
+                {/* Breadcrumb inside hero for cleaner layout */}
+                <nav className="flex items-center gap-2 text-xs text-[var(--color-text-muted)] mb-4 sm:mb-6 flex-wrap font-mono select-none">
+                  <Link
+                    href="/skills"
+                    onClick={(e) => navigateTo(e as unknown as React.MouseEvent<HTMLAnchorElement>, "/skills")}
+                    className="hover:text-[var(--color-accent-primary)] no-underline transition-colors"
+                  >
+                    Skills
+                  </Link>
+                  <span>/</span>
+                  {category && (
+                    <>
+                      <span className="hover:text-[var(--color-text-primary)] transition-colors">
+                        {category.icon} {category.label}
+                      </span>
+                      <span>/</span>
+                    </>
                   )}
-                >
-                  {isActive && (
-                    <motion.span
-                      layoutId="activePlatformBubble"
-                      className="absolute inset-0 rounded-full border -z-10 shadow-[0_0_12px_rgba(0,0,0,0.5)]"
+                  <span className="text-[var(--color-text-primary)] font-medium">
+                    {skill.command}
+                  </span>
+                </nav>
+
+                <div className="flex items-start justify-between flex-wrap gap-3 mb-3 sm:mb-4">
+                  <h1
+                    className="text-2xl sm:text-4xl md:text-5xl font-extrabold tracking-tight break-all"
+                    style={{ fontFamily: "var(--font-mono)" }}
+                  >
+                    <span 
+                      className="gradient-text font-bold"
                       style={{
-                        backgroundColor: `${config.color}15`,
-                        borderColor: `${config.color}35`,
-                        boxShadow: `0 0 15px ${config.color}10`,
+                        backgroundImage: `linear-gradient(135deg, #ffffff 0%, ${category ? category.color : 'var(--color-cyber-violet)'} 100%)`
                       }}
-                      transition={{ type: "spring", stiffness: 380, damping: 30 }}
-                    />
-                  )}
+                    >
+                      {skill.command}
+                    </span>
+                  </h1>
                   <span
-                    className="inline-block w-2 h-2 rounded-full mr-1.5 shrink-0"
-                    style={{ backgroundColor: config.color }}
-                  />
-                  {config.label}
-                </button>
-              );
-            })}
-          </div>
-        )}
+                    className="text-xs font-semibold px-3 py-1 rounded-full flex items-center gap-1.5"
+                    style={{
+                      color: COMPLEXITY_CONFIG[skill.complexity].color,
+                      background: `${COMPLEXITY_CONFIG[skill.complexity].color}12`,
+                      border: `1px solid ${COMPLEXITY_CONFIG[skill.complexity].color}25`,
+                    }}
+                  >
+                    <span className="w-1.5 h-1.5 rounded-full bg-current animate-pulse" />
+                    {COMPLEXITY_CONFIG[skill.complexity].label}
+                  </span>
+                </div>
 
-        <MarkdownContent ref={containerRef} htmlContent={htmlContent} />
-      </div>
-    </div>
+                {category && (
+                  <p className="text-xs text-[var(--color-text-muted)] mb-4 sm:mb-6 flex items-center gap-1.5 font-mono select-none max-sm:hidden">
+                    <span>{category.icon}</span>
+                    <span>{category.label}</span>
+                  </p>
+                )}
+
+                <p className="text-base sm:text-lg text-[var(--color-text-secondary)] leading-relaxed max-w-4xl font-sans">
+                  {skill.description}
+                </p>
+
+                {/* Platform Switcher inside banner - Interactive */}
+                {platforms.length > 0 && (
+                  <div className="flex items-center gap-2 flex-wrap mt-4 sm:mt-6 select-none">
+                    <span className="text-xs font-semibold text-[var(--color-text-muted)] mr-2 font-mono">
+                      Nền tảng:
+                    </span>
+                    <div className="flex items-center gap-1.5 flex-wrap">
+                      {platforms.map((p) => {
+                        const config = PLATFORM_CONFIG[p as PlatformId] || { label: p, color: "#999" };
+                        const isActive = selectedPlatform === p;
+                        return (
+                          <button
+                            key={p}
+                            onClick={() => selectPlatform(p)}
+                            className={cn(
+                              "relative px-3 py-1 text-[10px] font-mono rounded-full transition-all duration-300 cursor-pointer whitespace-nowrap z-10 flex items-center shrink-0 border bg-zinc-900/40 border-zinc-800/60 active:scale-95",
+                              isActive
+                                ? "text-[var(--color-text-primary)] font-semibold border-transparent bg-transparent"
+                                : "text-[var(--color-text-muted)] hover:text-[var(--color-text-primary)] hover:border-zinc-700/60"
+                            )}
+                          >
+                            {isActive && (
+                              <motion.span
+                                layoutId="activePlatformBubble"
+                                className="absolute inset-0 rounded-full border -z-10 shadow-[0_0_12px_rgba(0,0,0,0.5)]"
+                                style={{
+                                  backgroundColor: `${config.color}15`,
+                                  borderColor: `${config.color}35`,
+                                  boxShadow: `0 0 15px ${config.color}10`,
+                                }}
+                                transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                              />
+                            )}
+                            <span
+                              className="inline-block w-2 h-2 rounded-full mr-1.5 shrink-0"
+                              style={{ backgroundColor: config.color }}
+                            />
+                            {config.label}
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+                )}
+
+                <div className="flex items-center gap-4 flex-wrap mt-5 sm:mt-8 pt-4 sm:pt-6 border-t border-[var(--color-border)] select-none">
+                  {skill.sourceUrl && (
+                    <a
+                      href={skill.sourceUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="btn-secondary text-[11px] py-1.5 px-3.5 flex items-center gap-1.5 no-underline hover:scale-102 active:scale-98"
+                    >
+                      <ExternalLink size={12} />
+                      Xem mã nguồn
+                    </a>
+                  )}
+                  <div className="flex items-center gap-1.5 text-[11px] text-[var(--color-text-muted)] font-mono">
+                    <Calendar size={12} />
+                    <span>Xác minh gần nhất: {formatDate(skill.lastVerified)}</span>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+
+            {/* Content & TOC Grid */}
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start w-full">
+              {/* Table of Contents Sidebar - Only on Desktop */}
+              <motion.aside
+                variants={tocVariants}
+                className="hidden lg:block lg:col-span-3 sticky top-28 max-h-[calc(100vh-8rem)] overflow-y-auto pr-6 relative will-change-[transform,opacity] translate-z-0 transform-gpu translate-x-0"
+              >
+                {/* Glowing Cyberpunk Scroll Progress Line */}
+                <div className="absolute right-0 top-0 bottom-0 w-[2px] bg-white/5 rounded-full overflow-hidden">
+                  <motion.div
+                    className="w-full origin-top h-full bg-gradient-to-b from-[var(--color-cyber-violet)] via-[var(--color-neon-indigo)] to-[var(--color-accent-primary)] shadow-[0_0_8px_rgba(139,92,246,0.6)]"
+                    style={{ scaleY }}
+                  />
+                </div>
+
+                <div className="text-xs font-bold uppercase tracking-wider text-[var(--color-text-muted)] mb-4">
+                  Mục Lục Bài Viết
+                </div>
+                {headings.length === 0 ? (
+                  <p className="text-xs text-[var(--color-text-muted)] italic">Không có mục lục</p>
+                ) : (
+                  <ul className="space-y-2 relative">
+                    {headings.map((h) => (
+                      <li key={h.id} className="relative py-1" style={{ paddingLeft: h.level === 3 ? "1rem" : "0px" }}>
+                        <a
+                          href={`#${h.id}`}
+                          onClick={(e) => handleScrollTo(e, h.id)}
+                          className={cn(
+                            "flex items-center gap-2 text-xs py-1 transition-all duration-300 relative z-10 no-underline pl-3",
+                            activeId === h.id
+                              ? "text-[var(--color-accent-primary)] font-semibold"
+                              : "text-[var(--color-text-muted)] hover:text-[var(--color-text-primary)]"
+                          )}
+                        >
+                          {h.level === 3 ? (
+                            <ChevronRight size={10} className="shrink-0 text-zinc-500/60" />
+                          ) : (
+                            getHeadingIcon(h.text)
+                          )}
+                          <span>{h.text}</span>
+                        </a>
+                        {activeId === h.id && (
+                          <motion.div
+                            layoutId="activeTOC"
+                            className="absolute inset-y-0 left-0 right-0 bg-[var(--color-accent-glow)] border-l-2 border-[var(--color-accent-primary)] rounded-r-md -z-10"
+                            transition={{ type: "spring", stiffness: 350, damping: 30 }}
+                          />
+                        )}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </motion.aside>
+
+              {/* Main content pane */}
+              <motion.div
+                variants={contentVariants}
+                className="lg:col-span-9 w-full will-change-[transform,opacity] translate-z-0 transform-gpu"
+              >
+
+
+                <MarkdownContent ref={containerRef} htmlContent={htmlContent} />
+              </motion.div>
+            </div>
+
+            {/* Related Skills */}
+            {relatedSkills.length > 0 && (
+              <motion.div
+                initial="initial"
+                whileInView="whileInView"
+                viewport={scrolledViewport}
+                variants={scrolledFadeInVariants}
+                className="mt-16 pt-8 border-t border-[var(--color-border)] will-change-[transform,opacity] translate-z-0 transform-gpu"
+              >
+                <h2 className="text-xl font-bold mb-6 flex items-center gap-2">
+                  🔗 Skills Liên Quan
+                </h2>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  {relatedSkills.map((rs) => (
+                    <HologramCard
+                      key={rs.slug}
+                      href={`/skills/${rs.slug}`}
+                      className="skill-card"
+                      id={`related-${rs.slug}`}
+                      onClick={(e) => navigateTo(e, `/skills/${rs.slug}`)}
+                    >
+                      <span className="skill-card__command transition-colors duration-200">{rs.command}</span>
+                      <p className="skill-card__description transition-colors duration-200">{rs.description}</p>
+                    </HologramCard>
+                  ))}
+                </div>
+              </motion.div>
+            )}
+
+            {/* Prev / Next Navigation */}
+            <motion.div
+              initial="initial"
+              whileInView="whileInView"
+              viewport={scrolledViewport}
+              variants={scrolledFadeInVariants}
+              className={cn(
+                "mt-16 pt-8 border-t border-[var(--color-border)] grid grid-cols-1 sm:grid-cols-2 gap-4 select-none will-change-[transform,opacity] translate-z-0 transform-gpu",
+                !prevSkill && "max-sm:hidden"
+              )}
+            >
+              {prevSkill ? (
+                <ElasticPaginationLink href={`/skills/${prevSkill.slug}`} isNext={false} skill={prevSkill} onClick={(e) => navigateTo(e, `/skills/${prevSkill.slug}`)} />
+              ) : (
+                <div className="hidden sm:block" />
+              )}
+              {nextSkill ? (
+                <ElasticPaginationLink href={`/skills/${nextSkill.slug}`} isNext={true} skill={nextSkill} onClick={(e) => navigateTo(e, `/skills/${nextSkill.slug}`)} />
+              ) : (
+                <div className="hidden sm:block" />
+              )}
+            </motion.div>
+          </div>
+        </motion.main>
+      </AnimatePresence>
+
+      {/* Floating Back to Top FAB Button */}
+      <AnimatePresence>
+        {showScrollTop && (
+          <motion.button
+            initial={{ opacity: 0, scale: 0.8, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.8, y: 20 }}
+            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+            className="fixed bottom-6 right-6 p-3 rounded-full bg-[var(--color-bg-secondary)] border border-[var(--color-border-accent)] text-[var(--color-accent-primary)] shadow-[0_0_15px_rgba(167,139,250,0.3)] hover:shadow-[0_0_25px_rgba(167,139,250,0.5)] hover:bg-[var(--color-bg-card-hover)] transition-all cursor-pointer z-50 flex items-center justify-center hover:scale-105 active:scale-95 group"
+            title="Cuộn lên đầu trang"
+          >
+            <ArrowUp size={18} className="group-hover:-translate-y-0.5 transition-transform duration-200" />
+          </motion.button>
+        )}
+      </AnimatePresence>
+    </>
   );
 }
+
+// R3: Component phụ của Related Card với hiệu ứng hologram bắt điểm chuột hiệu năng cao
+function HologramCard({ children, href, className, id, onClick }: { children: React.ReactNode; href: string; className?: string; id?: string; onClick?: (e: React.MouseEvent<HTMLAnchorElement>) => void }) {
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+  
+  const rectRef = useRef<DOMRect | null>(null);
+  const rafRef = useRef<number | null>(null);
+
+  function handleMouseEnter(e: React.MouseEvent<HTMLAnchorElement>) {
+    rectRef.current = e.currentTarget.getBoundingClientRect();
+  }
+
+  function handleMouseMove(e: React.MouseEvent<HTMLAnchorElement>) {
+    if (!rectRef.current) {
+      rectRef.current = e.currentTarget.getBoundingClientRect();
+    }
+    
+    const { left, top } = rectRef.current;
+    const x = e.clientX - left;
+    const y = e.clientY - top;
+
+    if (rafRef.current) cancelAnimationFrame(rafRef.current);
+    
+    rafRef.current = requestAnimationFrame(() => {
+      mouseX.set(x);
+      mouseY.set(y);
+    });
+  }
+
+  function handleMouseLeave() {
+    rectRef.current = null;
+    if (rafRef.current) {
+      cancelAnimationFrame(rafRef.current);
+      rafRef.current = null;
+    }
+  }
+
+  return (
+    <Link 
+      href={href} 
+      id={id}
+      onClick={onClick}
+      className={cn("group relative rounded-2xl border border-[var(--color-border)] bg-[var(--color-bg-card)] hover:bg-[var(--color-bg-card-hover)] max-sm:bg-[var(--color-bg-card)]/85 max-sm:backdrop-blur-md max-sm:border-[var(--color-border)] max-sm:shadow-[0_4px_24px_rgba(0,0,0,0.45)] p-5 sm:p-6 overflow-hidden block no-underline will-change-transform hover:scale-[1.01] active:scale-[0.98] transition-all duration-200", className)} 
+      onMouseEnter={handleMouseEnter}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+    >
+      {/* 3D Soft Light Overlay */}
+      <motion.div
+        className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-10"
+        style={{
+          background: useMotionTemplate`
+            radial-gradient(
+              300px circle at ${mouseX}px ${mouseY}px,
+              rgba(139, 92, 246, 0.08),
+              transparent 80%
+            )
+          `
+        }}
+      />
+      {/* Hologram Border Light */}
+      <motion.div
+        className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-10 rounded-2xl"
+        style={{
+          padding: "1.5px",
+          background: useMotionTemplate`
+            radial-gradient(
+              160px circle at ${mouseX}px ${mouseY}px,
+              var(--color-cyber-violet) 0%,
+              var(--color-neon-indigo) 50%,
+              transparent 80%
+            )
+          `,
+          mask: "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
+          maskComposite: "exclude",
+          WebkitMask: "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
+          WebkitMaskComposite: "xor",
+        } as MotionStyle}
+      />
+      {children}
+    </Link>
+  );
+}
+
+const MotionLink = motion(Link);
+
+// R3: Component phụ Pagination với hoạt ảnh Elastic Slide/Gradient
+function ElasticPaginationLink({ href, isNext, skill, onClick }: { href: string; isNext: boolean; skill: Skill; onClick?: (e: React.MouseEvent<HTMLAnchorElement>) => void }) {
+  const containerVariants: Variants = {
+    initial: {},
+    hover: {}
+  };
+
+  const elasticBgVariants: Variants = {
+    initial: { scaleX: 0, opacity: 0 },
+    hover: {
+      scaleX: 1,
+      opacity: 1,
+      transition: { type: "spring", stiffness: 220, damping: 18 }
+    }
+  };
+
+  return (
+    <MotionLink
+      href={href}
+      onClick={onClick}
+      initial="initial"
+      whileHover="hover"
+      variants={containerVariants}
+      className={cn(
+        "glow-border p-5 no-underline group flex flex-col gap-1 relative overflow-hidden transition-all duration-300 will-change-transform transform-gpu max-sm:bg-[var(--color-bg-card)]/85 max-sm:backdrop-blur-md max-sm:border-[var(--color-border)] max-sm:shadow-[0_4px_24px_rgba(0,0,0,0.45)] max-sm:rounded-2xl active:scale-[0.98]",
+        isNext ? "sm:items-end sm:text-right items-start text-left max-sm:hidden" : "items-start text-left"
+      )}
+      style={{
+        '--color-cyber-violet': COMPLEXITY_CONFIG[skill.complexity as ComplexityLevel].color
+      } as React.CSSProperties}
+    >
+      {/* Elastic background slide-out đồng bộ thông qua Variant Orchestration */}
+      <motion.div
+        className="absolute inset-0 bg-gradient-to-r from-[var(--color-cyber-violet)]/10 to-[var(--color-neon-indigo)]/10 -z-10"
+        variants={elasticBgVariants}
+        style={{ originX: isNext ? 1 : 0 }}
+      />
+
+      <span className="text-[10px] font-bold font-mono tracking-wider text-[var(--color-text-muted)] uppercase flex items-center gap-1 group-hover:text-[var(--color-accent-primary)] transition-colors relative z-10">
+        {!isNext && <ArrowLeft size={10} />}
+        {isNext ? "Kỹ năng tiếp theo" : "Kỹ năng trước"}
+        {isNext && <ArrowRight size={10} />}
+      </span>
+      <span className="text-base font-bold text-[var(--color-text-primary)] font-mono group-hover:text-[var(--color-accent-primary)] transition-colors mt-1 relative z-10">
+        {skill.command}
+      </span>
+      <span className="text-xs text-[var(--color-text-muted)] font-sans line-clamp-1 mt-0.5 relative z-10 group-hover:text-zinc-200">
+        {skill.oneLiner}
+      </span>
+    </MotionLink>
+  );
+}
+
 
 const MarkdownContent = memo(
   forwardRef<HTMLDivElement, { htmlContent: string }>(({ htmlContent }, ref) => {

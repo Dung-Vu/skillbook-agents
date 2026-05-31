@@ -4,7 +4,7 @@ export const CATEGORIES: Record<string, CategoryConfig> = {
   "reasoning-planning": {
     id: "reasoning-planning",
     label: "Reasoning & Planning",
-    icon: "🧠",
+    icon: "🧩",
     color: "#a78bfa",
     description:
       "Skills giúp agent suy luận, lập kế hoạch, và ra quyết định",
@@ -30,7 +30,7 @@ export const CATEGORIES: Record<string, CategoryConfig> = {
   "content-communication": {
     id: "content-communication",
     label: "Content & Communication",
-    icon: "📝",
+    icon: "✍️",
     color: "#fbbf24",
     description: "Technical writing, documentation, và content generation",
     order: 4,
@@ -38,7 +38,7 @@ export const CATEGORIES: Record<string, CategoryConfig> = {
   "research-analysis": {
     id: "research-analysis",
     label: "Research & Analysis",
-    icon: "🔍",
+    icon: "🔭",
     color: "#f472b6",
     description: "Web research, data analysis, và fact-checking patterns",
     order: 5,
@@ -54,7 +54,7 @@ export const CATEGORIES: Record<string, CategoryConfig> = {
   "persona-behavior": {
     id: "persona-behavior",
     label: "Persona & Behavior",
-    icon: "🎭",
+    icon: "🤖",
     color: "#c084fc",
     description:
       "Role-based prompts, communication style, và domain expertise",
@@ -63,7 +63,7 @@ export const CATEGORIES: Record<string, CategoryConfig> = {
   "workflow-orchestration": {
     id: "workflow-orchestration",
     label: "Workflow & Orchestration",
-    icon: "🔄",
+    icon: "🚀",
     color: "#2dd4bf",
     description: "Multi-agent coordination, pipeline, và state management",
     order: 8,
@@ -71,7 +71,7 @@ export const CATEGORIES: Record<string, CategoryConfig> = {
   "creative-design": {
     id: "creative-design",
     label: "Creative & Design",
-    icon: "🎨",
+    icon: "🪄",
     color: "#fb923c",
     description: "UI generation, image prompting, và creative assistance",
     order: 9,
@@ -83,6 +83,23 @@ export const CATEGORIES: Record<string, CategoryConfig> = {
     color: "#38bdf8",
     description: "RAG, knowledge bases, data transformation, và vector search",
     order: 10,
+  },
+  "bioinformatics-genomics": {
+    id: "bioinformatics-genomics",
+    label: "Bioinformatics & Genomics",
+    icon: "🧬",
+    color: "#14b8a6",
+    description:
+      "Protein analysis, variant annotation, gene databases, và structural biology",
+    order: 11,
+  },
+  "mobile-development": {
+    id: "mobile-development",
+    label: "Mobile Development",
+    icon: "📱",
+    color: "#a3e635",
+    description: "Android/iOS development tools, SDKs, và device management",
+    order: 12,
   },
 } as const;
 

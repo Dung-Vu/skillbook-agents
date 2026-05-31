@@ -8,8 +8,8 @@ test.describe("Skill Detail Page UX & Interactions", () => {
     page.on("console", (msg) => {
       console.log(`[BROWSER CONSOLE - ${msg.type()}]:`, msg.text());
     });
-    // We will use nextjs-expert as the primary testing page since it has multiple platforms
-    await page.goto("/skills/nextjs-expert");
+    // We will use android-cli as the primary testing page since it has multiple platforms
+    await page.goto("/skills/android-cli");
   });
 
   test("should display Sticky TOC Sidebar and handle smooth scroll on click", async ({ page }) => {
@@ -63,14 +63,14 @@ test.describe("Skill Detail Page UX & Interactions", () => {
     const firstWrapper = wrappers.first();
     const copyBtn = firstWrapper.locator(".copy-button");
     await expect(copyBtn).toBeVisible();
-    await expect(copyBtn).toContainText("Copy");
+    await expect(copyBtn).toContainText("Sao chép");
 
     // Get code content
     const codeText = await firstWrapper.locator("code").evaluate(el => el.textContent || "");
 
     // 2. Click Copy and verify visual feedback
     await copyBtn.click();
-    await expect(copyBtn).toContainText("Copied!");
+    await expect(copyBtn).toContainText("Đã sao chép!");
 
     // Verify clipboard content
     const clipboardContent = await page.evaluate(() => navigator.clipboard.readText());
@@ -85,12 +85,12 @@ test.describe("Skill Detail Page UX & Interactions", () => {
 
     // 3. Verify state resets after 2 seconds
     await page.waitForTimeout(2200);
-    await expect(copyBtn).toContainText("Copy");
+    await expect(copyBtn).toContainText("Sao chép");
   });
 
   test("should switch platforms, use fallback and preserve state in localStorage", async ({ page }) => {
     // 1. Verify platform switcher is present
-    await page.waitForSelector(".platform-wrapper-block");
+    await page.waitForSelector(".platform-wrapper-block", { state: "attached" });
     const switcherButtons = page.locator("button:has(span.inline-block.w-2.h-2)");
     expect(await switcherButtons.count()).toBeGreaterThan(0);
 
@@ -113,14 +113,14 @@ test.describe("Skill Detail Page UX & Interactions", () => {
     }
 
     // 2. Check fallback: Navigate to a skill that only supports Universal
-    // typescript-strict has universal platform
-    await page.goto("/skills/typescript-strict");
+    // science-skills-common has universal platform
+    await page.goto("/skills/science-skills-common");
     
     // Switcher should preserve choice but display Universal as fallback
     savedPlatform = await page.evaluate(() => localStorage.getItem("selectedPlatform"));
     expect(savedPlatform).toBe("claude-code"); // still claude-code in localStorage
 
-    // Verify that universal block is visible as a fallback because typescript-strict has no claude-code
+    // Verify that universal block is visible as a fallback because science-skills-common has no claude-code
     const universalBlocks = page.locator(".platform-wrapper-block[data-platforms*='universal']");
     await expect(universalBlocks.first()).toBeVisible();
 

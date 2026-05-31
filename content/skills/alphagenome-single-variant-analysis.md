@@ -1,126 +1,97 @@
 ---
 slug: "alphagenome-single-variant-analysis"
-title: "AlphaGenome Single Variant Effect Analysis"
+title: "AlphaGenome Variant Analysis"
 command: "/alphagenome-single-variant-analysis"
-category: "research-analysis"
+category: "bioinformatics-genomics"
 tags:
   - "alphagenome"
   - "variant-effect"
-  - "genomics"
-  - "deep-learning"
+  - "gene-expression"
+  - "chromatin"
+  - "non-coding"
 complexity: "expert"
 platforms:
   - "cursor"
   - "claude-code"
   - "windsurf"
+  - "gemini-cli"
   - "universal"
-featured: false
-description: "Dự đoán tác động của các biến thể di truyền đơn (coding & non-coding) lên biểu hiện gen (RNA-seq), cấu trúc nhiễm sắc chất và ái lực liên kết của protein bằng mô hình deep learning AlphaGenome."
-oneLiner: "Predict genetic variant effects on gene regulation with AlphaGenome."
-sourceUrl: "https://github.com/google-deepmind/alphagenome"
-sourceAuthor: "Antigravity"
-lastVerified: "2026-05-29"
+featured: true
+description: "Phân tích ảnh hưởng của biến thể di truyền lên biểu hiện gen (RNA-seq), khả năng tiếp cận chromatin (DNASE) và các yếu tố điều hòa."
+oneLiner: "Phân tích ảnh hưởng của biến thể di truyền biểu hiện gen bằng AlphaGenome."
+sourceUrl: "https://alphagenome.deepmind.com/"
+sourceAuthor: "Google DeepMind"
+lastVerified: "2026-05-30"
 relatedSkills:
+  - "clinvar-database"
   - "dbsnp-database"
-  - "quickgo-database"
-  - "web-research"
-seoTitle: "AlphaGenome Single Variant Effect Analysis - Skillbook Agents"
-seoDescription: "Cách hướng dẫn AI Agent dự đoán ảnh hưởng của biến thể di truyền lên biểu hiện gen sử dụng mô hình AlphaGenome."
+  - "gnomad-database"
+  - "ensembl-database"
+seoTitle: "AlphaGenome Variant Analysis — Skillbook Agents"
+seoDescription: "Hướng dẫn Agent dự đoán ảnh hưởng biến thể di truyền lên gene expression và chromatin bằng AlphaGenome."
 ---
 
 ## 📖 Tại Sao Cần Skill Này?
 
-Hơn 90% các biến thể di truyền liên quan đến bệnh tật nằm ở vùng không mã hóa (non-coding regions) của bộ gen người. Việc dự đoán xem một đột biến ở vùng enhancer hay promoter ảnh hưởng thế nào đến biểu hiện gen là một thách thức cực kỳ lớn. Nếu thiếu skill này, AI Agent sẽ gặp phải các giới hạn nghiêm trọng:
-- **Bỏ sót biến thể phi mã hóa**: Chỉ tập trung phân tích các đột biến làm thay đổi acid amin (missense/nonsense) và bỏ qua các đột biến ở vùng điều hòa.
-- **Thiếu tính định lượng**: Không thể đưa ra dự đoán định lượng về mức độ tăng/giảm biểu hiện gen (RNA-seq log2 fold change) do biến thể gây ra.
-- **Bỏ qua tính đặc hiệu mô (Tissue specificity)**: Không biết rằng một đột biến có thể chỉ gây hại trong mô gan mà hoàn toàn vô hại trong mô cơ.
+~98% bộ gene người không mã hóa protein (non-coding regions), nhưng chứa các yếu tố điều hòa quan trọng như promoter, enhancer, silencer. Biến thể trong vùng non-coding rất khó đánh giá tác động bằng phương pháp truyền thống.
 
-Skill này hướng dẫn Agent khai thác các tính năng dự đoán sâu sắc của AlphaGenome API thông qua AlphaGenome MCP tool để định lượng tác động của các biến thể gen đơn lên cấu trúc nhiễm sắc chất, ái lực liên kết của các nhân tố phiên mã (Transcription Factors) và biểu hiện gen trong từng mô cụ thể.
+- **Variant effect prediction**: AlphaGenome dự đoán thay đổi RNA-seq, DNASE, ChIP-seq khi thay đổi nucleotide
+- **Multi-track analysis**: Đánh giá đồng thời ảnh hưởng lên gene expression, chromatin accessibility, histone marks, và transcription factor binding
+- **Tissue-specific**: Phân tích theo từng tissue/cell type cụ thể (UBERON/CL ontology)
 
 ## ⚙️ Cách Hoạt Động
 
-AlphaGenome Single Variant Effect Analysis hoạt động dựa trên các mô hình mạng neural sâu (deep learning models) được huấn luyện trên dữ liệu biểu sinh (epigenomic) và phiên mã (transcriptomic) khổng lồ. Quy trình phân tích gồm:
-1. **Định danh biến thể**: Nhận vị trí biến thể dưới dạng định dạng chuẩn `chr:pos:ref>alt` (ví dụ: `chr2:135851020:T>G`) hoặc mã rsID.
-2. **Cắt chuỗi genome cục bộ**: Lấy chuỗi nucleotide xung quanh vị trí biến thể (cửa sổ khoảng 1kb đến 10kb) để làm đầu vào cho mô hình.
-3. **Chạy dự đoán song song (Wild-type vs Variant)**:
-   - Đưa chuỗi gốc (Wild-type sequence) vào mô hình để dự đoán các tín hiệu biểu sinh (DNASE, histone marks) và mức biểu hiện RNA.
-   - Đưa chuỗi đột biến (Variant sequence) vào mô hình để thực hiện dự đoán tương tự.
-4. **Tính toán điểm tác động (Effect Scores)**: Tính toán sự khác biệt giữa hai trạng thái (thường là hiệu số hoặc $\log_2$ fold change) để đánh giá mức độ ảnh hưởng của biến thể lên:
-   - **RNA-seq**: Mức độ biểu hiện của các gen đích lân cận.
-   - **DNASE / ATAC-seq**: Độ mở của chất nhiễm sắc (chromatin accessibility).
-   - **ChIP-seq**: Khả năng liên kết của các nhân tố phiên mã đặc hiệu.
-5. **Phân tích đặc hiệu mô**: Trích xuất kết quả dự đoán riêng biệt cho các loại mô/tế bào đích (ví dụ: máu, gan, não).
+```
+Variant (chr:pos:ref>alt) → AlphaGenome API → 
+Predict changes in RNA-seq, DNASE, ChIP, CTCF → Report impact scores
+```
+
+1. **Input**: Variant ở format `chr:pos:ref>alt` (vd: `chr17:7579472:G>A`)
+2. **Prediction**: AlphaGenome model dự đoán signal changes cho nhiều assay tracks
+3. **Output**: Effect sizes cho RNA-seq, DNASE accessibility, histone modifications, TF binding
 
 ## 🚀 Cách Sử Dụng
 
 ### Universal
 
-Hãy yêu cầu Agent chạy phân tích dự đoán tác động của một đột biến không mã hóa sử dụng mô hình AlphaGenome:
-
 ```markdown
-Hãy sử dụng AlphaGenome MCP tool để phân tích tác động của biến thể di truyền sau:
-1. Biến thể: "chr2:135851020:T>G" (GRCh38)
-2. Hãy chạy mô hình dự đoán để định lượng tác động của đột biến này lên:
-   - Sự thay đổi biểu hiện của gen lân cận *LCT* (RNA-seq log2 fold change) trong mô ruột non (small intestine).
-   - Độ mở của nhiễm sắc chất (chromatin accessibility ATAC-seq) tại vùng enhancer xung quanh.
-   - Ái lực liên kết của nhân tố phiên mã Oct-1 tại vị trí này.
-3. Giải thích cơ chế sinh học phân tử đằng sau kết quả dự đoán thu được.
+# AlphaGenome Analysis Rules
+- Variant phải ở format chr:pos:ref>alt trên GRCh38.
+- Resolve biological terms (tissue/cell type) sang UBERON/CL ontology trước khi query.
+- Báo cáo: gene expression change, chromatin effect, TF binding disruption.
+- Cảnh báo rõ ràng: đây là prediction, cần xác nhận bằng thí nghiệm.
 ```
 
 ### Cursor (.cursorrules)
 
 ```markdown
-# AlphaGenome Analysis Rules
-- Luôn yêu cầu người dùng cung cấp chính xác định dạng tọa độ biến thể `chr:pos:ref>alt` cùng với phiên bản genome tham chiếu (khuyên dùng GRCh38).
-- Khi trình bày điểm tác động của biến thể, hãy sử dụng chỉ số $\log_2 \text{ Fold Change } (\log_2\text{FC})$ rõ ràng. Giá trị dương thể hiện đột biến làm tăng hoạt tính/biểu hiện; giá trị âm thể hiện sự suy giảm.
-- Luôn chỉ ra tính đặc hiệu mô của kết quả dự đoán (tissue specificity), không gộp chung kết quả của tất cả các mô nếu đột biến có tác dụng khác biệt.
+# AlphaGenome
+- Dùng khi user hỏi về non-coding variant effects, pathogenicity, regulatory effects.
+- Resolve tissue names sang ontology IDs (UBERON/CL) trước khi query.
+- Kết hợp với ClinVar và gnomAD để cross-reference clinical significance.
 ```
 
-### Claude Code
+## 💡 Kịch Bản Lập Trình Thực Tế
 
-```markdown
-# Claude Code AlphaGenome Instructions
-- Predict regulatory variant pathogenicity using AlphaGenome deep learning API.
-- Compare predictions for different tissue types (using CL/UBERON ontology terms).
-```
+### 🧑‍💻 Nhà phát triển:
+> "Tôi cần dự đoán ảnh hưởng của biến thể vùng không mã hóa chr17:7579472:G>A lên sự biểu hiện của gene TP53 trong mô vú."
 
-### Windsurf
-
-```markdown
-# Windsurf AlphaGenome Variant Analysis
-- Fetch transcription factor binding affinity predictions for regulatory SNPs.
-- Format results into clear tissue-specific expression graphs.
-```
-
-## 💡 Ví Dụ Thực Tế
-
-### ❌ Không có skill (Agent phân tích cảm tính hoặc bỏ qua đột biến phi mã hóa):
-
-```markdown
-Đột biến chr2:135851020:T>G nằm ở vùng intron hoặc kẽ gen MCM6, không làm thay đổi cấu trúc protein nào nên đây có khả năng cao là một biến thể vô hại (benign variant) không có tác dụng sinh học.
-*(Lưu ý: Sai lầm nghiêm trọng! Đột biến này thực chất là một biến thể điều hòa cực kỳ mạnh)*
-```
-
-### ✅ Có skill (Báo cáo dự đoán khoa học, định lượng chính xác từ AlphaGenome):
-
-```markdown
-Kết quả dự đoán tác động sinh học của biến thể **chr2:135851020:T>G** bằng **AlphaGenome Deep Learning Model**:
-
-### 1. Dự đoán biểu hiện gen (RNA-seq Effect)
-- **Gen đích**: *LCT* (mã hóa enzyme Lactase)
-- **Mô đích**: Ruột non (Small Intestine)
-- **Tác động**: $\log_2 \text{ Fold Change} = +3.45$ (Tăng biểu hiện cực kỳ mạnh mẽ, ~11 lần so với alen gốc T).
-- **Mô đối chứng**: Mô cơ (Skeletal Muscle): $\log_2 \text{ Fold Change} = 0.02$ (Không có thay đổi).
-
-### 2. Dự đoán cấu trúc nhiễm sắc chất (Epigenomic Effect)
-- **ATAC-seq (Độ mở chromatin)**: $\log_2 \text{ Fold Change} = +2.80$ (Tạo ra một vùng nhiễm sắc chất mở rộng, cho phép các máy móc phiên mã tiếp cận dễ dàng hơn).
-- **ChIP-seq (TF Binding affinity)**: Tăng mạnh ái lực liên kết của nhân tố phiên mã **Oct-1** tại vùng trình diện đột biến ($\Delta \text{binding score} = +8.2$).
-
-### 3. Giải thích cơ chế sinh học
-Biến thể G phá vỡ trạng thái đóng của chromatin ở vùng enhancer nằm trong intron của gen *MCM6* lân cận, tạo điều kiện cho yếu tố phiên mã **Oct-1** liên kết mạnh mẽ trong tế bào ruột non. Enhancer này sau đó tương tác vòng lặp (looping) với promoter của gen *LCT*, thúc đẩy quá trình phiên mã liên tục enzyme lactase ở người trưởng thành (Lactase Persistence).
-```
+### 🤖 AI Agent (Đã được trang bị Kỹ năng):
+> "Tôi sẽ thực hiện phân tích này bằng công nghệ mô hình học sâu AlphaGenome thông qua các bước tự động:"
+>
+> 1. **Xác thực định dạng biến thể**: Tôi xác nhận tọa độ biến thể của bạn là chuẩn GRCh38 và đã resolve tên mô vú sang ID ontology chuẩn **UBERON:0001911**.
+> 2. **Chạy dự đoán tín hiệu di truyền**: Tôi gửi truy vấn đến AlphaGenome API để chạy dự đoán đồng thời nhiều track tín hiệu sinh học.
+> 3. **Tổng hợp kết quả RNA-seq & Epigenomics**:
+>    * Biểu hiện gene TP53: Dự đoán giảm mạnh **2.3 lần** trong mô vú (Effect size: -0.85).
+>    * Khả năng tiếp cận Chromatin (DNASE): Giảm mạnh tại vùng promoter (-0.62).
+>    * Gắn yếu tố phiên mã: Vị trí liên kết của SP1 bị phá vỡ hoàn toàn (score: -0.91), làm ảnh hưởng trực tiếp đến chu trình tự điều hòa của p53.
+> 4. **Cảnh báo khoa học**: Tôi gửi báo cáo kèm theo khuyến nghị rằng đây là kết quả dự đoán của mô hình học sâu, bạn nên tiến hành xác thực lại bằng thí nghiệm phóng thích phóng xạ (reporter assay) hoặc chỉnh sửa gene CRISPR.
+>
+> *Toàn bộ báo cáo tác động di truyền đa chiều đã được chuẩn bị đầy đủ giúp bạn hiểu sâu sắc cơ chế điều hòa của biến thể.*
 
 ## ⚠️ Lưu Ý & Gotchas
 
-- **Ý nghĩa của Điểm số (Score Interpretation)**: Điểm tác động lớn không phải lúc nào cũng đồng nghĩa với việc gây bệnh (Pathogenic). Một đột biến làm tăng mạnh biểu hiện gen có thể là một biến thể tiến hóa có lợi (như dung nạp sữa ở người) hoặc ngược lại, kích hoạt oncogene gây ung thư. Agent cần phối hợp với cơ sở dữ liệu lâm sàng như ClinVar để đánh giá tính hướng bệnh.
-- **Giới hạn mô hình**: Các mô hình deep learning được huấn luyện trên dữ liệu thực nghiệm sẵn có. Đối với một số mô hiếm gặp hoặc dòng tế bào không phổ biến, độ tin cậy của dự đoán có thể giảm đi. Hãy nhắc Agent hiển thị khoảng tin cậy (Confidence intervals) của dự đoán nếu mô hình có cung cấp.
+- **Chỉ GRCh38**: Tọa độ phải trên human genome assembly GRCh38. Nếu có hg19 → cần liftover trước.
+- **Prediction, not diagnosis**: Không dùng để chẩn đoán lâm sàng. Luôn cảnh báo người dùng.
+- **Tissue ontology**: Cần resolve tên tissue/cell type sang UBERON hoặc CL IDs — không dùng tên tự do.
+- **Non-coding focus**: Hiệu quả nhất cho variants trong promoter, enhancer, UTR. Coding variants nên dùng VEP (Ensembl) thay thế.

@@ -187,16 +187,23 @@ export function CyberpunkDynamicBackground(): React.ReactElement {
         const xStart = ((xHorizonStart - centerX) * (1.0 + pY * 3.0)) + centerX;
         const xEnd = ((xHorizonStart - centerX) * (1.0 + pYTail * 3.0)) + centerX;
 
+        // Draw outer hardware-accelerated glow line
+        ctx.beginPath();
+        ctx.moveTo(xStart, yStart);
+        ctx.lineTo(xEnd, yEnd);
+        ctx.strokeStyle = st.color.replace("0.8", `${0.15 * pY}`);
+        ctx.lineWidth = st.width * (1.0 + pY * 3.0) + 6.0 * pY;
+        ctx.lineCap = "round";
+        ctx.stroke();
+
+        // Draw inner crisp core line
         ctx.beginPath();
         ctx.moveTo(xStart, yStart);
         ctx.lineTo(xEnd, yEnd);
         ctx.strokeStyle = st.color;
         ctx.lineWidth = st.width * (1.0 + pY * 3.0);
         ctx.lineCap = "round";
-        ctx.shadowColor = st.color;
-        ctx.shadowBlur = 10 * pY;
         ctx.stroke();
-        ctx.shadowBlur = 0; // reset
       }
 
       // --- Draw Horizontal Cyberpunk Laser Scanner Line ---
@@ -214,15 +221,21 @@ export function CyberpunkDynamicBackground(): React.ReactElement {
       ctx.fillRect(0, scanY - 20, width, 40);
 
       // Core crisp line
+      // Draw outer scan line glow
       ctx.beginPath();
       ctx.moveTo(0, scanY);
       ctx.lineTo(width, scanY);
-      ctx.strokeStyle = "rgba(236, 72, 153, 0.55)";
-      ctx.lineWidth = 2.0;
-      ctx.shadowColor = "rgba(236, 72, 153, 0.8)";
-      ctx.shadowBlur = 8;
+      ctx.strokeStyle = "rgba(236, 72, 153, 0.12)";
+      ctx.lineWidth = 10.0;
       ctx.stroke();
-      ctx.shadowBlur = 0; // reset
+
+      // Draw inner scan line core
+      ctx.beginPath();
+      ctx.moveTo(0, scanY);
+      ctx.lineTo(width, scanY);
+      ctx.strokeStyle = "rgba(236, 72, 153, 0.6)";
+      ctx.lineWidth = 2.0;
+      ctx.stroke();
 
       if (isDrawing) {
         animationId = requestAnimationFrame(draw);

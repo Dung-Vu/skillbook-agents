@@ -48,7 +48,7 @@ export function EvolutionDynamicBackground(): React.ReactElement {
     }
 
     const particles: Particle[] = [];
-    const numParticles = 80;
+    const numParticles = 40; // Optimized from 80 to reduce N^2 pairing checks by 75.3%
 
     const resize = (): void => {
       const parent = canvas.parentElement;
@@ -182,32 +182,58 @@ export function EvolutionDynamicBackground(): React.ReactElement {
         p.x = p.baseX * (1.0 - stableFactor) + orbitX * stableFactor;
         p.y = p.baseY * (1.0 - stableFactor) + orbitY * stableFactor;
 
-        // Draw particle
+        const radius = p.size * (1.0 + stableFactor * 0.5);
+        
+        // 1. Draw outer soft glow circle (using activeRGB to avoid regex replace operations)
         ctx.beginPath();
-        ctx.arc(p.x, p.y, p.size * (1.0 + stableFactor * 0.5), 0, Math.PI * 2);
-        ctx.fillStyle = activeColorStr;
-        ctx.shadowColor = activeColorStr;
-        ctx.shadowBlur = 4 + stableFactor * 8;
+        ctx.arc(p.x, p.y, radius + 2.0 + stableFactor * 4.0, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(${activeRGB.r}, ${activeRGB.g}, ${activeRGB.b}, ${0.12 + stableFactor * 0.12})`;
         ctx.fill();
-        ctx.shadowBlur = 0; // reset
+
+        // 2. Draw solid core circle
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, radius, 0, Math.PI * 2);
+        ctx.fillStyle = activeColorStr;
+        ctx.fill();
       }
 
       // 4. Draw Neural Networking Mesh (Stage 1 & 2 peak)
+      // Optimized mesh drawing with AABB, squared distance, and maximum connection bounds.
       if (meshFactor > 0.05) {
         ctx.strokeStyle = `rgba(${activeRGB.r}, ${activeRGB.g}, ${activeRGB.b}, ${meshFactor * 0.15})`;
         ctx.lineWidth = 0.8;
+
+        const maxDist = 130;
+        const maxDistSq = maxDist * maxDist;
+        const maxConnections = 3; // Prevent over-crowded paths and save strokes
+        
+        // Track number of connections for each particle to prevent visual and stroke overload
+        const connectionCounts = new Uint8Array(particles.length);
         
         for (let i = 0; i < particles.length; i++) {
+          if (connectionCounts[i] >= maxConnections) continue;
+          
+          const p1 = particles[i];
+          
           for (let j = i + 1; j < particles.length; j++) {
-            const p1 = particles[i];
+            if (connectionCounts[j] >= maxConnections) continue;
+            
             const p2 = particles[j];
             
             const dx = p1.x - p2.x;
+            // Axis-aligned bounding box (AABB) X-axis prune
+            if (Math.abs(dx) >= maxDist) continue;
+            
             const dy = p1.y - p2.y;
-            const dist = Math.sqrt(dx * dx + dy * dy);
-
-            // Connect if close enough
-            if (dist < 130) {
+            // Axis-aligned bounding box (AABB) Y-axis prune
+            if (Math.abs(dy) >= maxDist) continue;
+            
+            // Squared distance check: avoids costly Math.sqrt
+            const distSq = dx * dx + dy * dy;
+            if (distSq < maxDistSq) {
+              connectionCounts[i]++;
+              connectionCounts[j]++;
+              
               ctx.beginPath();
               ctx.moveTo(p1.x, p1.y);
               ctx.lineTo(p2.x, p2.y);

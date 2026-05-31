@@ -23,7 +23,7 @@ export default function SkillsCatalogPage(): React.ReactElement {
           categoryCountMap={categoryCountMap}
         />
       </main>
-      <Footer />
+      <Footer isLight={true} />
     </>
   );
 }

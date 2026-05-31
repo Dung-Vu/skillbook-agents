@@ -1,107 +1,94 @@
 ---
 slug: "dbsnp-database"
-title: "dbSNP Genetic Variant Lookup"
+title: "dbSNP Variant Lookup"
 command: "/dbsnp-database"
-category: "data-knowledge"
+category: "bioinformatics-genomics"
 tags:
   - "dbsnp"
-  - "genetics"
-  - "single-nucleotide-polymorphism"
+  - "snp"
   - "rsid"
-complexity: "starter"
+  - "variant-lookup"
+  - "allele-frequency"
+complexity: "intermediate"
 platforms:
   - "cursor"
   - "claude-code"
   - "windsurf"
+  - "gemini-cli"
   - "universal"
 featured: false
-description: "Tra cứu các biến thể di truyền ngắn (SNP, indels) trong cơ sở dữ liệu NCBI dbSNP bằng mã rsID hoặc tọa độ GRCh38."
-oneLiner: "Query short genetic variants in NCBI dbSNP."
+description: "Tìm kiếm thông tin SNP, indel bằng mã rsID hoặc tọa độ genome, truy xuất tần số alen và mối liên quan bệnh lý lâm sàng."
+oneLiner: "Tra cứu và bản đồ hóa các biến thể di truyền ngắn trong dbSNP."
 sourceUrl: "https://www.ncbi.nlm.nih.gov/snp/"
-sourceAuthor: "Antigravity"
-lastVerified: "2026-05-29"
+sourceAuthor: "Google DeepMind"
+lastVerified: "2026-05-30"
 relatedSkills:
-  - "uniprot-database"
-  - "quickgo-database"
+  - "clinvar-database"
+  - "gnomad-database"
+  - "ensembl-database"
   - "alphagenome-single-variant-analysis"
-seoTitle: "dbSNP Genetic Variant Lookup - Skillbook Agents"
-seoDescription: "Cách hướng dẫn AI Agent tra cứu biến thể di truyền và định danh SNP bằng rsID qua dbSNP."
+seoTitle: "dbSNP Variant Lookup — Skillbook Agents"
+seoDescription: "Hướng dẫn Agent tra cứu SNPs và indels từ dbSNP, mapping giữa rsID, tọa độ genomic, và HGVS."
 ---
 
 ## 📖 Tại Sao Cần Skill Này?
 
-Khi phân tích dữ liệu bộ gen người (human genomics), việc tra cứu các biến thể di truyền đóng vai trò cốt lõi để xác định nguy cơ bệnh lý hoặc đặc điểm kiểu hình. Tuy nhiên, AI Agent nếu thiếu kết nối với cơ sở dữ liệu thực tế sẽ gặp các vấn đề lớn:
-- **Nhầm lẫn tọa độ gen**: Trộn lẫn giữa các hệ tọa độ tham chiếu khác nhau như GRCh37 (hg19) và GRCh38 (hg38).
-- **Mơ hồ về tần suất alen (Allele Frequency)**: Không thể cung cấp tần suất xuất hiện chính xác của biến thể trong các quần thể người (như 1000 Genomes hay gnomAD).
-- **Sai lệch thông tin kiểu gen**: Nhầm lẫn các nucleotide bị đột biến.
+dbSNP là registry toàn cầu cho biến thể di truyền ngắn — mỗi variant được gán một **rsID** duy nhất (vd: rs1234567). Đây là "số CMND" của variant, được sử dụng rộng rãi trong GWAS, clinical reports, và publications.
 
-Skill này trang bị cho Agent khả năng sử dụng dbSNP MCP tool để phân tích chính xác các mã định danh biến thể di truyền tiêu chuẩn (rsID) và lập bản đồ tọa độ gen đáng tin cậy.
+- **ID resolution**: Chuyển đổi giữa rsID ↔ genomic coordinates ↔ HGVS notation
+- **Allele frequency**: Tần suất allele trong các quần thể (global, population-specific)
+- **Clinical significance**: Liên kết với ClinVar, gene associations, variant type
 
 ## ⚙️ Cách Hoạt Động
 
-dbSNP Genetic Variant Lookup hoạt động thông qua việc tích hợp API Entrez Utilities của NCBI. Khi nhận diện một truy vấn chứa mã biến thể (ví dụ: `rs4988235`), Agent sẽ thực hiện:
-1. **Chuẩn hóa thông tin**: Xác định kiểu nhập liệu (rsID, HGVS string, hoặc VCF format).
-2. **Truy vấn dbSNP API**: Lấy về siêu dữ liệu của biến thể bao gồm: gene association, vị trí trên nhiễm sắc thể (GRCh38), các nucleotide gốc/đột biến (Ref/Alt allele), và ý nghĩa lâm sàng (Clinical Significance).
-3. **Trích xuất tần suất**: Đọc các chỉ số tần suất alen của biến thể trong các quần thể toàn cầu phục vụ mục đích so sánh.
+```
+rsID / Coordinates / HGVS → dbSNP API → 
+Return variant details (type, genes, frequencies, clinical significance)
+```
+
+1. **Input**: rsID (rs123), VCF format (chr:pos:ref:alt), hoặc HGVS string
+2. **Query**: NCBI dbSNP REST API
+3. **Output**: Variant type (SNV/indel), gene associations, allele frequencies (GRCh38), clinical links
 
 ## 🚀 Cách Sử Dụng
 
 ### Universal
 
-Hãy đặt câu hỏi trực tiếp yêu cầu Agent phân tích một mã rsID di truyền cụ thể:
-
 ```markdown
-Sử dụng dbSNP MCP tool để tra cứu thông tin chi tiết về biến thể di truyền sau:
-1. Mã rsID: "rs4988235"
-2. Trích xuất các thông tin: Tên gen liên quan, vị trí nhiễm sắc thể trên bản dựng GRCh38, biến đổi nucleotide cụ thể, và tần suất alen trong quần thể.
-3. Giải thích ngắn gọn tác động sinh học của biến thể này đối với kiểu hình của người mang đột biến.
+# dbSNP Lookup Rules
+- Khi user cung cấp rsID → tra dbSNP để lấy coordinates, gene, allele frequency.
+- Khi user cung cấp genomic coordinates → tra dbSNP để tìm rsID tương ứng.
+- Báo cáo: variant type, gene, allele frequency, clinical significance nếu có.
+- Tọa độ output luôn trên GRCh38.
 ```
 
 ### Cursor (.cursorrules)
 
 ```markdown
-# dbSNP Variant Rules
-- Luôn ưu tiên dùng dbSNP MCP tool khi người dùng cung cấp mã rsID (e.g., `rs...`) hoặc định dạng HGVS (e.g., `NC_000002.12:g.135851020T>G`).
-- Luôn chỉ rõ hệ tọa độ tham chiếu đang được sử dụng (mặc định khuyên dùng GRCh38).
-- Phân biệt rõ ràng giữa Ref Allele (alen tham chiếu gốc) và Alt Allele (alen đột biến).
+# dbSNP
+- dbSNP là bước đầu tiên khi user cung cấp rsID — resolve thành coordinates trước khi dùng tools khác.
+- Allele frequency giúp phân biệt common variant vs rare variant (MAF < 1% = rare).
+- Cross-reference với ClinVar cho clinical interpretation.
 ```
 
-### Claude Code
+## 💡 Kịch Bản Lập Trình Thực Tế
 
-```markdown
-# Claude Code dbSNP Instructions
-- Query the dbSNP database whenever a genetic variant identifier is provided.
-- Format genome coordinates clearly (e.g. Chr2:135,851,020 on GRCh38).
-```
+### 🧑‍💻 Nhà phát triển:
+> "Hãy tra cứu thông tin của mã SNP rs121912651 trên dbSNP để tôi biết vị trí genomic và hậu quả sinh học của nó."
 
-### Windsurf
-
-```markdown
-# Windsurf dbSNP Tool Usage
-- Translate rsIDs to chromosomal locations.
-- Fetch variant clinical significance (e.g. pathogenic, benign, association).
-```
-
-## 💡 Ví Dụ Thực Tế
-
-### ❌ Không có skill (Agent đoán mò thông tin biến thể):
-
-```markdown
-Biến thể rs4988235 nằm trên gen liên quan đến huyết áp và có tần suất xuất hiện rất thấp trong quần thể châu Á. Nó có thể gây ra chứng tăng huyết áp thứ phát.
-*(Lưu ý: Đây hoàn toàn là phỏng đoán sai lệch)*
-```
-
-### ✅ Có skill (Tra cứu chính xác qua dbSNP):
-
-```markdown
-Kết quả truy xuất chính xác từ dbSNP cho biến thể **rs4988235**:
-- **Gen liên quan**: *MCM6* (nằm ở vùng thượng nguồn điều hòa gen *LCT* mã hóa enzyme lactase).
-- **Tọa độ GRCh38**: Nhiễm sắc thể 2 (Chr2:135,851,020), nucleotide đổi từ T sang G (`NC_000002.12:g.135851020T>G`).
-- **Ý nghĩa sinh học**: Đây là đột biến chính quy định đặc tính **dung nạp lactose ở người trưởng thành** (Lactase Persistence). Biến thể G là alen trội cho phép tiếp tục sản sinh enzyme lactase để tiêu hóa sữa khi trưởng thành.
-- **Tần suất quần thể**: Rất cao ở châu Âu (>75%), nhưng cực kỳ thấp ở các quần thể Đông Á (<5%).
-```
+### 🤖 AI Agent (Đã được trang bị Kỹ năng):
+> "Tôi sẽ thực hiện truy vấn và phân tích mã SNP này trên dbSNP thông qua các bước tự động:"
+>
+> 1. **Khởi chạy API dbSNP**: Tôi gửi truy vấn đến cổng API NCBI Entrez để lấy thông tin chi tiết của mã rsID rs121912651.
+> 2. **Ánh xạ tọa độ Genomic**: Tôi xác định vị trí của biến thể nằm trên chromosome 17, tọa độ GRCh38 và HGVS nucleotide change tương ứng.
+> 3. **Đánh giá hậu quả sinh học**: Tôi phân tích chức năng của SNP này nằm trong gene **TP53** và gây ra đột biến sai nghĩa (Missense Variant) p.Arg273Cys, thay đổi acid amin tại domain liên kết DNA.
+> 4. **Trích xuất tần số alen**: Tôi lấy dữ liệu tần số từ dự án 1000 Genomes và gnomAD để báo cáo mức độ phổ biến di truyền của SNP này trong các quần thể người khác nhau.
+>
+> *Thông tin SNP chi tiết và chính xác đã được tổng hợp hoàn chỉnh, hỗ trợ đắc lực cho công tác chú giải dữ liệu NGS.*
 
 ## ⚠️ Lưu Ý & Gotchas
 
-- **Định dạng rsID**: Khi truy xuất, hãy đảm bảo chỉ truyền phần số nguyên hoặc có tiền tố `rs` viết thường (ví dụ: `rs4988235` hoặc `4988235`). Không viết hoa `RS4988235` vì có thể gây lỗi phân tích cú pháp ở một số hệ thống API cũ.
-- **Cập nhật tọa độ**: Do genome tham chiếu liên tục được cải tiến, hãy luôn kiểm tra xem tọa độ hiển thị có khớp với bản dựng mới nhất GRCh38 (hg38) hay bản dựng cũ GRCh37 (hg19) để tránh sai số khi thiết kế mồi PCR.
+- **rsID merge**: Một số rsID cũ đã được merged vào rsID mới — dbSNP tự động redirect.
+- **GRCh38 only**: Tọa độ output trên GRCh38. Nếu user có hg19 coordinates → cần liftover.
+- **Common ≠ benign**: Variant common (MAF >1%) vẫn có thể liên quan đến disease risk (vd: APOE ε4).
+- **Clinical vs frequency**: dbSNP cung cấp frequency, ClinVar cung cấp pathogenicity — dùng cả hai.

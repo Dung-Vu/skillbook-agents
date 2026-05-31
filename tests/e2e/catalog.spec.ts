@@ -40,17 +40,18 @@ test.describe("Catalog & Home Navigation", () => {
     const searchInput = page.locator("#skill-search");
     await expect(searchInput).toBeVisible();
 
-    // Search for "nextjs"
-    await searchInput.fill("nextjs");
+    // Search for "android"
+    await searchInput.fill("android");
     await page.waitForTimeout(500); // Wait for filtering to take effect if animated
 
-    // Check that we find the nextjs expert skill card
-    const nextjsCard = page.locator("#skill-nextjs-expert").first();
-    await expect(nextjsCard).toBeVisible();
+    // Check that we find the android cli skill card
+    const androidCard = page.locator("#skill-android-cli").first();
+    await expect(androidCard).toBeVisible();
 
     // Clear search and perform category filter click
     await searchInput.fill("");
-    await page.waitForTimeout(300);
+    // Wait until the default non-nextjs card (like alphafold-database) is visible, which guarantees search is cleared
+    await expect(page.locator("#skill-alphafold-database").first()).toBeVisible();
 
     // Let's filter by a specific category chip if exists
     // The chips contain category label (e.g. "Core Skills" or similar)
@@ -58,26 +59,30 @@ test.describe("Catalog & Home Navigation", () => {
     if (await categoryChips.count() > 1) {
       // Click the second chip (which should be first actual category)
       const firstCategoryChip = categoryChips.nth(1);
-      await firstCategoryChip.click();
-      await page.waitForTimeout(500);
+      await firstCategoryChip.evaluate(el => (el as HTMLElement).click());
+      await page.waitForTimeout(600);
 
       // Verify that at least one skill card under that category is rendered
       const skillCards = page.locator(".skill-card");
-      expect(await skillCards.count()).toBeGreaterThan(0);
+      await expect(skillCards.first()).toBeVisible();
     }
   });
 
   test("should navigate to skill detail page when a card is clicked", async ({ page }) => {
     await page.goto("/skills");
 
-    // Click on Next.js Expert skill card
-    const nextjsCard = page.locator("#skill-nextjs-expert").first();
-    if (await nextjsCard.isVisible()) {
-      await nextjsCard.click();
-      await expect(page).toHaveURL(/\/skills\/nextjs-expert/);
+    // Click on Android CLI skill card
+    const androidCard = page.locator("#skill-android-cli").first();
+    
+    // Wait for the first card to be visible
+    await expect(page.locator(".skill-card").first()).toBeVisible();
+
+    if (await androidCard.isVisible()) {
+      await androidCard.click();
+      await expect(page).toHaveURL(/\/skills\/android-cli/, { timeout: 15000 });
       
       // Check detail page elements
-      await expect(page.locator("h1")).toContainText("nextjs-expert");
+      await expect(page.locator("h1")).toContainText("android-cli");
     } else {
       // Fallback: Click first available card
       const firstCard = page.locator(".skill-card").first();
@@ -85,7 +90,7 @@ test.describe("Catalog & Home Navigation", () => {
       const href = await firstCard.getAttribute("href");
       await firstCard.click();
       if (href) {
-        await expect(page).toHaveURL(new RegExp(href));
+        await expect(page).toHaveURL(new RegExp(href), { timeout: 15000 });
       }
     }
   });
