@@ -3,14 +3,16 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
-import { Sparkles, Menu, X, Terminal, Info, History, ChevronRight } from "lucide-react";
+import { Sparkles, Menu, X, Terminal, Info, History, ChevronRight, Globe, Search } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
+import { useLanguage } from "@/context/LanguageContext";
 
 export function Header(): React.ReactElement {
   const pathname = usePathname() || "";
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const { language, toggleLanguage, t } = useLanguage();
 
   useEffect(() => {
     const handleScroll = (): void => {
@@ -25,17 +27,17 @@ export function Header(): React.ReactElement {
   const navLinks = [
     {
       href: "/skills",
-      label: "Thư viện Kỹ năng",
+      label: t("nav.skills"),
       activeCheck: (path: string): boolean => path.startsWith("/skills"),
     },
     {
       href: "/about",
-      label: "Giới thiệu",
+      label: t("nav.about"),
       activeCheck: (path: string): boolean => path === "/about",
     },
     {
       href: "/changelog",
-      label: "Lịch sử thay đổi",
+      label: t("nav.changelog"),
       activeCheck: (path: string): boolean => path === "/changelog",
     },
   ];
@@ -132,10 +134,80 @@ export function Header(): React.ReactElement {
               </Link>
             );
           })}
+
+          {/* Premium Search Trigger Button (Desktop) */}
+          <button
+            onClick={() => window.dispatchEvent(new CustomEvent("open-command-palette"))}
+            className={cn(
+              "flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border text-xs font-semibold transition-all duration-300 active:scale-95 cursor-pointer ml-2",
+              isLightThemePage
+                ? "bg-slate-50 border-slate-200 text-slate-600 hover:text-indigo-600 hover:border-indigo-200 hover:shadow-sm"
+                : "bg-white/5 border-white/10 text-[var(--color-text-secondary)] hover:text-white hover:border-white/20"
+            )}
+          >
+            <Search size={13} className="shrink-0" />
+            <span>{t("nav.search")}</span>
+          </button>
+
+          {/* Premium Language Switcher (Desktop) */}
+          <button
+            onClick={toggleLanguage}
+            className={cn(
+              "flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border text-xs font-mono font-bold transition-all duration-300 active:scale-95 cursor-pointer ml-2",
+              isLightThemePage
+                ? "bg-slate-50 border-slate-200 text-slate-600 hover:text-indigo-600 hover:border-indigo-200 hover:shadow-sm"
+                : "bg-white/5 border-white/10 text-[var(--color-text-secondary)] hover:text-white hover:border-white/20"
+            )}
+            title={language === "vi" ? "Switch to English" : "Chuyển sang tiếng Việt"}
+          >
+            <Globe size={13} className="shrink-0" />
+            <span className={cn(
+              language === "vi"
+                ? isLightThemePage ? "text-indigo-600 font-extrabold" : "text-[var(--color-accent-primary)] font-extrabold"
+                : "opacity-40"
+            )}>VI</span>
+            <span className="opacity-20 font-light">/</span>
+            <span className={cn(
+              language === "en"
+                ? isLightThemePage ? "text-indigo-600 font-extrabold" : "text-[var(--color-accent-primary)] font-extrabold"
+                : "opacity-40"
+            )}>EN</span>
+          </button>
         </div>
 
-        {/* Mobile Toggle */}
+        {/* Mobile Toggle & Language Switcher */}
         <div className="flex items-center gap-3 md:hidden">
+          {/* Quick Search Button on Mobile Bar */}
+          <button
+            onClick={() => window.dispatchEvent(new CustomEvent("open-command-palette"))}
+            className={cn(
+              "flex items-center gap-1 px-2.5 py-1 rounded-lg border text-[10px] font-semibold transition-all duration-300 active:scale-95 cursor-pointer",
+              isLightThemePage
+                ? "bg-slate-50 border-slate-200 text-slate-600"
+                : "bg-white/5 border-white/10 text-[var(--color-text-secondary)]"
+            )}
+          >
+            <Search size={11} className="shrink-0" />
+            <span>{t("nav.search")}</span>
+          </button>
+
+          {/* Quick Language Toggle on Mobile Bar */}
+          <button
+            onClick={toggleLanguage}
+            className={cn(
+              "flex items-center gap-1 px-2 py-1 rounded-lg border text-[10px] font-mono font-bold transition-all duration-300 active:scale-95 cursor-pointer",
+              isLightThemePage
+                ? "bg-slate-50 border-slate-200 text-slate-600"
+                : "bg-white/5 border-white/10 text-[var(--color-text-secondary)]"
+            )}
+            title={language === "vi" ? "Switch to English" : "Chuyển sang tiếng Việt"}
+          >
+            <Globe size={11} className="shrink-0" />
+            <span className={cn(language === "vi" ? (isLightThemePage ? "text-indigo-600 font-extrabold" : "text-[var(--color-accent-primary)] font-extrabold") : "opacity-40")}>VI</span>
+            <span className="opacity-20">/</span>
+            <span className={cn(language === "en" ? (isLightThemePage ? "text-indigo-600 font-extrabold" : "text-[var(--color-accent-primary)] font-extrabold") : "opacity-40")}>EN</span>
+          </button>
+
           <button
             className={cn(
               "bg-transparent border-none cursor-pointer p-1",
@@ -218,6 +290,30 @@ export function Header(): React.ReactElement {
                 </Link>
               );
             })}
+
+            {/* Mobile Language Switcher (Expanded) */}
+            <div className={cn(
+              "mt-3 pt-3 border-t flex items-center justify-between px-3",
+              isLightThemePage ? "border-slate-200/60" : "border-white/10"
+            )}>
+              <span className={cn("text-[9px] font-mono font-bold tracking-wider", isLightThemePage ? "text-slate-400" : "text-[var(--color-text-muted)]")}>
+                NGÔN NGỮ / LANGUAGE
+              </span>
+              <button
+                onClick={toggleLanguage}
+                className={cn(
+                  "flex items-center gap-1.5 px-3 py-1.5 rounded-lg border text-xs font-mono font-bold transition-all duration-300 active:scale-95 cursor-pointer",
+                  isLightThemePage
+                    ? "bg-slate-50 border-slate-200 text-slate-700 hover:bg-slate-100"
+                    : "bg-white/5 border-white/10 text-white hover:bg-white/10"
+                )}
+              >
+                <Globe size={13} />
+                <span className={cn(language === "vi" ? (isLightThemePage ? "text-indigo-600 font-extrabold" : "text-[var(--color-accent-primary)] font-extrabold") : "opacity-40")}>VI</span>
+                <span className="opacity-20 font-light">/</span>
+                <span className={cn(language === "en" ? (isLightThemePage ? "text-indigo-600 font-extrabold" : "text-[var(--color-accent-primary)] font-extrabold") : "opacity-40")}>EN</span>
+              </button>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>

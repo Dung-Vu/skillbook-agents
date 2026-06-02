@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { LanguageProvider } from "@/context/LanguageContext";
 import { MeshGridBackground } from "@/components/ui/MeshGridBackground";
 import { 
   Target, 
@@ -114,7 +115,7 @@ export default function AboutPage(): React.ReactElement {
   };
 
   return (
-    <>
+    <LanguageProvider>
       <Header />
       <main className="min-h-screen pt-28 bg-[#f4f6fc] text-slate-800 relative overflow-clip pb-20 transition-colors duration-300">
         
@@ -503,6 +504,6 @@ export default function AboutPage(): React.ReactElement {
         </div>
       </main>
       <Footer />
-    </>
+    </LanguageProvider>
   );
 }

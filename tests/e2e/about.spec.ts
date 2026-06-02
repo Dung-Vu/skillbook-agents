@@ -74,7 +74,7 @@ test.describe("About Page E2E Spec", () => {
     await expect(header).toBeVisible();
 
     // The default step is 0 (Curation & Localization)
-    const defaultDesc = page.locator("p", { hasText: "Chúng tôi tuyển chọn các tri thức lập trình" });
+    const defaultDesc = page.locator("#timeline-details p", { hasText: "Chúng tôi tuyển chọn các tri thức lập trình" });
     await expect(defaultDesc).toBeVisible();
 
     // Find timeline step buttons
@@ -86,12 +86,12 @@ test.describe("About Page E2E Spec", () => {
 
     // Click step 2 and verify details
     await step2Button.click();
-    const step2Desc = page.locator("p", { hasText: "Tri thức thô được tinh chỉnh và đóng gói vào cấu trúc" });
+    const step2Desc = page.locator("#timeline-details p", { hasText: "Tri thức thô được tinh chỉnh và đóng gói vào cấu trúc" });
     await expect(step2Desc).toBeVisible();
 
     // Click step 3 and verify details
     await step3Button.click();
-    const step3Desc = page.locator("p", { hasText: "Mỗi chỉ dẫn phải vượt qua quy trình kiểm thử tự động nghiêm ngặt" });
+    const step3Desc = page.locator("#timeline-details p", { hasText: "Mỗi chỉ dẫn phải vượt qua quy trình kiểm thử tự động nghiêm ngặt" });
     await expect(step3Desc).toBeVisible();
   });
 

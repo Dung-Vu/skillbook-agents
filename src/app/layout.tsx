@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { SmoothScroll } from "@/components/layout/SmoothScroll";
+import { LanguageProvider } from "@/context/LanguageContext";
+import { CommandPalette } from "@/components/ui/CommandPalette";
 
 const inter = Inter({
   subsets: ["latin", "vietnamese"],
@@ -47,11 +49,13 @@ export default function RootLayout({
   return (
     <html lang="vi" className={`${inter.variable} ${jetbrainsMono.variable}`} data-scroll-behavior="smooth" suppressHydrationWarning>
       <body className="antialiased" suppressHydrationWarning>
-        <SmoothScroll>
-          {children}
-        </SmoothScroll>
+        <LanguageProvider>
+          <SmoothScroll>
+            {children}
+            <CommandPalette />
+          </SmoothScroll>
+        </LanguageProvider>
       </body>
     </html>
   );
 }
-

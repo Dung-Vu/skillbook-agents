@@ -16,6 +16,8 @@ import {
 import { CATEGORIES } from "@/lib/categories";
 import { MeshGridBackground } from "@/components/ui/MeshGridBackground";
 import { useTransitionNavigator } from "@/hooks/useTransitionNavigator";
+import { useLanguage } from "@/context/LanguageContext";
+import { TranslationKey } from "@/lib/translations";
 
 interface CustomWindow extends Window {
   __canvasPaused?: boolean;
@@ -81,6 +83,7 @@ interface SkillRowProps {
 
 const SkillRow = React.memo(function SkillRow({ skill, navigateTo }: SkillRowProps): React.ReactElement {
   const [copied, setCopied] = useState(false);
+  const { t } = useLanguage();
 
   const handleCopy = useCallback((e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -104,7 +107,7 @@ const SkillRow = React.memo(function SkillRow({ skill, navigateTo }: SkillRowPro
         <button
           onClick={handleCopy}
           className="p-1 rounded bg-slate-100 border border-slate-200/60 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50/80 opacity-0 group-hover:opacity-100 focus:opacity-100 transition-all duration-200 shrink-0 ml-1 flex items-center justify-center cursor-pointer"
-          title="Sao chép lệnh"
+          title={t("detail.copyCommand")}
         >
           {copied ? (
             <Check size={8} className="text-emerald-600 font-bold" />
@@ -142,6 +145,7 @@ export function SkillCatalogClient({
 
   const [isCategoriesOpen, setIsCategoriesOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const { t } = useLanguage();
 
   useEffect(() => {
     const checkMobile = (): void => {
@@ -283,7 +287,7 @@ export function SkillCatalogClient({
             {/* Desktop Categories Vertical Menu */}
             <div className="hidden lg:block space-y-2">
               <span className="text-[10px] font-mono tracking-[0.2em] font-bold text-slate-400 uppercase block mb-3">
-                ENCYCLOPEDIA / INDEX
+                {t("catalog.index")}
               </span>
               <button
                 onClick={() => handleCategoryClick(null)}
@@ -294,7 +298,7 @@ export function SkillCatalogClient({
                     : "text-slate-600 hover:text-indigo-600 hover:bg-white/80"
                 )}
               >
-                <span>🌐 Tất cả tài liệu</span>
+                <span>{t("catalog.allDocs")}</span>
                 <span className="text-[10px] opacity-70 font-semibold">{skills.length}</span>
               </button>
 
@@ -311,7 +315,7 @@ export function SkillCatalogClient({
                         : "text-slate-600 hover:text-indigo-600 hover:bg-white/80"
                     )}
                   >
-                    <span className="truncate">{cat.icon} {cat.label}</span>
+                    <span className="truncate">{cat.icon} {t(("category." + cat.id) as TranslationKey) || cat.label}</span>
                     <span className="text-[10px] opacity-70 font-semibold">
                       {categoryCountMap[cat.id] || 0}
                     </span>
@@ -323,7 +327,7 @@ export function SkillCatalogClient({
             {/* Compact Platform Sub-Filters */}
             <div className="space-y-2">
               <span className="text-[10px] font-mono tracking-[0.2em] font-bold text-slate-400 uppercase block mb-2">
-                IDE / PLATFORMS
+                {t("catalog.platforms")}
               </span>
               <div className="flex flex-wrap lg:flex-col gap-1.5">
                 {(Object.keys(PLATFORM_CONFIG) as PlatformId[]).slice(0, 8).map((p) => {
@@ -339,7 +343,7 @@ export function SkillCatalogClient({
                           : "bg-white/60 border-slate-200/60 text-slate-600 hover:text-indigo-600 hover:bg-white"
                       )}
                     >
-                      {PLATFORM_CONFIG[p].label}
+                      {t(("platform." + p) as TranslationKey) || PLATFORM_CONFIG[p].label}
                     </button>
                   );
                 })}
@@ -349,7 +353,7 @@ export function SkillCatalogClient({
             {/* Compact Complexity Sub-Filters */}
             <div className="space-y-2">
               <span className="text-[10px] font-mono tracking-[0.2em] font-bold text-slate-400 uppercase block mb-2">
-                COMPLEXITY / LEVEL
+                {t("catalog.complexity")}
               </span>
               <div className="flex flex-wrap lg:flex-col gap-1.5">
                 {(Object.keys(COMPLEXITY_CONFIG) as ComplexityLevel[]).map((c) => {
@@ -365,7 +369,7 @@ export function SkillCatalogClient({
                           : "bg-white/60 border-slate-200/60 text-slate-600 hover:text-indigo-600 hover:bg-white"
                       )}
                     >
-                      {COMPLEXITY_CONFIG[c].dot} {COMPLEXITY_CONFIG[c].label}
+                      {COMPLEXITY_CONFIG[c].dot} {t(("complexity." + c) as TranslationKey) || COMPLEXITY_CONFIG[c].label}
                     </button>
                   );
                 })}
@@ -375,21 +379,21 @@ export function SkillCatalogClient({
             {/* System Status Metrics Summary */}
             <div className="border border-slate-200/60 bg-white/50 p-3.5 rounded-xl font-mono text-[9px] text-slate-400 space-y-1">
               <div className="flex justify-between">
-                <span>SYSTEM STATUS:</span>
+                <span>{t("catalog.systemStatus")}</span>
                 <span className="text-emerald-500 font-bold flex items-center gap-1">
-                  ONLINE <span className="h-1.5 w-1.5 bg-emerald-500 rounded-full inline-block animate-pulse" />
+                  {t("catalog.online")} <span className="h-1.5 w-1.5 bg-emerald-500 rounded-full inline-block animate-pulse" />
                 </span>
               </div>
               <div className="flex justify-between">
-                <span>TOTAL ENGINE:</span>
-                <span className="text-slate-600">{stats.total} SKILLS</span>
+                <span>{t("catalog.totalEngine")}</span>
+                <span className="text-slate-600">{stats.total} {t("catalog.skills")}</span>
               </div>
               <div className="flex justify-between">
-                <span>COMPAT IDE:</span>
-                <span className="text-slate-600">{stats.platformCompat} PLATFORMS</span>
+                <span>{t("catalog.compatIde")}</span>
+                <span className="text-slate-600">{stats.platformCompat} {t("catalog.platformUnit")}</span>
               </div>
               <div className="flex justify-between">
-                <span>INTEGRATION:</span>
+                <span>{t("catalog.integration")}</span>
                 <span className="text-indigo-600 font-bold">ANTIGRAVITY</span>
               </div>
             </div>
@@ -403,10 +407,10 @@ export function SkillCatalogClient({
             {/* SEO & Docs Header Title */}
             <div className="border-b border-slate-200/60 pb-4">
               <h1 className="text-xl sm:text-2xl font-bold font-mono tracking-tight text-indigo-600 uppercase">
-                Skills Catalog
+                {t("catalog.title")}
               </h1>
               <p className="text-xs text-slate-500 mt-1 font-mono">
-                Bách khoa toàn thư kỹ năng dành cho AI Agents.
+                {t("catalog.subtitle")}
               </p>
             </div>
 
@@ -421,20 +425,20 @@ export function SkillCatalogClient({
                     <>
                       <span className="shrink-0">{CATEGORIES[activeCategory]?.icon}</span>
                       <span className="truncate text-left text-slate-800 font-sans font-semibold">
-                        {CATEGORIES[activeCategory]?.label}
+                        {t(("category." + activeCategory) as TranslationKey) || CATEGORIES[activeCategory]?.label}
                       </span>
                     </>
                   ) : (
                     <>
                       <span className="shrink-0">🌐</span>
                       <span className="truncate text-left text-slate-800 font-sans font-semibold">
-                        Tất cả tài liệu
+                        {t("catalog.allDocs")}
                       </span>
                     </>
                   )}
                 </div>
                 <span className="text-[9px] text-indigo-500 font-bold shrink-0 ml-2">
-                  {isCategoriesOpen ? "[ẨN]" : "[HIỆN]"}
+                  {isCategoriesOpen ? t("catalog.mobileHide") : t("catalog.mobileShow")}
                 </span>
               </button>
 
@@ -459,7 +463,7 @@ export function SkillCatalogClient({
                           : "text-slate-600 hover:text-indigo-600 hover:bg-white/80"
                       )}
                     >
-                      <span>🌐 Tất cả tài liệu</span>
+                      <span>{t("catalog.allDocs")}</span>
                       <span className={cn(
                         "text-[9px] font-bold px-1.5 py-0.5 rounded",
                         !activeCategory ? "bg-white/20 text-white" : "bg-slate-100 text-slate-500"
@@ -482,7 +486,7 @@ export function SkillCatalogClient({
                               : "text-slate-600 hover:text-indigo-600 hover:bg-white/80"
                           )}
                         >
-                          <span className="truncate">{cat.icon} {cat.label}</span>
+                          <span className="truncate">{cat.icon} {t(("category." + cat.id) as TranslationKey) || cat.label}</span>
                           <span className={cn(
                             "text-[9px] font-bold px-1.5 py-0.5 rounded",
                             isActive ? "bg-white/20 text-white" : "bg-slate-100 text-slate-500"
@@ -508,7 +512,7 @@ export function SkillCatalogClient({
                 />
                 <input
                   type="text"
-                  placeholder={isMobile ? "Tra cứu" : "Tra cứu bách khoa toàn thư kỹ năng..."}
+                  placeholder={isMobile ? t("catalog.mobileSearchPlaceholder") : t("catalog.searchPlaceholder")}
                   value={searchVal}
                   onChange={(e) => setSearchVal(e.target.value)}
                   className="w-full pl-10 pr-32 py-2.5 bg-transparent border-none rounded-xl text-xs text-slate-800 placeholder:text-slate-400 outline-none font-mono"
@@ -528,35 +532,35 @@ export function SkillCatalogClient({
               </div>
             </div>
 
-            {/* Active filters display bar (hidden on mobile, visible on desktop/tablet) */}
+            {/* Active filters display bar */}
             {hasFilters && (
               <div className="hidden sm:flex items-center gap-1.5 flex-wrap text-[10px] font-mono text-slate-400">
-                <span>BỘ LỌC ĐANG HOẠT ĐỘNG:</span>
+                <span>{t("catalog.activeFilters")}</span>
                 {searchVal && (
                   <span className="px-2 py-0.5 rounded bg-slate-100 border border-slate-200 text-slate-600">
-                    TÌM KIẾM: &quot;{searchVal}&quot;
+                    {t("catalog.filterSearch")} &quot;{searchVal}&quot;
                   </span>
                 )}
                 {activeCategory && (
                   <span className="px-2 py-0.5 rounded bg-slate-100 border border-slate-200 text-slate-600">
-                    CHUYÊN MỤC: {CATEGORIES[activeCategory]?.label || activeCategory}
+                    {t("catalog.filterCategory")} {t(("category." + activeCategory) as TranslationKey) || CATEGORIES[activeCategory]?.label || activeCategory}
                   </span>
                 )}
                 {activePlatform && (
                   <span className="px-2 py-0.5 rounded bg-slate-100 border border-slate-200 text-slate-600">
-                    IDE: {PLATFORM_CONFIG[activePlatform]?.label}
+                    {t("catalog.filterPlatform")} {t(("platform." + activePlatform) as TranslationKey) || PLATFORM_CONFIG[activePlatform]?.label}
                   </span>
                 )}
                 {activeComplexity && (
                   <span className="px-2 py-0.5 rounded bg-slate-100 border border-slate-200 text-slate-600">
-                    ĐỘ KHÓ: {COMPLEXITY_CONFIG[activeComplexity]?.label}
+                    {t("catalog.filterComplexity")} {t(("complexity." + activeComplexity) as TranslationKey) || COMPLEXITY_CONFIG[activeComplexity]?.label}
                   </span>
                 )}
                 <button
                   onClick={clearFilters}
                   className="text-indigo-600 hover:underline border-none bg-transparent cursor-pointer font-bold pl-1"
                 >
-                  [XÓA TẤT CẢ LỌC]
+                  {t("catalog.clearFilters")}
                 </button>
               </div>
             )}
@@ -574,16 +578,16 @@ export function SkillCatalogClient({
                     <Search size={24} />
                   </div>
                   <h3 className="text-base font-bold font-mono text-slate-800 mb-1">
-                    Không tìm thấy kỹ năng nào phù hợp
+                    {t("catalog.noSkills")}
                   </h3>
                   <p className="text-xs text-slate-500 mb-6 max-w-xs leading-relaxed">
-                    Vui lòng điều chỉnh từ khóa tra cứu hoặc xóa các bộ lọc hiện tại trên bảng điều khiển.
+                    {t("catalog.noSkillsDesc")}
                   </p>
                   <button
                     onClick={clearFilters}
                     className="px-4 py-2 text-xs font-bold rounded-lg bg-gradient-to-r from-indigo-600 to-purple-600 hover:scale-[1.02] text-white transition-all duration-150 cursor-pointer shadow-lg"
                   >
-                    Xóa bộ lọc tra cứu
+                    {t("catalog.clearSearchFilters")}
                   </button>
                 </motion.div>
               ) : (
@@ -594,9 +598,9 @@ export function SkillCatalogClient({
                 >
                   {/* Header Row */}
                   <div className="hidden sm:flex items-center justify-between py-2.5 px-4 bg-slate-50/50 border-b border-slate-200/60 text-[10px] text-slate-400 uppercase tracking-wider font-mono font-bold">
-                    <div className="w-[35%]">Cú pháp / Lệnh</div>
-                    <div className="w-[60%]">Mô tả cơ bản</div>
-                    <div className="w-[5%] text-right">Tài liệu</div>
+                    <div className="w-[35%]">{t("catalog.tableHeaderSyntax")}</div>
+                    <div className="w-[60%]">{t("catalog.tableHeaderDesc")}</div>
+                    <div className="w-[5%] text-right">{t("catalog.tableHeaderDocs")}</div>
                   </div>
 
                   {/* Skills flat list with smooth transition */}
@@ -627,7 +631,7 @@ export function SkillCatalogClient({
           </div>
 
         </div>
-      </div>
+        </div>
 
       {/* Embedded style elements for Hologram cards hover shadow effects and card override resets */}
       <style dangerouslySetInnerHTML={{ __html: `

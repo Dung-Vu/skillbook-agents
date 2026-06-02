@@ -12,25 +12,57 @@ import { CATEGORIES } from "@/lib/categories";
 import { PLATFORM_CONFIG, PlatformId } from "@/types/skill";
 import { SkillDetailClient } from "@/components/detail/SkillDetailClient";
 
+interface PageProps {
+  params: Promise<{
+    slug: string;
+  }>;
+}
+
 export async function generateStaticParams(): Promise<Array<{ slug: string }>> {
   return getSkillSlugs().map((slug) => ({ slug }));
 }
 
 export async function generateMetadata(
-  props: PageProps<"/skills/[slug]">
+  props: PageProps
 ): Promise<Metadata> {
   const { slug } = await props.params;
   const skill = getSkillBySlug(slug);
   if (!skill) return { title: "Skill Not Found" };
 
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://skillbook.agents";
+  const title = skill.seoTitle || skill.title;
+  const description = skill.seoDescription || skill.description;
+
   return {
-    title: skill.seoTitle || skill.title,
-    description: skill.seoDescription || skill.description,
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      url: `${baseUrl}/skills/${skill.slug}`,
+      type: "article",
+      locale: "vi_VN",
+      siteName: "Skillbook Agents",
+      images: [
+        {
+          url: `${baseUrl}/images/og-skills-generic.jpg`,
+          width: 1200,
+          height: 630,
+          alt: skill.title,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [`${baseUrl}/images/og-skills-generic.jpg`],
+    },
   };
 }
 
 export default async function SkillDetailPage(
-  props: PageProps<"/skills/[slug]">
+  props: PageProps
 ): Promise<React.ReactElement> {
   const { slug } = await props.params;
   const skill = getSkillBySlug(slug);

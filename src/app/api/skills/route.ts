@@ -12,6 +12,7 @@ export async function GET(): Promise<NextResponse> {
       tags: s.tags,
       description: s.description,
       oneLiner: s.oneLiner,
+      featured: s.featured,
     }));
 
     return NextResponse.json(searchData, {

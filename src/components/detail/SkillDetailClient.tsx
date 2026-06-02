@@ -597,7 +597,7 @@ export function SkillDetailClient({
         try {
           await navigator.clipboard.writeText(codeText);
           copied = true;
-        } catch (err) {
+        } catch {
           // Fallback to execCommand for headless test environments (lacks active window focus)
           try {
             const textArea = document.createElement("textarea");
@@ -918,8 +918,11 @@ export function SkillDetailClient({
         behavior: "smooth",
       });
 
-      if (typeof window !== "undefined") {
+      if (typeof window !== "undefined" && window.history.pushState) {
         window.history.pushState(null, "", `#${id}`);
+      } else if (typeof window !== "undefined") {
+        // eslint-disable-next-line react-hooks/immutability
+        window.location.hash = id;
       }
       setActiveId(id);
     }

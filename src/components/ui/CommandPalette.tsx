@@ -14,6 +14,7 @@ interface SearchSkill {
   tags: string[];
   description: string;
   oneLiner: string;
+  featured: boolean;
 }
 
 const CATEGORY_ICONS: Record<string, string> = {
@@ -31,30 +32,36 @@ const CATEGORY_ICONS: Record<string, string> = {
   "mobile-development": "📱",
 };
 
-export function CommandPalette(): React.ReactElement {
+export function CommandPalette(): React.ReactElement | null {
   const router = useRouter();
+  const [mounted, setMounted] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [query, setQuery] = useState("");
   const [skills, setSkills] = useState<SearchSkill[]>([]);
-  const [recent, setRecent] = useState<SearchSkill[]>(() => {
-    if (typeof window !== "undefined") {
-      const stored = localStorage.getItem("recent-skills");
-      if (stored) {
-        try {
-          return JSON.parse(stored);
-        } catch {
-          // Ignore
-        }
-      }
-    }
-    return [];
-  });
+  const [recent, setRecent] = useState<SearchSkill[]>([]);
   const [fuse, setFuse] = useState<Fuse<SearchSkill> | null>(null);
   const results = React.useMemo(() => {
     if (!query || !fuse) return [];
     return fuse.search(query).map((r) => r.item);
   }, [query, fuse]);
   const [selectedIndex, setSelectedIndex] = useState(0);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setMounted(true);
+      if (typeof window !== "undefined") {
+        const stored = localStorage.getItem("recent-skills");
+        if (stored) {
+          try {
+            setRecent(JSON.parse(stored));
+          } catch {
+            // Ignore
+          }
+        }
+      }
+    }, 0);
+    return () => clearTimeout(timer);
+  }, []);
   
   const inputRef = useRef<HTMLInputElement>(null);
   const resultsContainerRef = useRef<HTMLDivElement>(null);
@@ -159,7 +166,7 @@ export function CommandPalette(): React.ReactElement {
 
   // Keyboard navigation within the results list
   const handleListKeyDown = (e: React.KeyboardEvent) => {
-    const list = query ? results : recent.length ? recent : skills.slice(0, 5);
+    const list = query ? results : recent.length ? recent : skills.filter((s) => s.featured).slice(0, 6);
     
     if (!list.length) return;
 
@@ -179,13 +186,15 @@ export function CommandPalette(): React.ReactElement {
     ? results 
     : recent.length 
     ? recent 
-    : skills.filter((s) => s.slug === "alphafold-database" || s.slug === "android-cli" || s.slug === "pubmed-database" || s.slug === "pymol" || s.slug === "workflow-skill-creator").slice(0, 5);
+    : skills.filter((s) => s.featured).slice(0, 6);
 
   const listTitle = query 
     ? "Kết quả tìm kiếm" 
     : recent.length 
     ? "Tìm kiếm gần đây" 
     : "Kỹ năng nổi bật";
+
+  if (!mounted) return null;
 
   return (
     <AnimatePresence>

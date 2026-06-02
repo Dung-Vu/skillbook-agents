@@ -59,7 +59,7 @@ test.describe("Performance & Command Palette E2E Tests", () => {
     expect(scrollWarnings.length).toBe(0);
   });
 
-  test.skip("Tier 1: Should open and trigger Command Palette via Ctrl+K / Cmd+K and Header click", async ({ page }) => {
+  test("Tier 1: Should open and trigger Command Palette via Ctrl+K / Cmd+K and Header click", async ({ page }) => {
     await page.goto("/");
     await page.waitForTimeout(1000); // Allow hydration
 
@@ -84,7 +84,7 @@ test.describe("Performance & Command Palette E2E Tests", () => {
     }
   });
 
-  test.skip("Tier 1: Should search and display skills, then select and navigate to a skill detail page", async ({ page }) => {
+  test("Tier 1: Should search and display skills, then select and navigate to a skill detail page", async ({ page }) => {
     await page.goto("/");
     await page.waitForTimeout(1000); // Allow hydration
 
@@ -113,7 +113,7 @@ test.describe("Performance & Command Palette E2E Tests", () => {
   // TIER 2: Boundary & Corner Cases
   // ==========================================
 
-  test.skip("Tier 2: Should verify Command Palette closing mechanisms", async ({ page }) => {
+  test("Tier 2: Should verify Command Palette closing mechanisms", async ({ page }) => {
     await page.goto("/");
     await page.waitForTimeout(500);
 
@@ -124,7 +124,7 @@ test.describe("Performance & Command Palette E2E Tests", () => {
     await page.waitForTimeout(500); // Let opening transition finish
 
     // Locate the backdrop overlay and click it directly using backdrop-blur-sm/bg-black/60 classes with force: true
-    await page.locator('.fixed.inset-0.bg-black\\/60').first().click({ force: true });
+    await page.locator('.fixed.inset-0.bg-black\\/60').first().evaluate(el => (el as HTMLElement).click());
     await page.waitForTimeout(500); // Let closing transition finish
     await expect(page.locator(inputSelector)).not.toBeVisible();
 
@@ -146,7 +146,7 @@ test.describe("Performance & Command Palette E2E Tests", () => {
     }
   });
 
-  test.skip("Tier 2: Should handle empty, long, and invalid search queries elegantly", async ({ page }) => {
+  test("Tier 2: Should handle empty, long, and invalid search queries elegantly", async ({ page }) => {
     await page.goto("/");
     await page.waitForTimeout(500);
 
@@ -219,7 +219,7 @@ test.describe("Performance & Command Palette E2E Tests", () => {
   // TIER 3: Cross-Feature Combinations
   // ==========================================
 
-  test.skip("Tier 3: Should open command palette, search, select skill, and verify details TOC scroll-spy", async ({ page }) => {
+  test("Tier 3: Should open command palette, search, select skill, and verify details TOC scroll-spy", async ({ page }) => {
     // 1. Visit Home
     await page.goto("/");
     await page.waitForTimeout(500);
@@ -266,7 +266,7 @@ test.describe("Performance & Command Palette E2E Tests", () => {
     expect(highlightedLinksCount).toBeLessThanOrEqual(1);
   });
 
-  test.skip("Tier 3: Should save searched queries to localStorage history and reuse them", async ({ page }) => {
+  test("Tier 3: Should save searched queries to localStorage history and reuse them", async ({ page }) => {
     await page.goto("/");
     await page.waitForTimeout(500);
 
@@ -317,7 +317,7 @@ test.describe("Performance & Command Palette E2E Tests", () => {
   // TIER 4: Real-World Workload Journey
   // ==========================================
 
-  test.skip("Tier 4: Simulated Full User Journey Workload", async ({ page }) => {
+  test("Tier 4: Simulated Full User Journey Workload", async ({ page }) => {
     // 1. Load Home page
     await page.goto("/");
     await page.waitForTimeout(500);

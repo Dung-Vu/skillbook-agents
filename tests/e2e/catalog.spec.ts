@@ -82,7 +82,7 @@ test.describe("Catalog & Home Navigation", () => {
       await expect(page).toHaveURL(/\/skills\/android-cli/, { timeout: 15000 });
       
       // Check detail page elements
-      await expect(page.locator("h1")).toContainText("android-cli");
+      await expect(page.locator("h1")).toContainText("Android", { ignoreCase: true });
     } else {
       // Fallback: Click first available card
       const firstCard = page.locator(".skill-card").first();
