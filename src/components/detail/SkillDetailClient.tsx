@@ -4,10 +4,8 @@ import { useMemo, useState, useEffect, useRef, memo, forwardRef } from "react";
 import {
   PLATFORM_CONFIG,
   PlatformId,
-  COMPLEXITY_CONFIG,
   Skill,
   CategoryConfig,
-  ComplexityLevel,
 } from "@/types/skill";
 import {
   motion,
@@ -1001,17 +999,7 @@ export function SkillDetailClient({
                       {skill.command}
                     </span>
                   </h1>
-                  <span
-                    className="text-xs font-semibold px-3 py-1 rounded-full flex items-center gap-1.5"
-                    style={{
-                      color: COMPLEXITY_CONFIG[skill.complexity].color,
-                      background: `${COMPLEXITY_CONFIG[skill.complexity].color}12`,
-                      border: `1px solid ${COMPLEXITY_CONFIG[skill.complexity].color}25`,
-                    }}
-                  >
-                    <span className="w-1.5 h-1.5 rounded-full bg-current animate-pulse" />
-                    {COMPLEXITY_CONFIG[skill.complexity].label}
-                  </span>
+
                 </div>
 
                 {category && (
@@ -1343,7 +1331,7 @@ function ElasticPaginationLink({ href, isNext, skill, onClick }: { href: string;
         isNext ? "sm:items-end sm:text-right items-start text-left max-sm:hidden" : "items-start text-left"
       )}
       style={{
-        '--color-cyber-violet': COMPLEXITY_CONFIG[skill.complexity as ComplexityLevel].color
+        '--color-cyber-violet': '#8b5cf6'
       } as React.CSSProperties}
     >
       {/* Elastic background slide-out đồng bộ thông qua Variant Orchestration */}

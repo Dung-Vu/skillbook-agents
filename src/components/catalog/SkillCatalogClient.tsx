@@ -8,9 +8,7 @@ import Fuse from "fuse.js";
 import { cn } from "@/lib/utils";
 import {
   Skill,
-  COMPLEXITY_CONFIG,
   PLATFORM_CONFIG,
-  ComplexityLevel,
   PlatformId,
 } from "@/types/skill";
 import { CATEGORIES } from "@/lib/categories";
@@ -117,11 +115,11 @@ const SkillRow = React.memo(function SkillRow({ skill, navigateTo }: SkillRowPro
         </button>
       </div>
 
-      <div className="text-[10px] sm:text-[11px] text-slate-500 group-hover:text-slate-800 transition-colors duration-150 sm:w-[60%] mt-1 sm:mt-0 font-sans line-clamp-2 sm:line-clamp-1 leading-relaxed">
+      <div className="text-[10px] sm:text-[11px] text-slate-500 group-hover:text-slate-800 transition-colors duration-150 sm:w-[53%] mt-1 sm:mt-0 font-sans line-clamp-2 sm:line-clamp-1 leading-relaxed">
         {skill.oneLiner || skill.description}
       </div>
 
-      <div className="hidden sm:flex sm:w-[5%] justify-end text-slate-400 group-hover:text-indigo-600 group-hover:translate-x-1.5 transition-all duration-200 shrink-0">
+      <div className="hidden sm:flex sm:w-[12%] justify-end text-slate-400 group-hover:text-indigo-600 group-hover:translate-x-1.5 transition-all duration-200 shrink-0">
         <ArrowRight size={11} />
       </div>
     </Link>
@@ -141,7 +139,6 @@ export function SkillCatalogClient({
 
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
   const [activePlatform, setActivePlatform] = useState<PlatformId | null>(null);
-  const [activeComplexity, setActiveComplexity] = useState<ComplexityLevel | null>(null);
 
   const [isCategoriesOpen, setIsCategoriesOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
@@ -179,11 +176,8 @@ export function SkillCatalogClient({
     if (activePlatform) {
       result = result.filter((s) => s.platforms && s.platforms.includes(activePlatform));
     }
-    if (activeComplexity) {
-      result = result.filter((s) => s.complexity === activeComplexity);
-    }
     return result;
-  }, [skills, activeCategory, activePlatform, activeComplexity]);
+  }, [skills, activeCategory, activePlatform]);
 
   const scopedFuse = useMemo(() => {
     return new Fuse(categoryScopedSkills, {
@@ -230,21 +224,16 @@ export function SkillCatalogClient({
     setActivePlatform((prev) => (prev === platform ? null : platform));
   }, []);
 
-  const handleComplexityClick = useCallback((complexity: ComplexityLevel): void => {
-    setActiveComplexity((prev) => (prev === complexity ? null : complexity));
-  }, []);
-
   const clearFilters = useCallback((): void => {
     setSearchVal("");
     setSearchQuery("");
     setActiveCategory(null);
     setActivePlatform(null);
-    setActiveComplexity(null);
   }, []);
 
   const hasFilters = useMemo(() => {
-    return !!(searchVal || activeCategory || activePlatform || activeComplexity);
-  }, [searchVal, activeCategory, activePlatform, activeComplexity]);
+    return !!(searchVal || activeCategory || activePlatform);
+  }, [searchVal, activeCategory, activePlatform]);
 
   const { isExiting, navigateTo } = useTransitionNavigator();
 
@@ -350,31 +339,7 @@ export function SkillCatalogClient({
               </div>
             </div>
 
-            {/* Compact Complexity Sub-Filters */}
-            <div className="space-y-2">
-              <span className="text-[10px] font-mono tracking-[0.2em] font-bold text-slate-400 uppercase block mb-2">
-                {t("catalog.complexity")}
-              </span>
-              <div className="flex flex-wrap lg:flex-col gap-1.5">
-                {(Object.keys(COMPLEXITY_CONFIG) as ComplexityLevel[]).map((c) => {
-                  const isActive = activeComplexity === c;
-                  return (
-                    <button
-                      key={c}
-                      onClick={() => handleComplexityClick(c)}
-                      className={cn(
-                        "text-[10px] font-mono text-left px-3 py-1.5 rounded-lg border cursor-pointer transition-all duration-150",
-                        isActive 
-                          ? "bg-indigo-50 border-indigo-200 text-indigo-600 font-bold shadow-sm" 
-                          : "bg-white/60 border-slate-200/60 text-slate-600 hover:text-indigo-600 hover:bg-white"
-                      )}
-                    >
-                      {COMPLEXITY_CONFIG[c].dot} {t(("complexity." + c) as TranslationKey) || COMPLEXITY_CONFIG[c].label}
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
+
 
             {/* System Status Metrics Summary */}
             <div className="border border-slate-200/60 bg-white/50 p-3.5 rounded-xl font-mono text-[9px] text-slate-400 space-y-1">
@@ -551,11 +516,7 @@ export function SkillCatalogClient({
                     {t("catalog.filterPlatform")} {t(("platform." + activePlatform) as TranslationKey) || PLATFORM_CONFIG[activePlatform]?.label}
                   </span>
                 )}
-                {activeComplexity && (
-                  <span className="px-2 py-0.5 rounded bg-slate-100 border border-slate-200 text-slate-600">
-                    {t("catalog.filterComplexity")} {t(("complexity." + activeComplexity) as TranslationKey) || COMPLEXITY_CONFIG[activeComplexity]?.label}
-                  </span>
-                )}
+
                 <button
                   onClick={clearFilters}
                   className="text-indigo-600 hover:underline border-none bg-transparent cursor-pointer font-bold pl-1"
@@ -599,8 +560,8 @@ export function SkillCatalogClient({
                   {/* Header Row */}
                   <div className="hidden sm:flex items-center justify-between py-2.5 px-4 bg-slate-50/50 border-b border-slate-200/60 text-[10px] text-slate-400 uppercase tracking-wider font-mono font-bold">
                     <div className="w-[35%]">{t("catalog.tableHeaderSyntax")}</div>
-                    <div className="w-[60%]">{t("catalog.tableHeaderDesc")}</div>
-                    <div className="w-[5%] text-right">{t("catalog.tableHeaderDocs")}</div>
+                    <div className="w-[53%]">{t("catalog.tableHeaderDesc")}</div>
+                    <div className="w-[12%] text-right whitespace-nowrap">{t("catalog.tableHeaderDocs")}</div>
                   </div>
 
                   {/* Skills flat list with smooth transition */}

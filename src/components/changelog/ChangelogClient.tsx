@@ -22,7 +22,7 @@ const MeshGridBackground = dynamic(
 import { cn } from "@/lib/utils";
 import { Skill } from "@/types/skill";
 import { CATEGORIES } from "@/lib/categories";
-import { COMPLEXITY_CONFIG } from "@/types/skill";
+import { useLanguage } from "@/context/LanguageContext";
 
 interface ChangelogClientProps {
   skills: Skill[];
@@ -37,98 +37,13 @@ interface CoreMilestone {
   badgeClass: string;
 }
 
-const CORE_MILESTONES: CoreMilestone[] = [
-  {
-    milestone: "M7",
-    title: "Nâng Cấp Premium Visual & Tối Ưu Hóa Trực Quan",
-    date: "2026-05-31",
-    description: (
-      <>
-        Viết lại toàn bộ trang Giới thiệu <Link href="/about" className="font-semibold text-indigo-600 hover:underline">/about</Link> thành bảng mạch tri thức tương tác 3D Glassmorphism và quy trình timeline trượt spring dẻo dai. Hiện đại hóa các dẫn chứng mô hình ngôn ngữ lớn sang thế hệ siêu việt (Claude 4.8 Opus, GPT-5.5, Gemini 3.5, DeepSeek-V4). Khắc phục triệt để lỗi hiển thị định dạng in đậm của từ khóa Skills trên giao diện. Tối ưu hóa hiệu năng canvas nền lượng tử (MeshGridBackground) đạt 60 FPS buttery-smooth.
-      </>
-    ),
-    tag: "Premium Visual",
-    badgeClass: "bg-rose-50 border-rose-100 text-rose-600",
-  },
-  {
-    milestone: "M6",
-    title: "Trải Nghiệm Chuyển Cảnh & Encyclopedia Docs",
-    date: "2026-05-31",
-    description: (
-      <>
-        Tái cấu trúc <Link href="/skills" className="font-semibold text-indigo-600 hover:underline">/skills</Link> thành Bách khoa toàn thư phẳng Docs 2 cột chuyên nghiệp, loại bỏ phân nhóm category và view mode rườm rà. Tích hợp hiệu ứng chuyển cảnh trang (Page Transitions) dạng chất lỏng &ldquo;Gliding Zoom &amp; Spring Reveal&rdquo; mượt mà thông qua Next.js template. Tối ưu hóa trang chi tiết kỹ năng, loại bỏ Platform Tab Switcher trùng lặp và nút chia sẻ dư thừa, tích hợp bong bóng mục lục TOC trượt đàn hồi.
-      </>
-    ),
-    tag: "UX / Transitions",
-    badgeClass: "bg-indigo-50 border-indigo-100 text-indigo-600",
-  },
-  {
-    milestone: "M5",
-    title: "Nền Neural Mesh Động Tương Tác & Search Hub",
-    date: "2026-05-30",
-    description: (
-      <>
-        Nâng cấp MeshGridBackground sang nền mạng lưới hạt động tương tác Neural Mesh phản hồi theo con trỏ chuột thời gian thực. Thiết kế lại ô tìm kiếm kính mờ Glassmorphism phát sáng gradient kép, tích hợp Monospace Tech Badge hiển thị số lượng kết quả thời gian thực. Tích hợp nút sao chép nhanh câu lệnh (Quick Copy) hiển thị mượt mà khi hover dòng phẳng của danh mục.
-      </>
-    ),
-    tag: "Interactive Canvas",
-    badgeClass: "bg-violet-50 border-violet-100 text-violet-600",
-  },
-  {
-    milestone: "M4",
-    title: "Hoạt Cảnh GSAP & Tối Ưu Hóa IDE Sandbox",
-    date: "2026-05-30",
-    description: (
-      <>
-        Tích hợp hoạt cảnh mượt mà bằng GSAP tại trang chủ và tối ưu hóa tính năng tìm kiếm mờ (fuzzy search) với Fuse.js trong trang catalog giúp việc tìm kiếm kỹ năng nhanh chóng, chính xác tuyệt đối. Tách biệt component SandboxIDE, giải phóng tài nguyên re-render của React 19 giúp triệt tiêu lag khựng.
-      </>
-    ),
-    tag: "Performance",
-    badgeClass: "bg-emerald-50 border-emerald-100 text-emerald-600",
-  },
-  {
-    milestone: "M3",
-    title: "Tích Hợp 10 Kỹ Năng Y Sinh Mới",
-    date: "2026-05-29",
-    description: (
-      <>
-        Nạp thêm 10 kỹ năng chuyên sâu về phân tích dữ liệu y sinh học (AlphaGenome, dbSNP, ChEMBL, Clinical Trials, gnomAD, GTEx, QuickGO, Reactome, UniProt, và PyMOL) mở rộng khả năng hỗ trợ đắc lực cho các tác vụ nghiên cứu khoa học.
-      </>
-    ),
-    tag: "Content Integration",
-    badgeClass: "bg-blue-50 border-blue-100 text-blue-600",
-  },
-  {
-    milestone: "M2",
-    title: "Detail Page UX & TOC Scroll Spy",
-    date: "2026-05-29",
-    description: (
-      <>
-        Cải tiến giao diện trang chi tiết kỹ năng với mục lục động (Sticky TOC Sidebar) tự động cập nhật trạng thái khi cuộn (Scroll Spy), tích hợp bộ chuyển đổi platform và công cụ sao chép mã nguồn tiện lợi.
-      </>
-    ),
-    tag: "UX / Navigation",
-    badgeClass: "bg-cyan-50 border-cyan-100 text-cyan-600",
-  },
-  {
-    milestone: "M1",
-    title: "E2E Test Infra & CI Setup",
-    date: "2026-05-29",
-    description: (
-      <>
-        Thiết lập cơ sở hạ tầng kiểm thử tự động E2E bằng Playwright, đảm bảo độ ổn định cao và ngăn ngừa lỗi hồi quy (regression) cho các tính năng tương tác chính.
-      </>
-    ),
-    tag: "Infrastructure",
-    badgeClass: "bg-amber-50 border-amber-100 text-amber-600",
-  },
-];
-
 interface CustomWindow extends Window {
   __canvasPaused?: boolean;
 }
 
 export function ChangelogClient({ skills }: ChangelogClientProps): React.ReactElement {
+  const { t } = useLanguage();
+
   // Sort skills by lastVerified date descending
   const sortedSkills = React.useMemo(() => {
     return [...skills].sort((a, b) => {
@@ -142,6 +57,93 @@ export function ChangelogClient({ skills }: ChangelogClientProps): React.ReactEl
       window.dispatchEvent(new CustomEvent("canvas-resume"));
     }
   }, []);
+
+  const CORE_MILESTONES: CoreMilestone[] = React.useMemo(() => [
+    {
+      milestone: "M7",
+      title: t("changelog.m7Title"),
+      date: "2026-05-31",
+      description: (
+        <span>
+          {t("changelog.m7Desc")}
+        </span>
+      ),
+      tag: "Premium Visual",
+      badgeClass: "bg-rose-50 border-rose-100 text-rose-600",
+    },
+    {
+      milestone: "M6",
+      title: t("changelog.m6Title"),
+      date: "2026-05-31",
+      description: (
+        <span>
+          {t("changelog.m6Desc")}
+        </span>
+      ),
+      tag: "UX / Transitions",
+      badgeClass: "bg-indigo-50 border-indigo-100 text-indigo-600",
+    },
+    {
+      milestone: "M5",
+      title: t("changelog.m5Title"),
+      date: "2026-05-30",
+      description: (
+        <span>
+          {t("changelog.m5Desc")}
+        </span>
+      ),
+      tag: "Interactive Canvas",
+      badgeClass: "bg-violet-50 border-violet-100 text-violet-600",
+    },
+    {
+      milestone: "M4",
+      title: t("changelog.m4Title"),
+      date: "2026-05-30",
+      description: (
+        <span>
+          {t("changelog.m4Desc")}
+        </span>
+      ),
+      tag: "Performance",
+      badgeClass: "bg-emerald-50 border-emerald-100 text-emerald-600",
+    },
+    {
+      milestone: "M3",
+      title: t("changelog.m3Title"),
+      date: "2026-05-29",
+      description: (
+        <span>
+          {t("changelog.m3Desc")}
+        </span>
+      ),
+      tag: "Content Integration",
+      badgeClass: "bg-blue-50 border-blue-100 text-blue-600",
+    },
+    {
+      milestone: "M2",
+      title: t("changelog.m2Title"),
+      date: "2026-05-29",
+      description: (
+        <span>
+          {t("changelog.m2Desc")}
+        </span>
+      ),
+      tag: "UX / Navigation",
+      badgeClass: "bg-cyan-50 border-cyan-100 text-cyan-600",
+    },
+    {
+      milestone: "M1",
+      title: t("changelog.m1Title"),
+      date: "2026-05-29",
+      description: (
+        <span>
+          {t("changelog.m1Desc")}
+        </span>
+      ),
+      tag: "Infrastructure",
+      badgeClass: "bg-amber-50 border-amber-100 text-amber-600",
+    },
+  ], [t]);
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -191,16 +193,13 @@ export function ChangelogClient({ skills }: ChangelogClientProps): React.ReactEl
           >
             <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-mono font-bold tracking-wider uppercase text-indigo-600 bg-indigo-50 border border-indigo-100 mb-4">
               <Sparkles size={10} className="animate-spin" style={{ animationDuration: "6s" }} />
-              DEVELOPMENT JOURNAL / CHANGELOG
+              {t("changelog.briefing")}
             </span>
             <h1 className="text-3xl sm:text-4xl md:text-5xl font-black mb-6 leading-tight tracking-tight text-slate-900">
-              Lịch sử phát triển & <br />
-              <span className="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
-                Xác minh Kỹ năng
-              </span>
+              {t("changelog.title")}
             </h1>
             <p className="text-base sm:text-lg text-slate-600 leading-relaxed font-sans">
-              Theo dõi nhật ký cập nhật toàn diện và quy trình xác minh kỹ năng tự động đảm bảo tính liêm chính 100% Passed dành cho AI Agents.
+              {t("changelog.desc")}
             </p>
           </motion.div>
 
@@ -210,7 +209,7 @@ export function ChangelogClient({ skills }: ChangelogClientProps): React.ReactEl
             <div className="lg:col-span-7">
               <h2 className="text-xl font-bold mb-8 flex items-center gap-2 text-slate-900 border-b border-slate-200 pb-3 font-mono">
                 <Milestone className="text-indigo-500" size={18} />
-                MỐC LỊCH SỬ LÕI (CORE MILESTONES)
+                {t("changelog.coreMilestones")}
               </h2>
               
               <motion.div 
@@ -257,7 +256,7 @@ export function ChangelogClient({ skills }: ChangelogClientProps): React.ReactEl
               <div>
                 <h2 className="text-xl font-bold mb-6 flex items-center gap-2 text-slate-900 border-b border-slate-200 pb-3 font-mono">
                   <Cpu className="text-indigo-500" size={18} />
-                  RECENTLY VERIFIED (TOP 5)
+                  {t("changelog.recentlyVerified")}
                 </h2>
 
                 <motion.div 
@@ -268,7 +267,6 @@ export function ChangelogClient({ skills }: ChangelogClientProps): React.ReactEl
                 >
                   {sortedSkills.slice(0, 5).map((skill) => {
                     const category = CATEGORIES[skill.category];
-                    const complexity = COMPLEXITY_CONFIG[skill.complexity];
                     
                     return (
                       <motion.div 
@@ -310,16 +308,6 @@ export function ChangelogClient({ skills }: ChangelogClientProps): React.ReactEl
                               </span>
                             )}
                             <div className="flex items-center gap-2">
-                              <span
-                                className="text-[8px] font-mono font-bold px-1.5 py-0.5 rounded"
-                                style={{
-                                  color: complexity.color,
-                                  background: `${complexity.color}15`,
-                                  border: `1px solid ${complexity.color}20`,
-                                }}
-                              >
-                                {complexity.dot} {complexity.label.toUpperCase()}
-                              </span>
                               <span className="inline-flex items-center gap-0.5 text-[8px] font-mono font-bold text-emerald-600 bg-emerald-50 border border-emerald-100 px-1 py-0.5 rounded">
                                 <CheckCircle2 size={8} className="animate-pulse" />
                                 PASSED
@@ -338,7 +326,7 @@ export function ChangelogClient({ skills }: ChangelogClientProps): React.ReactEl
                     href="/skills" 
                     className="inline-flex items-center gap-1.5 px-5 py-2.5 text-[10px] font-mono font-bold tracking-wider uppercase text-white bg-indigo-600 hover:bg-indigo-700 active:scale-98 transition-all duration-300 rounded-full shadow-md hover:shadow-indigo-500/10 cursor-pointer border-none"
                   >
-                    Xem tất cả kỹ năng
+                    {t("changelog.viewAll")}
                     <ArrowRight size={12} />
                   </Link>
                 </div>

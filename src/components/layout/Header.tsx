@@ -135,20 +135,6 @@ export function Header(): React.ReactElement {
             );
           })}
 
-          {/* Premium Search Trigger Button (Desktop) */}
-          <button
-            onClick={() => window.dispatchEvent(new CustomEvent("open-command-palette"))}
-            className={cn(
-              "flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border text-xs font-semibold transition-all duration-300 active:scale-95 cursor-pointer ml-2",
-              isLightThemePage
-                ? "bg-slate-50 border-slate-200 text-slate-600 hover:text-indigo-600 hover:border-indigo-200 hover:shadow-sm"
-                : "bg-white/5 border-white/10 text-[var(--color-text-secondary)] hover:text-white hover:border-white/20"
-            )}
-          >
-            <Search size={13} className="shrink-0" />
-            <span>{t("nav.search")}</span>
-          </button>
-
           {/* Premium Language Switcher (Desktop) */}
           <button
             onClick={toggleLanguage}
@@ -177,20 +163,6 @@ export function Header(): React.ReactElement {
 
         {/* Mobile Toggle & Language Switcher */}
         <div className="flex items-center gap-3 md:hidden">
-          {/* Quick Search Button on Mobile Bar */}
-          <button
-            onClick={() => window.dispatchEvent(new CustomEvent("open-command-palette"))}
-            className={cn(
-              "flex items-center gap-1 px-2.5 py-1 rounded-lg border text-[10px] font-semibold transition-all duration-300 active:scale-95 cursor-pointer",
-              isLightThemePage
-                ? "bg-slate-50 border-slate-200 text-slate-600"
-                : "bg-white/5 border-white/10 text-[var(--color-text-secondary)]"
-            )}
-          >
-            <Search size={11} className="shrink-0" />
-            <span>{t("nav.search")}</span>
-          </button>
-
           {/* Quick Language Toggle on Mobile Bar */}
           <button
             onClick={toggleLanguage}

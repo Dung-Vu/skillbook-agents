@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
-import { LanguageProvider } from "@/context/LanguageContext";
+import { LanguageProvider, useLanguage } from "@/context/LanguageContext";
 import { MeshGridBackground } from "@/components/ui/MeshGridBackground";
 import { 
   Target, 
@@ -25,9 +25,10 @@ interface CustomWindow extends Window {
   __canvasPaused?: boolean;
 }
 
-export default function AboutPage(): React.ReactElement {
+function AboutContent(): React.ReactElement {
   const [activeBlock, setActiveBlock] = useState<"llm" | "tools" | "skills">("skills");
   const [activeStep, setActiveStep] = useState<number>(0);
+  const { t, language } = useLanguage();
 
   const handleBlockClick = (block: "llm" | "tools" | "skills") => {
     setActiveBlock(block);
@@ -68,54 +69,54 @@ export default function AboutPage(): React.ReactElement {
 
   const timelineSteps = [
     {
-      title: "1. Curation & Localization",
-      desc: "Chúng tôi tuyển chọn các tri thức lập trình, giải thuật tối ưu, tự động hóa quy trình và các giải pháp công nghệ tiên tiến từ các dự án mã nguồn mở hàng đầu trên thế giới. Sau đó tiến hành dịch thuật, tối ưu hóa cấu trúc chỉ dẫn và bản địa hóa thuật ngữ sang tiếng Việt chuyên ngành chính xác.",
-      highlight: "Sưu tầm tinh hoa ➔ Bản địa hóa chuẩn xác",
+      title: t("about.curationStep1Title"),
+      desc: t("about.curationStep1Desc"),
+      highlight: t("about.curationStep1Highlight"),
       color: "from-violet-500 to-indigo-500"
     },
     {
-      title: "2. Refinement & Format Optimization",
-      desc: "Tri thức thô được tinh chỉnh và đóng gói vào cấu trúc chỉ dẫn markdown chuẩn mực (như CLAUDE.md, .cursorrules). Cấu trúc này được tối ưu hóa mật độ thông tin để AI Agent dễ dàng hấp thụ, giảm tải Context Window và triệt tiêu hành vi ảo tưởng (hallucination).",
-      highlight: "Tối ưu hóa tri thức ➔ Tiết kiệm tài nguyên",
+      title: t("about.curationStep2Title"),
+      desc: t("about.curationStep2Desc"),
+      highlight: t("about.curationStep2Highlight"),
       color: "from-indigo-500 to-emerald-500"
     },
     {
-      title: "3. E2E Audit & Playwright Verification",
-      desc: "Mỗi chỉ dẫn phải vượt qua quy trình kiểm thử tự động nghiêm ngặt bằng Playwright E2E. Chúng tôi kiểm chứng thực tế xem AI Agent có thực hiện đúng 100% các bước hành động, bắt lỗi ngoại lệ chuẩn và đưa ra kết quả chính xác trong sandbox hay không trước khi xuất bản.",
-      highlight: "Kiểm định thực tế ➔ Tin cậy tuyệt đối",
+      title: t("about.curationStep3Title"),
+      desc: t("about.curationStep3Desc"),
+      highlight: t("about.curationStep3Highlight"),
       color: "from-emerald-500 to-teal-500"
     }
   ];
 
   const agentBlocks = {
     llm: {
-      title: "LLM Core (Động cơ trí tuệ)",
-      subtitle: "ENGINE / COGNITION",
-      desc: "Là mô hình ngôn ngữ lớn nền tảng (ví dụ: Claude 4.8 Opus, GPT-5.5, Gemini 3.5, DeepSeek-V4). Nó cung cấp khả năng suy luận nâng cao, lập luận đa bước phức tạp, hiểu ngữ cảnh sâu sắc và đóng vai trò như 'bộ não nguyên bản' của Agent.",
-      badge: "Cognitive Engine",
+      title: t("about.llmTitle"),
+      subtitle: t("about.llmSub"),
+      desc: t("about.llmDesc"),
+      badge: t("about.llmBadge"),
       color: "text-blue-500",
       bgClass: "bg-blue-500/10 border-blue-500/20"
     },
     tools: {
-      title: "Tools & MCP Connectors (Khả năng hành động)",
-      subtitle: "ACTUATOR / CAPABILITY",
-      desc: "Là các công cụ vật lý, API connectors, hoặc mcp servers (Model Context Protocol). Nó cung cấp cho Agent khả năng tương tác với thế giới thực: đọc/ghi file, truy vấn cơ sở dữ liệu, duyệt web, chạy lệnh terminal. Tools cho Agent 'khả năng hành động', nhưng không cho nó 'phương pháp tư duy'.",
-      badge: "Physical Action",
+      title: t("about.toolsTitle"),
+      subtitle: t("about.toolsSub"),
+      desc: t("about.toolsDesc"),
+      badge: t("about.toolsBadge"),
       color: "text-emerald-500",
       bgClass: "bg-emerald-500/10 border-emerald-500/20"
     },
     skills: {
-      title: "Skills & Rules (Tri thức & Phương pháp)",
-      subtitle: "PARADIGM / METRIC",
-      desc: "Là hệ tri thức bản địa được thiết kế chuyên sâu (ví dụ: Skillbook). Nó hướng dẫn Agent cách tiếp cận một bài toán cụ thể theo cách tốt nhất (Best Practices). Skills định hình phương pháp tư duy, thứ tự thực thi hành động và các quy tắc safe-guard để Agent hoạt động an toàn, chính xác và hiệu quả vượt trội.",
-      badge: "Structured Knowledge",
+      title: t("about.skillsTitle"),
+      subtitle: t("about.skillsSub"),
+      desc: t("about.skillsDesc"),
+      badge: t("about.skillsBadge"),
       color: "text-violet-500",
       bgClass: "bg-violet-500/10 border-violet-500/20"
     }
   };
 
   return (
-    <LanguageProvider>
+    <>
       <Header />
       <main className="min-h-screen pt-28 bg-[#f4f6fc] text-slate-800 relative overflow-clip pb-20 transition-colors duration-300">
         
@@ -139,18 +140,27 @@ export default function AboutPage(): React.ReactElement {
           >
             <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-mono font-bold tracking-wider uppercase text-indigo-600 bg-indigo-50 border border-indigo-100 mb-4">
               <Sparkles size={10} className="animate-spin" style={{ animationDuration: "6s" }} />
-              MISSION BRIEFING / WHITEPAPER
+              {t("about.briefing")}
             </span>
             <h1 className="text-3xl sm:text-4xl md:text-5xl font-black mb-6 leading-tight tracking-tight text-slate-900">
-              Tri thức Bản địa dành cho{" "}
-              <span className="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
-                AI Agents tự chủ
-              </span>
+              {language === "vi" ? (
+                <>
+                  Tri thức Bản địa dành cho{" "}
+                  <span className="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
+                    AI Agents tự chủ
+                  </span>
+                </>
+              ) : (
+                <>
+                  Local Knowledge for{" "}
+                  <span className="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
+                    Autonomous AI Agents
+                  </span>
+                </>
+              )}
             </h1>
             <p className="text-base sm:text-lg text-slate-600 leading-relaxed font-sans">
-              Trong kỷ nguyên AI tự vận hành, sự khác biệt giữa một tác vụ thất bại và
-              một kết quả hoàn mỹ nằm ở <strong className="font-bold text-slate-900">Skills</strong> — các gói tri thức chỉ dẫn được cấu trúc hóa
-              để định hình phương pháp tư duy và hành động tối ưu cho Agent.
+              {t("about.desc")}
             </p>
           </motion.div>
 
@@ -163,7 +173,7 @@ export default function AboutPage(): React.ReactElement {
           >
             <h2 className="text-xl font-bold mb-6 flex items-center gap-2 text-slate-900 border-b border-slate-200 pb-3 font-mono">
               <Cpu size={18} className="text-indigo-500" />
-              INTERACTIVE AGENT PARADIGM
+              {t("about.paradigmTitle")}
             </h2>
 
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
@@ -171,7 +181,7 @@ export default function AboutPage(): React.ReactElement {
               {/* Left Column: Interactive Graph */}
               <div className="lg:col-span-6 flex flex-col justify-center gap-4 relative select-none">
                 <p className="text-[10px] font-mono uppercase tracking-wider text-slate-400 mb-2">
-                  Hover/Click để khám phá bảng mạch tri thức:
+                  {t("about.paradigmPrompt")}
                 </p>
 
                 {/* LLM Block */}
@@ -186,12 +196,12 @@ export default function AboutPage(): React.ReactElement {
                   )}
                 >
                   <div className="flex items-center justify-between">
-                    <span className="text-xs font-mono font-bold text-blue-600">01 / ENGINE / COGNITION</span>
-                    <span className="text-[9px] font-mono px-2 py-0.5 rounded bg-blue-100 text-blue-700 font-semibold uppercase">LLM Core</span>
+                    <span className="text-xs font-mono font-bold text-blue-600">{agentBlocks.llm.subtitle}</span>
+                    <span className="text-[9px] font-mono px-2 py-0.5 rounded bg-blue-100 text-blue-700 font-semibold uppercase">{agentBlocks.llm.badge}</span>
                   </div>
                   <h3 className="text-sm font-bold text-slate-800 mt-2 flex items-center gap-1.5">
                     <Activity size={12} className="text-blue-500" />
-                    Động cơ trí tuệ & Suy luận cơ bản
+                    {agentBlocks.llm.title}
                   </h3>
                   
                   {/* Mobile-only inline details */}
@@ -234,12 +244,12 @@ export default function AboutPage(): React.ReactElement {
                   )}
                 >
                   <div className="flex items-center justify-between">
-                    <span className="text-xs font-mono font-bold text-emerald-600">02 / ACTUATOR / CAPABILITY</span>
-                    <span className="text-[9px] font-mono px-2 py-0.5 rounded bg-emerald-100 text-emerald-700 font-semibold uppercase">Tools & MCP</span>
+                    <span className="text-xs font-mono font-bold text-emerald-600">{agentBlocks.tools.subtitle}</span>
+                    <span className="text-[9px] font-mono px-2 py-0.5 rounded bg-emerald-100 text-emerald-700 font-semibold uppercase">{agentBlocks.tools.badge}</span>
                   </div>
                   <h3 className="text-sm font-bold text-slate-800 mt-2 flex items-center gap-1.5">
                     <Terminal size={12} className="text-emerald-500" />
-                    Khả năng tương tác & Hành động vật lý
+                    {agentBlocks.tools.title}
                   </h3>
 
                   {/* Mobile-only inline details */}
@@ -283,12 +293,12 @@ export default function AboutPage(): React.ReactElement {
                 >
                   <div className="absolute top-0 right-0 w-24 h-24 bg-violet-400/5 blur-md rounded-full pointer-events-none" />
                   <div className="flex items-center justify-between">
-                    <span className="text-xs font-mono font-bold text-violet-600">03 / PARADIGM / METRIC (SKILLBOOK)</span>
-                    <span className="text-[9px] font-mono px-2 py-0.5 rounded bg-violet-100 text-violet-700 font-semibold uppercase">Tri thức & Quyết sách</span>
+                    <span className="text-xs font-mono font-bold text-violet-600">{agentBlocks.skills.subtitle}</span>
+                    <span className="text-[9px] font-mono px-2 py-0.5 rounded bg-violet-100 text-violet-700 font-semibold uppercase">{agentBlocks.skills.badge}</span>
                   </div>
                   <h3 className="text-sm font-bold text-slate-900 mt-2 flex items-center gap-1.5">
                     <Lightbulb size={12} className="text-violet-500 animate-pulse" />
-                    Định hình tư duy & Quy tắc Safe-guard
+                    {agentBlocks.skills.title}
                   </h3>
 
                   {/* Mobile-only inline details */}
@@ -361,7 +371,7 @@ export default function AboutPage(): React.ReactElement {
           >
             <h2 className="text-xl font-bold mb-8 flex items-center gap-2 text-slate-900 border-b border-slate-200 pb-3 font-mono">
               <ShieldCheck size={18} className="text-emerald-500 animate-pulse" />
-              CURATION & AUDITING LIFECYCLE
+              {t("about.curationTitle")}
             </h2>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
@@ -404,7 +414,7 @@ export default function AboutPage(): React.ReactElement {
                           <p>{step.desc}</p>
                           <div className="flex items-center gap-1.5 text-[9px] font-mono text-slate-400 pt-2 border-t border-slate-100/60">
                             <ChevronRight size={10} />
-                            <span>Quy trình kiểm định 100% Passed</span>
+                            <span>{t("about.curationFooter")}</span>
                           </div>
                         </motion.div>
                       )}
@@ -425,7 +435,7 @@ export default function AboutPage(): React.ReactElement {
                   transition={{ duration: 0.2 }}
                 >
                   <span className="text-[9px] font-mono bg-indigo-50 border border-indigo-100 text-indigo-600 font-bold px-2 py-0.5 rounded uppercase">
-                    Chi tiết quy trình kiểm định
+                    {t("about.curationSub")}
                   </span>
                   <p className="text-sm text-slate-700 leading-relaxed font-sans mt-4">
                     {timelineSteps[activeStep].desc}
@@ -435,7 +445,7 @@ export default function AboutPage(): React.ReactElement {
 
               <div className="flex items-center gap-1.5 text-[9px] font-mono text-slate-400 mt-6 pt-4 border-t border-slate-200/60">
                 <ChevronRight size={10} />
-                <span>Quy trình tự động hóa kiểm soát liêm chính mã nguồn 100% Passed</span>
+                <span>{t("about.curationFooter")}</span>
               </div>
             </div>
           </motion.div>
@@ -453,10 +463,10 @@ export default function AboutPage(): React.ReactElement {
                 <div className="w-9 h-9 rounded-lg bg-indigo-50 border border-indigo-100 flex items-center justify-center shrink-0">
                   <Target size={18} className="text-indigo-600" />
                 </div>
-                <h3 className="text-sm sm:text-base font-bold text-slate-900 leading-tight">Curate, Not Create (Sưu tầm & Tinh tuyển)</h3>
+                <h3 className="text-sm sm:text-base font-bold text-slate-900 leading-tight">{t("about.curateNotCreateTitle")}</h3>
               </div>
               <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
-                Chúng tôi không phát minh ra tri thức thô. Skillbook tập trung vào việc tìm kiếm, tuyển chọn kỹ càng các instruction sets hoạt động tốt nhất từ cộng đồng phát triển AI Agents toàn cầu, sau đó cấu trúc lại và bản địa hóa tối đa.
+                {t("about.curateNotCreateDesc")}
               </p>
             </motion.div>
 
@@ -471,10 +481,10 @@ export default function AboutPage(): React.ReactElement {
                 <div className="w-9 h-9 rounded-lg bg-emerald-50 border border-emerald-100 flex items-center justify-center shrink-0">
                   <Heart size={18} className="text-emerald-600" />
                 </div>
-                <h3 className="text-sm sm:text-base font-bold text-slate-900 leading-tight">Quality Over Quantity (Chất lượng thượng tầng)</h3>
+                <h3 className="text-sm sm:text-base font-bold text-slate-900 leading-tight">{t("about.qualityTitle")}</h3>
               </div>
               <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
-                Không chạy theo số lượng. Mỗi câu lệnh hay bộ chỉ dẫn (ruleset) được đưa vào thư viện phải đáp ứng đầy đủ các tiêu chuẩn về an toàn ngữ cảnh, tối giản token và phải vượt qua 100% các kịch bản kiểm thử E2E tự động.
+                {t("about.qualityDesc")}
               </p>
             </motion.div>
           </div>
@@ -488,15 +498,15 @@ export default function AboutPage(): React.ReactElement {
             className="relative rounded-3xl border border-slate-200/80 bg-gradient-to-br from-indigo-50 via-white to-emerald-50 p-4 sm:p-8 md:p-12 text-center overflow-hidden shadow-[0_15px_50px_rgba(0,0,0,0.02)]"
           >
             <div className="absolute inset-0 bg-grid-pattern opacity-[0.03] pointer-events-none" />
-            <h3 className="text-2xl font-black text-slate-900 mb-3">Sẵn sàng trải nghiệm AI đỉnh cao?</h3>
+            <h3 className="text-2xl font-black text-slate-900 mb-3">{t("about.ctaTitle")}</h3>
             <p className="text-sm text-slate-600 mb-8 max-w-xl mx-auto font-sans leading-relaxed">
-              Bắt đầu tra cứu kho tàng bách khoa toàn thư kỹ năng đã được kiểm định nghiêm ngặt để nâng cấp toàn diện năng lực cho AI Agent của bạn ngay hôm nay.
+              {t("about.ctaDesc")}
             </p>
             <Link 
               href="/skills" 
               className="inline-flex items-center gap-2 px-6 py-3 text-xs font-mono font-bold tracking-wider uppercase text-white bg-indigo-600 hover:bg-indigo-700 active:scale-98 transition-all duration-300 rounded-full shadow-lg hover:shadow-indigo-500/20 cursor-pointer border-none"
             >
-              Tra cứu bách khoa toàn thư
+              {t("about.ctaButton")}
               <ArrowRight size={14} />
             </Link>
           </motion.div>
@@ -504,6 +514,14 @@ export default function AboutPage(): React.ReactElement {
         </div>
       </main>
       <Footer />
+    </>
+  );
+}
+
+export default function AboutPage(): React.ReactElement {
+  return (
+    <LanguageProvider>
+      <AboutContent />
     </LanguageProvider>
   );
 }

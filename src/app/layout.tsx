@@ -3,7 +3,6 @@ import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { SmoothScroll } from "@/components/layout/SmoothScroll";
 import { LanguageProvider } from "@/context/LanguageContext";
-import { CommandPalette } from "@/components/ui/CommandPalette";
 
 const inter = Inter({
   subsets: ["latin", "vietnamese"],
@@ -52,7 +51,6 @@ export default function RootLayout({
         <LanguageProvider>
           <SmoothScroll>
             {children}
-            <CommandPalette />
           </SmoothScroll>
         </LanguageProvider>
       </body>
