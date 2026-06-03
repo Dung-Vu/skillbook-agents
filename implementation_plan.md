@@ -35,6 +35,18 @@
 - **TypeScript**: Khắc phục lỗi ép kiểu `Variants` trong Framer Motion 12 tại `AboutClient.tsx`.
 - **Build test**: Chạy thành công `npm run build` không cảnh báo (exit code 0), sinh ra 49 routes tĩnh và động tối ưu.
 
+### Phase 6: Responsive Design Pass 📱 [COMPLETED — 2026-05-31]
+- **Nguồn:** Follow-up `2026-05-31T12:46:15Z`.
+- **Scope:** Audit và sửa responsive overflow trên toàn bộ 5 route chính (`/`, `/skills`, `/skills/[slug]`, `/about`, `/changelog`) ở mọi viewport (mobile/tablet/desktop) — triệt tiêu tràn viền, bẻ dòng lỗi, che khuất phần tử.
+
+### Phase 7: Mobile Slim & Luminous Light Theme ✨ [COMPLETED — 2026-05-31]
+- **Nguồn:** Follow-up `2026-05-31T14:39:41Z` (Mobile redesign + Luminous theme) và `2026-05-31T15:20:33Z` (Slim typography/card).
+- **Scope:** Đồng bộ Luminous Light Theme sáng màu từ desktop xuống mobile, tinh giản typography + card size, triệt tiêu lê thê và lệch màu trên di động.
+
+### Phase 8: Skill Detail Page Final Fix 🎯 [COMPLETED — 2026-05-31]
+- **Nguồn:** Follow-up `2026-05-31T18:39:20Z`.
+- **Scope:** Sửa đổi và tối ưu giao diện trang chi tiết kỹ năng (`/skills/[slug]`) để hiển thị hoàn hảo trên cả desktop và mobile (TOC, related-skills, prev/next nav).
+
 ---
 
 ## 🛡️ Quyết Định Thiết Kế Đã Thống Nhất
@@ -46,5 +58,6 @@
 ---
 
 ## 📊 Kế Hoạch Xác Minh (Verification)
-* **Automated**: `npm run build` và `npm run lint` đạt kết quả thành công (verified).
+* **Automated**: `pnpm run build` (chạy `validate:skills` trước, rồi `next build`) và `pnpm run lint` đạt kết quả thành công (verified).
+* **E2E**: `pnpm run test:e2e` — 18 ca kiểm thử Playwright trên 5 spec files (verified sau cleanup `66c2864`).
 * **Manual**: Tương thích hoàn toàn trên Chrome, Safari, Firefox và các trình duyệt di động iOS/Android.

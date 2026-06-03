@@ -24,10 +24,10 @@ Tạo một tệp tin mới có đuôi mở rộng `.md` trong thư mục `conte
 | `slug` | `string` | ID duy nhất của kỹ năng, bắt buộc phải trùng với tên tệp tin `.md` (không bao gồm đuôi file). |
 | `title` | `string` | Tiêu đề hiển thị đầy đủ của kỹ năng (ví dụ: `"Self-Reflection & Self-Correction"`). |
 | `command` | `string` | Cú pháp lệnh kích hoạt kỹ năng, **bắt buộc phải bắt đầu bằng dấu `/`** (ví dụ: `"/self-reflection"`). |
-| `category` | `string` | Phân loại kỹ năng. Phải thuộc một trong 10 danh mục được hỗ trợ (xem chi tiết bên dưới). |
+| `category` | `string` | Phân loại kỹ năng. Phải thuộc một trong 12 danh mục được hỗ trợ (xem chi tiết bên dưới). |
 | `tags` | `string[]` | Mảng các từ khóa liên quan hỗ trợ tìm kiếm mờ (Fuse.js). |
 | `complexity` | `string` | Mức độ phức tạp. Giá trị hợp lệ: `"starter"`, `"intermediate"`, `"advanced"`, `"expert"`. |
-| `platforms` | `string[]` | Mảng các nền tảng hỗ trợ. Giá trị hợp lệ: `"cursor"`, `"claude-code"`, `"windsurf"`, `"gemini-cli"`, `"copilot"`, `"openai-codex"`, `"universal"`, `"mcp"`. |
+| `platforms` | `string[]` | Mảng các nền tảng hỗ trợ. Giá trị hợp lệ: `"cursor"`, `"claude-code"`, `"windsurf"`, `"gemini-cli"`, `"copilot"`, `"openai-codex"`, `"universal"`, `"mcp"`, `"minimax-cli"`. |
 | `featured` | `boolean` | Đánh dấu kỹ năng nổi bật hiển thị ở trang chủ (`true` hoặc `false`). |
 | `description` | `string` | Mô tả ngắn gọn về tác dụng và chức năng của kỹ năng (tiếng Việt). |
 | `oneLiner` | `string` | Mô tả ngắn gọn 1 dòng bằng tiếng Anh phục vụ hiển thị nhanh. |
@@ -37,8 +37,9 @@ Tạo một tệp tin mới có đuôi mở rộng `.md` trong thư mục `conte
 | `relatedSkills` | `string[]` | Mảng chứa các `slug` của các kỹ năng liên quan có sẵn trong hệ thống để liên kết SEO. |
 | `seoTitle` | `string` | Tiêu đề tối ưu hóa tìm kiếm SEO trên Google. |
 | `seoDescription` | `string` | Mô tả tóm tắt tối ưu SEO hiển thị trên kết quả tìm kiếm. |
+| `provider` | `string` | Bắt buộc. Xác định "trường phái" kỹ năng: `"antigravity"` (5 H2 chuẩn) hoặc `"minimax"` (4 H2 tinh gọn). Ảnh hưởng đến schema heading validation. |
 
-#### Danh sách các `category` hợp lệ:
+#### Danh sách các `category` hợp lệ (12):
 *   `reasoning-planning` (Reasoning & Planning)
 *   `code-engineering` (Code Generation & Engineering)
 *   `tool-integration` (Tool Use & Integration)
@@ -49,6 +50,8 @@ Tạo một tệp tin mới có đuôi mở rộng `.md` trong thư mục `conte
 *   `workflow-orchestration` (Workflow & Orchestration)
 *   `creative-design` (Creative & Design)
 *   `data-knowledge` (Data & Knowledge)
+*   `bioinformatics-genomics` (Bioinformatics & Genomics)
+*   `mobile-development` (Mobile Development)
 
 #### Ví dụ Frontmatter chuẩn:
 ```yaml
@@ -78,8 +81,16 @@ relatedSkills:
   - "task-decomposition"
 seoTitle: "Self-Reflection & Correction Skill for AI Agents"
 seoDescription: "Cách cấu hình prompt để AI Agent có khả năng tự kiểm lỗi logic và sửa chữa code."
+provider: "antigravity"
 ---
 ```
+
+> **Về `provider`** — Hệ thống hỗ trợ **2 trường phái schema H2** (xem `scripts/validate-skills.ts`):
+>
+> - **Antigravity** (5 H2): `## 📖 Tại Sao Cần Skill Này?` → `## ⚙️ Cách Hoạt Động` → `## 🚀 Cách Sử Dụng` → `## 💡 Kịch Bản Lập Trình Thực Tế` → `## ⚠️ Lưu Ý & Gotchas`
+> - **Minimax** (4 H2, dành cho developer-centric tool): `## 📖 Tại Sao AI Agent Của Bạn Cần Kỹ Năng Này?` → `## ⚙️ Cơ Chế Hoạt Động & Quy Trình Tư Duy` → `## 🚀 Bộ Quy Tắc Chỉ Dẫn Cho Agent (Prompt Guidelines)` → `## ⚠️ Cảnh Báo Vận Hành & Mẹo Tối Ưu (Developer Gotchas)`
+>
+> Một kỹ năng `provider: "antigravity"` được phép dùng cấu trúc 5-H2 hoặc 4-H2 (validator chấp nhận cả hai). Một kỹ năng `provider: "minimax"` **chỉ** được dùng cấu trúc 4-H2.
 
 ---
 
@@ -115,32 +126,33 @@ Nội dung Markdown bên dưới Frontmatter phải tuân thủ nghiêm ngặt c
 
 1.  **Cài đặt các thư viện phụ thuộc (Dependencies):**
     ```bash
-    npm install
+    pnpm install
     ```
+    *Repo này dùng **pnpm 11+**. Cài đặt một lần đầu, lần sau pnpm sẽ dùng content-addressable store (offline nếu đã từng cài).*
 
 2.  **Khởi chạy máy chủ phát triển (Dev Server):**
     ```bash
-    npm run dev
+    pnpm run dev
     ```
     *Mở [http://localhost:3000](http://localhost:3000) trên trình duyệt để kiểm tra giao diện trực quan.*
 
 3.  **Kiểm tra và sửa lỗi định dạng, kiểu dữ liệu (ESLint & TypeScript Lint):**
     ```bash
-    npm run lint
+    pnpm run lint
     ```
     *Đảm bảo không có bất kỳ cảnh báo hay lỗi đỏ nào từ hệ thống linter.*
 
 4.  **Biên dịch thử nghiệm (Production Build):**
     ```bash
-    npm run build
+    pnpm run build
     ```
-    *Next.js sẽ kết xuất tĩnh toàn bộ các trang bao gồm `/changelog`, `/sitemap.xml` và `/robots.txt`. Đảm bảo quá trình compile tĩnh diễn ra thành công không gặp lỗi Hydration.*
+    *Script `build` sẽ tự động chạy `validate:skills` trước rồi mới `next build`. Next.js sẽ kết xuất tĩnh toàn bộ các trang bao gồm `/changelog`, `/sitemap.xml` và `/robots.txt`. Đảm bảo quá trình compile tĩnh diễn ra thành công không gặp lỗi Hydration.*
 
 5.  **Chạy Playwright End-to-End Tests:**
     ```bash
-    npm run test:e2e
+    pnpm run test:e2e
     ```
-    *Đảm bảo toàn bộ các ca kiểm thử E2E của hệ thống đều vượt qua (PASS) hoàn toàn.*
+    *Đảm bảo toàn bộ **18 ca kiểm thử E2E** trong 5 spec files (`tests/e2e/*.spec.ts`) đều vượt qua (PASS) hoàn toàn.*
 
 ---
 
