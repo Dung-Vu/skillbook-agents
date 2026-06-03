@@ -1,33 +1,36 @@
 ---
-slug: "clinvar-database"
-title: "ClinVar Clinical Variants"
-command: "/clinvar-database"
-category: "bioinformatics-genomics"
+slug: clinvar-database
+title: ClinVar Clinical Variants
+command: /clinvar-database
+category: bioinformatics-genomics
 tags:
-  - "clinvar"
-  - "pathogenicity"
-  - "clinical-variants"
-  - "genetic-testing"
-complexity: "intermediate"
+  - clinvar
+  - pathogenicity
+  - clinical-variants
+  - genetic-testing
+complexity: intermediate
 platforms:
-  - "cursor"
-  - "claude-code"
-  - "windsurf"
-  - "gemini-cli"
-  - "universal"
+  - cursor
+  - claude-code
+  - windsurf
+  - gemini-cli
+  - universal
 featured: false
-description: "Truy vấn cơ sở dữ liệu ClinVar về tính gây bệnh (Pathogenic, Benign, VUS) và bằng chứng lâm sàng của biến thể gen người."
-oneLiner: "Tra cứu phân loại lâm sàng và tính gây bệnh của các biến thể di truyền di truyền."
-sourceUrl: "https://www.ncbi.nlm.nih.gov/clinvar/"
-sourceAuthor: "Google DeepMind"
-lastVerified: "2026-05-30"
-relatedSkills:
-  - "dbsnp-database"
-  - "gnomad-database"
-  - "alphagenome-single-variant-analysis"
-  - "ensembl-database"
-seoTitle: "ClinVar Clinical Variants — Skillbook Agents"
-seoDescription: "Hướng dẫn Agent tra cứu pathogenicity và clinical significance của biến thể di truyền từ ClinVar."
+description: >-
+  Truy vấn cơ sở dữ liệu ClinVar về tính gây bệnh (Pathogenic, Benign, VUS) và
+  bằng chứng lâm sàng của biến thể gen người.
+oneLiner: >-
+  Tra cứu phân loại lâm sàng và tính gây bệnh của các biến thể di truyền di
+  truyền.
+sourceUrl: 'https://www.ncbi.nlm.nih.gov/clinvar/'
+sourceAuthor: Google DeepMind
+lastVerified: '2026-05-30'
+relatedSkills: []
+seoTitle: ClinVar Clinical Variants — Skillbook Agents
+seoDescription: >-
+  Hướng dẫn Agent tra cứu pathogenicity và clinical significance của biến thể di
+  truyền từ ClinVar.
+provider: antigravity
 ---
 
 ## 📖 Tại Sao Cần Skill Này?

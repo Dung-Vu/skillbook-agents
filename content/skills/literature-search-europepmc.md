@@ -1,33 +1,33 @@
 ---
-slug: "literature-search-europepmc"
-title: "Europe PMC Literature"
-command: "/literature-search-europepmc"
-category: "research-analysis"
+slug: literature-search-europepmc
+title: Europe PMC Literature
+command: /literature-search-europepmc
+category: research-analysis
 tags:
-  - "europepmc"
-  - "literature"
-  - "full-text"
-  - "citations"
-  - "open-access"
-complexity: "starter"
+  - europepmc
+  - literature
+  - full-text
+  - citations
+  - open-access
+complexity: starter
 platforms:
-  - "cursor"
-  - "claude-code"
-  - "windsurf"
-  - "gemini-cli"
-  - "universal"
+  - cursor
+  - claude-code
+  - windsurf
+  - gemini-cli
+  - universal
 featured: false
-description: "Tìm kiếm tài liệu học thuật y sinh, tải toàn văn bài báo open-access (PMCID) và trích xuất danh mục trích dẫn."
-oneLiner: "Tra cứu y văn khoa học thế giới trên hệ thống Europe PMC."
-sourceUrl: "https://europepmc.org/"
-sourceAuthor: "Google DeepMind"
-lastVerified: "2026-05-30"
-relatedSkills:
-  - "pubmed-database"
-  - "literature-search-openalex"
-  - "literature-search-arxiv"
-seoTitle: "Europe PMC Literature — Skillbook Agents"
-seoDescription: "Hướng dẫn Agent tìm kiếm tài liệu và download full-text từ Europe PMC."
+description: >-
+  Tìm kiếm tài liệu học thuật y sinh, tải toàn văn bài báo open-access (PMCID)
+  và trích xuất danh mục trích dẫn.
+oneLiner: Tra cứu y văn khoa học thế giới trên hệ thống Europe PMC.
+sourceUrl: 'https://europepmc.org/'
+sourceAuthor: Google DeepMind
+lastVerified: '2026-05-30'
+relatedSkills: []
+seoTitle: Europe PMC Literature — Skillbook Agents
+seoDescription: Hướng dẫn Agent tìm kiếm tài liệu và download full-text từ Europe PMC.
+provider: antigravity
 ---
 
 ## 📖 Tại Sao Cần Skill Này?

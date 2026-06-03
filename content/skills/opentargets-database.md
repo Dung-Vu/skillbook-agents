@@ -1,34 +1,38 @@
 ---
-slug: "opentargets-database"
-title: "Open Targets Drug Discovery"
-command: "/opentargets-database"
-category: "bioinformatics-genomics"
+slug: opentargets-database
+title: Open Targets Drug Discovery
+command: /opentargets-database
+category: bioinformatics-genomics
 tags:
-  - "opentargets"
-  - "drug-target"
-  - "disease-association"
-  - "tractability"
-  - "drug-discovery"
-complexity: "intermediate"
+  - opentargets
+  - drug-target
+  - disease-association
+  - tractability
+  - drug-discovery
+complexity: intermediate
 platforms:
-  - "cursor"
-  - "claude-code"
-  - "windsurf"
-  - "gemini-cli"
-  - "universal"
+  - cursor
+  - claude-code
+  - windsurf
+  - gemini-cli
+  - universal
 featured: false
-description: "Hỗ trợ khám phá đích sinh học tiềm năng bằng cách tích hợp bằng chứng di truyền, y văn và thuốc thực nghiệm từ Open Targets."
-oneLiner: "Tìm kiếm mối liên hệ đích tác dụng của thuốc và bệnh lý."
-sourceUrl: "https://platform.opentargets.org/"
-sourceAuthor: "Google DeepMind"
-lastVerified: "2026-05-30"
+description: >-
+  Hỗ trợ khám phá đích sinh học tiềm năng bằng cách tích hợp bằng chứng di
+  truyền, y văn và thuốc thực nghiệm từ Open Targets.
+oneLiner: Tìm kiếm mối liên hệ đích tác dụng của thuốc và bệnh lý.
+sourceUrl: 'https://platform.opentargets.org/'
+sourceAuthor: Google DeepMind
+lastVerified: '2026-05-30'
 relatedSkills:
-  - "chembl-database"
-  - "reactome-database"
-  - "uniprot-database"
-  - "clinical-trials-database"
-seoTitle: "Open Targets Drug Discovery — Skillbook Agents"
-seoDescription: "Hướng dẫn Agent truy vấn target-disease associations và drug discovery data từ Open Targets Platform."
+  - reactome-database
+  - uniprot-database
+  - clinical-trials-database
+seoTitle: Open Targets Drug Discovery — Skillbook Agents
+seoDescription: >-
+  Hướng dẫn Agent truy vấn target-disease associations và drug discovery data từ
+  Open Targets Platform.
+provider: antigravity
 ---
 
 ## 📖 Tại Sao Cần Skill Này?

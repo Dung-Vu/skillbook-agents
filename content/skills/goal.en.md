@@ -7,7 +7,7 @@ seoDescription: "How to instruct AI Agents to form structured plans, outline ass
 ---
 
 
-## 🧠 Why Do We Need This Skill?
+## 📖 Why Do We Need This Skill?
 
 Complex engineering tasks often fail because agents dive straight into coding without analyzing requirements. Without this skill:
 * **Scope Creep**: AI works on wrong assumptions, writing code that must be rewritten.
@@ -37,7 +37,7 @@ Agent planning workflow:
 
 ---
 
-## 📜 Agent Guidelines (Prompt Guidelines)
+## 🚀 Agent Guidelines (Prompt Guidelines)
 
 ````markdown
 # GOAL COMMAND INSTRUCTIONS & RULES

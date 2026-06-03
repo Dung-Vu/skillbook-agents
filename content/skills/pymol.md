@@ -1,33 +1,35 @@
 ---
-slug: "pymol"
-title: "PyMOL Molecular Visualization"
-command: "/pymol"
-category: "bioinformatics-genomics"
+slug: pymol
+title: PyMOL Molecular Visualization
+command: /pymol
+category: bioinformatics-genomics
 tags:
-  - "pymol"
-  - "visualization"
-  - "protein-structure"
-  - "molecular-graphics"
-  - "rendering"
-complexity: "advanced"
+  - pymol
+  - visualization
+  - protein-structure
+  - molecular-graphics
+  - rendering
+complexity: advanced
 platforms:
-  - "cursor"
-  - "claude-code"
-  - "windsurf"
-  - "gemini-cli"
-  - "universal"
+  - cursor
+  - claude-code
+  - windsurf
+  - gemini-cli
+  - universal
 featured: true
-description: "Dựng ảnh cấu trúc protein 3D chất lượng cao, căn chỉnh cấu trúc tương đồng, đo khoảng cách liên kết và tô màu theo pLDDT."
-oneLiner: "Trực quan hóa và dựng hình ảnh cấu trúc phân tử bằng PyMOL."
-sourceUrl: "https://www.pymol.org/"
-sourceAuthor: "Google DeepMind"
-lastVerified: "2026-05-30"
-relatedSkills:
-  - "alphafold-database"
-  - "pdb-database"
-  - "foldseek-structural-search"
-seoTitle: "PyMOL Molecular Visualization — Skillbook Agents"
-seoDescription: "Hướng dẫn Agent render cấu trúc protein, phân tích binding sites, và tạo hình ảnh molecular graphics bằng PyMOL."
+description: >-
+  Dựng ảnh cấu trúc protein 3D chất lượng cao, căn chỉnh cấu trúc tương đồng, đo
+  khoảng cách liên kết và tô màu theo pLDDT.
+oneLiner: Trực quan hóa và dựng hình ảnh cấu trúc phân tử bằng PyMOL.
+sourceUrl: 'https://www.pymol.org/'
+sourceAuthor: Google DeepMind
+lastVerified: '2026-05-30'
+relatedSkills: []
+seoTitle: PyMOL Molecular Visualization — Skillbook Agents
+seoDescription: >-
+  Hướng dẫn Agent render cấu trúc protein, phân tích binding sites, và tạo hình
+  ảnh molecular graphics bằng PyMOL.
+provider: antigravity
 ---
 
 ## 📖 Tại Sao Cần Skill Này?

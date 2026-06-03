@@ -7,7 +7,7 @@ seoDescription: "Optimization guidelines helping AI Agents manage Android develo
 ---
 
 
-## 🧠 Why Do We Need This Skill?
+## 📖 Why Do We Need This Skill?
 
 Although Large Language Models (LLMs) excel at writing Kotlin, Java, or XML code, they lack awareness of your local computer environment. Without this skill:
 * **AI will instruct manually**: The AI will ask you to open Android Studio, click step-by-step to create a project or diagnose the SDK.
@@ -49,7 +49,7 @@ Declare the rules in a `claude_rules.md` file or paste the prompt rules directly
 
 ---
 
-## 📜 Agent Guidelines (Prompt Guidelines)
+## 🚀 Agent Guidelines (Prompt Guidelines)
 
 ```markdown
 # ANDROID CLI INSTRUCTIONS & RULES

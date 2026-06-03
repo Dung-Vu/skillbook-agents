@@ -1,36 +1,41 @@
 ---
-slug: "uv"
-title: "UV Python Package Manager"
-command: "/uv"
-category: "tool-integration"
+slug: uv
+title: UV Python Package Manager
+command: /uv
+category: tool-integration
 tags:
-  - "uv"
-  - "python"
-  - "package-manager"
-  - "dependency"
-  - "virtual-environment"
-complexity: "starter"
+  - uv
+  - python
+  - package-manager
+  - dependency
+  - virtual-environment
+complexity: starter
 platforms:
-  - "cursor"
-  - "claude-code"
-  - "windsurf"
-  - "gemini-cli"
-  - "universal"
+  - cursor
+  - claude-code
+  - windsurf
+  - gemini-cli
+  - universal
 featured: false
-description: "Hướng dẫn Agent kiểm tra, cài đặt và khai thác tối đa UV — trình quản lý môi trường và gói Python siêu tốc viết bằng Rust giúp gia tốc 10-100x quy trình phân giải dependencies."
-oneLiner: "Tự động hóa quản lý môi trường và phân giải gói cài đặt Python siêu tốc bằng UV."
-sourceUrl: "https://docs.astral.sh/uv/"
-sourceAuthor: "Google DeepMind"
-lastVerified: "2026-05-31"
-relatedSkills:
-  - "science-skills-common"
-  - "pymol"
-  - "alphafold-database"
-seoTitle: "UV Python Package Manager Setup & Rules for AI — Skillbook Agents"
-seoDescription: "Bộ chỉ dẫn kỹ năng tối ưu giúp AI Agent thiết lập và chạy scripts Python siêu tốc with UV Python package manager."
+description: >-
+  Hướng dẫn Agent kiểm tra, cài đặt và khai thác tối đa UV — trình quản lý môi
+  trường và gói Python siêu tốc viết bằng Rust giúp gia tốc 10-100x quy trình
+  phân giải dependencies.
+oneLiner: >-
+  Tự động hóa quản lý môi trường và phân giải gói cài đặt Python siêu tốc bằng
+  UV.
+sourceUrl: 'https://docs.astral.sh/uv/'
+sourceAuthor: Google DeepMind
+lastVerified: '2026-05-31'
+relatedSkills: []
+seoTitle: UV Python Package Manager Setup & Rules for AI — Skillbook Agents
+seoDescription: >-
+  Bộ chỉ dẫn kỹ năng tối ưu giúp AI Agent thiết lập và chạy scripts Python siêu
+  tốc with UV Python package manager.
+provider: antigravity
 ---
 
-## 🧠 Tại Sao AI Agent Của Bạn Cần Kỹ Năng Này?
+## 📖 Tại Sao AI Agent Của Bạn Cần Kỹ Năng Này?
 
 Python là ngôn ngữ phổ biến nhất cho AI, phân tích dữ liệu và tự động hóa. Tuy nhiên, việc quản lý môi trường ảo (`venv`) và cài đặt thư viện bằng `pip` truyền thống gặp nhiều trở ngại lớn đối với AI:
 * **Thời gian chờ đợi**: Phân giải và tải dependencies bằng `pip` rất chậm, dễ gây timeout phiên chat.
@@ -68,7 +73,7 @@ Cài đặt quy tắc này vào `.windsurfrules` ở thư mục gốc của dự
 
 ---
 
-## 📜 Bộ Quy Tắc Chỉ Dẫn Cho Agent (Prompt Guidelines)
+## 🚀 Bộ Quy Tắc Chỉ Dẫn Cho Agent (Prompt Guidelines)
 
 ````markdown
 # UV PACKAGE MANAGER INSTRUCTIONS & RULES

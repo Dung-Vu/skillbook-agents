@@ -1,34 +1,37 @@
 ---
-slug: "pdb-database"
-title: "PDB 3D Structure Database"
-command: "/pdb-database"
-category: "bioinformatics-genomics"
+slug: pdb-database
+title: PDB 3D Structure Database
+command: /pdb-database
+category: bioinformatics-genomics
 tags:
-  - "pdb"
-  - "crystal-structure"
-  - "cryo-em"
-  - "x-ray"
-  - "protein-structure"
-complexity: "intermediate"
+  - pdb
+  - crystal-structure
+  - cryo-em
+  - x-ray
+  - protein-structure
+complexity: intermediate
 platforms:
-  - "cursor"
-  - "claude-code"
-  - "windsurf"
-  - "gemini-cli"
-  - "universal"
+  - cursor
+  - claude-code
+  - windsurf
+  - gemini-cli
+  - universal
 featured: false
-description: "Tìm kiếm các cấu trúc tinh thể nguyên tử của protein, axit nucleic và phối tử thực nghiệm từ Protein Data Bank."
-oneLiner: "Tra cứu và tải cấu trúc 3D thực nghiệm sinh học từ PDB."
-sourceUrl: "https://www.rcsb.org/"
-sourceAuthor: "Google DeepMind"
-lastVerified: "2026-05-30"
+description: >-
+  Tìm kiếm các cấu trúc tinh thể nguyên tử của protein, axit nucleic và phối tử
+  thực nghiệm từ Protein Data Bank.
+oneLiner: Tra cứu và tải cấu trúc 3D thực nghiệm sinh học từ PDB.
+sourceUrl: 'https://www.rcsb.org/'
+sourceAuthor: Google DeepMind
+lastVerified: '2026-05-30'
 relatedSkills:
-  - "alphafold-database"
-  - "pymol"
-  - "foldseek-structural-search"
-  - "uniprot-database"
-seoTitle: "PDB 3D Structure Database — Skillbook Agents"
-seoDescription: "Hướng dẫn Agent tìm kiếm và tải cấu trúc 3D thực nghiệm từ RCSB Protein Data Bank."
+  - pymol
+  - uniprot-database
+seoTitle: PDB 3D Structure Database — Skillbook Agents
+seoDescription: >-
+  Hướng dẫn Agent tìm kiếm và tải cấu trúc 3D thực nghiệm từ RCSB Protein Data
+  Bank.
+provider: antigravity
 ---
 
 ## 📖 Tại Sao Cần Skill Này?

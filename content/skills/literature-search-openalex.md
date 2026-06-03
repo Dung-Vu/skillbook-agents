@@ -1,33 +1,38 @@
 ---
-slug: "literature-search-openalex"
-title: "OpenAlex Scholarly Database"
-command: "/literature-search-openalex"
-category: "research-analysis"
+slug: literature-search-openalex
+title: OpenAlex Scholarly Database
+command: /literature-search-openalex
+category: research-analysis
 tags:
-  - "openalex"
-  - "scholarly"
-  - "bibliometrics"
-  - "citations"
-  - "h-index"
-complexity: "starter"
+  - openalex
+  - scholarly
+  - bibliometrics
+  - citations
+  - h-index
+complexity: starter
 platforms:
-  - "cursor"
-  - "claude-code"
-  - "windsurf"
-  - "gemini-cli"
-  - "universal"
+  - cursor
+  - claude-code
+  - windsurf
+  - gemini-cli
+  - universal
 featured: false
-description: "Tìm kiếm và tổng hợp dữ liệu thư mục về bài báo, tác giả, tổ chức nghiên cứu và các chỉ số trích dẫn khoa học."
-oneLiner: "Truy vấn cơ sở tri thức học thuật mở toàn cầu OpenAlex."
-sourceUrl: "https://openalex.org/"
-sourceAuthor: "Google DeepMind"
-lastVerified: "2026-05-30"
+description: >-
+  Tìm kiếm và tổng hợp dữ liệu thư mục về bài báo, tác giả, tổ chức nghiên cứu
+  và các chỉ số trích dẫn khoa học.
+oneLiner: Truy vấn cơ sở tri thức học thuật mở toàn cầu OpenAlex.
+sourceUrl: 'https://openalex.org/'
+sourceAuthor: Google DeepMind
+lastVerified: '2026-05-30'
 relatedSkills:
-  - "pubmed-database"
-  - "literature-search-europepmc"
-  - "literature-search-arxiv"
-seoTitle: "OpenAlex Scholarly Database — Skillbook Agents"
-seoDescription: "Hướng dẫn Agent truy vấn OpenAlex cho papers, authors, bibliometrics, và open-access downloads."
+  - pubmed-database
+  - literature-search-europepmc
+  - literature-search-arxiv
+seoTitle: OpenAlex Scholarly Database — Skillbook Agents
+seoDescription: >-
+  Hướng dẫn Agent truy vấn OpenAlex cho papers, authors, bibliometrics, và
+  open-access downloads.
+provider: antigravity
 ---
 
 ## 📖 Tại Sao Cần Skill Này?

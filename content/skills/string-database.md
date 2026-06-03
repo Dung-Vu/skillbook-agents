@@ -1,33 +1,35 @@
 ---
-slug: "string-database"
-title: "STRING Protein Interactions"
-command: "/string-database"
-category: "bioinformatics-genomics"
+slug: string-database
+title: STRING Protein Interactions
+command: /string-database
+category: bioinformatics-genomics
 tags:
-  - "string"
-  - "protein-interactions"
-  - "ppi"
-  - "network"
-  - "functional-enrichment"
-complexity: "intermediate"
+  - string
+  - protein-interactions
+  - ppi
+  - network
+  - functional-enrichment
+complexity: intermediate
 platforms:
-  - "cursor"
-  - "claude-code"
-  - "windsurf"
-  - "gemini-cli"
-  - "universal"
+  - cursor
+  - claude-code
+  - windsurf
+  - gemini-cli
+  - universal
 featured: false
-description: "Khám phá tương tác protein-protein vật lý và chức năng, tính điểm tin cậy và phân tích làm giàu chức năng cụm protein."
-oneLiner: "Truy vấn mạng lưới tương tác giữa các protein từ STRING."
-sourceUrl: "https://string-db.org/"
-sourceAuthor: "Google DeepMind"
-lastVerified: "2026-05-30"
-relatedSkills:
-  - "uniprot-database"
-  - "reactome-database"
-  - "quickgo-database"
-seoTitle: "STRING Protein Interactions — Skillbook Agents"
-seoDescription: "Hướng dẫn Agent truy vấn protein-protein interactions và functional enrichment từ STRING."
+description: >-
+  Khám phá tương tác protein-protein vật lý và chức năng, tính điểm tin cậy và
+  phân tích làm giàu chức năng cụm protein.
+oneLiner: Truy vấn mạng lưới tương tác giữa các protein từ STRING.
+sourceUrl: 'https://string-db.org/'
+sourceAuthor: Google DeepMind
+lastVerified: '2026-05-30'
+relatedSkills: []
+seoTitle: STRING Protein Interactions — Skillbook Agents
+seoDescription: >-
+  Hướng dẫn Agent truy vấn protein-protein interactions và functional enrichment
+  từ STRING.
+provider: antigravity
 ---
 
 ## 📖 Tại Sao Cần Skill Này?

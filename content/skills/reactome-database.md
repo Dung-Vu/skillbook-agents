@@ -1,34 +1,38 @@
 ---
-slug: "reactome-database"
-title: "Reactome Pathway Analysis"
-command: "/reactome-database"
-category: "bioinformatics-genomics"
+slug: reactome-database
+title: Reactome Pathway Analysis
+command: /reactome-database
+category: bioinformatics-genomics
 tags:
-  - "reactome"
-  - "pathway"
-  - "enrichment"
-  - "signaling"
-  - "metabolism"
-complexity: "intermediate"
+  - reactome
+  - pathway
+  - enrichment
+  - signaling
+  - metabolism
+complexity: intermediate
 platforms:
-  - "cursor"
-  - "claude-code"
-  - "windsurf"
-  - "gemini-cli"
-  - "universal"
+  - cursor
+  - claude-code
+  - windsurf
+  - gemini-cli
+  - universal
 featured: false
-description: "Phân tích làm giàu con đường sinh học (Pathway enrichment), tra cứu phản ứng chuyển hóa tế bào và tải sơ đồ mạng sinh học."
-oneLiner: "Truy vấn con đường chuyển hóa sinh học từ cơ sở dữ liệu Reactome."
-sourceUrl: "https://reactome.org/"
-sourceAuthor: "Google DeepMind"
-lastVerified: "2026-05-30"
+description: >-
+  Phân tích làm giàu con đường sinh học (Pathway enrichment), tra cứu phản ứng
+  chuyển hóa tế bào và tải sơ đồ mạng sinh học.
+oneLiner: Truy vấn con đường chuyển hóa sinh học từ cơ sở dữ liệu Reactome.
+sourceUrl: 'https://reactome.org/'
+sourceAuthor: Google DeepMind
+lastVerified: '2026-05-30'
 relatedSkills:
-  - "quickgo-database"
-  - "string-database"
-  - "uniprot-database"
-  - "opentargets-database"
-seoTitle: "Reactome Pathway Analysis — Skillbook Agents"
-seoDescription: "Hướng dẫn Agent phân tích pathway enrichment và khám phá biological pathways từ Reactome."
+  - quickgo-database
+  - string-database
+  - uniprot-database
+seoTitle: Reactome Pathway Analysis — Skillbook Agents
+seoDescription: >-
+  Hướng dẫn Agent phân tích pathway enrichment và khám phá biological pathways
+  từ Reactome.
+provider: antigravity
 ---
 
 ## 📖 Tại Sao Cần Skill Này?

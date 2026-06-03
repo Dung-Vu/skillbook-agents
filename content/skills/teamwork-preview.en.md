@@ -7,7 +7,7 @@ seoDescription: "Detailed instructions on operating the `/teamwork-preview` skil
 ---
 
 
-## 🧠 Why Do We Need This Skill?
+## 📖 Why Do We Need This Skill?
 
 When facing large-scale software systems, single AI agents struggle with context limits and multitasking constraints:
 * **Information Overload**: A single agent writing code, running tests, fixing bugs, and compiling docs can experience context dilution.
@@ -38,7 +38,7 @@ Agent thought process when executing teamwork-preview:
 
 ---
 
-## 📜 Agent Guidelines (Prompt Guidelines)
+## 🚀 Agent Guidelines (Prompt Guidelines)
 
 ````markdown
 # TEAMWORK MULTI-AGENT INSTRUCTIONS & RULES

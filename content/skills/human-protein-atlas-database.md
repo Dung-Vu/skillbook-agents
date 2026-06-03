@@ -1,32 +1,36 @@
 ---
-slug: "human-protein-atlas-database"
-title: "Human Protein Atlas"
-command: "/human-protein-atlas-database"
-category: "bioinformatics-genomics"
+slug: human-protein-atlas-database
+title: Human Protein Atlas
+command: /human-protein-atlas-database
+category: bioinformatics-genomics
 tags:
-  - "protein-atlas"
-  - "protein-expression"
-  - "immunohistochemistry"
-  - "subcellular-localization"
-complexity: "intermediate"
+  - protein-atlas
+  - protein-expression
+  - immunohistochemistry
+  - subcellular-localization
+complexity: intermediate
 platforms:
-  - "cursor"
-  - "claude-code"
-  - "windsurf"
-  - "gemini-cli"
-  - "universal"
+  - cursor
+  - claude-code
+  - windsurf
+  - gemini-cli
+  - universal
 featured: false
-description: "Truy xuất bản đồ protein người (HPA) bao gồm biểu hiện protein trong mô và định vị dưới tế bào bằng kỹ thuật kháng thể."
-oneLiner: "Tra cứu dữ liệu biểu hiện protein và định vị không gian tế bào."
-sourceUrl: "https://www.proteinatlas.org/"
-sourceAuthor: "Google DeepMind"
-lastVerified: "2026-05-30"
+description: >-
+  Truy xuất bản đồ protein người (HPA) bao gồm biểu hiện protein trong mô và
+  định vị dưới tế bào bằng kỹ thuật kháng thể.
+oneLiner: Tra cứu dữ liệu biểu hiện protein và định vị không gian tế bào.
+sourceUrl: 'https://www.proteinatlas.org/'
+sourceAuthor: Google DeepMind
+lastVerified: '2026-05-30'
 relatedSkills:
-  - "gtex-database"
-  - "uniprot-database"
-  - "string-database"
-seoTitle: "Human Protein Atlas — Skillbook Agents"
-seoDescription: "Hướng dẫn Agent truy xuất protein expression và subcellular localization từ Human Protein Atlas."
+  - uniprot-database
+  - string-database
+seoTitle: Human Protein Atlas — Skillbook Agents
+seoDescription: >-
+  Hướng dẫn Agent truy xuất protein expression và subcellular localization từ
+  Human Protein Atlas.
+provider: antigravity
 ---
 
 ## 📖 Tại Sao Cần Skill Này?

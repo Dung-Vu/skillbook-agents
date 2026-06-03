@@ -1,33 +1,35 @@
 ---
-slug: "gnomad-database"
-title: "gnomAD Population Genetics"
-command: "/gnomad-database"
-category: "bioinformatics-genomics"
+slug: gnomad-database
+title: gnomAD Population Genetics
+command: /gnomad-database
+category: bioinformatics-genomics
 tags:
-  - "gnomad"
-  - "allele-frequency"
-  - "population-genetics"
-  - "constraint"
-  - "loeuf"
-complexity: "intermediate"
+  - gnomad
+  - allele-frequency
+  - population-genetics
+  - constraint
+  - loeuf
+complexity: intermediate
 platforms:
-  - "cursor"
-  - "claude-code"
-  - "windsurf"
-  - "gemini-cli"
-  - "universal"
+  - cursor
+  - claude-code
+  - windsurf
+  - gemini-cli
+  - universal
 featured: false
-description: "Đánh giá tần suất biến thể di truyền trong quần thể lớn và tra cứu các chỉ số ràng buộc mất chức năng của gen (pLI, LOEUF)."
-oneLiner: "Truy vấn tần số alen di truyền và ràng buộc gen từ gnomAD."
-sourceUrl: "https://gnomad.broadinstitute.org/"
-sourceAuthor: "Google DeepMind"
-lastVerified: "2026-05-30"
-relatedSkills:
-  - "clinvar-database"
-  - "dbsnp-database"
-  - "ensembl-database"
-seoTitle: "gnomAD Population Genetics — Skillbook Agents"
-seoDescription: "Hướng dẫn Agent tra cứu allele frequency và gene constraint metrics từ gnomAD database."
+description: >-
+  Đánh giá tần suất biến thể di truyền trong quần thể lớn và tra cứu các chỉ số
+  ràng buộc mất chức năng của gen (pLI, LOEUF).
+oneLiner: Truy vấn tần số alen di truyền và ràng buộc gen từ gnomAD.
+sourceUrl: 'https://gnomad.broadinstitute.org/'
+sourceAuthor: Google DeepMind
+lastVerified: '2026-05-30'
+relatedSkills: []
+seoTitle: gnomAD Population Genetics — Skillbook Agents
+seoDescription: >-
+  Hướng dẫn Agent tra cứu allele frequency và gene constraint metrics từ gnomAD
+  database.
+provider: antigravity
 ---
 
 ## 📖 Tại Sao Cần Skill Này?

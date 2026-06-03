@@ -1,34 +1,35 @@
 ---
-slug: "uniprot-database"
-title: "UniProt Protein Database"
-command: "/uniprot-database"
-category: "bioinformatics-genomics"
+slug: uniprot-database
+title: UniProt Protein Database
+command: /uniprot-database
+category: bioinformatics-genomics
 tags:
-  - "uniprot"
-  - "protein"
-  - "function"
-  - "annotation"
-  - "taxonomy"
-complexity: "intermediate"
+  - uniprot
+  - protein
+  - function
+  - annotation
+  - taxonomy
+complexity: intermediate
 platforms:
-  - "cursor"
-  - "claude-code"
-  - "windsurf"
-  - "gemini-cli"
-  - "universal"
+  - cursor
+  - claude-code
+  - windsurf
+  - gemini-cli
+  - universal
 featured: true
-description: "Truy cập cơ sở tri thức protein toàn cầu UniProtKB để tra cứu mô tả chức năng, đột biến điểm và tài liệu liên quan."
-oneLiner: "Tra cứu chú giải chức năng protein và trình tự từ UniProt."
-sourceUrl: "https://www.uniprot.org/"
-sourceAuthor: "Google DeepMind"
-lastVerified: "2026-05-30"
-relatedSkills:
-  - "interpro-database"
-  - "alphafold-database"
-  - "string-database"
-  - "pdb-database"
-seoTitle: "UniProt Protein Database — Skillbook Agents"
-seoDescription: "Hướng dẫn Agent truy xuất protein metadata, function annotations, và sequences từ UniProtKB."
+description: >-
+  Truy cập cơ sở tri thức protein toàn cầu UniProtKB để tra cứu mô tả chức năng,
+  đột biến điểm và tài liệu liên quan.
+oneLiner: Tra cứu chú giải chức năng protein và trình tự từ UniProt.
+sourceUrl: 'https://www.uniprot.org/'
+sourceAuthor: Google DeepMind
+lastVerified: '2026-05-30'
+relatedSkills: []
+seoTitle: UniProt Protein Database — Skillbook Agents
+seoDescription: >-
+  Hướng dẫn Agent truy xuất protein metadata, function annotations, và sequences
+  từ UniProtKB.
+provider: antigravity
 ---
 
 ## 📖 Tại Sao Cần Skill Này?

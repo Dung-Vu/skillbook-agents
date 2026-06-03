@@ -1,33 +1,35 @@
 ---
-slug: "foldseek-structural-search"
-title: "Foldseek 3D Structural Search"
-command: "/foldseek-structural-search"
-category: "bioinformatics-genomics"
+slug: foldseek-structural-search
+title: Foldseek 3D Structural Search
+command: /foldseek-structural-search
+category: bioinformatics-genomics
 tags:
-  - "foldseek"
-  - "structural-search"
-  - "protein-structure"
-  - "3d-alignment"
-complexity: "advanced"
+  - foldseek
+  - structural-search
+  - protein-structure
+  - 3d-alignment
+complexity: advanced
 platforms:
-  - "cursor"
-  - "claude-code"
-  - "windsurf"
-  - "gemini-cli"
-  - "universal"
+  - cursor
+  - claude-code
+  - windsurf
+  - gemini-cli
+  - universal
 featured: false
-description: "Thực hiện đối sánh cấu trúc protein 3D tốc độ cao từ file tọa độ (.pdb, .cif) đối chiếu với các cơ sở dữ liệu cấu trúc lớn."
-oneLiner: "Tìm kiếm cấu trúc protein 3D tương đồng bằng Foldseek."
-sourceUrl: "https://search.foldseek.com/"
-sourceAuthor: "Google DeepMind"
-lastVerified: "2026-05-30"
+description: >-
+  Thực hiện đối sánh cấu trúc protein 3D tốc độ cao từ file tọa độ (.pdb, .cif)
+  đối chiếu với các cơ sở dữ liệu cấu trúc lớn.
+oneLiner: Tìm kiếm cấu trúc protein 3D tương đồng bằng Foldseek.
+sourceUrl: 'https://search.foldseek.com/'
+sourceAuthor: Google DeepMind
+lastVerified: '2026-05-30'
 relatedSkills:
-  - "alphafold-database"
-  - "pdb-database"
-  - "pymol"
-  - "protein-sequence-similarity-search"
-seoTitle: "Foldseek 3D Structural Search — Skillbook Agents"
-seoDescription: "Hướng dẫn Agent tìm kiếm protein tương đồng cấu trúc 3D với Foldseek API."
+  - pdb-database
+  - pymol
+  - protein-sequence-similarity-search
+seoTitle: Foldseek 3D Structural Search — Skillbook Agents
+seoDescription: Hướng dẫn Agent tìm kiếm protein tương đồng cấu trúc 3D với Foldseek API.
+provider: antigravity
 ---
 
 ## 📖 Tại Sao Cần Skill Này?

@@ -1,33 +1,37 @@
 ---
-slug: "pubchem-database"
-title: "PubChem Chemical Database"
-command: "/pubchem-database"
-category: "bioinformatics-genomics"
+slug: pubchem-database
+title: PubChem Chemical Database
+command: /pubchem-database
+category: bioinformatics-genomics
 tags:
-  - "pubchem"
-  - "chemical"
-  - "smiles"
-  - "drug"
-  - "cheminformatics"
-complexity: "intermediate"
+  - pubchem
+  - chemical
+  - smiles
+  - drug
+  - cheminformatics
+complexity: intermediate
 platforms:
-  - "cursor"
-  - "claude-code"
-  - "windsurf"
-  - "gemini-cli"
-  - "universal"
+  - cursor
+  - claude-code
+  - windsurf
+  - gemini-cli
+  - universal
 featured: false
-description: "Tìm kiếm phân tử hóa học, công thức cấu tạo, danh pháp IUPAC, tính chất vật lý và hoạt tính sinh học của hợp chất."
-oneLiner: "Tra cứu thông tin hóa chất và hoạt tính sinh học từ PubChem."
-sourceUrl: "https://pubchem.ncbi.nlm.nih.gov/"
-sourceAuthor: "Google DeepMind"
-lastVerified: "2026-05-30"
+description: >-
+  Tìm kiếm phân tử hóa học, công thức cấu tạo, danh pháp IUPAC, tính chất vật lý
+  và hoạt tính sinh học của hợp chất.
+oneLiner: Tra cứu thông tin hóa chất và hoạt tính sinh học từ PubChem.
+sourceUrl: 'https://pubchem.ncbi.nlm.nih.gov/'
+sourceAuthor: Google DeepMind
+lastVerified: '2026-05-30'
 relatedSkills:
-  - "chembl-database"
-  - "openfda-database"
-  - "pubmed-database"
-seoTitle: "PubChem Chemical Database — Skillbook Agents"
-seoDescription: "Hướng dẫn Agent truy vấn PubChem cho chemical properties, drug info, và bioactivity data."
+  - openfda-database
+  - pubmed-database
+seoTitle: PubChem Chemical Database — Skillbook Agents
+seoDescription: >-
+  Hướng dẫn Agent truy vấn PubChem cho chemical properties, drug info, và
+  bioactivity data.
+provider: antigravity
 ---
 
 ## 📖 Tại Sao Cần Skill Này?

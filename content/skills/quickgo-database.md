@@ -1,33 +1,35 @@
 ---
-slug: "quickgo-database"
-title: "QuickGO Gene Ontology"
-command: "/quickgo-database"
-category: "bioinformatics-genomics"
+slug: quickgo-database
+title: QuickGO Gene Ontology
+command: /quickgo-database
+category: bioinformatics-genomics
 tags:
-  - "quickgo"
-  - "gene-ontology"
-  - "go-terms"
-  - "biological-process"
-  - "molecular-function"
-complexity: "intermediate"
+  - quickgo
+  - gene-ontology
+  - go-terms
+  - biological-process
+  - molecular-function
+complexity: intermediate
 platforms:
-  - "cursor"
-  - "claude-code"
-  - "windsurf"
-  - "gemini-cli"
-  - "universal"
+  - cursor
+  - claude-code
+  - windsurf
+  - gemini-cli
+  - universal
 featured: false
-description: "Bản đồ hóa gen với các quá trình sinh học, chức năng phân tử, thành phần tế bào và khám phá cây phân cấp thuật ngữ GO."
-oneLiner: "Tra cứu chú giải chức năng sinh học gen Gene Ontology (GO)."
-sourceUrl: "https://www.ebi.ac.uk/QuickGO/"
-sourceAuthor: "Google DeepMind"
-lastVerified: "2026-05-30"
-relatedSkills:
-  - "reactome-database"
-  - "uniprot-database"
-  - "string-database"
-seoTitle: "QuickGO Gene Ontology — Skillbook Agents"
-seoDescription: "Hướng dẫn Agent truy vấn Gene Ontology qua QuickGO để map genes với biological processes và functions."
+description: >-
+  Bản đồ hóa gen với các quá trình sinh học, chức năng phân tử, thành phần tế
+  bào và khám phá cây phân cấp thuật ngữ GO.
+oneLiner: Tra cứu chú giải chức năng sinh học gen Gene Ontology (GO).
+sourceUrl: 'https://www.ebi.ac.uk/QuickGO/'
+sourceAuthor: Google DeepMind
+lastVerified: '2026-05-30'
+relatedSkills: []
+seoTitle: QuickGO Gene Ontology — Skillbook Agents
+seoDescription: >-
+  Hướng dẫn Agent truy vấn Gene Ontology qua QuickGO để map genes với biological
+  processes và functions.
+provider: antigravity
 ---
 
 ## 📖 Tại Sao Cần Skill Này?

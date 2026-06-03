@@ -1,33 +1,36 @@
 ---
-slug: "jaspar-database"
-title: "JASPAR TF Binding Profiles"
-command: "/jaspar-database"
-category: "bioinformatics-genomics"
+slug: jaspar-database
+title: JASPAR TF Binding Profiles
+command: /jaspar-database
+category: bioinformatics-genomics
 tags:
-  - "jaspar"
-  - "transcription-factor"
-  - "binding-motif"
-  - "pwm"
-  - "pfm"
-complexity: "advanced"
+  - jaspar
+  - transcription-factor
+  - binding-motif
+  - pwm
+  - pfm
+complexity: advanced
 platforms:
-  - "cursor"
-  - "claude-code"
-  - "windsurf"
-  - "gemini-cli"
-  - "universal"
+  - cursor
+  - claude-code
+  - windsurf
+  - gemini-cli
+  - universal
 featured: false
-description: "Tải ma trận tần số vị trí (PFM/PWM) của các yếu tố phiên mã (Transcription Factors) dưới nhiều định dạng (MEME, JASPAR)."
-oneLiner: "Truy xuất hồ sơ liên kết của các yếu tố phiên mã từ JASPAR."
-sourceUrl: "https://jaspar.elixir.no/"
-sourceAuthor: "Google DeepMind"
-lastVerified: "2026-05-30"
+description: >-
+  Tải ma trận tần số vị trí (PFM/PWM) của các yếu tố phiên mã (Transcription
+  Factors) dưới nhiều định dạng (MEME, JASPAR).
+oneLiner: Truy xuất hồ sơ liên kết của các yếu tố phiên mã từ JASPAR.
+sourceUrl: 'https://jaspar.elixir.no/'
+sourceAuthor: Google DeepMind
+lastVerified: '2026-05-30'
 relatedSkills:
-  - "unibind-database"
-  - "ucsc-conservation-and-tfbs"
-  - "encode-ccres-database"
-seoTitle: "JASPAR TF Binding Profiles — Skillbook Agents"
-seoDescription: "Hướng dẫn Agent truy vấn TF binding profiles, PFMs, và PWMs từ JASPAR database."
+  - unibind-database
+seoTitle: JASPAR TF Binding Profiles — Skillbook Agents
+seoDescription: >-
+  Hướng dẫn Agent truy vấn TF binding profiles, PFMs, và PWMs từ JASPAR
+  database.
+provider: antigravity
 ---
 
 ## 📖 Tại Sao Cần Skill Này?

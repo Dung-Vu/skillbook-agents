@@ -1,34 +1,42 @@
 ---
-slug: "grill-me"
-title: "Grill Me Planning Interview"
-command: "/grill-me"
-category: "reasoning-planning"
+slug: grill-me
+title: Grill Me Planning Interview
+command: /grill-me
+category: reasoning-planning
 tags:
-  - "grill-me"
-  - "interview"
-  - "alignment"
-  - "feedback"
-  - "planning"
-complexity: "starter"
+  - grill-me
+  - interview
+  - alignment
+  - feedback
+  - planning
+complexity: starter
 platforms:
-  - "cursor"
-  - "claude-code"
-  - "windsurf"
-  - "gemini-cli"
-  - "universal"
+  - cursor
+  - claude-code
+  - windsurf
+  - gemini-cli
+  - universal
 featured: true
-description: "Khởi động quy trình phỏng vấn phản biện đa chiều giúp AI Agent cùng người dùng làm rõ mục tiêu, kiến trúc và các quyết định thiết kế trước khi thực thi mã nguồn."
-oneLiner: "Tương tác phản biện sâu sắc giúp làm rõ các yêu cầu kiến trúc và quyết định thiết kế."
-sourceUrl: ""
-sourceAuthor: "Google DeepMind"
-lastVerified: "2026-06-01"
+description: >-
+  Khởi động quy trình phỏng vấn phản biện đa chiều giúp AI Agent cùng người dùng
+  làm rõ mục tiêu, kiến trúc và các quyết định thiết kế trước khi thực thi mã
+  nguồn.
+oneLiner: >-
+  Tương tác phản biện sâu sắc giúp làm rõ các yêu cầu kiến trúc và quyết định
+  thiết kế.
+sourceUrl: ''
+sourceAuthor: Google DeepMind
+lastVerified: '2026-06-01'
 relatedSkills:
-  - "workflow-skill-creator"
-seoTitle: "/grill-me - Planning Interview & Alignment Skill for AI"
-seoDescription: "Chỉ dẫn chi tiết cách AI Agent vận hành quy trình phỏng vấn phản biện /grill-me để làm rõ yêu cầu kỹ thuật và căn chỉnh kế hoạch."
+  - workflow-skill-creator
+seoTitle: /grill-me - Planning Interview & Alignment Skill for AI
+seoDescription: >-
+  Chỉ dẫn chi tiết cách AI Agent vận hành quy trình phỏng vấn phản biện
+  /grill-me để làm rõ yêu cầu kỹ thuật và căn chỉnh kế hoạch.
+provider: antigravity
 ---
 
-## 🧠 Tại Sao AI Agent Của Bạn Cần Kỹ Năng Này?
+## 📖 Tại Sao AI Agent Của Bạn Cần Kỹ Năng Này?
 
 Khi nhận các yêu cầu phát triển phần mềm hoặc thiết kế hệ thống từ người dùng, các thông tin ban đầu thường mang tính khái quát, thiếu chi tiết hoặc tồn tại những mâu thuẫn ngầm định. Nếu không có kỹ năng phản biện:
 * **Mơ hồ dẫn đến sai lệch**: AI dễ tự suy đoán theo ý chủ quan, dẫn đến việc viết code sai kiến trúc mong muốn của người dùng.
@@ -57,7 +65,7 @@ Quy trình suy nghĩ của Agent khi thực thi `/grill-me`:
 
 ---
 
-## 📜 Bộ Quy Tắc Chỉ Dẫn Cho Agent (Prompt Guidelines)
+## 🚀 Bộ Quy Tắc Chỉ Dẫn Cho Agent (Prompt Guidelines)
 
 ````markdown
 # GRILL-ME INTERVIEW INSTRUCTIONS & RULES

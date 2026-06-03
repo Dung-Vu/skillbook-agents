@@ -1,33 +1,36 @@
 ---
-slug: "openfda-database"
-title: "OpenFDA Drug & Safety Data"
-command: "/openfda-database"
-category: "bioinformatics-genomics"
+slug: openfda-database
+title: OpenFDA Drug & Safety Data
+command: /openfda-database
+category: bioinformatics-genomics
 tags:
-  - "fda"
-  - "adverse-events"
-  - "drug-safety"
-  - "recalls"
-  - "labeling"
-complexity: "intermediate"
+  - fda
+  - adverse-events
+  - drug-safety
+  - recalls
+  - labeling
+complexity: intermediate
 platforms:
-  - "cursor"
-  - "claude-code"
-  - "windsurf"
-  - "gemini-cli"
-  - "universal"
+  - cursor
+  - claude-code
+  - windsurf
+  - gemini-cli
+  - universal
 featured: false
-description: "Tra cứu dữ liệu chính thức của FDA về tác dụng phụ của thuốc, thu hồi sản phẩm, nhãn hướng dẫn và đăng ký thiết bị y tế."
-oneLiner: "Truy vấn dữ liệu Labeling, phản ứng phụ và phê duyệt của FDA."
-sourceUrl: "https://open.fda.gov/"
-sourceAuthor: "Google DeepMind"
-lastVerified: "2026-05-30"
+description: >-
+  Tra cứu dữ liệu chính thức của FDA về tác dụng phụ của thuốc, thu hồi sản
+  phẩm, nhãn hướng dẫn và đăng ký thiết bị y tế.
+oneLiner: 'Truy vấn dữ liệu Labeling, phản ứng phụ và phê duyệt của FDA.'
+sourceUrl: 'https://open.fda.gov/'
+sourceAuthor: Google DeepMind
+lastVerified: '2026-05-30'
 relatedSkills:
-  - "chembl-database"
-  - "pubchem-database"
-  - "clinical-trials-database"
-seoTitle: "OpenFDA Drug & Safety Data — Skillbook Agents"
-seoDescription: "Hướng dẫn Agent truy vấn openFDA cho drug adverse events, recalls, và regulatory data."
+  - clinical-trials-database
+seoTitle: OpenFDA Drug & Safety Data — Skillbook Agents
+seoDescription: >-
+  Hướng dẫn Agent truy vấn openFDA cho drug adverse events, recalls, và
+  regulatory data.
+provider: antigravity
 ---
 
 ## 📖 Tại Sao Cần Skill Này?

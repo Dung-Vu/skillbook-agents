@@ -1,33 +1,38 @@
 ---
-slug: "embl-ebi-ols"
-title: "EMBL-EBI Ontology Lookup"
-command: "/embl-ebi-ols"
-category: "bioinformatics-genomics"
+slug: embl-ebi-ols
+title: EMBL-EBI Ontology Lookup
+command: /embl-ebi-ols
+category: bioinformatics-genomics
 tags:
-  - "ontology"
-  - "ols"
-  - "go"
-  - "disease-ontology"
-  - "hpo"
-complexity: "intermediate"
+  - ontology
+  - ols
+  - go
+  - disease-ontology
+  - hpo
+complexity: intermediate
 platforms:
-  - "cursor"
-  - "claude-code"
-  - "windsurf"
-  - "gemini-cli"
-  - "universal"
+  - cursor
+  - claude-code
+  - windsurf
+  - gemini-cli
+  - universal
 featured: false
-description: "Tìm kiếm thuật ngữ, định nghĩa và phân cấp trong hơn 250 cơ sở dữ liệu ontology y sinh học (GO, DOID, HP)."
-oneLiner: "Truy vấn dịch vụ tra cứu thuật ngữ Ontology của EMBL-EBI."
-sourceUrl: "https://www.ebi.ac.uk/ols4/"
-sourceAuthor: "Google DeepMind"
-lastVerified: "2026-05-30"
+description: >-
+  Tìm kiếm thuật ngữ, định nghĩa và phân cấp trong hơn 250 cơ sở dữ liệu
+  ontology y sinh học (GO, DOID, HP).
+oneLiner: Truy vấn dịch vụ tra cứu thuật ngữ Ontology của EMBL-EBI.
+sourceUrl: 'https://www.ebi.ac.uk/ols4/'
+sourceAuthor: Google DeepMind
+lastVerified: '2026-05-30'
 relatedSkills:
-  - "quickgo-database"
-  - "clinvar-database"
-  - "alphagenome-single-variant-analysis"
-seoTitle: "EMBL-EBI Ontology Lookup — Skillbook Agents"
-seoDescription: "Hướng dẫn Agent tìm kiếm và khám phá 250+ biomedical ontologies qua EMBL-EBI OLS."
+  - quickgo-database
+  - clinvar-database
+  - alphagenome-single-variant-analysis
+seoTitle: EMBL-EBI Ontology Lookup — Skillbook Agents
+seoDescription: >-
+  Hướng dẫn Agent tìm kiếm và khám phá 250+ biomedical ontologies qua EMBL-EBI
+  OLS.
+provider: antigravity
 ---
 
 ## 📖 Tại Sao Cần Skill Này?

@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
-import { LanguageProvider, useLanguage } from "@/context/LanguageContext";
+import { useLanguage } from "@/context/LanguageContext";
 import { MeshGridBackground } from "@/components/ui/MeshGridBackground";
 import { 
   Target, 
@@ -519,9 +519,5 @@ function AboutContent(): React.ReactElement {
 }
 
 export default function AboutPage(): React.ReactElement {
-  return (
-    <LanguageProvider>
-      <AboutContent />
-    </LanguageProvider>
-  );
+  return <AboutContent />;
 }

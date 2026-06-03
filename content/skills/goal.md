@@ -1,34 +1,41 @@
 ---
-slug: "goal"
-title: "Goal Long-Running Task"
-command: "/goal"
-category: "workflow-orchestration"
+slug: goal
+title: Goal Long-Running Task
+command: /goal
+category: workflow-orchestration
 tags:
-  - "goal"
-  - "autonomous"
-  - "long-running"
-  - "workflow"
-complexity: "advanced"
+  - goal
+  - autonomous
+  - long-running
+  - workflow
+complexity: advanced
 platforms:
-  - "cursor"
-  - "claude-code"
-  - "windsurf"
-  - "gemini-cli"
-  - "universal"
+  - cursor
+  - claude-code
+  - windsurf
+  - gemini-cli
+  - universal
 featured: true
-description: "Chế độ chạy tự trị dài hạn giúp AI thực hiện các tác vụ phức tạp liên tục, tự sửa lỗi cho đến khi hoàn thành mục tiêu hoàn toàn."
-oneLiner: "Chế độ tự trị dài hạn giúp AI giải quyết các tác vụ phức tạp mà không cần can thiệp."
-sourceUrl: ""
-sourceAuthor: "Google DeepMind"
-lastVerified: "2026-06-01"
+description: >-
+  Chế độ chạy tự trị dài hạn giúp AI thực hiện các tác vụ phức tạp liên tục, tự
+  sửa lỗi cho đến khi hoàn thành mục tiêu hoàn toàn.
+oneLiner: >-
+  Chế độ tự trị dài hạn giúp AI giải quyết các tác vụ phức tạp mà không cần can
+  thiệp.
+sourceUrl: ''
+sourceAuthor: Google DeepMind
+lastVerified: '2026-06-01'
 relatedSkills:
-  - "workflow-skill-creator"
-  - "science-skills-common"
-seoTitle: "/goal - Autonomous Long-Running Task Skill for AI Agents"
-seoDescription: "Bộ quy tắc giúp AI Agent chạy chế độ tự trị /goal để giải quyết các tác vụ phức tạp liên tục, tự động hóa toàn diện quy trình sửa lỗi."
+  - workflow-skill-creator
+  - science-skills-common
+seoTitle: /goal - Autonomous Long-Running Task Skill for AI Agents
+seoDescription: >-
+  Bộ quy tắc giúp AI Agent chạy chế độ tự trị /goal để giải quyết các tác vụ
+  phức tạp liên tục, tự động hóa toàn diện quy trình sửa lỗi.
+provider: antigravity
 ---
 
-## 🧠 Tại Sao AI Agent Của Bạn Cần Kỹ Năng Này?
+## 📖 Tại Sao AI Agent Của Bạn Cần Kỹ Năng Này?
 
 Khi giải quyết các tác vụ phức tạp như xây dựng hệ thống từ đầu, kiểm thử toàn diện hoặc phân tích dữ liệu lớn, quy trình làm việc thường kéo dài và dễ phát sinh lỗi trung gian. Nếu không có kỹ năng tự trị:
 * **Ngắt quãng liên tục**: AI phải dừng lại hỏi ý kiến người dùng sau mỗi bước nhỏ, làm giảm hiệu suất.
@@ -58,7 +65,7 @@ Quy trình suy nghĩ của Agent khi thực thi `/goal`:
 
 ---
 
-## 📜 Bộ Quy Tắc Chỉ Dẫn Cho Agent (Prompt Guidelines)
+## 🚀 Bộ Quy Tắc Chỉ Dẫn Cho Agent (Prompt Guidelines)
 
 ````markdown
 # GOAL COMMAND INSTRUCTIONS & RULES

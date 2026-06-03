@@ -1,33 +1,38 @@
 ---
-slug: "encode-ccres-database"
-title: "ENCODE Regulatory Elements"
-command: "/encode-ccres-database"
-category: "bioinformatics-genomics"
+slug: encode-ccres-database
+title: ENCODE Regulatory Elements
+command: /encode-ccres-database
+category: bioinformatics-genomics
 tags:
-  - "encode"
-  - "ccres"
-  - "regulatory-elements"
-  - "chip-seq"
-  - "enhancer"
-complexity: "advanced"
+  - encode
+  - ccres
+  - regulatory-elements
+  - chip-seq
+  - enhancer
+complexity: advanced
 platforms:
-  - "cursor"
-  - "claude-code"
-  - "windsurf"
-  - "gemini-cli"
-  - "universal"
+  - cursor
+  - claude-code
+  - windsurf
+  - gemini-cli
+  - universal
 featured: false
-description: "Tìm kiếm chú giải vùng điều hòa gen và dữ liệu thực nghiệm di truyền học biểu hiện (Epigenomics) trên các dòng tế bào người."
-oneLiner: "Truy vấn các yếu tố điều hòa cis (cCREs) từ ENCODE."
-sourceUrl: "https://screen.encodeproject.org/"
-sourceAuthor: "Google DeepMind"
-lastVerified: "2026-05-30"
+description: >-
+  Tìm kiếm chú giải vùng điều hòa gen và dữ liệu thực nghiệm di truyền học biểu
+  hiện (Epigenomics) trên các dòng tế bào người.
+oneLiner: Truy vấn các yếu tố điều hòa cis (cCREs) từ ENCODE.
+sourceUrl: 'https://screen.encodeproject.org/'
+sourceAuthor: Google DeepMind
+lastVerified: '2026-05-30'
 relatedSkills:
-  - "ucsc-conservation-and-tfbs"
-  - "jaspar-database"
-  - "alphagenome-single-variant-analysis"
-seoTitle: "ENCODE Regulatory Elements — Skillbook Agents"
-seoDescription: "Hướng dẫn Agent truy vấn ENCODE cCREs và dữ liệu ChIP-seq cho regulatory element annotation."
+  - ucsc-conservation-and-tfbs
+  - jaspar-database
+  - alphagenome-single-variant-analysis
+seoTitle: ENCODE Regulatory Elements — Skillbook Agents
+seoDescription: >-
+  Hướng dẫn Agent truy vấn ENCODE cCREs và dữ liệu ChIP-seq cho regulatory
+  element annotation.
+provider: antigravity
 ---
 
 ## 📖 Tại Sao Cần Skill Này?

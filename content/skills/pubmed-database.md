@@ -1,33 +1,35 @@
 ---
-slug: "pubmed-database"
-title: "PubMed Literature Search"
-command: "/pubmed-database"
-category: "research-analysis"
+slug: pubmed-database
+title: PubMed Literature Search
+command: /pubmed-database
+category: research-analysis
 tags:
-  - "pubmed"
-  - "literature-search"
-  - "scientific-papers"
-  - "ncbi"
-  - "biomedical"
-complexity: "intermediate"
+  - pubmed
+  - literature-search
+  - scientific-papers
+  - ncbi
+  - biomedical
+complexity: intermediate
 platforms:
-  - "cursor"
-  - "claude-code"
-  - "windsurf"
-  - "gemini-cli"
-  - "universal"
+  - cursor
+  - claude-code
+  - windsurf
+  - gemini-cli
+  - universal
 featured: true
-description: "Tra cứu kho dữ liệu tóm tắt y học MEDLINE, liên kết y văn với các thực thể sinh học như gen, protein và hợp chất hóa học."
-oneLiner: "Tìm kiếm tài liệu y sinh học học thuật từ PubMed."
-sourceUrl: "https://pubmed.ncbi.nlm.nih.gov/"
-sourceAuthor: "Google DeepMind"
-lastVerified: "2026-05-30"
-relatedSkills:
-  - "literature-search-europepmc"
-  - "clinical-trials-database"
-  - "uniprot-database"
-seoTitle: "PubMed Literature Search — Skillbook Agents"
-seoDescription: "Hướng dẫn Agent tìm kiếm và phân tích tài liệu y sinh từ PubMed qua NCBI E-utilities."
+description: >-
+  Tra cứu kho dữ liệu tóm tắt y học MEDLINE, liên kết y văn với các thực thể
+  sinh học như gen, protein và hợp chất hóa học.
+oneLiner: Tìm kiếm tài liệu y sinh học học thuật từ PubMed.
+sourceUrl: 'https://pubmed.ncbi.nlm.nih.gov/'
+sourceAuthor: Google DeepMind
+lastVerified: '2026-05-30'
+relatedSkills: []
+seoTitle: PubMed Literature Search — Skillbook Agents
+seoDescription: >-
+  Hướng dẫn Agent tìm kiếm và phân tích tài liệu y sinh từ PubMed qua NCBI
+  E-utilities.
+provider: antigravity
 ---
 
 ## 📖 Tại Sao Cần Skill Này?

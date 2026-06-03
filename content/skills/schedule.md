@@ -1,34 +1,39 @@
 ---
-slug: "schedule"
-title: "Schedule Recurring Task"
-command: "/schedule"
-category: "workflow-orchestration"
+slug: schedule
+title: Schedule Recurring Task
+command: /schedule
+category: workflow-orchestration
 tags:
-  - "schedule"
-  - "cron"
-  - "timer"
-  - "automation"
-complexity: "intermediate"
+  - schedule
+  - cron
+  - timer
+  - automation
+complexity: intermediate
 platforms:
-  - "cursor"
-  - "claude-code"
-  - "windsurf"
-  - "gemini-cli"
-  - "universal"
+  - cursor
+  - claude-code
+  - windsurf
+  - gemini-cli
+  - universal
 featured: false
-description: "Lập lịch thực hiện các hành động tự động theo chu kỳ thời gian hoặc hẹn giờ chạy một lần cho AI Agent."
-oneLiner: "Lên lịch chạy tác vụ tự động định kỳ hoặc hẹn giờ chạy một lần."
-sourceUrl: ""
-sourceAuthor: "Google DeepMind"
-lastVerified: "2026-06-01"
+description: >-
+  Lập lịch thực hiện các hành động tự động theo chu kỳ thời gian hoặc hẹn giờ
+  chạy một lần cho AI Agent.
+oneLiner: Lên lịch chạy tác vụ tự động định kỳ hoặc hẹn giờ chạy một lần.
+sourceUrl: ''
+sourceAuthor: Google DeepMind
+lastVerified: '2026-06-01'
 relatedSkills:
-  - "science-skills-common"
-  - "workflow-skill-creator"
-seoTitle: "/schedule - Scheduled & Recurring Automation Skill for AI"
-seoDescription: "Quy tắc cấu hình hẹn giờ và lập lịch chạy tác vụ định kỳ with lệnh /schedule cho AI Agent."
+  - science-skills-common
+  - workflow-skill-creator
+seoTitle: /schedule - Scheduled & Recurring Automation Skill for AI
+seoDescription: >-
+  Quy tắc cấu hình hẹn giờ và lập lịch chạy tác vụ định kỳ with lệnh /schedule
+  cho AI Agent.
+provider: antigravity
 ---
 
-## 🧠 Tại Sao AI Agent Của Bạn Cần Kỹ Năng Này?
+## 📖 Tại Sao AI Agent Của Bạn Cần Kỹ Năng Này?
 
 Trong các tác vụ quản lý dự án, kiểm tra chất lượng phần mềm, hoặc theo dõi thông tin học thuật, việc thực thi công việc một cách thụ động (chờ người dùng nhắn tin mới chạy) có nhiều hạn chế:
 * **Thiếu tính cập nhật**: Không thể tự động phát hiện thay đổi của dữ liệu theo thời gian thực.
@@ -41,7 +46,7 @@ Trong các tác vụ quản lý dự án, kiểm tra chất lượng phần mề
 
 ---
 
-## ⚙️ Cơ Chế Hoạt Động & Quy Trình Tư Tư Duy
+## ⚙️ Cơ Chế Hoạt Động & Quy Trình Tư Duy
 
 ```
 [Thiết lập Lịch Hẹn Giờ] ➔ 🕒 [Bộ Đếm Chạy Ngầm]
@@ -57,7 +62,7 @@ Quy trình suy nghĩ của Agent khi thực thi `/schedule`:
 
 ---
 
-## 📜 Bộ Quy Tắc Chỉ Dẫn Cho Agent (Prompt Guidelines)
+## 🚀 Bộ Quy Tắc Chỉ Dẫn Cho Agent (Prompt Guidelines)
 
 ````markdown
 # SCHEDULE COMMAND INSTRUCTIONS & RULES

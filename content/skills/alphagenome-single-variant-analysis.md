@@ -1,34 +1,39 @@
 ---
-slug: "alphagenome-single-variant-analysis"
-title: "AlphaGenome Variant Analysis"
-command: "/alphagenome-single-variant-analysis"
-category: "bioinformatics-genomics"
+slug: alphagenome-single-variant-analysis
+title: AlphaGenome Variant Analysis
+command: /alphagenome-single-variant-analysis
+category: bioinformatics-genomics
 tags:
-  - "alphagenome"
-  - "variant-effect"
-  - "gene-expression"
-  - "chromatin"
-  - "non-coding"
-complexity: "expert"
+  - alphagenome
+  - variant-effect
+  - gene-expression
+  - chromatin
+  - non-coding
+complexity: expert
 platforms:
-  - "cursor"
-  - "claude-code"
-  - "windsurf"
-  - "gemini-cli"
-  - "universal"
+  - cursor
+  - claude-code
+  - windsurf
+  - gemini-cli
+  - universal
 featured: true
-description: "Phân tích ảnh hưởng của biến thể di truyền lên biểu hiện gen (RNA-seq), khả năng tiếp cận chromatin (DNASE) và các yếu tố điều hòa."
-oneLiner: "Phân tích ảnh hưởng của biến thể di truyền biểu hiện gen bằng AlphaGenome."
-sourceUrl: "https://alphagenome.deepmind.com/"
-sourceAuthor: "Google DeepMind"
-lastVerified: "2026-05-30"
+description: >-
+  Phân tích ảnh hưởng của biến thể di truyền lên biểu hiện gen (RNA-seq), khả
+  năng tiếp cận chromatin (DNASE) và các yếu tố điều hòa.
+oneLiner: Phân tích ảnh hưởng của biến thể di truyền biểu hiện gen bằng AlphaGenome.
+sourceUrl: 'https://alphagenome.deepmind.com/'
+sourceAuthor: Google DeepMind
+lastVerified: '2026-05-30'
 relatedSkills:
-  - "clinvar-database"
-  - "dbsnp-database"
-  - "gnomad-database"
-  - "ensembl-database"
-seoTitle: "AlphaGenome Variant Analysis — Skillbook Agents"
-seoDescription: "Hướng dẫn Agent dự đoán ảnh hưởng biến thể di truyền lên gene expression và chromatin bằng AlphaGenome."
+  - clinvar-database
+  - dbsnp-database
+  - gnomad-database
+  - ensembl-database
+seoTitle: AlphaGenome Variant Analysis — Skillbook Agents
+seoDescription: >-
+  Hướng dẫn Agent dự đoán ảnh hưởng biến thể di truyền lên gene expression và
+  chromatin bằng AlphaGenome.
+provider: antigravity
 ---
 
 ## 📖 Tại Sao Cần Skill Này?

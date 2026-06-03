@@ -1,33 +1,38 @@
 ---
-slug: "chembl-database"
-title: "ChEMBL Bioactive Molecules"
-command: "/chembl-database"
-category: "bioinformatics-genomics"
+slug: chembl-database
+title: ChEMBL Bioactive Molecules
+command: /chembl-database
+category: bioinformatics-genomics
 tags:
-  - "chembl"
-  - "drug"
-  - "bioactivity"
-  - "ic50"
-  - "compound"
-complexity: "intermediate"
+  - chembl
+  - drug
+  - bioactivity
+  - ic50
+  - compound
+complexity: intermediate
 platforms:
-  - "cursor"
-  - "claude-code"
-  - "windsurf"
-  - "gemini-cli"
-  - "universal"
+  - cursor
+  - claude-code
+  - windsurf
+  - gemini-cli
+  - universal
 featured: false
-description: "Tìm kiếm các hợp chất hóa học hoạt tính sinh học, đích tác dụng của thuốc, dữ liệu hoạt tính (IC50/Ki) và cơ chế tác dụng."
-oneLiner: "Truy vấn cơ sở dữ liệu hóa tin ChEMBL cho các phân tử sinh học."
-sourceUrl: "https://www.ebi.ac.uk/chembl/"
-sourceAuthor: "Google DeepMind"
-lastVerified: "2026-05-30"
+description: >-
+  Tìm kiếm các hợp chất hóa học hoạt tính sinh học, đích tác dụng của thuốc, dữ
+  liệu hoạt tính (IC50/Ki) và cơ chế tác dụng.
+oneLiner: Truy vấn cơ sở dữ liệu hóa tin ChEMBL cho các phân tử sinh học.
+sourceUrl: 'https://www.ebi.ac.uk/chembl/'
+sourceAuthor: Google DeepMind
+lastVerified: '2026-05-30'
 relatedSkills:
-  - "pubchem-database"
-  - "opentargets-database"
-  - "openfda-database"
-seoTitle: "ChEMBL Bioactive Molecules — Skillbook Agents"
-seoDescription: "Hướng dẫn Agent truy vấn bioactive compounds, IC50/Ki values, và drug targets từ ChEMBL."
+  - pubchem-database
+  - opentargets-database
+  - openfda-database
+seoTitle: ChEMBL Bioactive Molecules — Skillbook Agents
+seoDescription: >-
+  Hướng dẫn Agent truy vấn bioactive compounds, IC50/Ki values, và drug targets
+  từ ChEMBL.
+provider: antigravity
 ---
 
 ## 📖 Tại Sao Cần Skill Này?

@@ -1,34 +1,39 @@
 ---
-slug: "alphafold-database"
-title: "AlphaFold Structure Analysis"
-command: "/alphafold-database"
-category: "bioinformatics-genomics"
+slug: alphafold-database
+title: AlphaFold Structure Analysis
+command: /alphafold-database
+category: bioinformatics-genomics
 tags:
-  - "alphafold"
-  - "protein-structure"
-  - "plddt"
-  - "structural-biology"
-  - "deepmind"
-complexity: "intermediate"
+  - alphafold
+  - protein-structure
+  - plddt
+  - structural-biology
+  - deepmind
+complexity: intermediate
 platforms:
-  - "cursor"
-  - "claude-code"
-  - "windsurf"
-  - "gemini-cli"
-  - "universal"
+  - cursor
+  - claude-code
+  - windsurf
+  - gemini-cli
+  - universal
 featured: true
-description: "Truy xuất và phân tích cấu trúc protein dự đoán bởi AlphaFold bằng mã UniProt ID."
-oneLiner: "Truy xuất và phân tích cấu trúc protein dự đoán bởi AlphaFold."
-sourceUrl: "https://alphafold.ebi.ac.uk/"
-sourceAuthor: "Google DeepMind"
-lastVerified: "2026-05-30"
+description: >-
+  Truy xuất và phân tích cấu trúc protein dự đoán bởi AlphaFold bằng mã UniProt
+  ID.
+oneLiner: Truy xuất và phân tích cấu trúc protein dự đoán bởi AlphaFold.
+sourceUrl: 'https://alphafold.ebi.ac.uk/'
+sourceAuthor: Google DeepMind
+lastVerified: '2026-05-30'
 relatedSkills:
-  - "foldseek-structural-search"
-  - "pymol"
-  - "uniprot-database"
-  - "pdb-database"
-seoTitle: "AlphaFold Structure Analysis — Skillbook Agents"
-seoDescription: "Hướng dẫn Agent truy xuất cấu trúc protein AlphaFold, phân tích pLDDT và domain boundaries tự động."
+  - foldseek-structural-search
+  - pymol
+  - uniprot-database
+  - pdb-database
+seoTitle: AlphaFold Structure Analysis — Skillbook Agents
+seoDescription: >-
+  Hướng dẫn Agent truy xuất cấu trúc protein AlphaFold, phân tích pLDDT và
+  domain boundaries tự động.
+provider: antigravity
 ---
 
 ## 📖 Tại Sao Cần Skill Này?

@@ -7,7 +7,7 @@ seoDescription: "Detailed instructions on operating the `/browser` automation to
 ---
 
 
-## 🧠 Why Do We Need This Skill?
+## 📖 Why Do We Need This Skill?
 
 When gathering academic data or testing web apps, using static HTTP request libraries (like `requests` or `urllib`) has limitations:
 * **No SPA support**: Modern websites built with React, Vue, or Next.js require JavaScript execution to render content.
@@ -37,7 +37,7 @@ Agent's thought process when executing `/browser`:
 
 ---
 
-## 📜 Agent Guidelines (Prompt Guidelines)
+## 🚀 Agent Guidelines (Prompt Guidelines)
 
 ````markdown
 # BROWSER AUTOMATION INSTRUCTIONS & RULES

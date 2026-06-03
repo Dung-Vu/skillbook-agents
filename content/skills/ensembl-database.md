@@ -1,34 +1,35 @@
 ---
-slug: "ensembl-database"
-title: "Ensembl Genome Browser"
-command: "/ensembl-database"
-category: "bioinformatics-genomics"
+slug: ensembl-database
+title: Ensembl Genome Browser
+command: /ensembl-database
+category: bioinformatics-genomics
 tags:
-  - "ensembl"
-  - "genome"
-  - "vep"
-  - "transcript"
-  - "gene-structure"
-complexity: "intermediate"
+  - ensembl
+  - genome
+  - vep
+  - transcript
+  - gene-structure
+complexity: intermediate
 platforms:
-  - "cursor"
-  - "claude-code"
-  - "windsurf"
-  - "gemini-cli"
-  - "universal"
+  - cursor
+  - claude-code
+  - windsurf
+  - gemini-cli
+  - universal
 featured: false
-description: "Tra cứu cơ sở dữ liệu Ensembl để dịch mã ID gen/transcript, tải trình tự FASTA và dự đoán ảnh hưởng biến thể (VEP)."
-oneLiner: "Truy xuất trình tự genomic, cấu trúc gen và dự đoán hậu quả biến thể."
-sourceUrl: "https://www.ensembl.org/"
-sourceAuthor: "Google DeepMind"
-lastVerified: "2026-05-30"
-relatedSkills:
-  - "dbsnp-database"
-  - "clinvar-database"
-  - "gnomad-database"
-  - "uniprot-database"
-seoTitle: "Ensembl Genome Browser — Skillbook Agents"
-seoDescription: "Hướng dẫn Agent tra cứu gene, transcript, protein IDs và dự đoán variant consequences bằng Ensembl VEP."
+description: >-
+  Tra cứu cơ sở dữ liệu Ensembl để dịch mã ID gen/transcript, tải trình tự FASTA
+  và dự đoán ảnh hưởng biến thể (VEP).
+oneLiner: 'Truy xuất trình tự genomic, cấu trúc gen và dự đoán hậu quả biến thể.'
+sourceUrl: 'https://www.ensembl.org/'
+sourceAuthor: Google DeepMind
+lastVerified: '2026-05-30'
+relatedSkills: []
+seoTitle: Ensembl Genome Browser — Skillbook Agents
+seoDescription: >-
+  Hướng dẫn Agent tra cứu gene, transcript, protein IDs và dự đoán variant
+  consequences bằng Ensembl VEP.
+provider: antigravity
 ---
 
 ## 📖 Tại Sao Cần Skill Này?

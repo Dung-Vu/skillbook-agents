@@ -1,34 +1,42 @@
 ---
-slug: "teamwork-preview"
-title: "Teamwork Multi-Agent Preview"
-command: "/teamwork-preview"
-category: "workflow-orchestration"
+slug: teamwork-preview
+title: Teamwork Multi-Agent Preview
+command: /teamwork-preview
+category: workflow-orchestration
 tags:
-  - "teamwork"
-  - "multi-agent"
-  - "coordination"
-  - "collaboration"
-complexity: "expert"
+  - teamwork
+  - multi-agent
+  - coordination
+  - collaboration
+complexity: expert
 platforms:
-  - "cursor"
-  - "claude-code"
-  - "windsurf"
-  - "gemini-cli"
-  - "universal"
+  - cursor
+  - claude-code
+  - windsurf
+  - gemini-cli
+  - universal
 featured: true
-description: "Khởi tạo mạng lưới làm việc cộng tác giữa nhiều AI Agent chuyên biệt (Dev, QA, PM, Architect) để giải quyết các dự án lớn một cách chuyên nghiệp và toàn diện."
-oneLiner: "Tổ chức mạng lưới cộng tác giữa nhiều AI Agent chuyên biệt để giải quyết dự án lớn."
-sourceUrl: ""
-sourceAuthor: "Google DeepMind"
-lastVerified: "2026-06-01"
+description: >-
+  Khởi tạo mạng lưới làm việc cộng tác giữa nhiều AI Agent chuyên biệt (Dev, QA,
+  PM, Architect) để giải quyết các dự án lớn một cách chuyên nghiệp và toàn
+  diện.
+oneLiner: >-
+  Tổ chức mạng lưới cộng tác giữa nhiều AI Agent chuyên biệt để giải quyết dự án
+  lớn.
+sourceUrl: ''
+sourceAuthor: Google DeepMind
+lastVerified: '2026-06-01'
 relatedSkills:
-  - "workflow-skill-creator"
-  - "goal"
-seoTitle: "/teamwork-preview - Multi-Agent Collaboration Skill for Complex Projects"
-seoDescription: "Chỉ dẫn chi tiết cách AI Agent vận hành mô hình cộng tác nhóm /teamwork-preview phối hợp giữa Dev, QA, PM và Architect."
+  - workflow-skill-creator
+  - goal
+seoTitle: /teamwork-preview - Multi-Agent Collaboration Skill for Complex Projects
+seoDescription: >-
+  Chỉ dẫn chi tiết cách AI Agent vận hành mô hình cộng tác nhóm
+  /teamwork-preview phối hợp giữa Dev, QA, PM và Architect.
+provider: antigravity
 ---
 
-## 🧠 Tại Sao AI Agent Của Bạn Cần Kỹ Năng Này?
+## 📖 Tại Sao AI Agent Của Bạn Cần Kỹ Năng Này?
 
 Khi đối mặt với các dự án phần mềm hoặc hệ thống thông tin quy mô lớn, một AI Agent đơn lẻ thường gặp khó khăn do giới hạn về dung lượng ngữ cảnh (context limit) và khả năng đảm nhiệm nhiều vai trò cùng lúc:
 * **Quá tải thông tin**: Một Agent phải tự viết code, tự kiểm thử, tự sửa lỗi và tự viết tài liệu dễ dẫn đến mất tập trung hoặc chất lượng sản phẩm giảm sút.
@@ -59,7 +67,7 @@ Quy trình suy nghĩ của Agent khi thực thi `/teamwork-preview`:
 
 ---
 
-## 📜 Bộ Quy Tắc Chỉ Dẫn Cho Agent (Prompt Guidelines)
+## 🚀 Bộ Quy Tắc Chỉ Dẫn Cho Agent (Prompt Guidelines)
 
 ````markdown
 # TEAMWORK MULTI-AGENT INSTRUCTIONS & RULES

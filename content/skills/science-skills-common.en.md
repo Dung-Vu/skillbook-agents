@@ -7,7 +7,7 @@ seoDescription: "Infrastructure guidelines for rate-limiting, retries, and expon
 ---
 
 
-## 🧠 Why Do We Need This Skill?
+## 📖 Why Do We Need This Skill?
 
 When running intensive biomedical research workflows, Agents frequently query global databases (NCBI, Ensembl, UniProt, ClinVar). These public servers enforce strict request rate limits:
 * **IP Blocking**: Sending too many concurrent requests results in IP blocks (HTTP 429 errors). Default Agents cannot self-throttle.
@@ -45,7 +45,7 @@ Add these rules to `.windsurfrules` at the project root to enforce rate limits o
 
 ---
 
-## 📜 Agent Guidelines (Prompt Guidelines)
+## 🚀 Agent Guidelines (Prompt Guidelines)
 
 ````markdown
 # SCIENCE COMMON LIBRARY RULES & GUIDELINES

@@ -7,7 +7,7 @@ seoDescription: "Meta-skill instructions helping AI Agents distill chat conversa
 ---
 
 
-## 🧠 Why Do We Need This Skill?
+## 📖 Why Do We Need This Skill?
 
 During project development, developers and AI Agents build complex workflows — spanning API calls, data translations, and automated build and test checks. Without this skill:
 * **Knowledge Loss**: When a chat session closes, the reasoning steps and command sequences are lost, requiring the user to retrain the AI in subsequent sessions.
@@ -45,7 +45,7 @@ Add these rules to `.windsurfrules` at the project root to enable Cascade to pac
 
 ---
 
-## 📜 Agent Guidelines (Prompt Guidelines)
+## 🚀 Agent Guidelines (Prompt Guidelines)
 
 ```markdown
 # WORKFLOW SKILL CREATOR INSTRUCTIONS & RULES

@@ -1,33 +1,38 @@
 ---
-slug: "ncbi-sequence-fetch"
-title: "NCBI Sequence Retrieval"
-command: "/ncbi-sequence-fetch"
-category: "bioinformatics-genomics"
+slug: ncbi-sequence-fetch
+title: NCBI Sequence Retrieval
+command: /ncbi-sequence-fetch
+category: bioinformatics-genomics
 tags:
-  - "ncbi"
-  - "sequence"
-  - "genbank"
-  - "refseq"
-  - "efetch"
-complexity: "intermediate"
+  - ncbi
+  - sequence
+  - genbank
+  - refseq
+  - efetch
+complexity: intermediate
 platforms:
-  - "cursor"
-  - "claude-code"
-  - "windsurf"
-  - "gemini-cli"
-  - "universal"
+  - cursor
+  - claude-code
+  - windsurf
+  - gemini-cli
+  - universal
 featured: false
-description: "Tải các trình tự gen, protein bằng mã Accession ID hoặc tìm kiếm theo danh mục loài sinh vật từ các cơ sở dữ liệu NCBI."
-oneLiner: "Truy xuất trình tự nucleotide và protein từ NCBI."
-sourceUrl: "https://www.ncbi.nlm.nih.gov/"
-sourceAuthor: "Google DeepMind"
-lastVerified: "2026-05-30"
+description: >-
+  Tải các trình tự gen, protein bằng mã Accession ID hoặc tìm kiếm theo danh mục
+  loài sinh vật từ các cơ sở dữ liệu NCBI.
+oneLiner: Truy xuất trình tự nucleotide và protein từ NCBI.
+sourceUrl: 'https://www.ncbi.nlm.nih.gov/'
+sourceAuthor: Google DeepMind
+lastVerified: '2026-05-30'
 relatedSkills:
-  - "uniprot-database"
-  - "ensembl-database"
-  - "pubmed-database"
-seoTitle: "NCBI Sequence Retrieval — Skillbook Agents"
-seoDescription: "Hướng dẫn Agent truy xuất protein và nucleotide sequences từ NCBI bằng E-utilities."
+  - uniprot-database
+  - ensembl-database
+  - pubmed-database
+seoTitle: NCBI Sequence Retrieval — Skillbook Agents
+seoDescription: >-
+  Hướng dẫn Agent truy xuất protein và nucleotide sequences từ NCBI bằng
+  E-utilities.
+provider: antigravity
 ---
 
 ## 📖 Tại Sao Cần Skill Này?

@@ -1,33 +1,35 @@
 ---
-slug: "protein-sequence-msa"
-title: "Protein Multiple Sequence Alignment"
-command: "/protein-sequence-msa"
-category: "bioinformatics-genomics"
+slug: protein-sequence-msa
+title: Protein Multiple Sequence Alignment
+command: /protein-sequence-msa
+category: bioinformatics-genomics
 tags:
-  - "msa"
-  - "clustal-omega"
-  - "sequence-alignment"
-  - "protein"
-  - "conservation"
-complexity: "intermediate"
+  - msa
+  - clustal-omega
+  - sequence-alignment
+  - protein
+  - conservation
+complexity: intermediate
 platforms:
-  - "cursor"
-  - "claude-code"
-  - "windsurf"
-  - "gemini-cli"
-  - "universal"
+  - cursor
+  - claude-code
+  - windsurf
+  - gemini-cli
+  - universal
 featured: false
-description: "Căn chỉnh nhiều trình tự protein để đánh giá mức độ tương đồng di truyền, vùng domain bảo tồn và các axit amin quan trọng."
-oneLiner: "Thực hiện đa căn chỉnh trình tự protein (MSA) bằng Clustal Omega."
-sourceUrl: "https://www.ebi.ac.uk/jdispatcher/msa/clustalo"
-sourceAuthor: "Google DeepMind"
-lastVerified: "2026-05-30"
-relatedSkills:
-  - "protein-sequence-similarity-search"
-  - "uniprot-database"
-  - "interpro-database"
-seoTitle: "Protein Multiple Sequence Alignment — Skillbook Agents"
-seoDescription: "Hướng dẫn Agent thực hiện MSA protein với Clustal Omega để phân tích conservation và residue quan trọng."
+description: >-
+  Căn chỉnh nhiều trình tự protein để đánh giá mức độ tương đồng di truyền, vùng
+  domain bảo tồn và các axit amin quan trọng.
+oneLiner: Thực hiện đa căn chỉnh trình tự protein (MSA) bằng Clustal Omega.
+sourceUrl: 'https://www.ebi.ac.uk/jdispatcher/msa/clustalo'
+sourceAuthor: Google DeepMind
+lastVerified: '2026-05-30'
+relatedSkills: []
+seoTitle: Protein Multiple Sequence Alignment — Skillbook Agents
+seoDescription: >-
+  Hướng dẫn Agent thực hiện MSA protein với Clustal Omega để phân tích
+  conservation và residue quan trọng.
+provider: antigravity
 ---
 
 ## 📖 Tại Sao Cần Skill Này?

@@ -22,6 +22,7 @@ interface CustomWindow extends Window {
   __canvasPaused?: boolean;
 }
 import { cn, formatDate } from "@/lib/utils";
+import { parseMarkdownToHtml } from "@/lib/markdown";
 import {
   ArrowUp,
   ArrowLeft,
@@ -64,313 +65,7 @@ interface SkillDetailClientProps {
 }
 
 
-// 1. Helper to escape HTML characters & apply premium syntax highlighting
-function highlightSyntax(rawCode: string, lang: string): string {
-  const escaped = rawCode
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;");
 
-  if (!lang) return escaped;
-
-  const l = lang.toLowerCase();
-
-  if (["javascript", "typescript", "js", "ts", "jsx", "tsx", "json"].includes(l)) {
-    const tokenRegex = /(\/\/.*|\/\*[\s\S]*?\*\/)|("[^"\\]*(?:\\.[^"\\]*)*"|'[^'\\]*(?:\\.[^'\\]*)*'|`[^`\\]*(?:\\.[^`\\]*)*`)|(\b\d+\b)|(\b(?:const|let|var|function|return|import|export|from|class|extends|interface|type|default|as|new|typeof|async|await|try|catch|finally|if|else|for|while|do|switch|case|break|continue|throw)\b)|(\b(?:string|number|boolean|any|void|unknown|never|React|useState|useEffect|useMemo|useCallback|useRef|window|document|console|Promise|null|undefined|true|false)\b)/g;
-
-    return escaped.replace(tokenRegex, (match, comment, str, num, keyword, builtin) => {
-      if (comment) return `<span class="text-zinc-500 italic">${comment}</span>`;
-      if (str) return `<span class="text-emerald-400">${str}</span>`;
-      if (num) return `<span class="text-amber-400">${num}</span>`;
-      if (keyword) return `<span class="text-pink-400 font-medium">${keyword}</span>`;
-      if (builtin) return `<span class="text-cyan-400 font-medium">${builtin}</span>`;
-      return match;
-    });
-  }
-
-  if (["bash", "sh", "shell", "cmd", "powershell", "ps1"].includes(l)) {
-    const tokenRegex = /(#.*)|("[^"\\]*(?:\\.[^"\\]*)*"|'[^'\\]*(?:\\.[^'\\]*)*')|(\b(?:npm|yarn|pnpm|bun|npx|git|cd|mkdir|rm|cp|mv|ls|echo|curl|wget|chmod)\b)|(\/[a-zA-Z0-9_-]+)/g;
-
-    return escaped.replace(tokenRegex, (match, comment, str, cmd, slashCmd) => {
-      if (comment) return `<span class="text-zinc-500 italic">${comment}</span>`;
-      if (str) return `<span class="text-emerald-400">${str}</span>`;
-      if (cmd) return `<span class="text-pink-400 font-medium">${cmd}</span>`;
-      if (slashCmd) return `<span class="text-sky-400 font-semibold">${slashCmd}</span>`;
-      return match;
-    });
-  }
-
-  return escaped;
-}
-
-// 2. Inline Markdown Parser for nested elements
-function parseInlineMarkdown(text: string): string {
-  let html = text;
-
-  // Escape HTML entities to prevent rendering issues
-  html = html
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;");
-
-  // Bold: **text**
-  html = html.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
-
-  // Italic: *text*
-  html = html.replace(/\*([^*]+)\*/g, "<em>$1</em>");
-
-  // Inline code: `code`
-  html = html.replace(/`([^`]+)`/g, "<code>$1</code>");
-
-  // Links: [text](url)
-  html = html.replace(
-    /\[([^\]]+)\]\(([^)]+)\)/g,
-    '<a href="$2" target="_blank" rel="noopener noreferrer" class="text-[var(--color-accent-primary)] hover:underline font-medium">$1</a>'
-  );
-
-  return html;
-}
-
-// 3. Robust stack-based parser for nested list blocks
-function parseNestedLists(lines: string[]): string {
-  let html = "";
-  const stack: { indent: number; type: "ul" | "ol" }[] = [];
-
-  for (let idx = 0; idx < lines.length; idx++) {
-    const line = lines[idx];
-    const match = line.match(/^(\s*)(?:(-|\*|\+)|\d+\.)\s+(.*)$/);
-
-    if (!match) {
-      if (line.trim() !== "" && stack.length > 0) {
-        html += " " + parseInlineMarkdown(line.trim());
-      }
-      continue;
-    }
-
-    const indent = match[1].length;
-    const isUnordered = !!match[2];
-    const type: "ul" | "ol" = isUnordered ? "ul" : "ol";
-    const listClass = type === "ul" ? 'class="list-disc pl-5 my-2 space-y-1"' : 'class="list-decimal pl-5 my-2 space-y-1"';
-    const content = parseInlineMarkdown(match[3]);
-
-    while (stack.length > 0 && indent < stack[stack.length - 1].indent) {
-      const popped = stack.pop();
-      html += `</li></${popped?.type}>\n`;
-    }
-
-    if (stack.length === 0) {
-      stack.push({ indent, type });
-      html += `<${type} ${listClass}>\n<li>${content}`;
-    } else {
-      const top = stack[stack.length - 1];
-      if (indent > top.indent) {
-        stack.push({ indent, type });
-        html += `\n<${type} ${listClass}>\n<li>${content}`;
-      } else {
-        if (type !== top.type) {
-          stack.pop();
-          html += `</li>\n</${top.type}>\n<${type} ${listClass}>\n<li>${content}`;
-          stack.push({ indent, type });
-        } else {
-          html += `</li>\n<li>${content}`;
-        }
-      }
-    }
-  }
-
-  while (stack.length > 0) {
-    const popped = stack.pop();
-    html += `</li>\n</${popped?.type}>`;
-  }
-
-  return html;
-}
-
-// 4. Table parser with proper alignments and styles
-function parseMarkdownTable(lines: string[]): string {
-  if (lines.length === 0) return "";
-
-  const getCells = (line: string): string[] => {
-    const parts = line.split("|");
-    if (parts[0].trim() === "") parts.shift();
-    if (parts[parts.length - 1].trim() === "") parts.pop();
-    return parts.map((cell) => cell.trim());
-  };
-
-  const headerCells = getCells(lines[0]);
-  const alignCells = lines.length > 1 ? getCells(lines[1]) : [];
-  const alignments = alignCells.map((cell) => {
-    const left = cell.startsWith(":");
-    const right = cell.endsWith(":");
-    if (left && right) return "center";
-    if (right) return "right";
-    return "left";
-  });
-
-  const getAlignClass = (index: number): string => {
-    const align = alignments[index] || "left";
-    if (align === "center") return "text-center";
-    if (align === "right") return "text-right";
-    return "text-left";
-  };
-
-  let thead = "";
-  if (headerCells.length > 0) {
-    const ths = headerCells
-      .map(
-        (cell, idx) =>
-          `<th class="px-4 py-3 text-xs font-semibold uppercase tracking-wider text-[var(--color-text-primary)] border-b border-[var(--color-border)] ${getAlignClass(
-            idx
-          )}">${parseInlineMarkdown(cell)}</th>`
-      )
-      .join("");
-    thead = `<thead><tr class="bg-[var(--color-bg-secondary)]">${ths}</tr></thead>`;
-  }
-
-  const rows: string[] = [];
-  for (let idx = 2; idx < lines.length; idx++) {
-    const cells = getCells(lines[idx]);
-    const tds = cells
-      .map(
-        (cell, cellIdx) =>
-          `<td class="px-4 py-3 text-sm text-[var(--color-text-secondary)] border-b border-[var(--color-border)] ${getAlignClass(
-            cellIdx
-          )}">${parseInlineMarkdown(cell)}</td>`
-      )
-      .join("");
-    rows.push(`<tr class="hover:bg-[var(--color-bg-card-hover)]/30 transition-colors duration-150">${tds}</tr>`);
-  }
-  const tbody = `<tbody>${rows.join("")}</tbody>`;
-
-  return `
-    <div class="overflow-x-auto my-6 border border-[var(--color-border)] rounded-xl shadow-sm">
-      <table class="min-w-full border-collapse align-middle font-sans">
-        ${thead}
-        ${tbody}
-      </table>
-    </div>
-  `;
-}
-
-// 5. Master Block-Level Markdown Parser
-function parseMarkdownToHtml(md: string): string {
-  const lines = md.replace(/\r/g, "").split("\n");
-  const blocks: string[] = [];
-
-  let i = 0;
-  while (i < lines.length) {
-    const prevI = i;
-    const line = lines[i];
-
-    // 1. Code Blocks (Supports both 3 and 4 backticks for nested blocks)
-    if (line.trim().startsWith("```")) {
-      const backtickMatch = line.trim().match(/^(~{3,4}|`{3,4})/);
-      const backticks = backtickMatch ? backtickMatch[1] : "```";
-      const lang = line.trim().substring(backticks.length).trim();
-      const codeLines: string[] = [];
-      i++;
-      while (i < lines.length && !lines[i].trim().startsWith(backticks)) {
-        codeLines.push(lines[i]);
-        i++;
-      }
-      i++; // Skip closing backticks
-
-      const rawCode = codeLines.join("\n");
-      const highlightedCode = highlightSyntax(rawCode, lang);
-      blocks.push(`<pre><code class="language-${lang}">${highlightedCode}</code></pre>`);
-      continue;
-    }
-
-    // 2. Blank Lines
-    if (line.trim() === "") {
-      i++;
-      continue;
-    }
-
-    // 3. Headers
-    if (line.startsWith("### ")) {
-      blocks.push(`<h3>${parseInlineMarkdown(line.substring(4))}</h3>`);
-      i++;
-      continue;
-    }
-    if (line.startsWith("## ")) {
-      blocks.push(`<h2>${parseInlineMarkdown(line.substring(3))}</h2>`);
-      i++;
-      continue;
-    }
-
-    // 4. Blockquotes
-    if (line.startsWith("> ")) {
-      const bqLines: string[] = [];
-      while (i < lines.length && lines[i].startsWith("> ")) {
-        bqLines.push(lines[i].substring(2));
-        i++;
-      }
-      const bqContent = parseMarkdownToHtml(bqLines.join("\n"));
-      blocks.push(`<blockquote>${bqContent}</blockquote>`);
-      continue;
-    }
-
-    // 5. Tables
-    if (
-      line.trim().startsWith("|") &&
-      i + 1 < lines.length &&
-      lines[i + 1].trim().startsWith("|") &&
-      lines[i + 1].includes("-")
-    ) {
-      const tableLines: string[] = [];
-      while (i < lines.length && lines[i].trim().startsWith("|")) {
-        tableLines.push(lines[i].trim());
-        i++;
-      }
-
-      const tableHtml = parseMarkdownTable(tableLines);
-      blocks.push(tableHtml);
-      continue;
-    }
-
-    // 6. Nested Lists
-    const listPattern = /^(\s*)(?:(-|\*|\+)|\d+\.)\s+(.*)$/;
-    if (listPattern.test(line)) {
-      const listLines: string[] = [];
-      while (
-        i < lines.length &&
-        (listPattern.test(lines[i]) || (lines[i].trim() !== "" && lines[i].startsWith(" ")))
-      ) {
-        listLines.push(lines[i]);
-        i++;
-      }
-      const listHtml = parseNestedLists(listLines);
-      blocks.push(listHtml);
-      continue;
-    }
-
-    // 7. Standalone paragraphs
-    const pLines: string[] = [];
-    while (
-      i < lines.length &&
-      lines[i].trim() !== "" &&
-      !lines[i].trim().startsWith("```") &&
-      !lines[i].startsWith("## ") &&
-      !lines[i].startsWith("### ") &&
-      !lines[i].startsWith("> ") &&
-      !listPattern.test(lines[i])
-    ) {
-      pLines.push(lines[i]);
-      i++;
-    }
-    const pContent = parseInlineMarkdown(pLines.join(" "));
-    blocks.push(`<p>${pContent}</p>`);
-
-    // Fallback to prevent infinite loops if no block matched and i didn't progress
-    if (i === prevI) {
-      blocks.push(`<p>${parseInlineMarkdown(line)}</p>`);
-      i++;
-    }
-  }
-
-  return blocks.join("\n");
-}
 
 const pageVariants: Variants = {
   initial: { opacity: 0, scale: 1, filter: "blur(0px)" },
@@ -519,9 +214,35 @@ export function SkillDetailClient({
     }
     return rawNextSkill;
   }, [rawNextSkill, language]);
+  const platforms = useMemo(() => skill.platforms || ["universal"], [skill.platforms]);
   const containerRef = useRef<HTMLDivElement>(null);
   const [headings, setHeadings] = useState<{ id: string; text: string; level: number }[]>([]);
-  const [activeId, setActiveId] = useState<string>("");
+  const [activeId, setActiveId] = useState<string>( "");
+  const [activePlatform, setActivePlatform] = useState<PlatformId>("universal");
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const saved = localStorage.getItem("selectedPlatform") as PlatformId;
+      if (saved) {
+        setTimeout(() => setActivePlatform(saved), 0);
+      } else if (platforms.length > 0) {
+        setTimeout(() => setActivePlatform(platforms[0] as PlatformId), 0);
+      }
+    }
+  }, [platforms]);
+
+  const handlePlatformChange = (platform: PlatformId) => {
+    setActivePlatform(platform);
+    if (typeof window !== "undefined") {
+      localStorage.setItem("selectedPlatform", platform);
+    }
+  };
+
+  const selectedButtonPlatform = useMemo(() => {
+    if (platforms.includes(activePlatform)) return activePlatform;
+    if (platforms.includes("universal")) return "universal";
+    return (platforms[0] as PlatformId) || "universal";
+  }, [platforms, activePlatform]);
 
   const { isExiting, navigateTo } = useTransitionNavigator();
 
@@ -533,7 +254,6 @@ export function SkillDetailClient({
   }, []);
 
   const htmlContent = useMemo(() => parseMarkdownToHtml(skill.content), [skill.content]);
-  const platforms = useMemo(() => skill.platforms || ["universal"], [skill.platforms]);
 
 
 
@@ -630,21 +350,8 @@ export function SkillDetailClient({
         try {
           await navigator.clipboard.writeText(codeText);
           copied = true;
-        } catch {
-          // Fallback to execCommand for headless test environments (lacks active window focus)
-          try {
-            const textArea = document.createElement("textarea");
-            textArea.value = codeText;
-            textArea.style.position = "fixed";
-            textArea.style.left = "-9999px";
-            document.body.appendChild(textArea);
-            textArea.focus();
-            textArea.select();
-            copied = document.execCommand("copy");
-            document.body.removeChild(textArea);
-          } catch (fallbackErr) {
-            console.error("Copy fallback failed: ", fallbackErr);
-          }
+        } catch (err) {
+          console.error("Failed to copy code: ", err);
         }
 
         if (copied) {
@@ -800,24 +507,48 @@ export function SkillDetailClient({
         wrapper.appendChild(el);
       });
     });
-  }, [htmlContent, platforms]);
+  }, [htmlContent, platforms, t]);
 
-  // 2. Chuyển đổi trạng thái hiển thị nền tảng
+  // 2. Chuyển đổi trạng thái hiển thị nền tảng dựa trên activePlatform
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
 
     const activeWrappers = container.querySelectorAll(".platform-wrapper-block");
+    
+    let hasMatchingBlock = false;
     activeWrappers.forEach((wrapper) => {
-      wrapper.classList.remove("hidden");
-      wrapper.classList.add("block");
+      const dataPlatforms = wrapper.getAttribute("data-platforms") || "";
+      const supported = dataPlatforms.split(" ");
+      if (supported.includes(activePlatform)) {
+        hasMatchingBlock = true;
+      }
     });
 
-    // 2.3: Trích xuất danh sách các tiêu đề để hiển thị trong Mục Lục bài viết
+    const filterPlatform = hasMatchingBlock ? activePlatform : "universal";
+
+    activeWrappers.forEach((wrapper) => {
+      const dataPlatforms = wrapper.getAttribute("data-platforms") || "";
+      const supported = dataPlatforms.split(" ");
+      if (supported.includes(filterPlatform)) {
+        wrapper.classList.remove("hidden");
+        wrapper.classList.add("block");
+      } else {
+        wrapper.classList.remove("block");
+        wrapper.classList.add("hidden");
+      }
+    });
+
+    // 2.3: Trích xuất danh sách các tiêu đề hiển thị trong Mục Lục (chỉ lấy các tiêu đề hiển thị thực tế)
     const headingElements = container.querySelectorAll("h2, h3");
     const visibleHeadings: { id: string; text: string; level: number }[] = [];
 
     headingElements.forEach((el, index) => {
+      const parentWrapper = el.closest(".platform-wrapper-block");
+      if (parentWrapper && parentWrapper.classList.contains("hidden")) {
+        return;
+      }
+
       const rawText = el.textContent || "";
       const cleanedText = rawText
         .replace(/[\u{1F300}-\u{1F9FF}]|[\u{2600}-\u{26FF}]|[\u{2700}-\u{27BF}]|[\u{1F1E0}-\u{1F1FF}]/gu, "")
@@ -831,7 +562,7 @@ export function SkillDetailClient({
     });
 
     setHeadings(visibleHeadings);
-  }, [htmlContent]);
+  }, [htmlContent, activePlatform]);
 
   // R1: Tối ưu hoá TOC Active Link Tracking bằng IntersectionObserver (Không gây Layout Thrashing)
   useEffect(() => {
@@ -1098,7 +829,33 @@ export function SkillDetailClient({
                 variants={contentVariants}
                 className="lg:col-span-9 w-full will-change-[transform,opacity] translate-z-0 transform-gpu"
               >
-
+                {/* Platform Switcher */}
+                {platforms.length > 0 && (
+                  <div className="flex items-center gap-2 mb-6 p-2 rounded-xl bg-slate-50 border border-slate-200/60 w-full overflow-x-auto select-none">
+                    {platforms.map((p) => {
+                      const isActive = selectedButtonPlatform === p;
+                      const config = PLATFORM_CONFIG[p as PlatformId] || { label: p, color: "#8b5cf6" };
+                      return (
+                        <button
+                          key={p}
+                          onClick={() => handlePlatformChange(p as PlatformId)}
+                          className={cn(
+                            "flex items-center gap-2 px-3 py-1.5 rounded-lg border text-xs font-mono transition-all cursor-pointer shrink-0 active:scale-95",
+                            isActive
+                              ? "bg-white border-slate-300 text-slate-900 font-bold shadow-sm"
+                              : "bg-transparent border-transparent text-slate-500 hover:text-slate-900"
+                          )}
+                        >
+                          <span
+                            className="inline-block w-2 h-2 rounded-full"
+                            style={{ backgroundColor: config.color }}
+                          />
+                          {config.label}
+                        </button>
+                      );
+                    })}
+                  </div>
+                )}
 
                 <MarkdownContent ref={containerRef} htmlContent={htmlContent} />
               </motion.div>
@@ -1121,11 +878,18 @@ export function SkillDetailClient({
                     <HologramCard
                       key={rs.slug}
                       href={`/skills/${rs.slug}`}
-                      className="skill-card"
+                      className="skill-card relative"
                       id={`related-${rs.slug}`}
                       onClick={(e) => navigateTo(e, `/skills/${rs.slug}`)}
                     >
-                      <span className="skill-card__command transition-colors duration-200">{rs.command}</span>
+                      <div className="flex items-start justify-between gap-2">
+                        <span className="skill-card__command transition-colors duration-200">{rs.command || rs.slug}</span>
+                        {rs.provider !== skill.provider && (
+                          <span className="shrink-0 text-[9px] font-mono font-bold px-1.5 py-0.5 rounded bg-indigo-50 border border-indigo-200/50 text-indigo-600">
+                            also available in {rs.provider}
+                          </span>
+                        )}
+                      </div>
                       <p className="skill-card__description transition-colors duration-200">{rs.description}</p>
                     </HologramCard>
                   ))}

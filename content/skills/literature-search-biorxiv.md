@@ -1,33 +1,36 @@
 ---
-slug: "literature-search-biorxiv"
-title: "bioRxiv/medRxiv Preprints"
-command: "/literature-search-biorxiv"
-category: "research-analysis"
+slug: literature-search-biorxiv
+title: bioRxiv/medRxiv Preprints
+command: /literature-search-biorxiv
+category: research-analysis
 tags:
-  - "biorxiv"
-  - "medrxiv"
-  - "preprints"
-  - "biology"
-  - "life-sciences"
-complexity: "starter"
+  - biorxiv
+  - medrxiv
+  - preprints
+  - biology
+  - life-sciences
+complexity: starter
 platforms:
-  - "cursor"
-  - "claude-code"
-  - "windsurf"
-  - "gemini-cli"
-  - "universal"
+  - cursor
+  - claude-code
+  - windsurf
+  - gemini-cli
+  - universal
 featured: false
-description: "Duyệt tìm và lọc các bản thảo nghiên cứu y sinh học chưa qua phản biện theo chuyên mục khoa học và khoảng thời gian."
-oneLiner: "Tìm kiếm các bài báo tiền xuất bản về khoa học sự sống trên bioRxiv/medRxiv."
-sourceUrl: "https://www.biorxiv.org/"
-sourceAuthor: "Google DeepMind"
-lastVerified: "2026-05-30"
+description: >-
+  Duyệt tìm và lọc các bản thảo nghiên cứu y sinh học chưa qua phản biện theo
+  chuyên mục khoa học và khoảng thời gian.
+oneLiner: Tìm kiếm các bài báo tiền xuất bản về khoa học sự sống trên bioRxiv/medRxiv.
+sourceUrl: 'https://www.biorxiv.org/'
+sourceAuthor: Google DeepMind
+lastVerified: '2026-05-30'
 relatedSkills:
-  - "literature-search-arxiv"
-  - "pubmed-database"
-  - "literature-search-europepmc"
-seoTitle: "bioRxiv/medRxiv Preprints — Skillbook Agents"
-seoDescription: "Hướng dẫn Agent browse và download preprints sinh học từ bioRxiv và medRxiv."
+  - literature-search-arxiv
+  - pubmed-database
+  - literature-search-europepmc
+seoTitle: bioRxiv/medRxiv Preprints — Skillbook Agents
+seoDescription: Hướng dẫn Agent browse và download preprints sinh học từ bioRxiv và medRxiv.
+provider: antigravity
 ---
 
 ## 📖 Tại Sao Cần Skill Này?

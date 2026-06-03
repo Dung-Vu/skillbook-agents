@@ -1,6 +1,6 @@
-import { CategoryConfig } from "@/types/skill";
+import { CategoryConfig, CategoryId } from "@/types/skill";
 
-export const CATEGORIES: Record<string, CategoryConfig> = {
+export const CATEGORIES: Record<CategoryId, CategoryConfig> = {
   "reasoning-planning": {
     id: "reasoning-planning",
     label: "Reasoning & Planning",
@@ -103,7 +103,7 @@ export const CATEGORIES: Record<string, CategoryConfig> = {
   },
 } as const;
 
-export function getCategoryById(id: string): CategoryConfig | undefined {
+export function getCategoryById(id: CategoryId): CategoryConfig | undefined {
   return CATEGORIES[id];
 }
 

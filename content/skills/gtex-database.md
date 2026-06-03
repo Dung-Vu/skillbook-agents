@@ -1,33 +1,38 @@
 ---
-slug: "gtex-database"
-title: "GTEx Gene Expression"
-command: "/gtex-database"
-category: "bioinformatics-genomics"
+slug: gtex-database
+title: GTEx Gene Expression
+command: /gtex-database
+category: bioinformatics-genomics
 tags:
-  - "gtex"
-  - "gene-expression"
-  - "rna-seq"
-  - "eqtl"
-  - "tissue-specific"
-complexity: "intermediate"
+  - gtex
+  - gene-expression
+  - rna-seq
+  - eqtl
+  - tissue-specific
+complexity: intermediate
 platforms:
-  - "cursor"
-  - "claude-code"
-  - "windsurf"
-  - "gemini-cli"
-  - "universal"
+  - cursor
+  - claude-code
+  - windsurf
+  - gemini-cli
+  - universal
 featured: false
-description: "Phân tích biểu hiện gen định lượng và các biến thể di truyền liên quan đến biểu hiện gen (eQTL) trên 54 mô cơ thể khỏe mạnh."
-oneLiner: "Truy xuất dữ liệu biểu hiện RNA và eQTL từ dự án GTEx."
-sourceUrl: "https://gtexportal.org/"
-sourceAuthor: "Google DeepMind"
-lastVerified: "2026-05-30"
+description: >-
+  Phân tích biểu hiện gen định lượng và các biến thể di truyền liên quan đến
+  biểu hiện gen (eQTL) trên 54 mô cơ thể khỏe mạnh.
+oneLiner: Truy xuất dữ liệu biểu hiện RNA và eQTL từ dự án GTEx.
+sourceUrl: 'https://gtexportal.org/'
+sourceAuthor: Google DeepMind
+lastVerified: '2026-05-30'
 relatedSkills:
-  - "human-protein-atlas-database"
-  - "ensembl-database"
-  - "gnomad-database"
-seoTitle: "GTEx Gene Expression — Skillbook Agents"
-seoDescription: "Hướng dẫn Agent truy xuất dữ liệu biểu hiện gene RNA-seq và eQTL từ GTEx trên 54 mô."
+  - human-protein-atlas-database
+  - ensembl-database
+  - gnomad-database
+seoTitle: GTEx Gene Expression — Skillbook Agents
+seoDescription: >-
+  Hướng dẫn Agent truy xuất dữ liệu biểu hiện gene RNA-seq và eQTL từ GTEx trên
+  54 mô.
+provider: antigravity
 ---
 
 ## 📖 Tại Sao Cần Skill Này?

@@ -7,7 +7,7 @@ seoDescription: "Optimization guidelines helping AI Agents set up and execute Py
 ---
 
 
-## 🧠 Why Do We Need This Skill?
+## 📖 Why Do We Need This Skill?
 
 Python is the primary language for AI, data analysis, and automation. However, managing virtual environments (`venv`) and installing packages using traditional `pip` poses challenges for Agents:
 * **Slow resolution speeds**: Resolving and downloading packages with `pip` can trigger chat session timeouts.
@@ -45,7 +45,7 @@ Add these rules to `.windsurfrules` at the project root to enforce UV packages.
 
 ---
 
-## 📜 Agent Guidelines (Prompt Guidelines)
+## 🚀 Agent Guidelines (Prompt Guidelines)
 
 ````markdown
 # UV PACKAGE MANAGER INSTRUCTIONS & RULES

@@ -5,7 +5,7 @@ oneLiner: "Schedule automated background tasks or timers."
 seoTitle: "/schedule - Scheduled & Recurring Automation Skill for AI"
 seoDescription: "Rules for configuring timers and recurring cron schedules using the `/schedule` tool for AI Agents."
 ---
-## 🧠 Why is this skill needed?
+## 📖 Why Do We Need This Skill?
 
 In project management, software quality assurance, or academic tracking tasks, passive execution (waiting for user messages to run) has several limitations:
 * **Lack of updates**: Cannot automatically detect real-time data changes.
@@ -33,7 +33,7 @@ Agent thought process when scheduling:
 
 ---
 
-## 📜 Agent Guidelines (Prompt Guidelines)
+## 🚀 Agent Guidelines (Prompt Guidelines)
 
 ````markdown
 # SCHEDULE COMMAND INSTRUCTIONS & RULES

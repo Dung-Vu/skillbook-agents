@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
-import { Sparkles, Menu, X, Terminal, Info, History, ChevronRight, Globe, Search } from "lucide-react";
+import { Sparkles, Menu, X, Terminal, Info, History, ChevronRight, Globe } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLanguage } from "@/context/LanguageContext";

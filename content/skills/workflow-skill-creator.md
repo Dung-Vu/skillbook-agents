@@ -1,35 +1,41 @@
 ---
-slug: "workflow-skill-creator"
-title: "Workflow Skill Creator"
-command: "/workflow-skill-creator"
-category: "workflow-orchestration"
+slug: workflow-skill-creator
+title: Workflow Skill Creator
+command: /workflow-skill-creator
+category: workflow-orchestration
 tags:
-  - "skill-creation"
-  - "workflow"
-  - "automation"
-  - "meta-skill"
-  - "reusable"
-complexity: "advanced"
+  - skill-creation
+  - workflow
+  - automation
+  - meta-skill
+  - reusable
+complexity: advanced
 platforms:
-  - "cursor"
-  - "claude-code"
-  - "windsurf"
-  - "gemini-cli"
-  - "universal"
+  - cursor
+  - claude-code
+  - windsurf
+  - gemini-cli
+  - universal
 featured: false
-description: "Siêu kỹ năng (Meta-skill) giúp Agent tự động đúc rút, đóng gói và chuẩn hóa các quy trình tương tác phức tạp vừa hoàn thành thành một gói Kỹ năng Antigravity hoàn chỉnh có thể tái sử dụng lâu dài."
-oneLiner: "Đóng gói tự động các quy trình làm việc phức tạp thành kỹ năng tái sử dụng."
-sourceUrl: "https://github.com/google-deepmind"
-sourceAuthor: "Google DeepMind"
-lastVerified: "2026-05-31"
+description: >-
+  Siêu kỹ năng (Meta-skill) giúp Agent tự động đúc rút, đóng gói và chuẩn hóa
+  các quy trình tương tác phức tạp vừa hoàn thành thành một gói Kỹ năng
+  Antigravity hoàn chỉnh có thể tái sử dụng lâu dài.
+oneLiner: Đóng gói tự động các quy trình làm việc phức tạp thành kỹ năng tái sử dụng.
+sourceUrl: 'https://github.com/google-deepmind'
+sourceAuthor: Google DeepMind
+lastVerified: '2026-05-31'
 relatedSkills:
-  - "science-skills-common"
-  - "uv"
-seoTitle: "Workflow Skill Creator for AI Agents — Skillbook Agents"
-seoDescription: "Bộ chỉ dẫn siêu kỹ năng giúp AI Agent đúc rút conversations thành reusable skills với cấu trúc chuẩn hóa."
+  - science-skills-common
+  - uv
+seoTitle: Workflow Skill Creator for AI Agents — Skillbook Agents
+seoDescription: >-
+  Bộ chỉ dẫn siêu kỹ năng giúp AI Agent đúc rút conversations thành reusable
+  skills với cấu trúc chuẩn hóa.
+provider: antigravity
 ---
 
-## 🧠 Tại Sao AI Agent Của Bạn Cần Kỹ Năng Này?
+## 📖 Tại Sao AI Agent Của Bạn Cần Kỹ Năng Này?
 
 Trong quá trình phát triển dự án, lập trình viên và AI thường phối hợp thực hiện nhiều quy trình làm việc (workflow) rất phức tạp — bao gồm gọi liên chuỗi API, chuyển đổi cấu trúc dữ liệu, build và chạy kiểm thử tự động. Nếu không có kỹ năng này:
 * **Mất mát tri thức**: Khi phiên hội thoại chat kết thúc, toàn bộ phương pháp xử lý thông minh và chuỗi câu lệnh đúc rút được sẽ biến mất. Bạn sẽ phải dạy lại AI từ đầu ở phiên chat mới.
@@ -67,7 +73,7 @@ Nhúng các quy tắc này vào `.windsurfrules` để Cascade Agent tự độn
 
 ---
 
-## 📜 Bộ Quy Tắc Chỉ Dẫn Cho Agent (Prompt Guidelines)
+## 🚀 Bộ Quy Tắc Chỉ Dẫn Cho Agent (Prompt Guidelines)
 
 ```markdown
 # WORKFLOW SKILL CREATOR INSTRUCTIONS & RULES

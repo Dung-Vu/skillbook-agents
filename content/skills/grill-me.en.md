@@ -7,7 +7,7 @@ seoDescription: "Guide for Agents to proactively align goals and verify implemen
 ---
 
 
-## 🧠 Why Do We Need This Skill?
+## 📖 Why Do We Need This Skill?
 
 AI agents frequently guess user preferences when facing incomplete specifications. This leads to code misalignment and wasted computing cycles. Without this skill:
 * **Misaligned architecture**: AI builds a REST API when a simple utility script was desired.
@@ -35,7 +35,7 @@ Alignment verification loop:
 
 ---
 
-## 📜 Agent Guidelines (Prompt Guidelines)
+## 🚀 Agent Guidelines (Prompt Guidelines)
 
 ````markdown
 # GRILL-ME INTERVIEW INSTRUCTIONS & RULES

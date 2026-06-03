@@ -1,32 +1,37 @@
 ---
-slug: "science-skills-common"
-title: "Science Skills Common Library"
-command: "/science-skills-common"
-category: "tool-integration"
+slug: science-skills-common
+title: Science Skills Common Library
+command: /science-skills-common
+category: tool-integration
 tags:
-  - "shared-library"
-  - "http-client"
-  - "rate-limiting"
-  - "retry"
-  - "infrastructure"
-complexity: "starter"
+  - shared-library
+  - http-client
+  - rate-limiting
+  - retry
+  - infrastructure
+complexity: starter
 platforms:
-  - "universal"
+  - universal
 featured: false
-description: "Cung cấp hạ tầng HTTP client dùng chung, kiểm soát tần suất truy cập (rate-limiting) và cơ chế tự động thử lại với exponential backoff khi gọi external APIs khoa học (NCBI, EBI, RCSB)."
-oneLiner: "Gói hạ tầng HTTP client rate-limiting và retry dùng chung cho các AI Science Agents."
-sourceUrl: "https://github.com/google-deepmind"
-sourceAuthor: "Google DeepMind"
-lastVerified: "2026-05-31"
-relatedSkills:
-  - "uv"
-  - "pubmed-database"
-  - "uniprot-database"
-seoTitle: "Science Skills Common Library for AI Agents — Skillbook Agents"
-seoDescription: "Bộ chỉ dẫn kỹ năng hạ tầng HTTP client rate-limiting, retries, exponential backoff dùng chung cho AI Science Agents."
+description: >-
+  Cung cấp hạ tầng HTTP client dùng chung, kiểm soát tần suất truy cập
+  (rate-limiting) và cơ chế tự động thử lại với exponential backoff khi gọi
+  external APIs khoa học (NCBI, EBI, RCSB).
+oneLiner: >-
+  Gói hạ tầng HTTP client rate-limiting và retry dùng chung cho các AI Science
+  Agents.
+sourceUrl: 'https://github.com/google-deepmind'
+sourceAuthor: Google DeepMind
+lastVerified: '2026-05-31'
+relatedSkills: []
+seoTitle: Science Skills Common Library for AI Agents — Skillbook Agents
+seoDescription: >-
+  Bộ chỉ dẫn kỹ năng hạ tầng HTTP client rate-limiting, retries, exponential
+  backoff dùng chung cho AI Science Agents.
+provider: antigravity
 ---
 
-## 🧠 Tại Sao AI Agent Của Bạn Cần Kỹ Năng Này?
+## 📖 Tại Sao AI Agent Của Bạn Cần Kỹ Năng Này?
 
 Khi AI Agents thực hiện các tác vụ nghiên cứu khoa học chuyên sâu, chúng phải liên tục gọi các API cơ sở dữ liệu lớn trên thế giới (như NCBI, Ensembl, UniProt, ClinVar). Tuy nhiên, các máy chủ khoa học này cực kỳ nghiêm ngặt về tần suất truy cập:
 * **Chặn IP (Rate Limit block)**: Nếu AI gửi quá nhiều request cùng lúc, IP của bạn sẽ lập tức bị chặn (Lỗi HTTP 429). AI mặc định không biết cách tự kiềm chế hoặc trì hoãn giữa các lệnh.
@@ -64,7 +69,7 @@ Nhúng các quy tắc này vào `.windsurfrules` để Cascade Agent tự độn
 
 ---
 
-## 📜 Bộ Quy Tắc Chỉ Dẫn Cho Agent (Prompt Guidelines)
+## 🚀 Bộ Quy Tắc Chỉ Dẫn Cho Agent (Prompt Guidelines)
 
 ````markdown
 # SCIENCE COMMON LIBRARY RULES & GUIDELINES

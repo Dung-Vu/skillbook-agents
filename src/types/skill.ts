@@ -1,22 +1,21 @@
-export interface SkillFrontmatter {
-  slug: string;
-  title: string;
-  command: string;
-  category: string;
-  tags: string[];
-  complexity: "starter" | "intermediate" | "advanced" | "expert";
-  platforms: string[];
-  featured: boolean;
-  description: string;
-  oneLiner: string;
-  sourceUrl: string;
-  sourceAuthor: string;
-  lastVerified: string;
-  relatedSkills: string[];
-  seoTitle: string;
-  seoDescription: string;
-  provider?: "antigravity" | "minimax";
-}
+import { type SkillFrontmatter } from "../lib/schema";
+
+export type CategoryId =
+  | "reasoning-planning"
+  | "code-engineering"
+  | "tool-integration"
+  | "content-communication"
+  | "research-analysis"
+  | "safety-guardrails"
+  | "persona-behavior"
+  | "workflow-orchestration"
+  | "creative-design"
+  | "data-knowledge"
+  | "bioinformatics-genomics"
+  | "mobile-development";
+
+export type { SkillFrontmatter };
+
 
 export interface SkillEnglishOverride {
   title: string;
@@ -33,7 +32,7 @@ export interface Skill extends SkillFrontmatter {
 }
 
 export interface CategoryConfig {
-  id: string;
+  id: CategoryId;
   label: string;
   icon: string;
   color: string;
@@ -57,6 +56,7 @@ export const PLATFORM_CONFIG = {
   "openai-codex": { label: "OpenAI Codex", color: "#10a37f" },
   universal: { label: "Universal", color: "#8b5cf6" },
   mcp: { label: "MCP", color: "#ec4899" },
+  "minimax-cli": { label: "Minimax CLI", color: "#f43f5e" },
 } as const;
 
 export type ComplexityLevel = keyof typeof COMPLEXITY_CONFIG;

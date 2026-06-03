@@ -1,33 +1,40 @@
 ---
-slug: "android-cli"
-title: "Android CLI Development"
-command: "/android-cli"
-category: "mobile-development"
+slug: android-cli
+title: Android CLI Development
+command: /android-cli
+category: mobile-development
 tags:
-  - "android"
-  - "sdk"
-  - "adb"
-  - "gradle"
-  - "deployment"
-complexity: "intermediate"
+  - android
+  - sdk
+  - adb
+  - gradle
+  - deployment
+complexity: intermediate
 platforms:
-  - "cursor"
-  - "claude-code"
-  - "windsurf"
-  - "gemini-cli"
-  - "universal"
+  - cursor
+  - claude-code
+  - windsurf
+  - gemini-cli
+  - universal
 featured: true
-description: "Hướng dẫn Agent kiểm soát toàn diện pipeline phát triển Android thông qua CLI — từ khởi tạo dự án, quản lý SDK, điều khiển ADB đến tự động hóa build Gradle."
-oneLiner: "Điều phối và tự động hóa toàn trình quy trình phát triển ứng dụng Android qua CLI."
-sourceUrl: "https://developer.android.com/"
-sourceAuthor: "Google DeepMind"
-lastVerified: "2026-05-31"
+description: >-
+  Hướng dẫn Agent kiểm soát toàn diện pipeline phát triển Android thông qua CLI
+  — từ khởi tạo dự án, quản lý SDK, điều khiển ADB đến tự động hóa build Gradle.
+oneLiner: >-
+  Điều phối và tự động hóa toàn trình quy trình phát triển ứng dụng Android qua
+  CLI.
+sourceUrl: 'https://developer.android.com/'
+sourceAuthor: Google DeepMind
+lastVerified: '2026-05-31'
 relatedSkills: []
-seoTitle: "Android CLI Development for AI Agents — Skillbook Agents"
-seoDescription: "Bộ chỉ dẫn kỹ năng tối ưu hóa giúp AI Agent quản lý Android development qua CLI — project creation, SDK, deployment, diagnostics."
+seoTitle: Android CLI Development for AI Agents — Skillbook Agents
+seoDescription: >-
+  Bộ chỉ dẫn kỹ năng tối ưu hóa giúp AI Agent quản lý Android development qua
+  CLI — project creation, SDK, deployment, diagnostics.
+provider: antigravity
 ---
 
-## 🧠 Tại Sao AI Agent Của Bạn Cần Kỹ Năng Này?
+## 📖 Tại Sao AI Agent Của Bạn Cần Kỹ Năng Này?
 
 Mặc dù các mô hình ngôn ngữ lớn (LLM) rất xuất sắc trong việc viết mã Kotlin, Java hoặc XML, chúng hoàn toàn không có khả năng nhận biết môi trường máy tính cục bộ của bạn. Nếu không có kỹ năng này:
 * **AI sẽ hướng dẫn thủ công**: AI sẽ yêu cầu bạn tự mở Android Studio, click chuột từng bước để tạo project hoặc chẩn đoán SDK.
@@ -69,7 +76,7 @@ Khai báo các quy tắc trong file `claude_rules.md` hoặc dán trực tiếp 
 
 ---
 
-## 📜 Bộ Quy Tắc Chỉ Dẫn Cho Agent (Prompt Guidelines)
+## 🚀 Bộ Quy Tắc Chỉ Dẫn Cho Agent (Prompt Guidelines)
 
 ```markdown
 # ANDROID CLI INSTRUCTIONS & RULES

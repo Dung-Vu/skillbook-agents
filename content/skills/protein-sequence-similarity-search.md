@@ -1,34 +1,38 @@
 ---
-slug: "protein-sequence-similarity-search"
-title: "Protein Sequence Similarity Search"
-command: "/protein-sequence-similarity-search"
-category: "bioinformatics-genomics"
+slug: protein-sequence-similarity-search
+title: Protein Sequence Similarity Search
+command: /protein-sequence-similarity-search
+category: bioinformatics-genomics
 tags:
-  - "blast"
-  - "mmseqs2"
-  - "homology"
-  - "sequence-search"
-  - "protein"
-complexity: "intermediate"
+  - blast
+  - mmseqs2
+  - homology
+  - sequence-search
+  - protein
+complexity: intermediate
 platforms:
-  - "cursor"
-  - "claude-code"
-  - "windsurf"
-  - "gemini-cli"
-  - "universal"
+  - cursor
+  - claude-code
+  - windsurf
+  - gemini-cli
+  - universal
 featured: false
-description: "Đối chiếu trình tự protein truy vấn với các cơ sở dữ liệu lớn để tìm kiếm homologue di truyền và suy diễn chức năng sinh học."
-oneLiner: "Tìm kiếm trình tự protein tương đồng bằng MMseqs2 hoặc BLAST."
-sourceUrl: "https://www.ebi.ac.uk/Tools/sss/"
-sourceAuthor: "Google DeepMind"
-lastVerified: "2026-05-30"
+description: >-
+  Đối chiếu trình tự protein truy vấn với các cơ sở dữ liệu lớn để tìm kiếm
+  homologue di truyền và suy diễn chức năng sinh học.
+oneLiner: Tìm kiếm trình tự protein tương đồng bằng MMseqs2 hoặc BLAST.
+sourceUrl: 'https://www.ebi.ac.uk/Tools/sss/'
+sourceAuthor: Google DeepMind
+lastVerified: '2026-05-30'
 relatedSkills:
-  - "protein-sequence-msa"
-  - "foldseek-structural-search"
-  - "uniprot-database"
-  - "interpro-database"
-seoTitle: "Protein Sequence Similarity Search — Skillbook Agents"
-seoDescription: "Hướng dẫn Agent tìm kiếm protein homolog bằng MMseqs2 và BLAST để suy luận chức năng."
+  - protein-sequence-msa
+  - uniprot-database
+  - interpro-database
+seoTitle: Protein Sequence Similarity Search — Skillbook Agents
+seoDescription: >-
+  Hướng dẫn Agent tìm kiếm protein homolog bằng MMseqs2 và BLAST để suy luận
+  chức năng.
+provider: antigravity
 ---
 
 ## 📖 Tại Sao Cần Skill Này?

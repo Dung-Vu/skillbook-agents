@@ -1,33 +1,35 @@
 ---
-slug: "unibind-database"
-title: "UniBind TF Binding Sites"
-command: "/unibind-database"
-category: "bioinformatics-genomics"
+slug: unibind-database
+title: UniBind TF Binding Sites
+command: /unibind-database
+category: bioinformatics-genomics
 tags:
-  - "unibind"
-  - "transcription-factor"
-  - "chip-seq"
-  - "binding-sites"
-  - "experimental"
-complexity: "advanced"
+  - unibind
+  - transcription-factor
+  - chip-seq
+  - binding-sites
+  - experimental
+complexity: advanced
 platforms:
-  - "cursor"
-  - "claude-code"
-  - "windsurf"
-  - "gemini-cli"
-  - "universal"
+  - cursor
+  - claude-code
+  - windsurf
+  - gemini-cli
+  - universal
 featured: false
-description: "Tải tọa độ vùng tương tác trực tiếp TF-DNA đã được xác thực thực nghiệm từ cơ sở dữ liệu UniBind."
-oneLiner: "Truy xuất tập dữ liệu vùng liên kết yếu tố phiên mã thực nghiệm."
-sourceUrl: "https://unibind.uio.no/"
-sourceAuthor: "Google DeepMind"
-lastVerified: "2026-05-30"
-relatedSkills:
-  - "jaspar-database"
-  - "encode-ccres-database"
-  - "ucsc-conservation-and-tfbs"
-seoTitle: "UniBind TF Binding Sites — Skillbook Agents"
-seoDescription: "Hướng dẫn Agent truy vấn experimentally validated TF binding sites từ UniBind database."
+description: >-
+  Tải tọa độ vùng tương tác trực tiếp TF-DNA đã được xác thực thực nghiệm từ cơ
+  sở dữ liệu UniBind.
+oneLiner: Truy xuất tập dữ liệu vùng liên kết yếu tố phiên mã thực nghiệm.
+sourceUrl: 'https://unibind.uio.no/'
+sourceAuthor: Google DeepMind
+lastVerified: '2026-05-30'
+relatedSkills: []
+seoTitle: UniBind TF Binding Sites — Skillbook Agents
+seoDescription: >-
+  Hướng dẫn Agent truy vấn experimentally validated TF binding sites từ UniBind
+  database.
+provider: antigravity
 ---
 
 ## 📖 Tại Sao Cần Skill Này?

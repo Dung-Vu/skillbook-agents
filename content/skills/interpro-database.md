@@ -1,33 +1,35 @@
 ---
-slug: "interpro-database"
-title: "InterPro Domain Analysis"
-command: "/interpro-database"
-category: "bioinformatics-genomics"
+slug: interpro-database
+title: InterPro Domain Analysis
+command: /interpro-database
+category: bioinformatics-genomics
 tags:
-  - "interpro"
-  - "protein-domains"
-  - "pfam"
-  - "families"
-  - "functional-sites"
-complexity: "intermediate"
+  - interpro
+  - protein-domains
+  - pfam
+  - families
+  - functional-sites
+complexity: intermediate
 platforms:
-  - "cursor"
-  - "claude-code"
-  - "windsurf"
-  - "gemini-cli"
-  - "universal"
+  - cursor
+  - claude-code
+  - windsurf
+  - gemini-cli
+  - universal
 featured: false
-description: "Nhận diện domain chức năng, phân loại họ protein bằng InterPro và đối chiếu cây phân loại loài sinh học."
-oneLiner: "Phân tích và nhận diện các vùng domain, họ protein di truyền học."
-sourceUrl: "https://www.ebi.ac.uk/interpro/"
-sourceAuthor: "Google DeepMind"
-lastVerified: "2026-05-30"
-relatedSkills:
-  - "uniprot-database"
-  - "protein-sequence-similarity-search"
-  - "pdb-database"
-seoTitle: "InterPro Domain Analysis — Skillbook Agents"
-seoDescription: "Hướng dẫn Agent xác định protein domains và families bằng InterPro và 14 member databases."
+description: >-
+  Nhận diện domain chức năng, phân loại họ protein bằng InterPro và đối chiếu
+  cây phân loại loài sinh học.
+oneLiner: 'Phân tích và nhận diện các vùng domain, họ protein di truyền học.'
+sourceUrl: 'https://www.ebi.ac.uk/interpro/'
+sourceAuthor: Google DeepMind
+lastVerified: '2026-05-30'
+relatedSkills: []
+seoTitle: InterPro Domain Analysis — Skillbook Agents
+seoDescription: >-
+  Hướng dẫn Agent xác định protein domains và families bằng InterPro và 14
+  member databases.
+provider: antigravity
 ---
 
 ## 📖 Tại Sao Cần Skill Này?

@@ -1,34 +1,35 @@
 ---
-slug: "dbsnp-database"
-title: "dbSNP Variant Lookup"
-command: "/dbsnp-database"
-category: "bioinformatics-genomics"
+slug: dbsnp-database
+title: dbSNP Variant Lookup
+command: /dbsnp-database
+category: bioinformatics-genomics
 tags:
-  - "dbsnp"
-  - "snp"
-  - "rsid"
-  - "variant-lookup"
-  - "allele-frequency"
-complexity: "intermediate"
+  - dbsnp
+  - snp
+  - rsid
+  - variant-lookup
+  - allele-frequency
+complexity: intermediate
 platforms:
-  - "cursor"
-  - "claude-code"
-  - "windsurf"
-  - "gemini-cli"
-  - "universal"
+  - cursor
+  - claude-code
+  - windsurf
+  - gemini-cli
+  - universal
 featured: false
-description: "Tìm kiếm thông tin SNP, indel bằng mã rsID hoặc tọa độ genome, truy xuất tần số alen và mối liên quan bệnh lý lâm sàng."
-oneLiner: "Tra cứu và bản đồ hóa các biến thể di truyền ngắn trong dbSNP."
-sourceUrl: "https://www.ncbi.nlm.nih.gov/snp/"
-sourceAuthor: "Google DeepMind"
-lastVerified: "2026-05-30"
-relatedSkills:
-  - "clinvar-database"
-  - "gnomad-database"
-  - "ensembl-database"
-  - "alphagenome-single-variant-analysis"
-seoTitle: "dbSNP Variant Lookup — Skillbook Agents"
-seoDescription: "Hướng dẫn Agent tra cứu SNPs và indels từ dbSNP, mapping giữa rsID, tọa độ genomic, và HGVS."
+description: >-
+  Tìm kiếm thông tin SNP, indel bằng mã rsID hoặc tọa độ genome, truy xuất tần
+  số alen và mối liên quan bệnh lý lâm sàng.
+oneLiner: Tra cứu và bản đồ hóa các biến thể di truyền ngắn trong dbSNP.
+sourceUrl: 'https://www.ncbi.nlm.nih.gov/snp/'
+sourceAuthor: Google DeepMind
+lastVerified: '2026-05-30'
+relatedSkills: []
+seoTitle: dbSNP Variant Lookup — Skillbook Agents
+seoDescription: >-
+  Hướng dẫn Agent tra cứu SNPs và indels từ dbSNP, mapping giữa rsID, tọa độ
+  genomic, và HGVS.
+provider: antigravity
 ---
 
 ## 📖 Tại Sao Cần Skill Này?

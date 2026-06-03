@@ -1,33 +1,35 @@
 ---
-slug: "ucsc-conservation-and-tfbs"
-title: "UCSC Conservation & TFBS"
-command: "/ucsc-conservation-and-tfbs"
-category: "bioinformatics-genomics"
+slug: ucsc-conservation-and-tfbs
+title: UCSC Conservation & TFBS
+command: /ucsc-conservation-and-tfbs
+category: bioinformatics-genomics
 tags:
-  - "ucsc"
-  - "conservation"
-  - "phylop"
-  - "phastcons"
-  - "tfbs"
-complexity: "advanced"
+  - ucsc
+  - conservation
+  - phylop
+  - phastcons
+  - tfbs
+complexity: advanced
 platforms:
-  - "cursor"
-  - "claude-code"
-  - "windsurf"
-  - "gemini-cli"
-  - "universal"
+  - cursor
+  - claude-code
+  - windsurf
+  - gemini-cli
+  - universal
 featured: false
-description: "Tải điểm bảo tồn tiến hóa gen (phyloP, phastCons) và vùng liên kết yếu tố phiên mã thực nghiệm từ UCSC Genome Browser."
-oneLiner: "Tra cứu điểm bảo tồn tiến hóa và vùng liên kết yếu tố phiên mã."
-sourceUrl: "https://genome.ucsc.edu/"
-sourceAuthor: "Google DeepMind"
-lastVerified: "2026-05-30"
+description: >-
+  Tải điểm bảo tồn tiến hóa gen (phyloP, phastCons) và vùng liên kết yếu tố
+  phiên mã thực nghiệm từ UCSC Genome Browser.
+oneLiner: Tra cứu điểm bảo tồn tiến hóa và vùng liên kết yếu tố phiên mã.
+sourceUrl: 'https://genome.ucsc.edu/'
+sourceAuthor: Google DeepMind
+lastVerified: '2026-05-30'
 relatedSkills:
-  - "encode-ccres-database"
-  - "jaspar-database"
-  - "alphagenome-single-variant-analysis"
-seoTitle: "UCSC Conservation & TFBS — Skillbook Agents"
-seoDescription: "Hướng dẫn Agent lấy conservation scores và TFBS data từ UCSC Genome Browser."
+  - jaspar-database
+  - alphagenome-single-variant-analysis
+seoTitle: UCSC Conservation & TFBS — Skillbook Agents
+seoDescription: Hướng dẫn Agent lấy conservation scores và TFBS data từ UCSC Genome Browser.
+provider: antigravity
 ---
 
 ## 📖 Tại Sao Cần Skill Này?

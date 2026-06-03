@@ -1,33 +1,35 @@
 ---
-slug: "clinical-trials-database"
-title: "ClinicalTrials.gov Search"
-command: "/clinical-trials-database"
-category: "bioinformatics-genomics"
+slug: clinical-trials-database
+title: ClinicalTrials.gov Search
+command: /clinical-trials-database
+category: bioinformatics-genomics
 tags:
-  - "clinical-trials"
-  - "ctgov"
-  - "drug-development"
-  - "recruiting"
-  - "phases"
-complexity: "intermediate"
+  - clinical-trials
+  - ctgov
+  - drug-development
+  - recruiting
+  - phases
+complexity: intermediate
 platforms:
-  - "cursor"
-  - "claude-code"
-  - "windsurf"
-  - "gemini-cli"
-  - "universal"
+  - cursor
+  - claude-code
+  - windsurf
+  - gemini-cli
+  - universal
 featured: false
-description: "Tìm kiếm các thử nghiệm lâm sàng theo bệnh lý, loại thuốc, nhà tài trợ, trạng thái tuyển chọn và địa điểm nghiên cứu."
-oneLiner: "Tra cứu cơ sở dữ liệu thử nghiệm lâm sàng ClinicalTrials.gov."
-sourceUrl: "https://clinicaltrials.gov/"
-sourceAuthor: "Google DeepMind"
-lastVerified: "2026-05-30"
-relatedSkills:
-  - "pubmed-database"
-  - "openfda-database"
-  - "chembl-database"
-seoTitle: "ClinicalTrials.gov Search — Skillbook Agents"
-seoDescription: "Hướng dẫn Agent tìm kiếm và phân tích clinical trials từ ClinicalTrials.gov APIv2."
+description: >-
+  Tìm kiếm các thử nghiệm lâm sàng theo bệnh lý, loại thuốc, nhà tài trợ, trạng
+  thái tuyển chọn và địa điểm nghiên cứu.
+oneLiner: Tra cứu cơ sở dữ liệu thử nghiệm lâm sàng ClinicalTrials.gov.
+sourceUrl: 'https://clinicaltrials.gov/'
+sourceAuthor: Google DeepMind
+lastVerified: '2026-05-30'
+relatedSkills: []
+seoTitle: ClinicalTrials.gov Search — Skillbook Agents
+seoDescription: >-
+  Hướng dẫn Agent tìm kiếm và phân tích clinical trials từ ClinicalTrials.gov
+  APIv2.
+provider: antigravity
 ---
 
 ## 📖 Tại Sao Cần Skill Này?

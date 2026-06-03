@@ -1,7 +1,10 @@
 import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
-import { Skill, SkillFrontmatter } from "@/types/skill";
+import { z } from "zod";
+import { Skill } from "@/types/skill";
+import { SkillFrontmatterSchema } from "./schema";
+
 
 const SKILLS_DIR = path.join(process.cwd(), "content", "skills");
 
@@ -20,28 +23,33 @@ export function getSkillBySlug(slug: string): Skill | null {
   const fileContent = fs.readFileSync(filePath, "utf-8");
   const { data, content } = matter(fileContent);
 
-  const skill: Skill = {
-    ...(data as SkillFrontmatter),
-    slug,
-    provider: (data.provider as any) || (slug.startsWith("minimax-") ? "minimax" : "antigravity"),
-    content,
-  };
-
-  const enFilePath = path.join(SKILLS_DIR, `${slug}.en.md`);
-  if (fs.existsSync(enFilePath)) {
-    const enContentRaw = fs.readFileSync(enFilePath, "utf-8");
-    const { data: enData, content: enContent } = matter(enContentRaw);
-    skill.en = {
-      title: (enData.title as string) || "",
-      description: (enData.description as string) || "",
-      oneLiner: (enData.oneLiner as string) || "",
-      seoTitle: (enData.seoTitle as string) || "",
-      seoDescription: (enData.seoDescription as string) || "",
-      content: enContent,
+  try {
+    const validatedData = SkillFrontmatterSchema.parse(data);
+    const skill: Skill = {
+      ...validatedData,
+      slug,
+      content,
     };
-  }
 
-  return skill;
+    const enFilePath = path.join(SKILLS_DIR, `${slug}.en.md`);
+    if (fs.existsSync(enFilePath)) {
+      const enContentRaw = fs.readFileSync(enFilePath, "utf-8");
+      const { data: enData, content: enContent } = matter(enContentRaw);
+      skill.en = {
+        title: (enData.title as string) || "",
+        description: (enData.description as string) || "",
+        oneLiner: (enData.oneLiner as string) || "",
+        seoTitle: (enData.seoTitle as string) || "",
+        seoDescription: (enData.seoDescription as string) || "",
+        content: enContent,
+      };
+    }
+
+    return skill;
+  } catch (error) {
+    console.error(`Error parsing skill markdown for ${slug}:`, error);
+    throw new Error(`Invalid frontmatter in skill markdown ${slug}: ${JSON.stringify(error)}`);
+  }
 }
 
 export function getAllSkills(): Skill[] {

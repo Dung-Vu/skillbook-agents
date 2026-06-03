@@ -1,35 +1,42 @@
 ---
-slug: "browser"
-title: "Browser Automation"
-command: "/browser"
-category: "research-analysis"
+slug: browser
+title: Browser Automation
+command: /browser
+category: research-analysis
 tags:
-  - "browser"
-  - "puppeteer"
-  - "playwright"
-  - "web-scraping"
-  - "ui-testing"
-complexity: "intermediate"
+  - browser
+  - puppeteer
+  - playwright
+  - web-scraping
+  - ui-testing
+complexity: intermediate
 platforms:
-  - "cursor"
-  - "claude-code"
-  - "windsurf"
-  - "gemini-cli"
-  - "universal"
+  - cursor
+  - claude-code
+  - windsurf
+  - gemini-cli
+  - universal
 featured: true
-description: "Kích hoạt AI Agent tương tác trực tiếp với các ứng dụng web thông qua trình duyệt tự động để thực hiện thu thập dữ liệu và kiểm thử giao diện."
-oneLiner: "Tương tác trực tiếp và thu thập dữ liệu từ các ứng dụng web thông qua trình duyệt tự động."
-sourceUrl: ""
-sourceAuthor: "Google DeepMind"
-lastVerified: "2026-06-01"
+description: >-
+  Kích hoạt AI Agent tương tác trực tiếp với các ứng dụng web thông qua trình
+  duyệt tự động để thực hiện thu thập dữ liệu và kiểm thử giao diện.
+oneLiner: >-
+  Tương tác trực tiếp và thu thập dữ liệu từ các ứng dụng web thông qua trình
+  duyệt tự động.
+sourceUrl: ''
+sourceAuthor: Google DeepMind
+lastVerified: '2026-06-01'
 relatedSkills:
-  - "literature-search-openalex"
-  - "clinical-trials-database"
-seoTitle: "/browser - Web Browser Automation Skill for AI Agents"
-seoDescription: "Chỉ dẫn chi tiết cách AI Agent vận hành trình duyệt tự động /browser để thu thập dữ liệu web và kiểm thử UI/UX."
+  - literature-search-openalex
+  - clinical-trials-database
+seoTitle: /browser - Web Browser Automation Skill for AI Agents
+seoDescription: >-
+  Chỉ dẫn chi tiết cách AI Agent vận hành trình duyệt tự động /browser để thu
+  thập dữ liệu web và kiểm thử UI/UX.
+provider: antigravity
 ---
 
-## 🧠 Tại Sao AI Agent Của Bạn Cần Kỹ Năng Này?
+## 📖 Tại Sao AI Agent Của Bạn Cần Kỹ Năng Này?
 
 Khi thu thập dữ liệu học thuật hoặc kiểm tra các ứng dụng web, việc chỉ sử dụng các thư viện gửi request HTTP tĩnh (như `requests` hoặc `urllib`) gặp nhiều hạn chế:
 * **Không hỗ trợ Single Page Application (SPA)**: Các trang web hiện đại dựng bằng React, Vue, Next.js yêu cầu chạy Javascript để hiển thị nội dung.
@@ -59,7 +66,7 @@ Quy trình suy nghĩ của Agent khi thực thi `/browser`:
 
 ---
 
-## 📜 Bộ Quy Tắc Chỉ Dẫn Cho Agent (Prompt Guidelines)
+## 🚀 Bộ Quy Tắc Chỉ Dẫn Cho Agent (Prompt Guidelines)
 
 ````markdown
 # BROWSER AUTOMATION INSTRUCTIONS & RULES

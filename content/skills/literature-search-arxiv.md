@@ -1,33 +1,35 @@
 ---
-slug: "literature-search-arxiv"
-title: "arXiv Paper Search"
-command: "/literature-search-arxiv"
-category: "research-analysis"
+slug: literature-search-arxiv
+title: arXiv Paper Search
+command: /literature-search-arxiv
+category: research-analysis
 tags:
-  - "arxiv"
-  - "preprints"
-  - "papers"
-  - "research"
-  - "physics"
-complexity: "starter"
+  - arxiv
+  - preprints
+  - papers
+  - research
+  - physics
+complexity: starter
 platforms:
-  - "cursor"
-  - "claude-code"
-  - "windsurf"
-  - "gemini-cli"
-  - "universal"
+  - cursor
+  - claude-code
+  - windsurf
+  - gemini-cli
+  - universal
 featured: false
-description: "Tra cứu kho lưu trữ arXiv về các nghiên cứu toán học, vật lý, khoa học máy tính và AI, trích xuất tóm tắt và tải tệp PDF."
-oneLiner: "Tìm kiếm và tải tài liệu, bài báo khoa học tiền xuất bản trên arXiv."
-sourceUrl: "https://arxiv.org/"
-sourceAuthor: "Google DeepMind"
-lastVerified: "2026-05-30"
+description: >-
+  Tra cứu kho lưu trữ arXiv về các nghiên cứu toán học, vật lý, khoa học máy
+  tính và AI, trích xuất tóm tắt và tải tệp PDF.
+oneLiner: 'Tìm kiếm và tải tài liệu, bài báo khoa học tiền xuất bản trên arXiv.'
+sourceUrl: 'https://arxiv.org/'
+sourceAuthor: Google DeepMind
+lastVerified: '2026-05-30'
 relatedSkills:
-  - "literature-search-openalex"
-  - "literature-search-europepmc"
-  - "pubmed-database"
-seoTitle: "arXiv Paper Search — Skillbook Agents"
-seoDescription: "Hướng dẫn Agent tìm kiếm papers khoa học và preprints trên arXiv."
+  - literature-search-europepmc
+  - pubmed-database
+seoTitle: arXiv Paper Search — Skillbook Agents
+seoDescription: Hướng dẫn Agent tìm kiếm papers khoa học và preprints trên arXiv.
+provider: antigravity
 ---
 
 ## 📖 Tại Sao Cần Skill Này?

@@ -8,8 +8,7 @@ import Fuse from "fuse.js";
 import { cn } from "@/lib/utils";
 import {
   Skill,
-  PLATFORM_CONFIG,
-  PlatformId,
+  CategoryId,
 } from "@/types/skill";
 import { CATEGORIES } from "@/lib/categories";
 import { MeshGridBackground } from "@/components/ui/MeshGridBackground";
@@ -86,10 +85,10 @@ const SkillRow = React.memo(function SkillRow({ skill, navigateTo }: SkillRowPro
   const handleCopy = useCallback((e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     e.stopPropagation();
-    navigator.clipboard.writeText(skill.command);
+    navigator.clipboard.writeText(skill.command || skill.slug);
     setCopied(true);
     setTimeout(() => setCopied(false), 1500);
-  }, [skill.command]);
+  }, [skill.command, skill.slug]);
 
   return (
     <Link
@@ -100,7 +99,7 @@ const SkillRow = React.memo(function SkillRow({ skill, navigateTo }: SkillRowPro
     >
       <div className="flex items-center gap-2 sm:w-[35%] shrink-0">
         <span className="font-bold font-mono text-[11px] sm:text-xs bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 bg-clip-text text-transparent group-hover:brightness-110 transition-all duration-200 truncate">
-          {skill.command}
+          {skill.command || skill.slug}
         </span>
         <button
           onClick={handleCopy}
@@ -132,13 +131,59 @@ const SkillRow = React.memo(function SkillRow({ skill, navigateTo }: SkillRowPro
 // ============================================================================
 export function SkillCatalogClient({
   skills = [],
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   categoryCountMap = {},
 }: SkillCatalogClientProps): React.ReactElement {
   const [searchVal, setSearchVal] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
 
-  const [activeCategory, setActiveCategory] = useState<string | null>(null);
+  const [activeCategory, setActiveCategory] = useState<CategoryId | null>(null);
   const [activeProvider, setActiveProvider] = useState<"antigravity" | "minimax" | null>(null);
+
+  // Sync URL query params with state on mount
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const params = new URLSearchParams(window.location.search);
+      const providerParam = params.get("provider");
+      const categoryParam = params.get("category");
+
+      if (providerParam === "antigravity" || providerParam === "minimax") {
+        setActiveProvider(providerParam);
+      }
+      if (categoryParam) {
+        const isValidCategory = Object.values(CATEGORIES).some((cat) => cat.id === categoryParam);
+        if (isValidCategory) {
+          setActiveCategory(categoryParam as CategoryId);
+        }
+      }
+    }
+  }, []);
+
+  // Update URL query params when state changes
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const params = new URLSearchParams(window.location.search);
+      
+      if (activeProvider) {
+        params.set("provider", activeProvider);
+      } else {
+        params.delete("provider");
+      }
+
+      if (activeCategory) {
+        params.set("category", activeCategory);
+      } else {
+        params.delete("category");
+      }
+
+      const newSearch = params.toString();
+      const newPath = window.location.pathname + (newSearch ? `?${newSearch}` : "");
+      
+      if (window.location.search !== (newSearch ? `?${newSearch}` : "")) {
+        window.history.replaceState(null, "", newPath);
+      }
+    }
+  }, [activeProvider, activeCategory]);
 
   const [isCategoriesOpen, setIsCategoriesOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
@@ -157,6 +202,22 @@ export function SkillCatalogClient({
       return s;
     });
   }, [skills, language]);
+
+  const currentCategoryCountMap = useMemo(() => {
+    const counts: Record<string, number> = {};
+    const filteredByProvider = activeProvider
+      ? localizedSkills.filter((s) => s.provider === activeProvider)
+      : localizedSkills;
+    filteredByProvider.forEach((skill) => {
+      counts[skill.category] = (counts[skill.category] || 0) + 1;
+    });
+    return counts;
+  }, [localizedSkills, activeProvider]);
+
+  const providerFilteredSkillsCount = useMemo(() => {
+    if (!activeProvider) return localizedSkills.length;
+    return localizedSkills.filter((s) => s.provider === activeProvider).length;
+  }, [localizedSkills, activeProvider]);
 
   useEffect(() => {
     const checkMobile = (): void => {
@@ -177,9 +238,9 @@ export function SkillCatalogClient({
   const sortedCategories = useMemo(
     () =>
       Object.values(CATEGORIES)
-        .filter((cat) => (categoryCountMap[cat.id] || 0) > 0)
+        .filter((cat) => (currentCategoryCountMap[cat.id] || 0) > 0)
         .sort((a, b) => a.order - b.order),
-    [categoryCountMap]
+    [currentCategoryCountMap]
   );
 
   const categoryScopedSkills = useMemo(() => {
@@ -218,7 +279,7 @@ export function SkillCatalogClient({
   const filteredTotal = categoryScopedSkills.length;
 
 
-  const handleCategoryClick = useCallback((categoryId: string | null): void => {
+  const handleCategoryClick = useCallback((categoryId: CategoryId | null): void => {
     setActiveCategory((prev) => (prev === categoryId ? null : categoryId));
   }, []);
 
@@ -286,7 +347,7 @@ export function SkillCatalogClient({
                 )}
               >
                 <span>{t("catalog.allDocs")}</span>
-                <span className="text-[10px] opacity-70 font-semibold">{localizedSkills.length}</span>
+                <span className="text-[10px] opacity-70 font-semibold">{providerFilteredSkillsCount}</span>
               </button>
 
               {sortedCategories.map((cat) => {
@@ -304,7 +365,7 @@ export function SkillCatalogClient({
                   >
                     <span className="truncate">{cat.icon} {t(("category." + cat.id) as TranslationKey) || cat.label}</span>
                     <span className="text-[10px] opacity-70 font-semibold">
-                       {categoryCountMap[cat.id] || 0}
+                       {currentCategoryCountMap[cat.id] || 0}
                     </span>
                   </button>
                 );
@@ -425,7 +486,7 @@ export function SkillCatalogClient({
                       <span className={cn(
                         "text-[9px] font-bold px-1.5 py-0.5 rounded",
                         !activeCategory ? "bg-white/20 text-white" : "bg-slate-100 text-slate-500"
-                      )}>{localizedSkills.length}</span>
+                      )}>{providerFilteredSkillsCount}</span>
                     </button>
 
                     {sortedCategories.map((cat) => {
@@ -449,7 +510,7 @@ export function SkillCatalogClient({
                             "text-[9px] font-bold px-1.5 py-0.5 rounded",
                             isActive ? "bg-white/20 text-white" : "bg-slate-100 text-slate-500"
                           )}>
-                            {categoryCountMap[cat.id] || 0}
+                            {currentCategoryCountMap[cat.id] || 0}
                           </span>
                         </button>
                       );
