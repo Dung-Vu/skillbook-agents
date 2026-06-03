@@ -4,7 +4,7 @@
 
 Mỗi skill có một file `.md` (tiếng Việt) và một file `.en.md` (English) với cùng frontmatter, giải thích **tại sao cần kỹ năng này, cách hoạt động, cách sử dụng cho từng platform** (Cursor, Claude Code, Windsurf, Gemini CLI, Copilot, OpenAI Codex, MCP, v.v.) kèm ví dụ thực tế và gotchas.
 
-🌐 Trải nghiệm trực tiếp: deploy trên Vercel (xem `implementation_plan.md`).
+🌐 Xem trực tiếp: deploy trên Vercel.
 
 ---
 
@@ -17,6 +17,8 @@ Mỗi skill có một file `.md` (tiếng Việt) và một file `.en.md` (Engli
 - **Fuse.js** (client-side fuzzy search)
 - **Zod** (frontmatter schema validation)
 - **Playwright** (E2E tests)
+
+Chi tiết kiến trúc & milestones R1–R5: [docs/architecture.md](docs/architecture.md).
 
 ## Quick Start
 
@@ -33,7 +35,7 @@ pnpm run dev
 # Mở http://localhost:3000
 ```
 
-> Repo này dùng **pnpm** (xem `package.json` → `packageManager: "pnpm@11.5.1"`). Nếu bạn quen npm, mọi script trong `package.json` đều chạy được qua cả `npm run` lẫn `pnpm run` — nhưng hãy dùng pnpm để tận dụng content-addressable store.
+> Repo này dùng **pnpm** (`packageManager: "pnpm@11.5.1"`). Mọi script trong `package.json` đều chạy được qua `npm run` lẫn `pnpm run` — nhưng hãy dùng pnpm để tận dụng content-addressable store.
 
 ## Scripts
 
@@ -52,29 +54,22 @@ pnpm run dev
 
 ```
 content/skills/        109 skill .md (VI) + 109 .en.md (EN)
+docs/                  Architecture, Contributing, Testing, History, Original Requests
 scripts/               validate-skills, autofix-skills, new-skill
 src/app/               App Router (skills, providers, about, changelog, 404)
 src/components/        UI components (Header, Footer, layout, dynamic backgrounds)
 src/lib/               schema (Zod), client helpers, tags whitelist
 tests/e2e/             Playwright spec files
-docs/                  (sẽ di chuyển các file .md từ root vào đây trong task sau)
 ```
 
-## Contributing
+## Documentation
 
-Xem **[CONTRIBUTING.md](./CONTRIBUTING.md)** để biết:
-- Schema frontmatter bắt buộc (12 categories, 9 platforms, provider `antigravity`/`minimax`)
-- Quy trình thêm skill mới (gồm 2 H2-styles: Antigravity 5-H2 và Minimax 4-H2)
-- Quy trình chạy validate + lint + test trước khi PR
+- [Architecture & Milestones](docs/architecture.md) — stack, R1–R5, code layout
+- [Contributing](docs/contributing.md) — schema, 2-H2 providers, quy trình PR
+- [Testing](docs/testing.md) — triết lý kiểm thử, 18 ca E2E, Tier 1–4 coverage
+- [History](docs/history.md) — nhật ký triển khai 8 phase (R1–R5 + 3 follow-up)
+- [Original Requests](docs/original-requests.md) — log raw yêu cầu gốc từ người dùng
 
-## Architecture
+## License
 
-Xem **[PROJECT.md](./PROJECT.md)** để biết kiến trúc hệ thống, milestones R1–R5, code layout.
-
-## Testing
-
-Xem **[TEST_INFRA.md](./TEST_INFRA.md)** để biết triết lý kiểm thử, 18 ca E2E phân bổ trên 5 spec files, và Tier 1–4 coverage.
-
-## History
-
-Xem **[implementation_plan.md](./implementation_plan.md)** cho nhật ký triển khai 8 phase (R1–R5 core + 3 phase mobile/responsive follow-up).
+Private / All rights reserved. © 2026 Skillbook Agents.

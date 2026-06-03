@@ -30,7 +30,7 @@ playwright/.cache/
 .agents/
 *agents/
 progress.md
-ORIGINAL_REQUEST.md
+# ORIGINAL_REQUEST.md gitignore removed in docs-restructure: the canonical log now lives at docs/original-requests.md (tracked). The old filename is no longer created anywhere in the repo.
 tsconfig.tsbuildinfo
 
 # OS files
