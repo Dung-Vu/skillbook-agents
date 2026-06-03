@@ -23,6 +23,7 @@ export function getSkillBySlug(slug: string): Skill | null {
   const skill: Skill = {
     ...(data as SkillFrontmatter),
     slug,
+    provider: (data.provider as any) || (slug.startsWith("minimax-") ? "minimax" : "antigravity"),
     content,
   };
 

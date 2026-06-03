@@ -138,7 +138,7 @@ export function SkillCatalogClient({
   const [searchQuery, setSearchQuery] = useState("");
 
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
-  const [activePlatform, setActivePlatform] = useState<PlatformId | null>(null);
+  const [activeProvider, setActiveProvider] = useState<"antigravity" | "minimax" | null>(null);
 
   const [isCategoriesOpen, setIsCategoriesOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
@@ -187,11 +187,11 @@ export function SkillCatalogClient({
     if (activeCategory) {
       result = result.filter((s) => s.category === activeCategory);
     }
-    if (activePlatform) {
-      result = result.filter((s) => s.platforms && s.platforms.includes(activePlatform));
+    if (activeProvider) {
+      result = result.filter((s) => s.provider === activeProvider);
     }
     return result;
-  }, [localizedSkills, activeCategory, activePlatform]);
+  }, [localizedSkills, activeCategory, activeProvider]);
 
   const scopedFuse = useMemo(() => {
     return new Fuse(categoryScopedSkills, {
@@ -213,19 +213,7 @@ export function SkillCatalogClient({
     return searchResults.map((r) => r.item);
   }, [categoryScopedSkills, scopedFuse, searchQuery]);
 
-  const stats = useMemo(() => {
-    const total = skills.length;
-    const platformCounts: Record<string, number> = {};
-    skills.forEach((s) => {
-      s.platforms?.forEach((p) => {
-        platformCounts[p] = (platformCounts[p] || 0) + 1;
-      });
-    });
-    return {
-      total,
-      platformCompat: Object.keys(platformCounts).length,
-    };
-  }, [skills]);
+
 
   const filteredTotal = categoryScopedSkills.length;
 
@@ -234,20 +222,16 @@ export function SkillCatalogClient({
     setActiveCategory((prev) => (prev === categoryId ? null : categoryId));
   }, []);
 
-  const handlePlatformClick = useCallback((platform: PlatformId): void => {
-    setActivePlatform((prev) => (prev === platform ? null : platform));
-  }, []);
-
   const clearFilters = useCallback((): void => {
     setSearchVal("");
     setSearchQuery("");
     setActiveCategory(null);
-    setActivePlatform(null);
+    setActiveProvider(null);
   }, []);
 
   const hasFilters = useMemo(() => {
-    return !!(searchVal || activeCategory || activePlatform);
-  }, [searchVal, activeCategory, activePlatform]);
+    return !!(searchVal || activeCategory || activeProvider);
+  }, [searchVal, activeCategory, activeProvider]);
 
   const { isExiting, navigateTo } = useTransitionNavigator();
 
@@ -320,62 +304,57 @@ export function SkillCatalogClient({
                   >
                     <span className="truncate">{cat.icon} {t(("category." + cat.id) as TranslationKey) || cat.label}</span>
                     <span className="text-[10px] opacity-70 font-semibold">
-                      {categoryCountMap[cat.id] || 0}
+                       {categoryCountMap[cat.id] || 0}
                     </span>
                   </button>
                 );
               })}
             </div>
 
-            {/* Compact Platform Sub-Filters */}
+            {/* Source / Engine Filters */}
             <div className="space-y-2">
               <span className="text-[10px] font-mono tracking-[0.2em] font-bold text-slate-400 uppercase block mb-2">
-                {t("catalog.platforms")}
+                {t("catalog.sources")}
               </span>
               <div className="flex flex-wrap lg:flex-col gap-1.5">
-                {(Object.keys(PLATFORM_CONFIG) as PlatformId[]).slice(0, 8).map((p) => {
-                  const isActive = activePlatform === p;
-                  return (
-                    <button
-                      key={p}
-                      onClick={() => handlePlatformClick(p)}
-                      className={cn(
-                        "text-[10px] font-mono text-left px-3 py-1.5 rounded-lg border cursor-pointer transition-all duration-150",
-                        isActive 
-                          ? "bg-indigo-50 border-indigo-200 text-indigo-600 font-bold shadow-sm" 
-                          : "bg-white/60 border-slate-200/60 text-slate-600 hover:text-indigo-600 hover:bg-white"
-                      )}
-                    >
-                      {t(("platform." + p) as TranslationKey) || PLATFORM_CONFIG[p].label}
-                    </button>
-                  );
-                })}
+                <button
+                  onClick={() => setActiveProvider(prev => prev === "antigravity" ? null : "antigravity")}
+                  className={cn(
+                    "text-[10px] font-mono text-left px-3 py-1.5 rounded-lg border cursor-pointer transition-all duration-150 flex items-center justify-between w-full",
+                    activeProvider === "antigravity"
+                      ? "bg-indigo-50 border-indigo-200 text-indigo-600 font-bold shadow-sm"
+                      : "bg-white/60 border-slate-200/60 text-slate-600 hover:text-indigo-600 hover:bg-white"
+                  )}
+                >
+                  <span>Antigravity</span>
+                  <span className={cn(
+                    "text-[9px] font-bold px-1.5 py-0.2 rounded font-mono",
+                    activeProvider === "antigravity" ? "bg-indigo-100 text-indigo-700" : "bg-slate-100 text-slate-500"
+                  )}>
+                    {localizedSkills.filter(s => s.provider === "antigravity").length}
+                  </span>
+                </button>
+                <button
+                  onClick={() => setActiveProvider(prev => prev === "minimax" ? null : "minimax")}
+                  className={cn(
+                    "text-[10px] font-mono text-left px-3 py-1.5 rounded-lg border cursor-pointer transition-all duration-150 flex items-center justify-between w-full",
+                    activeProvider === "minimax"
+                      ? "bg-indigo-50 border-indigo-200 text-indigo-600 font-bold shadow-sm"
+                      : "bg-white/60 border-slate-200/60 text-slate-600 hover:text-indigo-600 hover:bg-white"
+                  )}
+                >
+                  <span>Minimax</span>
+                  <span className={cn(
+                    "text-[9px] font-bold px-1.5 py-0.2 rounded font-mono",
+                    activeProvider === "minimax" ? "bg-indigo-100 text-indigo-700" : "bg-slate-100 text-slate-500"
+                  )}>
+                    {localizedSkills.filter(s => s.provider === "minimax").length}
+                  </span>
+                </button>
               </div>
             </div>
 
 
-
-            {/* System Status Metrics Summary */}
-            <div className="border border-slate-200/60 bg-white/50 p-3.5 rounded-xl font-mono text-[9px] text-slate-400 space-y-1">
-              <div className="flex justify-between">
-                <span>{t("catalog.systemStatus")}</span>
-                <span className="text-emerald-500 font-bold flex items-center gap-1">
-                  {t("catalog.online")} <span className="h-1.5 w-1.5 bg-emerald-500 rounded-full inline-block animate-pulse" />
-                </span>
-              </div>
-              <div className="flex justify-between">
-                <span>{t("catalog.totalEngine")}</span>
-                <span className="text-slate-600">{stats.total} {t("catalog.skills")}</span>
-              </div>
-              <div className="flex justify-between">
-                <span>{t("catalog.compatIde")}</span>
-                <span className="text-slate-600">{stats.platformCompat} {t("catalog.platformUnit")}</span>
-              </div>
-              <div className="flex justify-between">
-                <span>{t("catalog.integration")}</span>
-                <span className="text-indigo-600 font-bold">ANTIGRAVITY</span>
-              </div>
-            </div>
 
           </aside>
 
@@ -525,9 +504,9 @@ export function SkillCatalogClient({
                     {t("catalog.filterCategory")} {t(("category." + activeCategory) as TranslationKey) || CATEGORIES[activeCategory]?.label || activeCategory}
                   </span>
                 )}
-                {activePlatform && (
+                {activeProvider && (
                   <span className="px-2 py-0.5 rounded bg-slate-100 border border-slate-200 text-slate-600">
-                    {t("catalog.filterPlatform")} {t(("platform." + activePlatform) as TranslationKey) || PLATFORM_CONFIG[activePlatform]?.label}
+                    {t("catalog.filterSource")} {activeProvider === "antigravity" ? "Antigravity" : "Minimax"}
                   </span>
                 )}
 

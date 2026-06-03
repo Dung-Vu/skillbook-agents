@@ -520,7 +520,6 @@ export function SkillDetailClient({
     return rawNextSkill;
   }, [rawNextSkill, language]);
   const containerRef = useRef<HTMLDivElement>(null);
-  const [selectedPlatform, setSelectedPlatform] = useState<string>("");
   const [headings, setHeadings] = useState<{ id: string; text: string; level: number }[]>([]);
   const [activeId, setActiveId] = useState<string>("");
 
@@ -536,29 +535,7 @@ export function SkillDetailClient({
   const htmlContent = useMemo(() => parseMarkdownToHtml(skill.content), [skill.content]);
   const platforms = useMemo(() => skill.platforms || ["universal"], [skill.platforms]);
 
-  // Read selectedPlatform from localStorage safely (Next.js hydration compatibility)
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      const saved = localStorage.getItem("selectedPlatform");
-      const timer = setTimeout(() => {
-        if (saved && platforms.includes(saved)) {
-          setSelectedPlatform(saved);
-        } else if (platforms.length > 0) {
-          setSelectedPlatform(platforms[0]);
-        } else {
-          setSelectedPlatform("universal");
-        }
-      }, 0);
-      return () => clearTimeout(timer);
-    }
-  }, [platforms]);
 
-  const selectPlatform = (platform: string) => {
-    setSelectedPlatform(platform);
-    if (typeof window !== "undefined") {
-      localStorage.setItem("selectedPlatform", platform);
-    }
-  };
 
   // 1. Chỉ thực hiện định hình cấu trúc DOM ban đầu một lần duy nhất khi Markdown Render thay đổi
   useEffect(() => {
@@ -825,48 +802,22 @@ export function SkillDetailClient({
     });
   }, [htmlContent, platforms]);
 
-  // 2. Chuyển đổi trạng thái ẩn hiện nền tảng một cách siêu tốc (O(1) class toggle)
+  // 2. Chuyển đổi trạng thái hiển thị nền tảng
   useEffect(() => {
     const container = containerRef.current;
-    if (!container || !selectedPlatform) return;
+    if (!container) return;
 
     const activeWrappers = container.querySelectorAll(".platform-wrapper-block");
-    let hasMatch = false;
-
-    // 2.1: Find exact match
     activeWrappers.forEach((wrapper) => {
-      const platforms = wrapper.getAttribute("data-platforms")?.split(" ") || [];
-      if (platforms.includes(selectedPlatform)) {
-        wrapper.classList.remove("hidden");
-        wrapper.classList.add("block");
-        hasMatch = true;
-      } else {
-        wrapper.classList.remove("block");
-        wrapper.classList.add("hidden");
-      }
+      wrapper.classList.remove("hidden");
+      wrapper.classList.add("block");
     });
 
-    // 2.2: Fallback to Universal if no match was found for the selected platform
-    if (!hasMatch) {
-      activeWrappers.forEach((wrapper) => {
-        const platforms = wrapper.getAttribute("data-platforms")?.split(" ") || [];
-        if (platforms.includes("universal")) {
-          wrapper.classList.remove("hidden");
-          wrapper.classList.add("block");
-        } else {
-          wrapper.classList.remove("block");
-          wrapper.classList.add("hidden");
-        }
-      });
-    }
-
-    // 2.3: Trích xuất danh sách các tiêu đề ĐANG HIỂN THỊ để hiển thị trong Mục Lục bài viết (Tránh highlight nhầm phần tử bị ẩn)
+    // 2.3: Trích xuất danh sách các tiêu đề để hiển thị trong Mục Lục bài viết
     const headingElements = container.querySelectorAll("h2, h3");
     const visibleHeadings: { id: string; text: string; level: number }[] = [];
 
     headingElements.forEach((el, index) => {
-      if (el.closest(".hidden")) return;
-
       const rawText = el.textContent || "";
       const cleanedText = rawText
         .replace(/[\u{1F300}-\u{1F9FF}]|[\u{2600}-\u{26FF}]|[\u{2700}-\u{27BF}]|[\u{1F1E0}-\u{1F1FF}]/gu, "")
@@ -880,7 +831,7 @@ export function SkillDetailClient({
     });
 
     setHeadings(visibleHeadings);
-  }, [selectedPlatform, htmlContent]);
+  }, [htmlContent]);
 
   // R1: Tối ưu hoá TOC Active Link Tracking bằng IntersectionObserver (Không gây Layout Thrashing)
   useEffect(() => {
@@ -1060,63 +1011,15 @@ export function SkillDetailClient({
 
                 </div>
 
-                {category && (
-                  <p className="text-xs text-[var(--color-text-muted)] mb-4 sm:mb-6 flex items-center gap-1.5 font-mono select-none max-sm:hidden">
-                    <span>{category.icon}</span>
-                    <span>{category.label}</span>
-                  </p>
-                )}
+
 
                 <p className="text-base sm:text-lg text-[var(--color-text-secondary)] leading-relaxed max-w-4xl font-sans">
                   {skill.description}
                 </p>
 
-                {/* Platform Switcher inside banner - Interactive */}
-                {platforms.length > 0 && (
-                  <div className="flex items-center gap-2 flex-wrap mt-4 sm:mt-6 select-none">
-                    <span className="text-xs font-semibold text-[var(--color-text-muted)] mr-2 font-mono">
-                      {t("detail.platforms")}
-                    </span>
-                    <div className="flex items-center gap-1.5 flex-wrap">
-                      {platforms.map((p) => {
-                        const config = PLATFORM_CONFIG[p as PlatformId] || { label: p, color: "#999" };
-                        const isActive = selectedPlatform === p;
-                        return (
-                          <button
-                            key={p}
-                            onClick={() => selectPlatform(p)}
-                            className={cn(
-                              "relative px-3 py-1 text-[10px] font-mono rounded-full transition-all duration-300 cursor-pointer whitespace-nowrap z-10 flex items-center shrink-0 border bg-zinc-900/40 border-zinc-800/60 active:scale-95",
-                              isActive
-                                ? "text-[var(--color-text-primary)] font-semibold border-transparent bg-transparent"
-                                : "text-[var(--color-text-muted)] hover:text-[var(--color-text-primary)] hover:border-zinc-700/60"
-                            )}
-                          >
-                            {isActive && (
-                              <motion.span
-                                layoutId="activePlatformBubble"
-                                className="absolute inset-0 rounded-full border -z-10 shadow-[0_0_12px_rgba(0,0,0,0.5)]"
-                                style={{
-                                  backgroundColor: `${config.color}15`,
-                                  borderColor: `${config.color}35`,
-                                  boxShadow: `0 0 15px ${config.color}10`,
-                                }}
-                                transition={{ type: "spring", stiffness: 380, damping: 30 }}
-                              />
-                            )}
-                            <span
-                              className="inline-block w-2 h-2 rounded-full mr-1.5 shrink-0"
-                              style={{ backgroundColor: config.color }}
-                            />
-                            {config.label}
-                          </button>
-                        );
-                      })}
-                    </div>
-                  </div>
-                )}
 
-                <div className="flex items-center gap-4 flex-wrap mt-5 sm:mt-8 pt-4 sm:pt-6 border-t border-[var(--color-border)] select-none">
+
+                <div className="flex items-center gap-4 flex-wrap mt-3 sm:mt-4 pt-3 sm:pt-4 border-t border-[var(--color-border)] select-none">
                   {skill.sourceUrl && (
                     <a
                       href={skill.sourceUrl}

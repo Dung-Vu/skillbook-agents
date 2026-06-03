@@ -15,6 +15,7 @@ export interface SkillFrontmatter {
   relatedSkills: string[];
   seoTitle: string;
   seoDescription: string;
+  provider?: "antigravity" | "minimax";
 }
 
 export interface SkillEnglishOverride {
