@@ -1,6 +1,10 @@
 # Dependency directories
 node_modules/
 
+# Python bytecode (transient translation tool artifacts)
+__pycache__/
+*.pyc
+
 # Next.js build output
 .next/
 out/
