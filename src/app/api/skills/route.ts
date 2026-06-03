@@ -13,6 +13,11 @@ export async function GET(): Promise<NextResponse> {
       description: s.description,
       oneLiner: s.oneLiner,
       featured: s.featured,
+      en: s.en ? {
+        title: s.en.title,
+        description: s.en.description,
+        oneLiner: s.en.oneLiner,
+      } : undefined,
     }));
 
     return NextResponse.json(searchData, {

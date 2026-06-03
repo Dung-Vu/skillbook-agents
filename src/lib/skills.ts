@@ -9,7 +9,7 @@ export function getSkillSlugs(): string[] {
   if (!fs.existsSync(SKILLS_DIR)) return [];
   return fs
     .readdirSync(SKILLS_DIR)
-    .filter((file) => file.endsWith(".md"))
+    .filter((file) => file.endsWith(".md") && !file.endsWith(".en.md"))
     .map((file) => file.replace(/\.md$/, ""));
 }
 
@@ -20,11 +20,27 @@ export function getSkillBySlug(slug: string): Skill | null {
   const fileContent = fs.readFileSync(filePath, "utf-8");
   const { data, content } = matter(fileContent);
 
-  return {
+  const skill: Skill = {
     ...(data as SkillFrontmatter),
     slug,
     content,
   };
+
+  const enFilePath = path.join(SKILLS_DIR, `${slug}.en.md`);
+  if (fs.existsSync(enFilePath)) {
+    const enContentRaw = fs.readFileSync(enFilePath, "utf-8");
+    const { data: enData, content: enContent } = matter(enContentRaw);
+    skill.en = {
+      title: (enData.title as string) || "",
+      description: (enData.description as string) || "",
+      oneLiner: (enData.oneLiner as string) || "",
+      seoTitle: (enData.seoTitle as string) || "",
+      seoDescription: (enData.seoDescription as string) || "",
+      content: enContent,
+    };
+  }
+
+  return skill;
 }
 
 export function getAllSkills(): Skill[] {

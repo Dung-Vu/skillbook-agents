@@ -142,7 +142,21 @@ export function SkillCatalogClient({
 
   const [isCategoriesOpen, setIsCategoriesOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
-  const { t } = useLanguage();
+  const { language, t } = useLanguage();
+
+  const localizedSkills = useMemo(() => {
+    return skills.map((s) => {
+      if (language === "en" && s.en) {
+        return {
+          ...s,
+          title: s.en.title || s.title,
+          description: s.en.description || s.description,
+          oneLiner: s.en.oneLiner || s.oneLiner,
+        };
+      }
+      return s;
+    });
+  }, [skills, language]);
 
   useEffect(() => {
     const checkMobile = (): void => {
@@ -169,7 +183,7 @@ export function SkillCatalogClient({
   );
 
   const categoryScopedSkills = useMemo(() => {
-    let result = skills || [];
+    let result = localizedSkills || [];
     if (activeCategory) {
       result = result.filter((s) => s.category === activeCategory);
     }
@@ -177,7 +191,7 @@ export function SkillCatalogClient({
       result = result.filter((s) => s.platforms && s.platforms.includes(activePlatform));
     }
     return result;
-  }, [skills, activeCategory, activePlatform]);
+  }, [localizedSkills, activeCategory, activePlatform]);
 
   const scopedFuse = useMemo(() => {
     return new Fuse(categoryScopedSkills, {
@@ -288,7 +302,7 @@ export function SkillCatalogClient({
                 )}
               >
                 <span>{t("catalog.allDocs")}</span>
-                <span className="text-[10px] opacity-70 font-semibold">{skills.length}</span>
+                <span className="text-[10px] opacity-70 font-semibold">{localizedSkills.length}</span>
               </button>
 
               {sortedCategories.map((cat) => {
@@ -432,7 +446,7 @@ export function SkillCatalogClient({
                       <span className={cn(
                         "text-[9px] font-bold px-1.5 py-0.5 rounded",
                         !activeCategory ? "bg-white/20 text-white" : "bg-slate-100 text-slate-500"
-                      )}>{skills.length}</span>
+                      )}>{localizedSkills.length}</span>
                     </button>
 
                     {sortedCategories.map((cat) => {

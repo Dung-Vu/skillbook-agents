@@ -17,8 +17,18 @@ export interface SkillFrontmatter {
   seoDescription: string;
 }
 
+export interface SkillEnglishOverride {
+  title: string;
+  description: string;
+  oneLiner: string;
+  seoTitle: string;
+  seoDescription: string;
+  content: string;
+}
+
 export interface Skill extends SkillFrontmatter {
   content: string;
+  en?: SkillEnglishOverride;
 }
 
 export interface CategoryConfig {

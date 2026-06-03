@@ -40,6 +40,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { useTransitionNavigator } from "@/hooks/useTransitionNavigator";
+import { useLanguage } from "@/context/LanguageContext";
 
 const getHeadingIcon = (text: string) => {
   const lower = text.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
@@ -455,12 +456,69 @@ const scrolledViewport = { once: true, margin: "-100px" };
 
 export function SkillDetailClient({
   slug,
-  skill,
+  skill: rawSkill,
   category,
-  relatedSkills,
-  prevSkill,
-  nextSkill,
+  relatedSkills: rawRelatedSkills,
+  prevSkill: rawPrevSkill,
+  nextSkill: rawNextSkill,
 }: SkillDetailClientProps): React.ReactElement {
+  const { language, t } = useLanguage();
+
+  const skill = useMemo(() => {
+    if (language === "en" && rawSkill.en) {
+      return {
+        ...rawSkill,
+        title: rawSkill.en.title || rawSkill.title,
+        description: rawSkill.en.description || rawSkill.description,
+        oneLiner: rawSkill.en.oneLiner || rawSkill.oneLiner,
+        content: rawSkill.en.content || rawSkill.content,
+      };
+    }
+    return rawSkill;
+  }, [rawSkill, language]);
+
+  const relatedSkills = useMemo(() => {
+    return rawRelatedSkills.map((s) => {
+      if (language === "en" && s.en) {
+        return {
+          ...s,
+          title: s.en.title || s.title,
+          description: s.en.description || s.description,
+          oneLiner: s.en.oneLiner || s.oneLiner,
+          content: s.en.content || s.content,
+        };
+      }
+      return s;
+    });
+  }, [rawRelatedSkills, language]);
+
+  const prevSkill = useMemo(() => {
+    if (!rawPrevSkill) return null;
+    if (language === "en" && rawPrevSkill.en) {
+      return {
+        ...rawPrevSkill,
+        title: rawPrevSkill.en.title || rawPrevSkill.title,
+        description: rawPrevSkill.en.description || rawPrevSkill.description,
+        oneLiner: rawPrevSkill.en.oneLiner || rawPrevSkill.oneLiner,
+        content: rawPrevSkill.en.content || rawPrevSkill.content,
+      };
+    }
+    return rawPrevSkill;
+  }, [rawPrevSkill, language]);
+
+  const nextSkill = useMemo(() => {
+    if (!rawNextSkill) return null;
+    if (language === "en" && rawNextSkill.en) {
+      return {
+        ...rawNextSkill,
+        title: rawNextSkill.en.title || rawNextSkill.title,
+        description: rawNextSkill.en.description || rawNextSkill.description,
+        oneLiner: rawNextSkill.en.oneLiner || rawNextSkill.oneLiner,
+        content: rawNextSkill.en.content || rawNextSkill.content,
+      };
+    }
+    return rawNextSkill;
+  }, [rawNextSkill, language]);
   const containerRef = useRef<HTMLDivElement>(null);
   const [selectedPlatform, setSelectedPlatform] = useState<string>("");
   const [headings, setHeadings] = useState<{ id: string; text: string; level: number }[]>([]);
@@ -577,7 +635,7 @@ export function SkillDetailClient({
         "absolute bottom-full right-0 mb-2 px-2.5 py-1 rounded bg-zinc-900 border border-zinc-800 " +
         "text-[10px] font-medium text-zinc-300 opacity-0 group-hover/btn:opacity-100 transition-all duration-200 " +
         "pointer-events-none shadow-md z-20 whitespace-nowrap transform translate-y-1 group-hover/btn:translate-y-0";
-      tooltip.innerText = "Sao chép lệnh";
+      tooltip.innerText = t("detail.copyCommand");
       button.appendChild(tooltip);
 
       const iconContainer = document.createElement("div");
@@ -616,7 +674,7 @@ export function SkillDetailClient({
           const copySvg = button.querySelector(".copy-svg");
           const checkSvg = button.querySelector(".check-svg");
 
-          tooltip.innerText = "Đã sao chép!";
+          tooltip.innerText = t("detail.copied");
           tooltip.className = tooltip.className
             .replace("text-zinc-300", "text-emerald-400")
             .replace("border-zinc-800", "border-emerald-500/30");
@@ -631,7 +689,7 @@ export function SkillDetailClient({
           checkSvg?.classList.remove("scale-0", "opacity-0");
 
           setTimeout(() => {
-            tooltip.innerText = "Sao chép lệnh";
+            tooltip.innerText = t("detail.copyCommand");
             tooltip.className = tooltip.className
               .replace("text-emerald-400", "text-zinc-300")
               .replace("border-emerald-500/30", "border-zinc-800");
@@ -1017,7 +1075,7 @@ export function SkillDetailClient({
                 {platforms.length > 0 && (
                   <div className="flex items-center gap-2 flex-wrap mt-4 sm:mt-6 select-none">
                     <span className="text-xs font-semibold text-[var(--color-text-muted)] mr-2 font-mono">
-                      Nền tảng:
+                      {t("detail.platforms")}
                     </span>
                     <div className="flex items-center gap-1.5 flex-wrap">
                       {platforms.map((p) => {
@@ -1067,12 +1125,12 @@ export function SkillDetailClient({
                       className="btn-secondary text-[11px] py-1.5 px-3.5 flex items-center gap-1.5 no-underline hover:scale-102 active:scale-98"
                     >
                       <ExternalLink size={12} />
-                      Xem mã nguồn
+                      {t("detail.viewSource")}
                     </a>
                   )}
                   <div className="flex items-center gap-1.5 text-[11px] text-[var(--color-text-muted)] font-mono">
                     <Calendar size={12} />
-                    <span>Xác minh gần nhất: {formatDate(skill.lastVerified)}</span>
+                    <span>{t("detail.lastVerified")} {formatDate(skill.lastVerified)}</span>
                   </div>
                 </div>
               </div>
@@ -1094,10 +1152,10 @@ export function SkillDetailClient({
                 </div>
 
                 <div className="text-xs font-bold uppercase tracking-wider text-[var(--color-text-muted)] mb-4">
-                  Mục Lục Bài Viết
+                  {t("detail.toc")}
                 </div>
                 {headings.length === 0 ? (
-                  <p className="text-xs text-[var(--color-text-muted)] italic">Không có mục lục</p>
+                  <p className="text-xs text-[var(--color-text-muted)] italic">{t("detail.noToc")}</p>
                 ) : (
                   <ul className="space-y-2 relative">
                     {headings.map((h) => (
@@ -1153,7 +1211,7 @@ export function SkillDetailClient({
                 className="mt-16 pt-8 border-t border-[var(--color-border)] will-change-[transform,opacity] translate-z-0 transform-gpu"
               >
                 <h2 className="text-xl font-bold mb-6 flex items-center gap-2">
-                  🔗 Skills Liên Quan
+                  {t("detail.relatedSkills")}
                 </h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   {relatedSkills.map((rs) => (
@@ -1207,7 +1265,7 @@ export function SkillDetailClient({
             exit={{ opacity: 0, scale: 0.8, y: 20 }}
             onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
             className="fixed bottom-6 right-6 p-3 rounded-full bg-[var(--color-bg-secondary)] border border-[var(--color-border-accent)] text-[var(--color-accent-primary)] shadow-[0_0_15px_rgba(167,139,250,0.3)] hover:shadow-[0_0_25px_rgba(167,139,250,0.5)] hover:bg-[var(--color-bg-card-hover)] transition-all cursor-pointer z-50 flex items-center justify-center hover:scale-105 active:scale-95 group"
-            title="Cuộn lên đầu trang"
+            title={t("detail.scrollTop")}
           >
             <ArrowUp size={18} className="group-hover:-translate-y-0.5 transition-transform duration-200" />
           </motion.button>
@@ -1305,6 +1363,7 @@ const MotionLink = motion(Link);
 
 // R3: Component phụ Pagination với hoạt ảnh Elastic Slide/Gradient
 function ElasticPaginationLink({ href, isNext, skill, onClick }: { href: string; isNext: boolean; skill: Skill; onClick?: (e: React.MouseEvent<HTMLAnchorElement>) => void }) {
+  const { t } = useLanguage();
   const containerVariants: Variants = {
     initial: {},
     hover: {}
@@ -1343,7 +1402,7 @@ function ElasticPaginationLink({ href, isNext, skill, onClick }: { href: string;
 
       <span className="text-[10px] font-bold font-mono tracking-wider text-[var(--color-text-muted)] uppercase flex items-center gap-1 group-hover:text-[var(--color-accent-primary)] transition-colors relative z-10">
         {!isNext && <ArrowLeft size={10} />}
-        {isNext ? "Kỹ năng tiếp theo" : "Kỹ năng trước"}
+        {isNext ? t("detail.nextSkill") : t("detail.prevSkill")}
         {isNext && <ArrowRight size={10} />}
       </span>
       <span className="text-base font-bold text-[var(--color-text-primary)] font-mono group-hover:text-[var(--color-accent-primary)] transition-colors mt-1 relative z-10">

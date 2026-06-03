@@ -37,7 +37,7 @@ test.describe("About Page E2E Spec", () => {
     await expect(header).toBeVisible();
 
     // The default active block is "skills"
-    const activeHeader = page.locator("h3", { hasText: "Skills & Rules (Tri thức & Phương pháp)" });
+    const activeHeader = page.locator("#paradigm-details h3", { hasText: "Định hình tư duy & Quy tắc Safe-guard" });
     await expect(activeHeader).toBeVisible();
 
     // Find interactive buttons
@@ -51,17 +51,17 @@ test.describe("About Page E2E Spec", () => {
 
     // Click on LLM Core block and verify detail panel updates
     await llmButton.click();
-    const llmDetailHeader = page.locator("h3", { hasText: "LLM Core (Động cơ trí tuệ)" });
+    const llmDetailHeader = page.locator("#paradigm-details h3", { hasText: "Động cơ trí tuệ & Suy luận cơ bản" });
     await expect(llmDetailHeader).toBeVisible();
 
     // Click on Tools & MCP block and verify detail panel updates
     await toolsButton.click();
-    const toolsDetailHeader = page.locator("h3", { hasText: "Tools & MCP Connectors (Khả năng hành động)" });
+    const toolsDetailHeader = page.locator("#paradigm-details h3", { hasText: "Khả năng tương tác & Hành động vật lý" });
     await expect(toolsDetailHeader).toBeVisible();
 
     // Click on Skills & Rules block and verify detail panel updates
     await skillsButton.click();
-    const skillsDetailHeader = page.locator("h3", { hasText: "Skills & Rules (Tri thức & Phương pháp)" });
+    const skillsDetailHeader = page.locator("#paradigm-details h3", { hasText: "Định hình tư duy & Quy tắc Safe-guard" });
     await expect(skillsDetailHeader).toBeVisible();
   });
 
