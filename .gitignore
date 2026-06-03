@@ -28,10 +28,9 @@ playwright/.cache/
 
 # AI Agent system directories & temporary progress files
 .agents/
-" .agents/"
 *agents/
 progress.md
-ORIGINAL_REQUEST.md
+# ORIGINAL_REQUEST.md gitignore removed in docs-restructure: the canonical log now lives at docs/original-requests.md (tracked). The old filename is no longer created anywhere in the repo.
 tsconfig.tsbuildinfo
 
 # OS files
@@ -41,3 +40,5 @@ Thumbs.db
 # Artifacts and logs
 artifacts/
 *.log
+baseline-report.md
+deliverable.md
