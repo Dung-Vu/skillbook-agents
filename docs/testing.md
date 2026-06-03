@@ -25,10 +25,10 @@ Run command: `pnpm run test:e2e` (uses `playwright.config.ts` which auto-starts 
 
 | # | Feature | Source (requirement) | Tier 1 (Coverage) | Tier 2 (Boundary) | Tier 3 (Combination) |
 |---|---------|---------------------|:------:|:------:|:------:|
-| 1 | R1: Smooth Scroll | `ORIGINAL_REQUEST.md` R1 | Verify smooth scroll works, verify html attribute, check console for no warnings | Verify fast scroll without jank | Direct navigation via TOC and hash |
-| 2 | R2: Canvas Performance | `ORIGINAL_REQUEST.md` R2 | Verify Canvas dynamic backgrounds render | Verify responsiveness under rapid scrolling | Canvas rendering during scroll |
-| 3 | R3: Sandbox Re-rendering | `ORIGINAL_REQUEST.md` R3 | Verify Sandbox terminal typing and rendering | Verify UI remains fast during fast typing | Canvas + Terminal simulated typing |
-| 4 | R4: ~~Command Palette~~ Catalog Search & Provider Pages | `ORIGINAL_REQUEST.md` R4 | Verify `/skills?search=<query>` filters grid, `?search=` is read on load, 109 skills indexed via Fuse.js | Verify empty search shows all 109, long search query, non-matching search | Search → select skill → navigate → related-skills click |
+| 1 | R1: Smooth Scroll | [original-requests.md](original-requests.md) — R1 (Initial Request) | Verify smooth scroll works, verify html attribute, check console for no warnings | Verify fast scroll without jank | Direct navigation via TOC and hash |
+| 2 | R2: Canvas Performance | [original-requests.md](original-requests.md) — R2 (Initial Request) | Verify Canvas dynamic backgrounds render | Verify responsiveness under rapid scrolling | Canvas rendering during scroll |
+| 3 | R3: Sandbox Re-rendering | [original-requests.md](original-requests.md) — R3 (Initial Request) | Verify Sandbox terminal typing and rendering | Verify UI remains fast during fast typing | Canvas + Terminal simulated typing |
+| 4 | R4: ~~Command Palette~~ Catalog Search & Provider Pages | [original-requests.md](original-requests.md) — R4 (Initial Request) | Verify `/skills?search=<query>` filters grid, `?search=` is read on load, 109 skills indexed via Fuse.js | Verify empty search shows all 109, long search query, non-matching search | Search → select skill → navigate → related-skills click |
 
 > **Note on R4:** The original CommandPalette (Cmd+K / Ctrl+K global modal) was **removed** in commit `66c2864` ("feat: complete layout enhancements, i18n, command palette removal, and complexity cleanup"). Its functionality is now provided by:
 > - `/skills?search=<query>` URL-driven search (works in any browser, shareable, SSR-friendly)

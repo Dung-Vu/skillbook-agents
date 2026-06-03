@@ -10,7 +10,7 @@ Skillbook Agents là website bách khoa toàn thư về các **AI Agent Skills**
 - **Search**: Fuse.js (fuzzy search client-side qua API `/api/skills`).
 - **Content**: Markdown files in `content/skills/` với YAML frontmatter; schema validate bằng Zod (`src/lib/schema.ts`).
 - **Validation**: Custom Node script `scripts/validate-skills.ts` chạy trong `pnpm run validate:skills` (chạy trước khi build).
-- **Testing**: Playwright (5 spec files, 18 test cases) — xem `TEST_INFRA.md`.
+- **Testing**: Playwright (5 spec files, 18 test cases) — xem [testing.md](testing.md).
 
 ## Milestones
 
@@ -22,7 +22,7 @@ Skillbook Agents là website bách khoa toàn thư về các **AI Agent Skills**
 | 4 | R4: ~~Command Palette~~ Searchable Catalog & Provider Pages | Hủy bỏ global Command Palette (Cmd+K) trong cleanup pass `66c2864`; chuyển sang `/skills?search=...` URL query + trang `/providers/[name]`. | M1, M2, M3 | DONE |
 | 5 | R5: /about Page Visual & Performance Optimization | Sửa contrast, responsive layout shift, header overlay trên mobile, tối ưu MeshGridBackground canvas lên 60 FPS, verify build + Playwright. | None | DONE |
 
-> **Note:** 5 phase trên tương ứng với commit `a3c1c98`. Sau đó có thêm **7 follow-up optimize** (responsive mobile, slim mobile, detail page polish, v.v.) được document đầy đủ trong `ORIGINAL_REQUEST.md` (các mốc `2026-05-31T08:00:18Z` đến `18:39:20Z`) và phase 6/7/8 trong `implementation_plan.md`.
+> **Note:** 5 phase trên tương ứng với commit `a3c1c98`. Sau đó có thêm **7 follow-up optimize** (responsive mobile, slim mobile, detail page polish, v.v.) được document đầy đủ trong [original-requests.md](original-requests.md) (các mốc `2026-05-31T08:00:18Z` đến `18:39:20Z`) và phase 6/7/8 trong [history.md](history.md).
 
 ## Code Layout
 - `src/app/globals.css`: Smooth scroll + global cyberpunk theme.
