@@ -28,7 +28,6 @@ playwright/.cache/
 
 # AI Agent system directories & temporary progress files
 .agents/
-" .agents/"
 *agents/
 progress.md
 ORIGINAL_REQUEST.md
@@ -41,3 +40,5 @@ Thumbs.db
 # Artifacts and logs
 artifacts/
 *.log
+baseline-report.md
+deliverable.md
