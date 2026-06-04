@@ -697,24 +697,29 @@ export function SkillDetailClient({
                     </>
                   )}
                   <span className="text-[var(--color-text-primary)] font-medium">
-                    {skill.command}
+                    {formatCommand(skill.command, skill.slug)}
                   </span>
                 </nav>
 
                 <div className="flex items-start justify-between flex-wrap gap-3 mb-3 sm:mb-4">
-                  <h1
-                    className="text-2xl sm:text-4xl md:text-5xl font-extrabold tracking-tight break-all"
-                    style={{ fontFamily: "var(--font-mono)" }}
-                  >
-                    <span 
-                      className="gradient-text font-bold"
-                      style={{
-                        backgroundImage: `linear-gradient(135deg, #ffffff 0%, ${category ? category.color : 'var(--color-cyber-violet)'} 100%)`
-                      }}
+                  <div className="space-y-2">
+                    <h1
+                      className="text-2xl sm:text-4xl md:text-5xl font-extrabold tracking-tight break-all"
+                      style={{ fontFamily: "var(--font-mono)" }}
                     >
-                      {skill.command}
-                    </span>
-                  </h1>
+                      <span 
+                        className="gradient-text font-bold"
+                        style={{
+                          backgroundImage: `linear-gradient(135deg, #ffffff 0%, ${category ? category.color : 'var(--color-cyber-violet)'} 100%)`
+                        }}
+                      >
+                        {skill.title}
+                      </span>
+                    </h1>
+                    <div className="text-xs sm:text-sm font-mono text-[var(--color-accent-primary)] font-bold">
+                      {formatCommand(skill.command, skill.slug)}
+                    </div>
+                  </div>
 
                 </div>
 

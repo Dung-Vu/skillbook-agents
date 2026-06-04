@@ -11,6 +11,7 @@ import {
 import { CATEGORIES } from "@/lib/categories";
 import { PLATFORM_CONFIG, PlatformId } from "@/types/skill";
 import { SkillDetailClient } from "@/components/detail/SkillDetailClient";
+import { formatCommand } from "@/lib/utils";
 
 interface PageProps {
   params: Promise<{
@@ -90,7 +91,7 @@ export default async function SkillDetailPage(
         "description": skill.description,
         "applicationCategory": "DeveloperApplication",
         "operatingSystem": "All",
-        "downloadUrl": skill.command.startsWith("/") ? skill.command : `/${skill.command}`,
+        "downloadUrl": formatCommand(skill.command, skill.slug),
         "featureList": skill.tags.join(", "),
         "offers": {
           "@type": "Offer",
@@ -106,8 +107,8 @@ export default async function SkillDetailPage(
       {
         "@type": "HowTo",
         "@id": `${skillUrl}#howto`,
-        "name": `Hướng dẫn cấu hình kỹ năng ${skill.command}`,
-        "description": `Hướng dẫn chi tiết cách cấu hình và sử dụng kỹ năng ${skill.title} (${skill.command}) trên các nền tảng AI.`,
+        "name": `Hướng dẫn cấu hình kỹ năng ${formatCommand(skill.command, skill.slug)}`,
+        "description": `Hướng dẫn chi tiết cách cấu hình và sử dụng kỹ năng ${skill.title} (${formatCommand(skill.command, skill.slug)}) trên các nền tảng AI.`,
         "mainEntityOfPage": skillUrl,
         "about": {
           "@id": `${skillUrl}#application`
@@ -122,7 +123,7 @@ export default async function SkillDetailPage(
           return {
             "@type": "HowToStep",
             "name": `Cấu hình trên ${platformLabel}`,
-            "text": `Hướng dẫn chi tiết cách cấu hình và kích hoạt lệnh ${skill.command} trên nền tảng ${platformLabel} để AI Agent tối ưu hóa hiệu năng.`,
+            "text": `Hướng dẫn chi tiết cách cấu hình và kích hoạt lệnh ${formatCommand(skill.command, skill.slug)} trên nền tảng ${platformLabel} để AI Agent tối ưu hóa hiệu năng.`,
             "position": index + 1,
             "url": `${skillUrl}#${platform}`
           };

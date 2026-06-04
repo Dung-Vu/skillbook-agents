@@ -31,6 +31,20 @@ export function getSkillBySlug(slug: string): Skill | null {
       content,
     };
 
+    // Dynamically assign sourceUrl for Minimax skills if local scripts/ folder exists
+    if (skill.provider === "minimax" && !skill.sourceUrl) {
+      const os = require("os");
+      const homedir = os.homedir();
+      const customScriptsPath = path.join(homedir, ".minimax", "skills", slug, "scripts");
+      const builtinScriptsPath = path.join(homedir, ".minimax", ".builtin-skills", slug, "scripts");
+
+      if (fs.existsSync(customScriptsPath)) {
+        skill.sourceUrl = `vscode://file/${customScriptsPath.replace(/\\/g, "/")}`;
+      } else if (fs.existsSync(builtinScriptsPath)) {
+        skill.sourceUrl = `vscode://file/${builtinScriptsPath.replace(/\\/g, "/")}`;
+      }
+    }
+
     const enFilePath = path.join(SKILLS_DIR, `${slug}.en.md`);
     if (fs.existsSync(enFilePath)) {
       const enContentRaw = fs.readFileSync(enFilePath, "utf-8");
