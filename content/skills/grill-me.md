@@ -38,32 +38,23 @@ provider: antigravity
 
 ## 📖 Tại Sao Cần Skill Này?
 
-Khi nhận các yêu cầu phát triển phần mềm hoặc thiết kế hệ thống từ người dùng, các thông tin ban đầu thường mang tính khái quát, thiếu chi tiết hoặc tồn tại những mâu thuẫn ngầm định. Nếu không có kỹ năng phản biện:
-* **Mơ hồ dẫn đến sai lệch**: AI dễ tự suy đoán theo ý chủ quan, dẫn đến việc viết code sai kiến trúc mong muốn của người dùng.
-* **Over-engineering (Quá tải thiết kế)**: Tự động đưa thêm các thư viện hoặc cấu trúc quá phức tạp không cần thiết cho dự án.
-
-**Khi sử dụng Kỹ năng `/grill-me`, AI Agent của bạn sẽ:**
-1. **Phát hiện điểm mơ hồ (Ambiguity Detection)**: Chủ động tìm ra các lỗ hổng thông tin trong bản đặc tả ban đầu (ví dụ: thiếu thiết kế cơ sở dữ liệu, chưa rõ luồng xử lý lỗi).
-2. **Đặt câu hỏi sắc bén (Sharp Questioning)**: Tổ chức cuộc phỏng vấn tương tác ngắn gọn (2-3 câu hỏi mỗi lượt) để thu thập thông tin thay vì hỏi một bảng câu hỏi khổng lồ gây mệt mỏi.
-3. **Căn chỉnh kế hoạch (Architecture Alignment)**: Thống nhất một giải pháp kỹ thuật tối ưu và ghi nhận sự phê duyệt của người dùng trước khi tiến hành viết code.
-
----
+Khi nhận yêu cầu từ người dùng, thông tin ban đầu thường mơ hồ hoặc thiếu chi tiết. Kỹ năng `/grill-me` giúp AI Agent chủ động:
+- **Phát hiện điểm mơ hồ**: Tìm các lỗ hổng thông tin trong bản đặc tả ban đầu (như luồng dữ liệu, bảo mật, xử lý lỗi).
+- **Đặt câu hỏi sắc bén**: Thực hiện phỏng vấn ngắn gọn (2-3 câu hỏi mỗi lượt) để thu thập thông tin thay vì hỏi dồn dập.
+- **Căn chỉnh kế hoạch**: Thống nhất giải pháp tối ưu và nhận phê duyệt của người dùng trước khi viết code.
 
 ## ⚙️ Cách Hoạt Động
 
 ```
 [Nhận Yêu cầu ban đầu] ➔ 🔍 [Phân tích lỗ hổng thiết kế]
                              └── Đặt câu hỏi phản biện ➔ 🗣️ [Trao đổi tương tác với Người dùng]
-                                                            └── Thống nhất ➔ 📐 [Tạo Bản Thiết Kế Chuẩn]
+                                                             └── Thống nhất ➔ 📐 [Tạo Bản Thiết Kế Chuẩn]
 ```
 
 Quy trình suy nghĩ của Agent khi thực thi `/grill-me`:
-1. **Phân tích đặc tả**: Quét toàn bộ yêu cầu, đối chiếu với các mẫu thiết kế (design patterns) chuẩn để tìm điểm thiếu sót.
-2. **Lên câu hỏi**: Lựa chọn 2-3 câu hỏi quan trọng nhất liên quan đến: Mục tiêu cốt lõi, Giới hạn kỹ thuật, Luồng xử lý lỗi hoặc Trải nghiệm người dùng.
-3. **Tương tác**: Gửi câu hỏi và lắng nghe câu trả lời từ người dùng, tiếp tục tinh chỉnh câu hỏi tiếp theo nếu cần thiết.
-4. **Định hình**: Tạo lập tài liệu kế hoạch hành động chuẩn hóa (`implementation_plan.md`) sau khi đã đạt được sự đồng thuận 100%.
-
----
+1. **Phân tích đặc tả**: Quét yêu cầu đối chiếu với design patterns chuẩn để tìm thiếu sót.
+2. **Lên câu hỏi**: Chọn 2-3 câu hỏi quan trọng nhất về phạm vi (Scope), công nghệ (Technology), và xử lý lỗi (Error Handling).
+3. **Định hình**: Tạo lập tài liệu kế hoạch hành động (`implementation_plan.md`) sau khi đạt được sự đồng thuận.
 
 ## 🚀 Cách Sử Dụng
 
@@ -84,8 +75,6 @@ Quy trình suy nghĩ của Agent khi thực thi `/grill-me`:
 - Chỉ khi người dùng xác nhận đồng ý với mọi phương án giải quyết, mới chuyển sang tạo tệp tin kế hoạch triển khai chi tiết.
 ````
 
----
-
 ## 💡 Kịch Bản Lập Trình Thực Tế
 
 ### Nhà phát triển:
@@ -99,6 +88,5 @@ Quy trình suy nghĩ của Agent khi thực thi `/grill-me`:
 
 ## ⚠️ Lưu Ý & Gotchas
 
-* **Tránh Đặt Câu Hỏi Tầm Thường (Trivial Questions)**: Chỉ đặt những câu hỏi thực sự ảnh hưởng đến kiến trúc hệ thống hoặc logic viết code. Tránh hỏi các chi tiết quá nhỏ nhặt mà AI có thể tự quyết định tốt dựa trên các best practices.
-* **Duy Trì Giọng Điệu Khách Quan**: Đưa ra các phân tích ưu/nhược điểm rõ ràng cho từng phương án lựa chọn công nghệ để giúp người dùng đưa ra quyết định chính xác hơn.
-```
+- **Tránh câu hỏi nhỏ nhặt**: Chỉ đặt câu hỏi thực sự ảnh hưởng đến kiến trúc hệ thống hoặc logic viết code; tự quyết định các chi tiết nhỏ dựa trên best practices.
+- **Phân tích khách quan**: Đưa ra ưu/nhược điểm rõ ràng cho từng phương án để hỗ trợ người dùng quyết định chính xác.

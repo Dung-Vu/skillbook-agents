@@ -38,16 +38,11 @@ provider: antigravity
 
 ## 📖 Tại Sao Cần Skill Này?
 
-Khi thu thập dữ liệu học thuật hoặc kiểm tra các ứng dụng web, việc chỉ sử dụng các thư viện gửi request HTTP tĩnh (như `requests` hoặc `urllib`) gặp nhiều hạn chế:
-* **Không hỗ trợ Single Page Application (SPA)**: Các trang web hiện đại dựng bằng React, Vue, Next.js yêu cầu chạy Javascript để hiển thị nội dung.
-* **Không thể tương tác vật lý**: Không thể tự động click nút, điền form, cuộn trang hoặc giải quyết các thử thách CAPTCHA/đăng nhập phức tạp.
+Khi thu thập dữ liệu học thuật hoặc kiểm tra các ứng dụng web, các thư viện gửi request HTTP tĩnh (như `requests` hoặc `urllib`) có nhiều hạn chế:
+* **Không hỗ trợ SPA**: Không thể chạy Javascript để hiển thị nội dung trên các trang web hiện đại (React, Vue, Next.js).
+* **Không tương tác vật lý**: Không thể tự động click nút, điền form, cuộn trang, hoặc giải CAPTCHA.
 
-**Khi sử dụng Kỹ năng `/browser`, AI Agent của bạn sẽ:**
-1. **Duyệt web động (Dynamic Rendering)**: Đọc hiểu và render đầy đủ các ứng dụng web sử dụng nhiều Javascript.
-2. **Tương tác trực tiếp (UI Interaction)**: Điền form, click các phần tử, chụp ảnh màn hình (screenshot) và tải file tự động.
-3. **Thu thập dữ liệu thông minh (Smart Scraping)**: Trích xuất nội dung văn bản sạch, bảng biểu hoặc dữ liệu JSON từ cấu trúc DOM của trang web.
-
----
+Với kỹ năng `/browser`, Agent có thể render động nội dung Javascript, thực hiện tương tác UI (click, fill, screenshot), và trích xuất dữ liệu thông minh dưới dạng JSON hoặc Markdown.
 
 ## ⚙️ Cách Hoạt Động
 
@@ -58,17 +53,13 @@ Khi thu thập dữ liệu học thuật hoặc kiểm tra các ứng dụng web
                             └── Trích xuất DOM/Text/Screenshot ➔ 📋 [Ghi ra file kết quả]
 ```
 
-Quy trình suy nghĩ của Agent khi thực thi `/browser`:
-1. **Chẩn đoán mục tiêu**: Xác định các hành động cần thực hiện trên trang (đăng nhập, tìm kiếm, cuộn trang, click nút).
-2. **Khởi tạo kết nối**: Mở trình duyệt ẩn danh (headless browser) thông qua Playwright hoặc Puppeteer.
-3. **Thao tác vật lý**: Thực hiện tuần tự các bước tương tác, sử dụng các bộ chọn CSS (selectors) chuẩn xác để định vị phần tử.
-4. **Trích xuất & Đóng gói**: Đọc nội dung văn bản sạch của trang hoặc chụp ảnh màn hình, lưu kết quả ra tệp tin chuyên biệt và đóng trình duyệt an toàn.
-
----
+1. **Chẩn đoán**: Xác định các hành động cần thực hiện trên trang.
+2. **Khởi tạo**: Mở trình duyệt ẩn danh (headless browser) bằng Playwright hoặc Puppeteer.
+3. **Thao tác & Trích xuất**: Thực hiện tương tác vật lý bằng CSS selectors và ghi dữ liệu ra tệp tin.
 
 ## 🚀 Cách Sử Dụng
 
-````markdown
+```markdown
 # BROWSER AUTOMATION INSTRUCTIONS & RULES
 
 ## 1. Environment & Setup
@@ -82,9 +73,7 @@ Quy trình suy nghĩ của Agent khi thực thi `/browser`:
 ## 3. Data Extraction
 - Tránh tải toàn bộ mã HTML thô của trang về ngữ cảnh chat. Hãy viết script trích xuất để chỉ lấy các thẻ văn bản sạch (`innerText`) hoặc các bảng biểu cần thiết nhằm tiết kiệm token.
 - Lưu dữ liệu cào được dưới dạng tệp tin JSON hoặc Markdown.
-````
-
----
+```
 
 ## 💡 Kịch Bản Lập Trình Thực Tế
 
@@ -99,6 +88,5 @@ Quy trình suy nghĩ của Agent khi thực thi `/browser`:
 
 ## ⚠️ Lưu Ý & Gotchas
 
-* **Xử Lý Timeout**: Các trang web tải chậm có thể gây treo trình duyệt. Luôn thiết lập giới hạn thời gian chờ (`timeout` khoảng 15-30 giây) cho mọi thao tác tải trang hoặc tìm kiếm phần tử để tránh treo tiến trình.
-* **Phát Hiện Bot (Anti-Bot Detection)**: Một số trang web chặn các kết nối từ headless browser. Hãy thiết lập User-Agent giả lập trình duyệt thông thường và sử dụng các mẹo giảm tốc độ tương tác để tránh bị chặn.
-```
+* **Xử Lý Timeout**: Thiết lập giới hạn thời gian chờ (`timeout` 15-30 giây) cho mọi thao tác tải trang hoặc tìm kiếm phần tử để tránh treo tiến trình.
+* **Phát Hiện Bot**: Thiết lập User-Agent giả lập trình duyệt thông thường và sử dụng các mẹo giảm tốc độ tương tác để tránh bị anti-bot chặn.

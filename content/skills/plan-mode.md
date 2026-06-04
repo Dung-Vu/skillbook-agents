@@ -34,27 +34,23 @@ title: Plan Mode
 
 ## 📖 Tại Sao Cần Skill Này?
 
+
 Trước khi bắt tay vào viết mã nguồn cho các tính năng phức tạp, AI Agent dễ gặp rủi ro viết sai hướng, gây ra việc phải sửa đổi lớn về sau. Kỹ năng này kích hoạt chế độ tư duy thiết kế hệ thống, giúp Agent thảo luận giải pháp với người dùng dưới vai trò một đồng nghiệp tin cậy, làm rõ các ràng buộc kỹ thuật và chốt kế hoạch thực thi rõ ràng trước khi viết dòng code đầu tiên.
 
 ---
 
 ## ⚙️ Cách Hoạt Động
 
-Quy trình lập kế hoạch hoạt động như sau:
-1. **Xác nhận kích hoạt**: Kích hoạt khi có yêu cầu lập kế hoạch hoặc khi phát hiện nhiệm vụ phức tạp đụng chạm nhiều file.
-2. **Khảo sát mã nguồn thực tế**: Khảo sát hiện trạng code, cấu trúc thư mục để đảm bảo giải pháp khớp với hệ thống hiện tại.
-3. **Đề xuất một giải pháp tối ưu**: Thay vì đưa ra một danh sách dài các cách làm mơ hồ, đề xuất duy nhất một giải pháp tốt nhất kèm theo phân tích rủi ro ngắn gọn.
-4. **Tạo tài liệu bàn giao**: Viết file kế hoạch định dạng Markdown nêu rõ phạm vi, các bước thay đổi mã nguồn, cách thức kiểm thử và các bước tiếp theo rõ ràng.
-
 Sơ đồ hoạt động:
 ```
-[Yêu cầu tính năng phức tạp] ➔ 🕵️ [Khảo sát hiện trạng mã nguồn] ➔ 🧠 [Đề xuất giải pháp & Trình bày Chat]
-                                  ➔ 📝 [Viết tệp kế hoạch Markdown] ➔ 🚦 [Align bước tiếp theo]
+[Yêu cầu phức tạp] ➔ 🕵️ [Khảo sát mã nguồn] ➔ 🧠 [Đề xuất & Thống nhất] ➔ 📝 [Tạo file kế hoạch]
 ```
 
----
-
+- **Khảo sát hiện trạng**: Tự động kích hoạt cho các tác vụ phức tạp và quét cấu trúc code thực tế để định hình phương án.
+- **Đề xuất giải pháp**: Đưa ra một giải pháp tối ưu duy nhất kèm phân tích rủi ro ngắn thay vì các tùy chọn mơ hồ.
+- **Tạo tệp kế hoạch**: Ghi lại kế hoạch bằng Markdown nêu rõ phạm vi, các bước sửa đổi, kịch bản test và bước tiếp theo.
 ## 🚀 Cách Sử Dụng
+
 
 ```markdown
 # QUY TẮC LẬP KẾ HOẠCH DỰ ÁN
@@ -67,6 +63,7 @@ Sơ đồ hoạt động:
 
 ## 💡 Kịch Bản Lập Trình Thực Tế
 
+
 ### Nhà phát triển:
 > "Hãy hướng dẫn tôi cách thiết lập và sử dụng kỹ năng Plan Mode để Xây dựng kế hoạch triển khai chi tiết và kiểm thử trước khi thay đổi mã nguồn."
 
@@ -77,6 +74,7 @@ Sơ đồ hoạt động:
 > 3. Kiểm thử đầu ra, tối ưu hóa hiệu năng và cung cấp kết quả hoàn chỉnh."
 
 ## ⚠️ Lưu Ý & Gotchas
+
 
 * **Kế hoạch quá phức tạp (Over-engineering)**: Tránh thiết kế các kiến trúc quá đồ sộ cho các nhiệm vụ đơn giản. Kế hoạch phải phù hợp với quy mô hiện tại của cơ sở mã nguồn.
 * **Bỏ qua bước khảo sát thực tế**: Đề xuất giải pháp lý thuyết mà không mở file thực tế xem cấu trúc code hiện tại thường dẫn đến việc đề xuất các hàm hoặc thư viện bị trùng lặp.

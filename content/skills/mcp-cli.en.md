@@ -15,23 +15,17 @@ title: MCP CLI
 
 Model Context Protocol (MCP) allows LLMs to access external utilities. Agents need this skill to manage, inspect, and configure MCP servers, and compile their tool catalogs into executable Mavis skills.
 
----
-
 ## ⚙️ How It Works
 
 The MCP server management workflow is:
-1. **List Servers**: Call `mavis mcp list` to inspect registered servers and their authentication states.
-2. **Add/Update**: Write configurations using `mavis mcp add <name> '<json-config>'` to store commands or URLs.
-3. **Authenticate**: Invoke OAuth login flows via `mavis mcp auth login <server>` if necessary.
-4. **Sync Skills**: Run `mavis mcp sync` to connect to active servers and compile tool schemas into usable skills.
 
-Flowchart:
+1. **Configure**: Call `mavis mcp list` to inspect servers and write configurations via `mavis mcp add`.
+2. **Sync**: Run `mavis mcp sync` to connect to active servers and compile tool schemas into usable skills.
+
 ```
 [Configure MCP] ➔ 📝 [Register via mavis mcp add] ➔ 🔑 [Authenticate OAuth / API Token]
                     ➔ 🔄 [Compile via mavis mcp sync] ➔ 🛠️ [Deploy mcp-<server> skill]
 ```
-
----
 
 ## 🚀 How to use
 
@@ -41,8 +35,6 @@ Flowchart:
 - **Configuration Security**: Do not edit config files manually. Always write configurations via `mavis mcp add` commands.
 - **Matrix 401 Resolution**: If the built-in matrix server fails with 401, run `mavis mcp sync` to force a process re-spawn with the fresh token.
 ```
-
----
 
 ## 💡 Real-World Examples / Scenarios
 

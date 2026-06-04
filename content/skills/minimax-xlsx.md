@@ -36,25 +36,20 @@ title: Minimax XLSX
 
 ## 📖 Tại Sao Cần Skill Này?
 
-Tệp bảng tính Excel (`.xlsx`) thường được sử dụng cho các mô hình tài chính, tính toán doanh nghiệp và quản lý dữ liệu lớn. Kỹ năng này cung cấp nguyên tắc "Formula-first" (Ưu tiên công thức) bắt buộc để tệp Excel giữ được tính năng tính toán động thay vì xuất ra các số tĩnh chết, kết hợp quy trình recalculate bằng LibreOffice để cập nhật kết quả tính toán trước khi giao cho khách hàng.
-
----
+Tệp bảng tính Excel (`.xlsx`) thường được sử dụng cho các mô hình tài chính, tính toán doanh nghiệp và quản lý dữ liệu lớn. Kỹ năng này cung cấp nguyên tắc "Formula-first" (Ưu tiên công thức) bắt buộc để tệp Excel giữ được tính năng tính toán động thay vì xuất ra các số tĩnh, kết hợp quy trình recalculate để cập nhật kết quả tính toán chính xác.
 
 ## ⚙️ Cách Hoạt Động
 
 Quy trình thao tác với file Excel:
-1. **Lựa chọn thư viện**: Đối chiếu yêu cầu với decision tree (dùng `pandas` để xử lý dữ liệu thô lớn >500k dòng, dùng `openpyxl` để viết công thức, định dạng màu sắc và vẽ biểu đồ).
-2. **Triển khai Formula-first**: Khai báo các cột dữ liệu tính toán bằng công thức Excel tiêu chuẩn (ví dụ: `=SUM(A1:A10)`).
-3. **Định dạng màu sắc**: Áp dụng mã màu chuẩn (Màu xanh dương cho ô nhập liệu thủ công, màu đen cho ô chứa công thức, màu xanh lá cho liên kết chéo trang).
-4. **Recalculate và Xác thực**: Chạy script `recalc.py` để LibreOffice thực thi công thức, kiểm tra file kết quả không còn lỗi công thức (`total_errors == 0`).
 
-Sơ đồ quy trình:
+1. **Lựa chọn thư viện**: Chọn `pandas`/`polars` cho tập dữ liệu thô lớn (>500k dòng) hoặc `openpyxl` để áp dụng định dạng và ghi công thức động.
+2. **Formula-first**: Khai báo các cột dữ liệu bằng công thức tiêu chuẩn (ví dụ `=SUM(...)`), tuyệt đối không tính sẵn kết quả tĩnh.
+3. **Tính toán & Xác thực**: Chạy `recalc.py` bằng LibreOffice để thực thi công thức, đảm bảo tệp Excel có kết quả đệm chính xác trước khi bàn giao.
+
 ```
 [Dữ liệu thô / Chỉ thị] ➔ 📊 [Đọc bằng pandas / polars nếu dữ liệu lớn] ➔ ✍️ [openpyxl ghi công thức dynamic (=...)]
-                              ➔ 🎨 [Áp dụng định dạng font & màu sắc chuẩn] ➔ 🔄 [Chạy recalc.py & Check error == 0]
+                               ➔ 🎨 [Áp dụng định dạng font & màu sắc chuẩn] ➔ 🔄 [Chạy recalc.py & Check error == 0]
 ```
-
----
 
 ## 🚀 Cách Sử Dụng
 
@@ -65,8 +60,6 @@ Sơ đồ quy trình:
 - **Giữ nguyên mẫu gốc**: Khi chỉnh sửa tệp Excel có sẵn, các định dạng hiện tại (font, độ rộng cột, viền ô) có mức ưu tiên cao hơn quy tắc mặc định của kỹ năng này.
 - **Không rút gọn tập dữ liệu lớn**: Không sử dụng `head()` hoặc `sample()` để giảm dung lượng file khi ghi đè nếu không có yêu cầu, tránh làm sai lệch các phép tính tổng.
 ```
-
----
 
 ## 💡 Kịch Bản Lập Trình Thực Tế
 
@@ -81,5 +74,5 @@ Sơ đồ quy trình:
 
 ## ⚠️ Lưu Ý & Gotchas
 
-* **Lỗi Công thức trống (String-only)**: openpyxl chỉ ghi chuỗi công thức dạng text chứ không thực tế chạy tính toán. Nếu bỏ qua bước recalculate, tệp Excel mở ra trên một số ứng dụng đọc sẽ hiển thị trống hoặc bằng 0 cho đến khi người dùng nhấn F9.
-* **Lỗi đọc file chứa vùng gộp (Merged Cells)**: Khi dùng `iter_rows()` đọc dữ liệu, chỉ có ô góc trên bên trái của vùng gộp chứa dữ liệu thực tế, các ô còn lại sẽ trả về `None`. Cần unmerge trước khi đọc nếu muốn duyệt toàn bộ hàng.
+* **Lỗi Công thức trống (String-only)**: openpyxl chỉ ghi chuỗi công thức chứ không thực tế chạy tính toán. Nếu bỏ qua bước recalculate, tệp Excel mở ra trên một số ứng dụng đọc sẽ hiển thị trống hoặc bằng 0.
+* **Lỗi đọc file chứa vùng gộp (Merged Cells)**: Khi dùng `iter_rows()` đọc dữ liệu, chỉ có ô góc trên bên trái của vùng gộp chứa dữ liệu thực tế. Cần unmerge trước khi đọc nếu muốn duyệt toàn bộ hàng.

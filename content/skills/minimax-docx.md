@@ -37,25 +37,20 @@ title: Minimax Docx
 
 ## 📖 Tại Sao Cần Skill Này?
 
-Lập trình viên và AI Agent cần kỹ năng này khi có nhiệm vụ tạo báo cáo doanh nghiệp, hợp đồng pháp lý hoặc các tài liệu chính thức theo định dạng Microsoft Word (`.docx`). Kỹ năng này cung cấp các tiêu chuẩn căn lề, ghép nối phong cách chữ (typography) CJK chuyên nghiệp và các chốt chặn môi trường để thao tác trực tiếp với XML của tệp DOCX mà không làm hỏng cấu trúc tệp tin.
-
----
+Lập trình viên và AI Agent cần kỹ năng này khi có nhiệm vụ tạo báo cáo doanh nghiệp, hợp đồng pháp lý hoặc các tài liệu chính thức theo định dạng Microsoft Word (`.docx`). Kỹ năng này cung cấp các tiêu chuẩn căn lề, typography và các chốt chặn môi trường để thao tác trực tiếp với XML của tệp DOCX an toàn.
 
 ## ⚙️ Cách Hoạt Động
 
 Quy trình xử lý file DOCX:
-1. **Xác minh môi trường**: Chạy lệnh kiểm tra môi trường tương ứng (ví dụ: `env_check.ps1` trên Windows) ở các mức `read`, `render` hoặc `full` tùy thuộc vào tác vụ.
-2. **Định tuyến mục đích**: Lựa chọn 1 trong các lộ trình hành động: Tạo mới (`CREATE_DOCX`), Áp dụng template (`APPLY_TEMPLATE`), Chỉnh sửa nội dung (`EDIT_FILL_DOCX`), hoặc Đọc dữ liệu (`READ_CONTENT`).
-3. **Áp dụng phong cách nghệ thuật**: Đối với lộ trình ghi, nạp các tệp hướng dẫn phong cách chữ (`typography_guide.md`) và thiết kế trang.
-4. **Gọi Backend và Kiểm thử**: Sử dụng CLI `.NET` hoặc script Python để thao tác, sau đó chạy xuất PDF và kiểm tra trực quan các trang.
 
-Sơ đồ quy trình:
+1. **Xác minh môi trường**: Chạy lệnh kiểm tra môi trường tương ứng (ví dụ: `env_check.ps1` trên Windows) trước khi thao tác.
+2. **Định tuyến & Thực thi**: Lựa chọn lộ trình (Tạo mới, Áp dụng template, Chỉnh sửa, Đọc) và gọi CLI `.NET` hoặc script Python để xử lý XML của tệp DOCX an toàn.
+3. **Kiểm thử**: Xuất PDF kiểm tra trực quan layout và TOC để đảm bảo tài liệu hiển thị chính xác.
+
 ```
 [Tệp tin Word / Yêu cầu] ➔ 🛡️ [Kiểm tra env_check.sh/ps1] ➔ 📐 [Định tuyến mục đích (Create/Edit/Read)]
                               ➔ 💻 [Chạy CLI .NET hoặc Python script] ➔ 🧪 [Kiểm tra Layout & TOC]
 ```
-
----
 
 ## 🚀 Cách Sử Dụng
 
@@ -65,8 +60,6 @@ Sơ đồ quy trình:
 - **Không ghi đè trực tiếp XML bằng String**: Tuyệt đối không chỉnh sửa XML của tệp DOCX bằng cách thay thế chuỗi (string replace) thủ công, vì việc này làm hỏng cấu trúc schema của Word. Phải sử dụng backend được phê duyệt.
 - **Tuân thủ CJK typography**: Văn bản hỗn hợp chữ Latinh và tiếng Trung/Việt phải tuân thủ nghiêm ngặt quy tắc ghép font và cỡ chữ tiêu chuẩn của tài liệu chính thống (ví dụ: Times New Roman ghép với Microsoft YaHei).
 ```
-
----
 
 ## 💡 Kịch Bản Lập Trình Thực Tế
 

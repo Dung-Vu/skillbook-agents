@@ -37,14 +37,9 @@ provider: antigravity
 
 ## 📖 Tại Sao Cần Skill Này?
 
-NCBI GenBank/RefSeq chứa hàng tỷ sequences — nguồn reference lớn nhất cho nucleotide và protein sequences. Skill này cung cấp nhiều cách truy xuất khác nhau:
-
-- **Accession lookup**: NM_000546, NP_000537, NC_000017...
-- **Gene + organism search**: "TP53 homo sapiens" → lấy canonical sequence
-- **CDS translation**: Từ nucleotide accession → translate CDS thành protein
-- **Patent proteins**: Lấy protein sequences từ patent numbers
-- **PubMed-linked**: Tìm sequences liên kết với PubMed article
-
+- **Tra cứu và Tìm kiếm**: Truy xuất chuỗi nucleotide/protein nhanh chóng qua mã Accession ID (NM_000546, NP_000537...) hoặc tên gene + loài.
+- **Dịch mã CDS**: Trích xuất vùng mã hóa CDS từ mã nucleotide và tự động dịch thành protein.
+- **Liên kết chéo**: Tìm chuỗi liên kết với bằng sáng chế (patents) hoặc bài báo PubMed.
 ## ⚙️ Cách Hoạt Động
 
 ```
@@ -52,12 +47,11 @@ Accession / Gene name / PubMed ID → NCBI E-utilities →
 Return sequences in FASTA format
 ```
 
-1. **Direct lookup**: Accession ID → sequence
-2. **Search**: Gene name + organism → tìm best matching sequence
-3. **CDS translation**: Nucleotide accession → extract CDS → translate protein
-4. **Cross-reference**: PubMed ID hoặc patent number → linked sequences
-
+- **Tra cứu & Tìm kiếm**: Tra cứu trực tiếp bằng Accession ID hoặc tìm kiếm theo tên gen + loài.
+- **Dịch mã CDS**: Trích xuất và dịch chuỗi CDS từ chuỗi nucleotide.
+- **Liên kết chéo**: Tìm chuỗi liên kết từ PubMed ID hoặc mã bằng sáng chế.
 ## 🚀 Cách Sử Dụng
+
 
 ### Universal
 
@@ -70,6 +64,7 @@ Return sequences in FASTA format
 ```
 
 ## 💡 Kịch Bản Lập Trình Thực Tế
+
 
 ### 🧑‍💻 Nhà phát triển:
 > "Hãy tải cho tôi chuỗi nucleotide FASTA của gene insulin người từ cơ sở dữ liệu GenBank của NCBI."
@@ -85,7 +80,6 @@ Return sequences in FASTA format
 
 ## ⚠️ Lưu Ý & Gotchas
 
-- **RefSeq vs GenBank**: RefSeq (NM_, NP_) là curated, GenBank có thể chứa drafts/partial sequences.
-- **Isoforms**: Gene có thể có nhiều transcript variants — specify isoform nếu cần.
-- **Rate limit**: NCBI E-utilities giới hạn 3 req/s (10 với API key). Script wrapper handle tự động.
-- **Precursor vs mature**: Nhiều proteins có signal peptide, propeptide cần cắt — sequence fetched là precursor form.
+- **RefSeq vs GenBank**: Ưu tiên RefSeq (NM_, NP_) vì đã được kiểm chứng (curated), tránh GenBank thô/bản nháp.
+- **Giới hạn tần suất**: Lệnh gọi API bị giới hạn (3 req/s không key, 10 req/s có key); script wrapper tự động xử lý.
+- **Dạng protein**: Chuỗi tải về thường là precursor (gồm signal/propeptide), cần cắt tỉa nếu muốn dạng trưởng thành.

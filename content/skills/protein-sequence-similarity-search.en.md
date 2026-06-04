@@ -11,12 +11,9 @@ seoDescription: Guide for Agents to search for protein homologs using MMseqs2 an
 
 ## 📖 Why Do We Need This Skill?
 
-When analyzing a protein sequence of unknown function, the most common approach is to search for studied homologs. If sequence A shares 80% identity with sequence B (whose function is known), A likely performs a similar role.
-
-- **MMseqs2 (default)**: 100-1000x faster than BLAST, ideal for rapid scanning of large databases
-- **BLAST (fallback)**: More sensitive and exhaustive; runs if MMseqs2 returns insufficient hits
-- **Functional inference**: Use homolog annotations to infer domains, functions, and evolutionary relationships
-
+- **Functional Inference**: Characterize unknown proteins by locating characterized homologous sequences.
+- **MMseqs2 (Default)**: Perform search 100-1000x faster than BLAST, ideal for initial screening.
+- **BLAST (Fallback)**: Run a comprehensive database search, acting as a fallback when MMseqs2 hits are insufficient.
 ## ⚙️ How It Works
 
 ```
@@ -24,11 +21,11 @@ Protein sequence (FASTA) → MMseqs2/BLAST search →
 Return homologous proteins (E-value, identity%, coverage)
 ```
 
-1. **Input**: A protein sequence or FASTA file
-2. **Search**: MMseqs2 by default, automatically falling back to BLAST if needed
-3. **Output**: List of matching protein homologs including E-value, percent identity, query coverage, and annotations
-
+- **Input**: Accept a single protein sequence or FASTA format text.
+- **Search Logic**: Search via MMseqs2, automatically falling back to BLAST if necessary.
+- **Output**: Return homologs with E-values, percent identity, coverage, and database annotations.
 ## 🚀 How to use
+
 
 ### Universal
 
@@ -51,6 +48,7 @@ Return homologous proteins (E-value, identity%, coverage)
 
 ## 💡 Real-World Examples / Scenarios
 
+
 ### 🧑‍💻 Developer:
 > "I found an unknown protein sequence from a soil sample. Run BLAST to find homologous proteins."
 
@@ -65,6 +63,7 @@ Return homologous proteins (E-value, identity%, coverage)
 > *The BLAST results and functional annotations are compiled, identifying the unknown protein in seconds.*
 
 ## ⚠️ Gotchas and notes
+
 
 - **Proteins Only**: Do not submit DNA/RNA sequences. Translate coding DNA sequences to amino acids first.
 - **Not for Structural Homology**: If sequence identity is low (<20%), use Foldseek structural searches instead of sequence searches.

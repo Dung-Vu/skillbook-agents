@@ -10,7 +10,6 @@ seoDescription: >-
   reusable structured skills.
 ---
 
-
 ## 📖 Why Do We Need This Skill?
 
 During project development, developers and AI Agents build complex workflows — spanning API calls, data translations, and automated build and test checks. Without this skill:
@@ -22,8 +21,6 @@ During project development, developers and AI Agents build complex workflows —
 2. **4-Phase Curation**: Follow a strict design lifecycle: Brainstorm ➔ Design ➔ Implement ➔ Validate.
 3. **Deliver Reusable Assets**: Build `SKILL.md` instruction files and `uv` scripts for direct reuse in future projects.
 
----
-
 ## ⚙️ How It Works
 
 ```
@@ -32,24 +29,17 @@ During project development, developers and AI Agents build complex workflows —
 ```
 
 Agent thought process when executing this skill:
-1. **Phase 1: Brainstorming**: Review conversation history to extract successful patterns, identifying explicit input parameters and expected output formats.
-2. **Phase 2: Design**: Map out files and structure for the new skill directory, defining auxiliary CLI interfaces.
-3. **Phase 3: Implementation**: Write the Luminous-compliant `SKILL.md` file and build Python scripts compatible with `uv run` (PEP 0723).
-4. **Phase 4: Validation**: Execute the newly created skill with sample inputs to verify functionality before delivery.
-
----
+1. **Phase 1 & 2: Analysis & Design**: Review conversation history to extract successful patterns, identifying explicit input parameters and expected output formats. Map out files and structure for the new skill directory.
+2. **Phase 3 & 4: Implementation & Validation**: Write the Luminous-compliant `SKILL.md` file and build Python scripts compatible with `uv run` (PEP 0723). Execute the newly created skill with sample inputs to verify functionality.
 
 ## 🚀 How to use
 
-### With Cursor
-Add the rules below to your project `.cursorrules` file to enable Cursor to package workflows when requested.
+### IDE Configuration
 
-### With Windsurf (Cascade)
-Add these rules to `.windsurfrules` at the project root to enable Cascade to package workflows.
+- **With Cursor**: Add the rules below to your project `.cursorrules` file to enable Cursor to package workflows when requested.
+- **With Windsurf (Cascade)**: Add these rules to `.windsurfrules` at the project root to enable Cascade to package workflows.
 
----
-
-## 🚀 How to use
+### Rules
 
 ```markdown
 # WORKFLOW SKILL CREATOR INSTRUCTIONS & RULES
@@ -70,8 +60,6 @@ You must report and proceed through all 4 phases; do not skip any phase:
 - The newly created `SKILL.md` file must strictly adhere to the Luminous Standard structural guidelines.
 ```
 
----
-
 ## 💡 Real-World Examples / Scenarios
 
 ### 🧑‍💻 Developer:
@@ -86,8 +74,6 @@ You must report and proceed through all 4 phases; do not skip any phase:
 > 4. **Phase 4: Validation**: I ran a test render with an insulin sequence to verify that the pipeline runs successfully.
 >
 > *The structured skill is packaged and saved in your local workspace. In future sessions, you can run `/protein-renderer` to trigger the pipeline automatically.*
-
----
 
 ## ⚠️ Gotchas and notes
 

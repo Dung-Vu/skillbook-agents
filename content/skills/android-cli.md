@@ -33,19 +33,12 @@ seoDescription: >-
   CLI — project creation, SDK, deployment, diagnostics.
 provider: antigravity
 ---
-
 ## 📖 Tại Sao Cần Skill Này?
 
-Mặc dù các mô hình ngôn ngữ lớn (LLM) rất xuất sắc trong việc viết mã Kotlin, Java hoặc XML, chúng hoàn toàn không có khả năng nhận biết môi trường máy tính cục bộ của bạn. Nếu không có kỹ năng này:
-* **AI sẽ hướng dẫn thủ công**: AI sẽ yêu cầu bạn tự mở Android Studio, click chuột từng bước để tạo project hoặc chẩn đoán SDK.
-* **Sai lệch môi trường**: AI dễ dàng cấu hình sai Gradle, build lỗi do không khớp JDK, hoặc cố gắng deploy APK lên một emulator chưa được khởi chạy.
-
-**Khi được trang bị Kỹ năng này, AI Agent của bạn sẽ:**
-1. **Tự động chẩn đoán (Self-Diagnose)**: Tự động chạy chẩn đoán `ANDROID_HOME`, `JAVA_HOME` và danh sách thiết bị adb để thiết lập môi trường an toàn trước khi code.
-2. **Khởi tạo siêu tốc (Auto-Scaffolding)**: Tự động tạo cấu trúc thư mục dự án Gradle/Kotlin hiện đại chuẩn Google chỉ qua một câu lệnh CLI.
-3. **Build & Deploy tự vận hành**: Tự động kích hoạt Gradle wrapper, biên dịch mã nguồn, kiểm tra trạng thái thiết bị và deploy thẳng APK lên điện thoại/máy ảo mà không cần bạn can thiệp thủ công.
-
----
+Mặc dù các mô hình ngôn ngữ lớn (LLM) rất xuất sắc trong việc viết mã Kotlin, Java hoặc XML, chúng không tự nhận biết môi trường máy tính cục bộ của bạn. Kỹ năng này cung cấp các lệnh CLI để Agent:
+* **Tự động chẩn đoán**: Kiểm tra `ANDROID_HOME`, `JAVA_HOME` và thiết bị adb trước khi bắt đầu.
+* **Khởi tạo dự án**: Tạo cấu trúc dự án Gradle/Kotlin hiện đại bằng một câu lệnh CLI.
+* **Build & Deploy tự động**: Gọi Gradle wrapper, biên dịch mã nguồn, cài đặt và khởi chạy ứng dụng trực tiếp trên thiết bị/máy ảo.
 
 ## ⚙️ Cách Hoạt Động
 
@@ -55,29 +48,18 @@ Mặc dù các mô hình ngôn ngữ lớn (LLM) rất xuất sắc trong việc
                      └── FAIL ➔ 🔧 [Tự Động Sửa Lỗi / Nhắc Nhở Cài Đặt] ➔ Re-try
 ```
 
-Quy trình suy nghĩ của Agent khi thực thi kỹ năng này:
-1. **Bước 1: Chẩn đoán**: Xác thực các công cụ CLI cốt lõi (`sdkmanager`, `gradlew`, `adb`) và các cổng kết nối.
-2. **Bước 2: Xử lý ngoại lệ**: Nếu thiếu SDK hoặc platform-tools, tự động dùng `sdkmanager` tải xuống phiên bản phù hợp.
-3. **Bước 3: Biên dịch**: Kích hoạt Gradle daemon trong chế độ tối ưu hóa tài nguyên phần cứng.
-4. **Bước 4: Bàn giao**: Cài đặt APK thành công, gửi lệnh Shell khởi chạy Activity chính và lắng nghe Logcat tìm lỗi crash ban đầu.
-
----
-
-## 🚀 Hướng Dẫn Kích Hoạt IDE
-
-### Với Cursor
-Tạo file `.cursorrules` ở thư mục gốc của dự án Android của bạn và dán nội dung ở phần **Quy Tắc Chỉ Dẫn Cho Agent** bên dưới vào.
-
-### Với Windsurf (Cascade)
-Tạo file `.windsurfrules` ở thư mục gốc của dự án để Cascade Agent tự động nhận diện và phối hợp các lệnh CLI một cách trơn tru nhất.
-
-### Với Claude Code
-Khai báo các quy tắc trong file `claude_rules.md` hoặc dán trực tiếp prompt rules vào cửa sổ chat để Claude Code tuân thủ.
-
----
+1. **Chẩn đoán**: Xác thực các công cụ CLI (`sdkmanager`, `gradlew`, `adb`).
+2. **Xử lý ngoại lệ**: Tự động tải các phần SDK còn thiếu qua `sdkmanager`.
+3. **Biên dịch & Bàn giao**: Build APK debug qua Gradle, deploy qua ADB, và theo dõi Logcat tìm lỗi crash.
 
 ## 🚀 Cách Sử Dụng
 
+### Kích Hoạt IDE
+* **Cursor**: Tạo file `.cursorrules` ở thư mục gốc của dự án Android và dán các quy tắc bên dưới.
+* **Windsurf**: Tạo file `.windsurfrules` tương tự để Cascade Agent tự động nhận diện.
+* **Claude Code**: Khai báo quy tắc trong file `claude_rules.md` hoặc dán trực tiếp prompt rules.
+
+### Hướng Dẫn Vận Hành
 ```markdown
 # ANDROID CLI INSTRUCTIONS & RULES
 
@@ -102,8 +84,6 @@ Khai báo các quy tắc trong file `claude_rules.md` hoặc dán trực tiếp 
 - Kích hoạt ứng dụng từ xa bằng shell command: `adb shell am start -n package_name/activity_name`.
 ```
 
----
-
 ## 💡 Kịch Bản Lập Trình Thực Tế
 
 ### 🧑‍💻 Nhà phát triển:
@@ -119,10 +99,8 @@ Khai báo các quy tắc trong file `claude_rules.md` hoặc dán trực tiếp 
 >
 > *Chỉ sau khoảng 40 giây, ứng dụng máy tính bỏ túi đã xuất hiện sinh động trên điện thoại của bạn mà bạn không cần phải mở Android Studio hay tự tay gõ bất kỳ câu lệnh terminal nào.*
 
----
-
 ## ⚠️ Lưu Ý & Gotchas
 
-* **Quản Lý Bộ Nhớ RAM**: Gradle Daemon thường chiếm dụng khoảng `500MB - 1GB` RAM và tiếp tục chạy ngầm. Hãy nhắc Agent tắt daemon bằng lệnh `./gradlew --stop` khi phiên làm việc kết thúc để giải phóng tài nguyên.
-* **Keystore Bảo Mật**: Tuyệt đối không để Agent tự ý sinh file Keystore Release hoặc commit các mật khẩu nhạy cảm (`local.properties`, keystore file) lên kho lưu trữ Git công khai.
-* **Tương Thích Emulator**: Khi sử dụng emulator ảo trên Windows, hãy luôn bật Hyper-V hoặc HAXM để tăng tốc độ khởi động thiết bị, tránh tình trạng timeout khi adb deploy.
+* **Quản Lý Bộ Nhớ RAM**: Gradle Daemon thường chiếm dụng khoảng `500MB - 1GB` RAM. Tắt daemon bằng lệnh `./gradlew --stop` khi phiên làm việc kết thúc để giải phóng tài nguyên.
+* **Keystore Bảo Mật**: Tuyệt đối không tự ý sinh file Keystore Release hoặc commit các mật khẩu nhạy cảm (`local.properties`, keystore file) lên kho lưu trữ Git.
+* **Tương Thích Emulator**: Khi sử dụng emulator ảo trên Windows, hãy luôn bật Hyper-V hoặc HAXM để tăng tốc độ khởi động thiết bị, tránh timeout khi adb deploy.

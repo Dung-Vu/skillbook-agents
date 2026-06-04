@@ -13,26 +13,20 @@ title: Minimax PDF
 
 ## 📖 Why Do We Need This Skill?
 
-PDF documents are notoriously difficult to parse and generate layout-faithfully. This skill equips agents with robust extraction workflows (using pdfplumber or vision models for financial tables), LaTeX academic compilation recipes, and clickable Table of Contents (TOC) creation guidelines.
-
----
+PDF documents are notoriously difficult to parse and generate layout-faithfully. This skill equips agents with robust extraction workflows (using pdfplumber or vision models), LaTeX academic compilation recipes, and clickable Table of Contents (TOC) creation guidelines.
 
 ## ⚙️ How It Works
 
 The PDF skill workflow is:
-1. **Check Pitfalls Index**: Match the user request against the 10 canonical query templates (P1-P10) in `docs/pitfalls-index.md` and copy the prompt structure.
-2. **Execute Read or Write Route**:
-   - Read: Default to `pdfplumber`. If charts or complex tables are present, escalate to `read_pdf_vision.py` processing one page per call.
-   - Write: Choose HTML-to-PDF, LaTeX compilation, or AcroForm filling using pypdf writer clone.
-3. **Verify Deliverable**: Verify page sizes via `pdfinfo`, check embedded images via `pdfimages`, and test clickable TOC links.
 
-Flowchart:
+1. **Check Pitfalls**: Match the user request against the templates in `docs/pitfalls-index.md`.
+2. **Read/Write**: Read plaintext via `pdfplumber` or call `read_pdf_vision.py` for complex layouts. Write PDFs using HTML-to-PDF or LaTeX.
+3. **Verify**: Verify page sizes via `pdfinfo`, check embedded images via `pdfimages`, and test clickable TOC links.
+
 ```
 [PDF Task] ➔ 🔍 [Match Pitfalls Index] ➔ 📖 [Read: pdfplumber / Vision (One page/call)]
               ➔ 📝 [Write: HTML-to-PDF / LaTeX / Forms] ➔ 🧪 [Validate Page Size & TOC Links]
 ```
-
----
 
 ## 🚀 How to use
 
@@ -43,8 +37,6 @@ Flowchart:
 - **Vision Escalation**: For pages containing charts or complex financial tables, processing via `read_pdf_vision.py` page-by-page is mandatory.
 - **AcroForm Fill Pattern**: Fill PDF forms only using `PdfWriter(clone_from=src)` and `update_page_form_field_values(...)`.
 ```
-
----
 
 ## 💡 Real-World Examples / Scenarios
 

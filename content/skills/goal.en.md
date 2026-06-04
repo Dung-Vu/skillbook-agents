@@ -13,16 +13,10 @@ seoDescription: >-
 
 ## 📖 Why Do We Need This Skill?
 
-Complex engineering tasks often fail because agents dive straight into coding without analyzing requirements. Without this skill:
-* **Scope Creep**: AI works on wrong assumptions, writing code that must be rewritten.
-* **No Milestone tracking**: If the agent runs out of tokens or crashes, there is no state checkpoint to resume.
-
-**With this planning skill, your AI Agent will:**
-1. **Formulate explicit goals**: Translate ambiguous requests into defined technical deliverables.
-2. **Identify critical paths**: Determine which steps depend on prior ones (e.g., compile checks before testing).
-3. **Implement checkpoints**: Keep a persistent state file (`plan.md` or similar) to survive agent restarts.
-
----
+Complex engineering tasks often fail because agents dive straight into coding without planning. The `/goal` skill helps the AI Agent work autonomously and robustly through:
+- **Autonomous Planning**: Decomposes large goals into trackable sub-tasks in `task.md`.
+- **Self-Correction Loop**: Detects compilation or runtime errors, diagnoses root causes, and edits source code.
+- **Continuous Execution**: Runs continuously for hours until the goal is 100% completed.
 
 ## ⚙️ How It Works
 
@@ -34,12 +28,9 @@ Complex engineering tasks often fail because agents dive straight into coding wi
 ```
 
 Agent planning workflow:
-1. **Deconstruction**: Break the request into core requirements and nice-to-haves.
-2. **Constraint Check**: Verify permissions, environment limitations, and system versions.
-3. **Drafting Plan**: Outline sequential steps, listing verification criteria for each.
-4. **Execution & Checkpoints**: Run commands and update plan states after each milestone.
-
----
+1. **Deconstruction & Setup**: Analyzes the request and initializes `implementation_plan.md` and `task.md`.
+2. **Execution & Audit**: Writes code and runs verification tests at each step.
+3. **Tracking & Correction**: Updates progress in `task.md`, auto-corrects code if errors occur, and completes when all criteria are met.
 
 ## 🚀 How to use
 
@@ -59,8 +50,6 @@ Agent planning workflow:
 - Do not retry the same failing solution more than 3 times. Instead, find an alternative approach.
 ````
 
----
-
 ## 💡 Real-World Examples / Scenarios
 
 ### Developer:
@@ -74,5 +63,5 @@ Agent planning workflow:
 
 ## ⚠️ Gotchas and notes
 
-* **Token Budget**: Long-running tasks consume a large amount of tokens. The agent must continuously optimize the context by avoiding printing excessively large outputs to the terminal and only saving data to result files.
-* **Infinite Loops**: Always set up a loop-detection mechanism if a test or test execution command repeatedly fails without any progress.
+- **Token Budget**: Long-running tasks consume many tokens; optimize context by saving output files instead of logging large terminal traces.
+- **Infinite Loops**: Build in a loop-detection mechanism to halt if test executions repeatedly fail without progress.

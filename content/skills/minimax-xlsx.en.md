@@ -15,23 +15,18 @@ title: Minimax XLSX
 
 Excel spreadsheets are fundamental for financial models and business operations. This skill enforces the "Formula-first" principle (representing all computed values as live formulas rather than static values) and leverages LibreOffice headless recalculations to ensure data accuracy upon delivery.
 
----
-
 ## ⚙️ How It Works
 
 The XLSX development and verification loop:
-1. **Select Library**: Choose tools based on size (pandas/polars for reading raw datasets, openpyxl for editing styles and inserting formulas).
-2. **Apply Formula-first**: Write derived values as live Excel formulas (e.g. `=AVERAGE(B2:B12)`) instead of pre-computed numbers in Python.
-3. **Format Aesthetics**: Use accounting color conventions (blue text for manual inputs, black text for formulas, green for cross-sheet links).
-4. **Recalculate & Verify**: Run `recalc.py` to evaluate formulas headless in LibreOffice, validating that `total_errors == 0`.
 
-Flowchart:
+1. **Select**: Choose pandas/polars for raw data reading, or openpyxl for styles and formulas.
+2. **Apply**: Write all calculated metrics as live Excel formulas (e.g. `=AVERAGE(B2:B12)`) instead of pre-computed numbers.
+3. **Verify**: Run `recalc.py` to evaluate formulas in LibreOffice, validating that there are no formula errors.
+
 ```
 [Raw Data Input] ➔ 📊 [Load via pandas / polars] ➔ ✍️ [Write Formulas & Styles via openpyxl]
                      ➔ 🎨 [Apply Cell Color Coding] ➔ 🔄 [Run recalc.py & Verify No Errors]
 ```
-
----
 
 ## 🚀 How to use
 
@@ -42,8 +37,6 @@ Flowchart:
 - **Data Integrity**: Never call `df.head(N)` or down-sample large datasets. Write full row counts to maintain correct aggregations.
 - **Native Summaries**: Construct summaries using Excel-native pivots or `=SUMIFS`/`=COUNTIFS` rather than pandas `groupby` written as values.
 ```
-
----
 
 ## 💡 Real-World Examples / Scenarios
 

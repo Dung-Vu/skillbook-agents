@@ -37,25 +37,20 @@ title: Lark Tools
 
 ## 📖 Tại Sao Cần Skill Này?
 
-Kỹ năng này giúp AI Agent tương tác trực tiếp với không gian làm việc doanh nghiệp trên Feishu/Lark. Agent có thể tự động đọc lịch làm việc để tìm giờ trống, kiểm tra danh bạ, gửi thông báo báo cáo tiến độ vào nhóm chat hoặc cập nhật bảng dữ liệu Bitable mà không cần người dùng thao tác thủ công trên ứng dụng.
-
----
+Kỹ năng này giúp AI Agent tương tác trực tiếp với không gian làm việc doanh nghiệp trên Feishu/Lark. Agent có thể tự động đọc lịch làm việc để tìm giờ trống, kiểm tra danh bạ, gửi thông báo báo cáo tiến độ vào nhóm chat hoặc cập nhật bảng dữ liệu Bitable.
 
 ## ⚙️ Cách Hoạt Động
 
 Cách thức vận hành:
-1. **Kiểm tra công cụ**: Đảm bảo `@larksuite/cli` (lệnh `lark-cli`) đã được cài đặt trên hệ thống.
-2. **Phân giải URL Daemon**: Tìm cổng hoạt động động từ tệp `daemon.port` để lấy địa chỉ endpoint.
-3. **Kiểm tra liên kết Bot & Auth**: Kiểm tra trạng thái xác thực bằng `lark-cli auth status`. Nếu chưa xác thực, tiến hành khởi động luồng Onboard hoặc OAuth bằng API Daemon.
-4. **Gọi lệnh lark-cli**: Chạy các subcommand tương ứng (ví dụ: `calendar +agenda`, `im +messages-send`, v.v.) kèm theo cờ `--as user` hoặc `--as bot` để đọc/ghi dữ liệu.
 
-Sơ đồ luồng:
+1. **Kiểm tra môi trường**: Đảm bảo `@larksuite/cli` đã cài đặt và đọc cổng từ tệp `daemon.port`.
+2. **Xác thực**: Kiểm tra trạng thái xác thực qua `lark-cli auth status` (OAuth hoặc Bot).
+3. **Thực thi**: Gọi các subcommand của `lark-cli` (như `calendar`, `im`, v.v.) để đọc/ghi dữ liệu.
+
 ```
 [Yêu cầu Lark] ➔ ⚙️ [Kiểm tra lark-cli & daemon.port] ➔ 🔑 [Xác thực OAuth / Token]
                      ➔ 💻 [Chạy lark-cli subcommand] ➔ 📦 [Nhận JSON & Trả kết quả]
 ```
-
----
 
 ## 🚀 Cách Sử Dụng
 
@@ -66,8 +61,6 @@ Sơ đồ luồng:
 - **Không viết cứng cổng daemon**: Cổng daemon là động, luôn luôn đọc cổng từ tệp tin `daemon.port` hoặc parse từ `mavis status`.
 - **Tránh spam tin nhắn**: Khi gửi tin nhắn qua IM, định cấu hình tần suất hợp lý để tránh bị Feishu chặn vì giới hạn tần suất (rate limiting).
 ```
-
----
 
 ## 💡 Kịch Bản Lập Trình Thực Tế
 

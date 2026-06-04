@@ -37,15 +37,11 @@ provider: antigravity
 
 ## 📖 Tại Sao Cần Skill Này?
 
-OpenAlex là database scholarly mở chứa >250 triệu works — thay thế cho Microsoft Academic Graph. Đặc biệt mạnh cho bibliometric analysis và author/institution research.
-
-- **Comprehensive**: Papers, authors, institutions, topics, sources, publishers, funders
-- **Bibliometrics**: Citation counts, h-index, impact factor, trending topics
-- **DOI resolution**: Resolve DOIs thành full metadata
-- **Open-access PDFs**: Download PDFs miễn phí khi available
-- **Taxonomy**: Explore research taxonomies và topic classifications
-
+- **Phân tích Trích dẫn (Bibliometrics)**: Đánh giá tầm ảnh hưởng học thuật qua số lượng trích dẫn, chỉ số h-index, impact factor của tác giả và cơ quan.
+- **Tra cứu & Tải PDF**: Định danh tài liệu qua mã DOI và tải trực tiếp các tệp PDF nguồn mở (open-access) nếu có.
+- **Phân loại Chủ đề**: Khám phá cây thư mục nghiên cứu (topics, sources, publishers) trong kho dữ liệu mở >250 triệu công trình.
 ## ⚙️ Cách Hoạt Động
+
 
 ```
 Query / DOI / Author → OpenAlex API → 
@@ -53,6 +49,7 @@ Return works, author profiles, citation data, topic classifications
 ```
 
 ## 🚀 Cách Sử Dụng
+
 
 ### Universal
 
@@ -65,6 +62,7 @@ Return works, author profiles, citation data, topic classifications
 ```
 
 ## 💡 Kịch Bản Lập Trình Thực Tế
+
 
 ### 🧑‍💻 Nhà phát triển:
 > "Tôi muốn phân tích tầm ảnh hưởng học thuật của giáo sư Shinya Yamanaka (người phát minh ra tế bào iPSC) bao gồm h-index và các bài báo được trích dẫn nhiều nhất của ông."
@@ -79,6 +77,7 @@ Return works, author profiles, citation data, topic classifications
 > *Báo cáo tầm ảnh hưởng học thuật chi tiết và chuyên nghiệp đã sẵn sàng, giúp bạn có cái nhìn sâu sắc về lịch sử nghiên cứu.*
 
 ## ⚠️ Lưu Ý & Gotchas
+
 
 - **OpenAlex vs PubMed**: OpenAlex broader (all disciplines), PubMed = biomedical focused.
 - **Author disambiguation**: OpenAlex uses ML for author matching — occasional errors with common names.

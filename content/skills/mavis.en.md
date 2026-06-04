@@ -17,22 +17,18 @@ title: Mavis
 
 Mavis is the core runtime operation skill. Agents need it to control the Mavis platform itself, including inspecting other agents, executing inter-session messages, managing scheduled crons, registering Git hooks, and cleaning up long-term memory directories.
 
----
-
 ## ⚙️ How It Works
 
 Mavis is controlled using the Mavis CLI and reference configurations:
-1. **Identify Area**: Map the request to a sub-reference: agent, session, memory, cron, hook, skill-management, or skill-evolution.
-2. **Read Guide**: Read the specific guide in `references/` before invoking commands.
-3. **Execute CLI**: Choose the native CLI command (e.g. `mavis communication send`, `mavis cron self`) and run it via platform-compliant recipes.
 
-Flowchart:
+1. **Identify Area**: Map the request to a sub-reference: agent, session, memory, cron, hook, etc.
+2. **Read Guide**: Read the specific guide in `references/` before invoking commands.
+3. **Execute & Update**: Run the native CLI command (e.g. `mavis communication send`, `mavis cron self`) and update runtime state.
+
 ```
 [Mavis System Task] ➔ 📂 [Load Sub-Reference in references/] ➔ 💻 [Run Mavis CLI Command]
                        ➔ 🔄 [Apply State Change (Session/Cron/Memory)] ➔ 📋 [Deliver Status]
 ```
-
----
 
 ## 🚀 How to use
 
@@ -42,8 +38,6 @@ Flowchart:
 - **Memory Boundaries**: Session memory is removed. Use only user-level, agent-level, or project-level memory files under `memory/`.
 - **Inter-session communication**: When delegated a subtask, report completion back to the parent session using the `report-back-to-parent` recipe.
 ```
-
----
 
 ## 💡 Real-World Examples / Scenarios
 

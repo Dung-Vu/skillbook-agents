@@ -36,22 +36,18 @@ title: Mavis
 
 Mavis là kỹ năng vận hành cốt lõi giúp Agent điều khiển chính hệ thống của nó. Agent cần kỹ năng này để kiểm tra danh sách Agent khác, trao đổi thông điệp liên-session, lên lịch thực hiện công việc tự động (crons), thiết lập các chốt chặn kiểm thử mã nguồn (hooks), và quản lý bộ nhớ dài hạn.
 
----
-
 ## ⚙️ Cách Hoạt Động
 
 Hệ thống được vận hành thông qua CLI của Mavis và các file cấu hình tương ứng:
-1. **Ánh xạ khả năng**: Phân loại yêu cầu của người dùng vào các mục như `agent`, `session`, `memory`, `cron`, `hook`, `skill-management` hoặc `skill-evolution`.
-2. **Đọc tài liệu phụ trợ**: Đọc tệp hướng dẫn tương ứng trong thư mục `references/` (ví dụ: `references/cron.md` nếu muốn tạo lịch nhắc nhở).
-3. **Chọn lệnh CLI**: Áp dụng các lệnh Mavis chuẩn hóa như `mavis agent info`, `mavis communication send`, `mavis cron self`, hoặc `mavis hook create`.
 
-Sơ đồ quy trình:
+1. **Phân loại**: Phân tách yêu cầu vào các mục: agent, session, memory, cron, hook, v.v.
+2. **Tham chiếu & Chạy CLI**: Đọc tệp hướng dẫn trong `references/` và chạy lệnh CLI tương ứng (như `mavis agent`, `mavis cron`, v.v.).
+3. **Cập nhật & Báo cáo**: Cập nhật trạng thái hệ thống và báo cáo cho người dùng.
+
 ```
 [Yêu cầu vận hành Mavis] ➔ 📂 [Phân loại & Đọc references/] ➔ 💻 [Chạy Mavis CLI Command]
                              ➔ 🔄 [Cập nhật Session/Cron/Memory] ➔ 📋 [Báo cáo kết quả]
 ```
-
----
 
 ## 🚀 Cách Sử Dụng
 
@@ -61,8 +57,6 @@ Sơ đồ quy trình:
 - **Không tự xử lý dữ liệu nhạy cảm**: Không ghi khóa bảo mật hoặc thông tin đăng nhập vào bộ nhớ Agent hay tệp cấu hình Mavis.
 - **Phân tách bộ nhớ**: Bộ nhớ session đã bị loại bỏ; chỉ sử dụng bộ nhớ người dùng (user), agent (agent) hoặc dự án (project).
 ```
-
----
 
 ## 💡 Kịch Bản Lập Trình Thực Tế
 
@@ -78,4 +72,4 @@ Sơ đồ quy trình:
 ## ⚠️ Lưu Ý & Gotchas
 
 * **Cổng daemon thay đổi**: Không viết cứng địa chỉ IP hoặc cổng của daemon. Luôn đọc từ tệp `daemon.port`.
-* **Lỗi định dạng YAML cấu hình cron/hook**: Nếu file cấu hình YAML thụt lề sai, daemon sẽ từ chối nạp, khiến cron hoặc hook không hoạt động mà không có thông báo lỗi chi tiết ở CLI. Rerun `mavis status` để kiểm tra.
+* **Lỗi định dạng YAML cấu hình cron/hook**: Nếu file cấu hình YAML thụt lề sai, daemon sẽ từ chối nạp, khiến cron hoặc hook không hoạt động. Rerun `mavis status` để kiểm tra.

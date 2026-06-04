@@ -13,19 +13,12 @@ seoDescription: >-
   project creation, SDK, deployment, diagnostics.
 ---
 
-
 ## 📖 Why Do We Need This Skill?
 
-Although Large Language Models (LLMs) excel at writing Kotlin, Java, or XML code, they lack awareness of your local computer environment. Without this skill:
-* **AI will instruct manually**: The AI will ask you to open Android Studio, click step-by-step to create a project or diagnose the SDK.
-* **Environment Mismatch**: The AI can easily misconfigure Gradle, fail builds due to JDK mismatches, or attempt to deploy an APK to an emulator that hasn't been launched.
-
-**When equipped with this skill, your AI Agent will:**
-1. **Self-Diagnose**: Automatically run checkups for `ANDROID_HOME`, `JAVA_HOME`, and adb device list to establish a safe environment before coding.
-2. **Auto-Scaffolding**: Generate a standard Google Gradle/Kotlin project structure in one CLI command.
-3. **Automated Build & Deploy**: Trigger the Gradle wrapper, compile source code, check device status, and deploy the APK directly to a phone or virtual emulator without manual intervention.
-
----
+Although Large Language Models (LLMs) excel at writing Kotlin, Java, or XML code, they lack awareness of your local computer environment. This skill provides CLI commands for the Agent to:
+* **Self-Diagnose**: Verify `ANDROID_HOME`, `JAVA_HOME`, and connected adb devices before starting.
+* **Auto-Scaffolding**: Instantly generate a modern Google Gradle/Kotlin project structure via CLI.
+* **Automated Build & Deploy**: Trigger Gradle wrapper, compile code, and deploy/run the APK on a device/emulator automatically.
 
 ## ⚙️ How It Works
 
@@ -35,29 +28,18 @@ Although Large Language Models (LLMs) excel at writing Kotlin, Java, or XML code
                    └── FAIL ➔ 🔧 [Auto-Fix Error / Installation Reminder] ➔ Re-try
 ```
 
-Agent's thought process when executing this skill:
-1. **Step 1: Diagnostics**: Validate core CLI tools (`sdkmanager`, `gradlew`, `adb`) and connectivity ports.
-2. **Step 2: Exception Handling**: If SDKs or platform-tools are missing, automatically download the correct versions using `sdkmanager`.
-3. **Step 3: Compilation**: Trigger the Gradle daemon in hardware-resource optimized mode.
-4. **Step 4: Handoff**: Install the APK, send Shell commands to launch the main Activity, and listen to Logcat for initial crash warnings.
-
----
+1. **Diagnostics**: Validates core CLI tools (`sdkmanager`, `gradlew`, `adb`).
+2. **Exception Handling**: Downloads missing SDK platforms/tools via `sdkmanager`.
+3. **Compilation & Deployment**: Compiles the debug APK, deploys via ADB, and monitors Logcat.
 
 ## 🚀 How to use
 
-### With Cursor
-Create a `.cursorrules` file at the root of your Android project and paste the content in the **Agent Guidelines** section below.
+### IDE Setup
+* **Cursor**: Create a `.cursorrules` file at the project root and insert the rules below.
+* **Windsurf**: Create a `.windsurfrules` file at the project root for Cascade Agent.
+* **Claude Code**: Define rules in `claude_rules.md` or paste them directly in chat.
 
-### With Windsurf (Cascade)
-Create a `.windsurfrules` file at the root of your project for Cascade Agent to coordinate CLI commands smoothly.
-
-### With Claude Code
-Declare the rules in a `claude_rules.md` file or paste the prompt rules directly into the chat window.
-
----
-
-## 🚀 How to use
-
+### Operational Guide
 ```markdown
 # ANDROID CLI INSTRUCTIONS & RULES
 
@@ -82,8 +64,6 @@ Declare the rules in a `claude_rules.md` file or paste the prompt rules directly
 - Remotely activate the app using the shell command: `adb shell am start -n package_name/activity_name`.
 ```
 
----
-
 ## 💡 Real-World Examples / Scenarios
 
 ### 🧑‍💻 Developer:
@@ -99,10 +79,8 @@ Declare the rules in a `claude_rules.md` file or paste the prompt rules directly
 >
 > *In about 40 seconds, the calculator app is running on your phone without you needing to open Android Studio or type terminal commands.*
 
----
-
 ## ⚠️ Gotchas and notes
 
-* **RAM Memory Management**: The Gradle Daemon consumes around `500MB - 1GB` RAM. Prompt the Agent to stop it using `./gradlew --stop` at the end of the session.
-* **Keystore Security**: Never allow the Agent to generate Release Keystore files or commit sensitive credentials (`local.properties`, keystore files) to public Git repositories.
-* **Emulator Compatibility**: When using virtual emulators on Windows, make sure Hyper-V or HAXM is enabled to prevent deployment timeouts.
+* **RAM Memory Management**: The Gradle Daemon consumes around `500MB - 1GB` RAM. Stop it using `./gradlew --stop` at the end of the session to free up resources.
+* **Keystore Security**: Never allow the Agent to generate Release Keystore files or commit credentials (`local.properties`, keystore files) to public Git repositories.
+* **Emulator Compatibility**: On Windows, ensure Hyper-V or HAXM is enabled to prevent adb deployment timeouts.

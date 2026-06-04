@@ -36,27 +36,20 @@ title: MCP Onboarding
 
 ## 📖 Tại Sao Cần Skill Này?
 
-Kỹ năng này cung cấp một quy trình hướng dẫn thân thiện để tích hợp các dịch vụ bên ngoài vào hệ thống Agent mà người dùng không cần biết hoặc tự chạy các câu lệnh CLI phức tạp. AI Agent sẽ tự động hóa việc thu thập thông tin, kiểm tra tính hợp lệ của token và đồng bộ hóa công cụ thông qua giao diện hội thoại.
-
----
+Kỹ năng này cung cấp một quy trình hướng dẫn thân thiện để tích hợp các dịch vụ bên ngoài vào hệ thống Agent mà người dùng không cần biết hoặc tự chạy các câu lệnh CLI phức tạp. AI Agent sẽ tự động hóa việc thu thập thông tin và đồng bộ hóa công cụ qua chat.
 
 ## ⚙️ Cách Hoạt Động
 
-Quy trình onboarding 1-chọn-1:
-1. **Thu thập thông tin tối thiểu**: Xác định loại dịch vụ (ví dụ: Figma) và lấy cấu hình mặc định (preset). Chỉ hỏi người dùng các trường còn thiếu (API key hoặc URL).
-2. **Cấu hình server**: Gọi lệnh `mavis mcp add` từ nền sau để lưu cấu hình.
-3. **Thực hiện xác thực**:
-   - Nếu là OAuth2: Chạy `mavis mcp auth login`, lấy URL và trả về link markdown dạng thẻ bấm cho người dùng.
-   - Nếu là Token/Bearer: Trả về thẻ giao diện `<genui-mcp-auth>` để thu thập mã thông báo an toàn.
-4. **Kiểm tra và Đồng bộ**: Đợi người dùng cấp quyền, kiểm tra trạng thái qua `auth status`, rồi chạy `mavis mcp sync`.
+Quy trình onboarding:
 
-Sơ đồ quy trình:
+1. **Thu thập**: Xác định loại dịch vụ (ví dụ: Figma), nạp preset cấu hình, và chỉ yêu cầu người dùng nhập các API key hoặc URL còn thiếu.
+2. **Xác thực**: Chạy `mavis mcp auth login` (cho OAuth2) hoặc hiển thị thẻ `<genui-mcp-auth>` (cho Token/Bearer) để người dùng nhập mã thông báo an toàn.
+3. **Đồng bộ**: Kiểm tra trạng thái kết nối và chạy `mavis mcp sync` để đồng bộ hóa các kỹ năng.
+
 ```
 [Dịch vụ cần kết nối] ➔ 🛠️ [Nạp preset / Hỏi thông tin thiếu] ➔ 🔑 [Hiển thị OAuth Link / genUI card]
                            ➔ 🔄 [Tự động poll status & chạy sync] ➔ 📋 [Bàn giao skill mcp-<server>]
 ```
-
----
 
 ## 🚀 Cách Sử Dụng
 
@@ -66,8 +59,6 @@ Sơ đồ quy trình:
 - **Sử dụng genui-mcp-auth**: Khi thu thập mã bí mật (PAT, API key), bắt buộc hiển thị thẻ `<genui-mcp-auth>`, tuyệt đối không yêu cầu người dùng dán text trực tiếp vào chat.
 - **Không lặp lại token**: Không bao giờ ghi nhớ hoặc in lại token bảo mật của người dùng ra log hoặc màn hình chat.
 ```
-
----
 
 ## 💡 Kịch Bản Lập Trình Thực Tế
 
@@ -82,5 +73,5 @@ Sơ đồ quy trình:
 
 ## ⚠️ Lưu Ý & Gotchas
 
-* **Lỗi chặn popup trình duyệt**: Khi gửi link OAuth, người dùng cần mở trình duyệt và đồng ý cấp quyền. Nếu trình duyệt chặn redirect, lệnh poll status sẽ bị timeout (30s). Cần hướng dẫn người dùng thử lại.
-* **Tham số bổ sung**: Giao diện `<genui-mcp-auth>` chỉ hỗ trợ lưu Host + Token. Nếu dịch vụ cần nhiều tham số tùy chỉnh khác, Agent phải thu thập trước các tham số không nhạy cảm này qua chat rồi mới hiển thị thẻ nhập token.
+* **Lỗi chặn popup trình duyệt**: Khi gửi link OAuth, người dùng cần đồng ý cấp quyền. Nếu trình duyệt chặn redirect, tiến trình poll status sẽ bị timeout (30s).
+* **Tham số bổ sung**: Giao diện `<genui-mcp-auth>` chỉ hỗ trợ lưu Host + Token. Agent phải thu thập trước các tham số không nhạy cảm khác qua chat rồi mới hiển thị thẻ.

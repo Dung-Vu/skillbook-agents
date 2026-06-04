@@ -13,14 +13,9 @@ seoDescription: >-
 
 ## 📖 Why Do We Need This Skill?
 
-Multiple Sequence Alignment (MSA) is a foundational step in molecular biology — comparing multiple sequences simultaneously to identify conserved regions and residues critical for protein structure and function.
-
-- **Conservation analysis**: Highly conserved residues across evolutionary distances indicate essential functional/structural roles
-- **Domain boundaries**: Identify conserved blocks representing shared domains versus variable gap-heavy insertion/deletion loops
-- **Mutation severity**: Mutations at highly conserved positions are more likely to disrupt function and cause disease
-
-Default Agents lack the tools to perform sequence alignment. This skill connects to the EBI Clustal Omega API.
-
+- **Conservation & Mutation Analysis**: Identify evolutionarily conserved amino acid residues to predict mutation impacts.
+- **Domain Identification**: Locate boundaries of shared domains and species-specific insertion/deletion events.
+- **EBI API Integration**: Run multiple sequence alignments (MSA) via EBI Clustal Omega without local dependencies.
 ## ⚙️ How It Works
 
 ```
@@ -28,11 +23,11 @@ Multiple sequences (FASTA) → Submit to Clustal Omega API →
 Wait for result → Return aligned sequences + conservation scores
 ```
 
-1. **Input**: Between 2 and 4000 protein sequences in FASTA format (max file size 4 MB)
-2. **Alignment**: Clustal Omega aligns sequences using an HMM profile-profile comparison method
-3. **Output**: Aligned sequence sequences showing gaps and conservation symbols (`*` identical, `:` highly conserved, `.` semi-conserved)
-
+- **Input**: Accept between 2 and 4,000 protein sequences in FASTA format (max 4 MB).
+- **Alignment**: Execute HMM profile-profile alignment using Clustal Omega via the EBI API.
+- **Output**: Return aligned sequences with gap characters and conservation marks (`*`, `:`, `.`).
 ## 🚀 How to use
+
 
 ### Universal
 
@@ -55,6 +50,7 @@ Wait for result → Return aligned sequences + conservation scores
 
 ## 💡 Real-World Examples / Scenarios
 
+
 ### 🧑‍💻 Developer:
 > "I have amino acid sequences for 5 hemoglobin homologs from different species. Run a multiple sequence alignment (MSA) to locate functional residues."
 
@@ -70,7 +66,6 @@ Wait for result → Return aligned sequences + conservation scores
 
 ## ⚠️ Gotchas and notes
 
-- **Proteins Only**: This service is configured only for protein alignments, not DNA or RNA sequences.
-- **Limits**: The API supports up to 4000 sequences and 4 MB input files.
-- **Requires ≥2 sequences**: A single sequence cannot be aligned. Run a sequence similarity search first to find homologs.
-- **Async Execution**: Clustal Omega runs as an asynchronous job on EBI servers; alignment can take from seconds to minutes depending on input sizes.
+- **Protein Only**: Only align amino acid sequences; do not submit DNA, RNA, or nucleotides.
+- **Input Limits**: Minimum of 2 and maximum of 4,000 sequences, with a maximum file size of 4 MB.
+- **Async Processing**: Jobs run on remote EBI servers and may take from seconds to minutes to complete.

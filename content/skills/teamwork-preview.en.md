@@ -13,16 +13,10 @@ seoDescription: >-
 
 ## 📖 Why Do We Need This Skill?
 
-When facing large-scale software systems, single AI agents struggle with context limits and multitasking constraints:
-* **Information Overload**: A single agent writing code, running tests, fixing bugs, and compiling docs can experience context dilution.
-* **Lack of Specialized Review**: Lacks review from dedicated QA testers or architectural oversight from designers.
-
-**With the `/teamwork-preview` skill, your AI Agent can:**
-1. **Deploy Specialized Roles**: Spawn sub-agents configured for PM, Architect, Developer, or QA responsibilities.
-2. **Collaborate Asynchronously**: Allow agents to debate architectural solutions and divide tasks using virtual Gantt charts.
-3. **Enforce Quality Gates**: QA agents test Developer code, verifying compilation and logic before delivery.
-
----
+Large projects can overwhelm a single AI agent due to context limits and multitasking constraints. This skill coordinates a collaborative network of specialized agents to:
+- **Deploy Specialized Roles**: Spawn sub-agents for specific PM, Architect, Developer, or QA responsibilities.
+- **Collaborate Asynchronously**: Allow agents to debate solutions, share progress, and divide tasks effectively.
+- **Enforce Quality Gates**: Triage development and testing, preventing bugs from reaching the user.
 
 ## ⚙️ How It Works
 
@@ -34,13 +28,10 @@ When facing large-scale software systems, single AI agents struggle with context
                              └── QA Agent: Write Tests & Verify Quality ➔ [Handover Complete Product]
 ```
 
-Agent thought process when executing teamwork-preview:
-1. **Project Breakdown**: Determine project scale and the necessary specialized roles.
-2. **Spawn Sub-agents**: Call the `invoke_subagent` tool with specialized system prompts.
-3. **Coordinate Communication**: The PM agent tracks milestone completion via a shared `task.md` file.
-4. **Consolidate Results**: Merge developer code and QA testing reports to deliver a validated product.
-
----
+Coordination workflow:
+1. **Spawn & Delegate**: Call `invoke_subagent` to spin up specialized sub-agents with dedicated prompts.
+2. **Synchronize Progress**: PM agent acts as the hub, tracking status through a shared `task.md` file.
+3. **Validate & Deliver**: QA agent runs test suites against developer code, and PM compiles the final handoff.
 
 ## 🚀 How to use
 
@@ -60,8 +51,6 @@ Agent thought process when executing teamwork-preview:
 - If the QA Agent detects an error, the Developer must revert to the modification step and rerun tests.
 ````
 
----
-
 ## 💡 Real-World Examples / Scenarios
 
 ### Developer:
@@ -75,7 +64,5 @@ Agent thought process when executing teamwork-preview:
 
 ## ⚠️ Gotchas and notes
 
-* **Race Conditions**: When multiple agents modify the same source file or overwrite the test directory, race conditions can easily occur. Ensure that agents work on separate directory partitions or files.
-* **Communication Optimization**: Limit agents from discussing too verbosely or repeating a single issue. The PM Agent must have the authority to decide and terminate prolonged technical debates.
-```
-```
+* **Race Conditions**: Avoid having multiple agents write to the same source file or test directory concurrently.
+* **Communication Overhead**: Keep discussions concise. The PM agent must terminate circular debates quickly.

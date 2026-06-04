@@ -37,25 +37,20 @@ title: Minimax PPTX
 
 ## 📖 Tại Sao Cần Skill Này?
 
-Tạo slide PowerPoint (`.pptx`) bằng code thường dễ gặp lỗi tràn khung văn bản, sai tỷ lệ màn hình hoặc mất định dạng phong cách của công ty. Kỹ năng này cung cấp các giới hạn kích thước canvas chuẩn 16x9, hướng dẫn thiết kế slide module hóa bằng JavaScript (PptxGenJS) và các bước trích xuất ghi chú, hình ảnh từ slide cũ để tạo mới hoặc chỉnh sửa an toàn.
-
----
+Tạo slide PowerPoint (`.pptx`) bằng code thường dễ gặp lỗi tràn khung văn bản hoặc sai tỷ lệ. Kỹ năng này cung cấp các giới hạn kích thước canvas chuẩn 16x9, hướng dẫn thiết kế slide module hóa bằng JavaScript (PptxGenJS) và các bước trích xuất, chỉnh sửa an toàn.
 
 ## ⚙️ Cách Hoạt Động
 
 Quy trình tạo và sửa slide:
-1. **Phân tích yêu cầu & Bố cục**: Chọn tỷ lệ 16x9. Nếu có slide mẫu, dùng lệnh `audit_pptx.py` để phân tích mã màu (theme) và font chữ gốc.
-2. **Thiết kế module slide**: Viết riêng từng tệp JS cho mỗi slide (`slide-01.js`, `slide-02.js`, v.v.) xuất hàm đồng bộ `createSlide(pres, theme)`.
-3. **Ràng buộc kích thước**: Đảm bảo mọi tọa độ phần tử nằm trong giới hạn rộng 10.0" và cao 5.625".
-4. **Biên dịch và Chạy thử QA**: Chạy file `compile.js` để xuất slide, thực hiện kiểm tra kiểm thử chất lượng trước khi bàn giao.
 
-Sơ đồ quy trình:
+1. **Phân tích**: Chọn tỷ lệ 16x9. Nếu có slide mẫu, dùng `audit_pptx.py` để phân tích mã màu và font chữ gốc.
+2. **Thiết kế JS**: Viết riêng từng tệp JS cho mỗi slide (`slide-01.js`, v.v.) xuất hàm đồng bộ `createSlide`. Đảm bảo tọa độ nằm trong giới hạn canvas 10.0" x 5.625".
+3. **Biên dịch**: Chạy `compile.js` để xuất slide PPTX và kiểm tra căn lề, số trang.
+
 ```
 [Yêu cầu slide / Slide mẫu] ➔ 🔍 [Chạy audit_pptx.py tìm màu/font] ➔ 📐 [Thiết kế slide JS độc lập (tối đa 10" x 5.625")]
                                  ➔ 💻 [Chạy compile.js tạo tệp .pptx] ➔ 🧪 [Kiểm tra QA căn lề & số trang]
 ```
-
----
 
 ## 🚀 Cách Sử Dụng
 
@@ -66,8 +61,6 @@ Sơ đồ quy trình:
 - **Đánh số trang**: Tất cả các slide (ngoại trừ slide tiêu đề) bắt buộc phải có số trang đặt tại góc dưới bên phải (tọa độ x xấp xỉ 9.3, y xấp xỉ 5.1).
 - **Mã màu Hex chuẩn**: Màu sắc truyền cho PptxGenJS phải viết ở dạng chuỗi hex 6 ký tự không chứa ký tự `#` (ví dụ: dùng `FF0000`, không dùng `#FF0000`).
 ```
-
----
 
 ## 💡 Kịch Bản Lập Trình Thực Tế
 
@@ -82,5 +75,5 @@ Sơ đồ quy trình:
 
 ## ⚠️ Lưu Ý & Gotchas
 
-* **Lỗi ghi đè màu sắc của Template**: Khi sao chép phong cách (imitate) từ slide mẫu, hãy cẩn thận gán đúng vai trò của màu nền (`bg`) và màu chữ chính (`primary`). Trong slide tối màu (dark-mode), màu nền sẽ là màu tối và màu chữ là màu sáng.
+* **Lỗi ghi đè màu sắc của Template**: Khi sao chép phong cách từ slide mẫu, hãy cẩn thận gán đúng vai trò của màu nền (`bg`) và màu chữ chính (`primary`).
 * **Hạn chế chụp ảnh màn hình**: Việc chụp ảnh màn hình slide để xem thử trực quan chỉ hỗ trợ trên hệ điều hành macOS và yêu cầu môi trường có cài đặt `soffice` và `swiftc`.

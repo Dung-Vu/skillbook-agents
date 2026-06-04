@@ -34,14 +34,9 @@ provider: antigravity
 
 ## 📖 Tại Sao Cần Skill Này?
 
-Multiple Sequence Alignment (MSA) là bước nền tảng trong sinh học phân tử — so sánh nhiều chuỗi protein cùng lúc để phát hiện vùng bảo tồn (conserved regions) và residue quan trọng cho chức năng.
-
-- **Conservation analysis**: Residue nào được bảo tồn qua hàng triệu năm tiến hóa → likely quan trọng cho chức năng/cấu trúc
-- **Domain detection**: Vùng nào align tốt → shared domain; vùng gap nhiều → insertion/deletion đặc thù loài
-- **Mutation impact**: Nếu mutation xảy ra ở vị trí highly conserved → có khả năng gây hại cao
-
-Agent mặc định không có khả năng chạy alignment tool nào — skill này kết nối với EBI Clustal Omega API.
-
+- **Phân tích Bảo tồn & Đột biến**: Xác định các vị trí amino acid được bảo tồn qua tiến hóa để dự đoán tầm ảnh hưởng của đột biến.
+- **Nhận diện Domain**: Phát hiện ranh giới các domain chức năng chung hoặc các vùng chèn/xóa đặc thù của loài.
+- **Tích hợp API EBI**: Căn chỉnh đa chuỗi (MSA) qua EBI Clustal Omega API mà không cần cài đặt công cụ cục bộ.
 ## ⚙️ Cách Hoạt Động
 
 ```
@@ -49,11 +44,11 @@ Multiple sequences (FASTA) → Submit to Clustal Omega API →
 Wait for result → Return aligned sequences + conservation scores
 ```
 
-1. **Input**: Từ 2 đến 4000 protein sequences (format FASTA), max 4 MB
-2. **Alignment**: Clustal Omega sử dụng HMM profile-profile alignment
-3. **Output**: Aligned sequences với gap characters, conservation indicators (`*` = identical, `:` = conserved, `.` = semi-conserved)
-
+- **Đầu vào**: Nhận từ 2 đến 4000 chuỗi protein định dạng FASTA (tối đa 4 MB).
+- **Căn chỉnh**: Sử dụng thuật toán HMM profile-profile alignment của Clustal Omega thông qua EBI API.
+- **Đầu ra**: Trả về các chuỗi đã căn chỉnh kèm gap và ký tự chỉ thị mức độ bảo tồn (`*`, `:`, `.`).
 ## 🚀 Cách Sử Dụng
+
 
 ### Universal
 
@@ -76,6 +71,7 @@ Wait for result → Return aligned sequences + conservation scores
 
 ## 💡 Kịch Bản Lập Trình Thực Tế
 
+
 ### 🧑‍💻 Nhà phát triển:
 > "Tôi có chuỗi amino acid của 5 loại hemoglobin từ các loài động vật khác nhau. Hãy chạy căn chỉnh đa chuỗi (MSA) để tôi tìm vùng bảo thủ chức năng."
 
@@ -91,7 +87,6 @@ Wait for result → Return aligned sequences + conservation scores
 
 ## ⚠️ Lưu Ý & Gotchas
 
-- **Chỉ protein**: Không dùng cho DNA, RNA, hay nucleotide sequences.
-- **Giới hạn**: Max 4000 sequences, max 4 MB file size.
-- **Chỉ cần ≥2 sequences**: Nếu chỉ có 1 → dùng sequence similarity search trước để tìm homologs.
-- **Async job**: Clustal Omega chạy trên server EBI, có thể mất vài giây đến vài phút tùy kích thước input.
+- **Chỉ dùng cho Protein**: Không hỗ trợ chuỗi DNA/RNA hay nucleotide thô.
+- **Giới hạn & Điều kiện**: Yêu cầu tối thiểu 2 chuỗi (tối đa 4000 chuỗi, 4 MB). Nếu có 1 chuỗi, cần tìm homologs trước.
+- **Xử lý bất đồng bộ**: Tiến trình chạy trên máy chủ EBI nên có thể mất từ vài giây đến vài phút để hoàn thành.

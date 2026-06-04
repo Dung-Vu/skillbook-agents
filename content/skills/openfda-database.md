@@ -35,15 +35,11 @@ provider: antigravity
 
 ## 📖 Tại Sao Cần Skill Này?
 
-openFDA cung cấp truy cập miễn phí vào dữ liệu FDA — bao gồm adverse events (tác dụng phụ), drug recalls, labeling info, approvals, shortages, và medical device clearances.
-
-- **Adverse events (FAERS)**: Báo cáo tác dụng phụ từ patients và healthcare providers
-- **Drug labeling**: Indications, contraindications, warnings, dosage
-- **Recalls & enforcements**: Sản phẩm bị thu hồi và lý do
-- **510(k) clearances**: Medical device approvals
-- **28 endpoints**: Drugs, devices, foods, tobacco, cosmetics, animal/veterinary
-
+- **Phản ứng phụ & An toàn**: Tra cứu báo cáo tác dụng phụ tự nguyện (FAERS) của bệnh nhân và nhân viên y tế.
+- **Nhãn hướng dẫn & Thu hồi**: Tra cứu chỉ định, chống chỉ định, cảnh báo liều lượng và thông tin thu hồi thuốc.
+- **Phê duyệt & Đa danh mục**: Tiếp cận 28 cổng dữ liệu FDA gồm phê duyệt thiết bị y tế (510k), thực phẩm, mỹ phẩm.
 ## ⚙️ Cách Hoạt Động
+
 
 ```
 Drug name / NDC / Query → openFDA REST API → 
@@ -51,6 +47,7 @@ Return adverse events, labeling, recalls, approval data
 ```
 
 ## 🚀 Cách Sử Dụng
+
 
 ### Universal
 
@@ -63,6 +60,7 @@ Return adverse events, labeling, recalls, approval data
 ```
 
 ## 💡 Kịch Bản Lập Trình Thực Tế
+
 
 ### 🧑‍💻 Nhà phát triển:
 > "Hãy kiểm tra các báo cáo phản ứng phụ nghiêm trọng liên quan đến thuốc giảm đau Ibuprofen trên hệ thống openFDA gần đây."
@@ -78,6 +76,7 @@ Return adverse events, labeling, recalls, approval data
 > *Báo cáo an toàn thuốc toàn diện từ dữ liệu FDA chính thống đã được chuẩn bị đầy đủ, giúp bạn đánh giá rủi ro lâm sàng tối ưu.*
 
 ## ⚠️ Lưu Ý & Gotchas
+
 
 - **Voluntary reporting**: FAERS không capture tất cả adverse events — under-reporting phổ biến.
 - **Report ≠ causation**: Adverse event report không chứng minh drug gây ra reaction.

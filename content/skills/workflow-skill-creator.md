@@ -37,16 +37,10 @@ provider: antigravity
 
 ## 📖 Tại Sao Cần Skill Này?
 
-Trong quá trình phát triển dự án, lập trình viên và AI thường phối hợp thực hiện nhiều quy trình làm việc (workflow) rất phức tạp — bao gồm gọi liên chuỗi API, chuyển đổi cấu trúc dữ liệu, build và chạy kiểm thử tự động. Nếu không có kỹ năng này:
-* **Mất mát tri thức**: Khi phiên hội thoại chat kết thúc, toàn bộ phương pháp xử lý thông minh và chuỗi câu lệnh đúc rút được sẽ biến mất. Bạn sẽ phải dạy lại AI từ đầu ở phiên chat mới.
-* **Lặp lại thủ công**: AI không biết cách tự hệ thống hóa, đóng gói và biến chuỗi hành động đó thành một công cụ tự động hóa lâu dài.
-
-**Khi được trang bị Siêu Kỹ năng này, AI Agent của bạn sẽ:**
-1. **Tự động đóng gói tri thức (Meta-Programming)**: Tự động phân tích lịch sử hội thoại, đúc rút các bước xử lý tinh túy và đóng gói chúng thành một gói Kỹ năng Antigravity tiêu chuẩn.
-2. **Quy trình 4 pha nghiêm ngặt (4-Phase Curation)**: Tự động thực thi đầy đủ quy trình: Lên ý tưởng (Brainstorm) ➔ Thiết kế (Design) ➔ Triển khai viết code (Implement) ➔ Chạy kiểm thử xác thực (Validate).
-3. **Sản phẩm sẵn sàng tái sử dụng**: Tạo ra đầy đủ tệp chỉ dẫn `SKILL.md` và các scripts hỗ trợ chạy siêu tốc bằng `uv` để nhúng trực tiếp vào dự án tiếp theo.
-
----
+Trong quá trình phát triển dự án, lập trình viên và AI thường phối hợp thực hiện nhiều quy trình phức tạp. Kỹ năng này đóng vai trò là một siêu kỹ năng (meta-skill) giúp AI Agent tự động hóa việc lưu trữ tri thức bằng cách:
+- **Tự động đóng gói tri thức**: Phân tích lịch sử hội thoại, đúc rút các bước xử lý và đóng gói thành Kỹ năng Antigravity tiêu chuẩn có thể tái sử dụng.
+- **Quy trình 4 pha nghiêm ngặt**: Thực thi đầy đủ 4 pha: Lên ý tưởng (Brainstorm) ➔ Thiết kế (Design) ➔ Triển khai viết code (Implement) ➔ Chạy kiểm thử xác thực (Validate).
+- **Sản phẩm sẵn sàng sử dụng**: Tạo đầy đủ tệp `SKILL.md` và các scripts hỗ trợ chạy siêu tốc bằng `uv run`.
 
 ## ⚙️ Cách Hoạt Động
 
@@ -55,25 +49,18 @@ Trong quá trình phát triển dự án, lập trình viên và AI thường ph
                              └── 💻 [Pha 3: Tạo SKILL.md & Scripts] ➔ 🧪 [Pha 4: Chạy Thử E2E]
 ```
 
-Quy trình suy nghĩ của Agent khi thực thi kỹ năng này:
-1. **Pha 1: Brainstorming**: Quét ngược lịch sử hội thoại, tìm các bước thành công và loại bỏ các bước lỗi/thử nghiệm sai. Xác định chính xác Input và Output của kỹ năng.
-2. **Pha 2: Thiết kế**: Lên cấu trúc cho thư mục Kỹ năng mới, thiết kế các API của scripts phụ trợ.
-3. **Pha 3: Triển khai**: Viết file chỉ dẫn `SKILL.md` theo chuẩn Luminous và viết các script Python hỗ trợ tương thích với `uv run` (PEP 0723).
-4. **Pha 4: Xác thực**: Tự động chạy thử kỹ năng mới tạo ít nhất một lần bằng dữ liệu test mẫu để đảm bảo hoạt động hoàn hảo trước khi bàn giao cho lập trình viên.
-
----
-
-## 🚀 Hướng Dẫn Kích Hoạt IDE
-
-### Với Cursor
-Hãy thêm các quy tắc prompt dưới đây vào tệp `.cursorrules` để Cursor tự động kích hoạt siêu năng lực đóng gói quy trình khi bạn đưa ra yêu cầu.
-
-### Với Windsurf (Cascade)
-Nhúng các quy tắc này vào `.windsurfrules` để Cascade Agent tự động thực hiện quy trình 4 pha đóng gói khi bạn ra lệnh tạo skill.
-
----
+Quy trình thực hiện:
+1. **Brainstorm & Thiết kế**: Quét lịch sử hội thoại thành công để xác định Input/Output. Thiết kế cấu trúc thư mục và API cho các script phụ trợ.
+2. **Triển khai & Xác thực**: Tạo file `SKILL.md` theo chuẩn và viết script Python (PEP 0723). Chạy thử toàn bộ quy trình với dữ liệu mẫu để đảm bảo hoạt động hoàn hảo.
 
 ## 🚀 Cách Sử Dụng
+
+### Hướng Dẫn Kích Hoạt IDE
+
+- **Với Cursor**: Hãy thêm các quy tắc prompt dưới đây vào tệp `.cursorrules` để Cursor tự động kích hoạt siêu năng lực đóng gói quy trình khi bạn đưa ra yêu cầu.
+- **Với Windsurf (Cascade)**: Nhúng các quy tắc này vào `.windsurfrules` để Cascade Agent tự động thực hiện quy trình 4 pha đóng gói khi bạn ra lệnh tạo skill.
+
+### Chỉ dẫn & Quy tắc
 
 ```markdown
 # WORKFLOW SKILL CREATOR INSTRUCTIONS & RULES
@@ -94,8 +81,6 @@ Bắt buộc phải báo cáo và chạy qua đầy đủ 4 pha, không được
 - File `SKILL.md` mới tạo phải tuân thủ nghiêm ngặt tiêu chuẩn cấu trúc Luminous Standard.
 ```
 
----
-
 ## 💡 Kịch Bản Lập Trình Thực Tế
 
 ### 🧑‍💻 Nhà phát triển:
@@ -111,10 +96,8 @@ Bắt buộc phải báo cáo và chạy qua đầy đủ 4 pha, không được
 >
 > *Quy trình kết thúc, bạn sẽ nhận được một thư mục Kỹ năng chuẩn hóa được lưu trữ an toàn trong kho mã nguồn. Lần sau, bạn chỉ cần yêu cầu AI chạy lệnh `/protein-renderer` là toàn bộ pipeline sẽ tự vận hành hoàn hảo.*
 
----
-
 ## ⚠️ Lưu Ý & Gotchas
 
-* **Bắt Buộc Phải Có Lịch Sử**: Kỹ năng này không hoạt động nếu bạn yêu cầu tạo một kỹ năng hoàn toàn mới mà hai bên chưa từng chạy thử thành công trong phiên chat. AI cần dữ liệu thực nghiệm để đúc rút quy tắc.
-* **Xác Thực Là Chìa Khóa**: Đừng bao giờ bàn giao một Kỹ năng mới mà không chạy qua Pha 4 (Validation). Một Kỹ năng không được chạy thử là một Kỹ năng có thể bị lỗi cú pháp hoặc thiếu dependency ngầm.
-* **Tối Ưu Dependencies**: Khi Agent sinh code Python cho kỹ năng mới, hãy luôn yêu cầu Agent khai báo chi tiết các thư viện dùng thêm ở header để người dùng sau này không phải cài đặt môi trường ảo bằng tay.
+* **Yêu Cầu Lịch Sử Thực Tế**: Kỹ năng này chỉ hoạt động để đóng gói các quy trình đã chạy thành công trong phiên chat, không tạo kỹ năng từ con số 0.
+* **Xác Thực (Validation)**: Pha 4 (Chạy thử thực tế) là bắt buộc để phát hiện lỗi cú pháp hoặc thiếu dependencies ngầm trước khi bàn giao.
+* **Dependencies PEP 0723**: Đảm bảo các script Python sinh ra khai báo rõ dependencies ở đầu file để tương thích với `uv run`.

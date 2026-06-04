@@ -13,25 +13,20 @@ title: Minimax PPTX
 
 ## 📖 Why Do We Need This Skill?
 
-Creating PowerPoint (`.pptx`) decks programmatically often leads to text overflows, aspect-ratio issues, or layout breaks. This skill provides explicit 16x9 canvas constraints, modular slide generation rules using JavaScript (PptxGenJS), and guidelines for parsing and editing existing templates safely.
-
----
+Creating PowerPoint (`.pptx`) decks programmatically often leads to text overflows, aspect-ratio issues, or layout breaks. This skill provides explicit 16x9 canvas constraints, modular slide generation rules using JavaScript (PptxGenJS), and guidelines for parsing and editing templates safely.
 
 ## ⚙️ How It Works
 
 The PPTX processing flow is:
-1. **Analyze Design Identity**: Audit the template using `audit_pptx.py --sections themes,masters` to extract theme colors and typography details.
-2. **Build Modular Slides**: Create individual `slide-XX.js` files exporting a synchronous `createSlide(pres, theme)` function.
-3. **Enforce Boundaries**: Ensure all element coordinates sit within the strict 16x9 layout box (10.0" width x 5.625" height).
-4. **Compile & QA Check**: Create `compile.js` to bundle slides, verify output parameters against the QA checklist, and write the final file.
 
-Flowchart:
+1. **Audit**: Run `audit_pptx.py` to extract theme colors and typography details.
+2. **Build**: Create individual `slide-XX.js` files exporting a synchronous `createSlide()` function within a strict 10" x 5.625" coordinate grid.
+3. **Compile**: Run `compile.js` to bundle the slides into the final PPTX presentation and perform quality assurance checks.
+
 ```
 [PPTX Request / Template] ➔ 🔍 [Run audit_pptx.py for design clues] ➔ 📐 [Write modular slide JS (Max 10" x 5.625")]
                               ➔ 💻 [Run compile.js to output PPTX] ➔ 🧪 [Execute QA checks & numbering]
 ```
-
----
 
 ## 🚀 How to use
 
@@ -42,8 +37,6 @@ Flowchart:
 - **Color Formatting**: Hex colors must be 6-character strings without the `#` prefix (e.g. `22223b`). Do not encode opacity.
 - **Page Numbers**: Mandatory on all non-cover slides near coordinates x: 9.3, y: 5.1.
 ```
-
----
 
 ## 💡 Real-World Examples / Scenarios
 

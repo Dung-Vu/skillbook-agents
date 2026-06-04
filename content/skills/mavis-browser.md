@@ -38,25 +38,20 @@ title: Mavis Browser
 
 ## 📖 Tại Sao Cần Skill Này?
 
-Agent cần kỹ năng này khi cần truy cập vào các trang web nội bộ, các bảng điều khiển SaaS hoặc các dịch vụ yêu cầu thông tin đăng nhập và cookie có sẵn của người dùng (như Gmail, Lark dashboard, hoặc mạng xã hội). Playwright thông thường không thể vượt qua các bước bảo mật đa yếu tố hoặc SSO của công ty, nhưng kỹ năng này cho phép Agent thao tác an toàn trên chính trình duyệt Chrome của nhà phát triển.
-
----
+Agent cần kỹ năng này khi cần truy cập vào các trang web nội bộ, các bảng điều khiển SaaS hoặc các dịch vụ yêu cầu thông tin đăng nhập và cookie có sẵn của người dùng. Kỹ năng này cho phép Agent thao tác an toàn trên chính trình duyệt Chrome của nhà phát triển.
 
 ## ⚙️ Cách Hoạt Động
 
 Quy trình hoạt động:
-1. **Kiểm tra kết nối**: Chạy `mavis browser status` để xác nhận daemon đang chạy và extension Chrome Mavis Browser Bridge đã được bật và kết nối (chấm xanh).
-2. **Mở / Claim tab**: Sử dụng lệnh mở tab (mặc định mở ở chế độ background `active:false` để không giật màn hình của người dùng). Thao tác đầu tiên sẽ tự động claim tab cho session hiện tại.
-3. **Thực thi lệnh**: Gửi các lệnh JSON thông qua CLI `mavis browser tool <tool_name>` (ví dụ: click, type, snapshot, screenshot).
-4. **Giải phóng tab**: Khi session kết thúc, tab sẽ tự động được giải phóng để các Agent khác có thể sử dụng.
 
-Sơ đồ hoạt động:
+1. **Kiểm tra status**: Chạy `mavis browser status` để xác nhận daemon hoạt động và extension Chrome được kết nối.
+2. **Mở & Thao tác**: Mở tab mới ở chế độ background và gửi lệnh JSON để thao tác DOM (click, type, screenshot).
+3. **Giải phóng**: Tự động giải phóng tab khi session kết thúc để Agent khác sử dụng.
+
 ```
 [Yêu cầu Trình duyệt] ➔ 🔍 [Kiểm tra status & extension] ➔ 📂 [Mở tab & Tự động claim]
                            ➔ 💻 [Gửi lệnh click/type/screenshot] ➔ 🔓 [Giải phóng tab khi xong]
 ```
-
----
 
 ## 🚀 Cách Sử Dụng
 
@@ -67,8 +62,6 @@ Sơ đồ hoạt động:
 - **Xử lý ảnh chụp màn hình**: Lệnh `screenshot` trả về chuỗi base64 kèm tiền tố dữ liệu. Phải cắt bỏ `"data:image/png;base64,"` trước khi giải mã.
 - **Luôn parse JSON**: Tất cả đầu ra từ công cụ đều dạng JSON, không được giả định cấu trúc văn bản thô.
 ```
-
----
 
 ## 💡 Kịch Bản Lập Trình Thực Tế
 
@@ -83,5 +76,5 @@ Sơ đồ hoạt động:
 
 ## ⚠️ Lưu Ý & Gotchas
 
-* **Lỗi Tab bị chiếm dụng**: Mỗi tab chỉ được điều khiển bởi một session tại một thời điểm. Nếu tab đã bị Agent khác khóa, bạn sẽ nhận được thông báo lỗi. Cần dùng `force: true` nếu muốn ghi đè.
-* **Chụp ảnh màn hình nền**: Lệnh `screenshot` thực tế chụp toàn bộ cửa sổ nhìn thấy hiện tại của Chrome. Nếu tab đích đang chạy ở chế độ background (không active), ảnh chụp sẽ hiển thị nội dung của tab đang active trên màn hình, chứ không phải tab đích.
+* **Lỗi Tab bị chiếm dụng**: Mỗi tab chỉ được điều khiển bởi một session tại một thời điểm. Cần dùng `force: true` nếu muốn ghi đè.
+* **Chụp ảnh màn hình nền**: Lệnh `screenshot` thực tế chụp toàn bộ cửa sổ nhìn thấy hiện tại của Chrome. Nếu tab đích đang chạy ở chế độ background, ảnh chụp sẽ hiển thị nội dung của tab đang active.

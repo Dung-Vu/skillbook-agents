@@ -15,25 +15,18 @@ title: MCP Onboarding
 
 This skill provides a user-friendly conversational wizard to onboard external tools into the agent workspace. It hides low-level CLI commands, walks the user through credential setup via genUI interfaces, and automatically validates connections.
 
----
-
 ## ⚙️ How It Works
 
 The interactive onboarding workflow is:
-1. **Identify Missing Fields**: Check if the requested service matches a preset (like Figma). Request only missing fields from the user.
-2. **Register Server**: Call `mavis mcp add` behind the scenes to write config files.
-3. **Run Auth Flow**:
-   - For OAuth2: Run `auth login`, format the returned URL into a clickable markdown link, and poll status.
-   - For Bearer/PAT: Present the `<genui-mcp-auth>` tag to prompt for the secret token.
-4. **Complete Setup**: Once authenticated, automatically trigger `mavis mcp sync` and notify the user when the skill is ready.
 
-Flowchart:
+1. **Identify**: Check if the requested service matches a preset. Request only missing fields from the user.
+2. **Auth Flow**: Present the `<genui-mcp-auth>` tag or OAuth clickable link depending on credentials.
+3. **Sync**: Once authenticated, automatically trigger `mavis mcp sync` and notify the user when the skill is ready.
+
 ```
 [Onboard Request] ➔ 🛠️ [Load Preset Configuration] ➔ 🔑 [Launch OAuth Link or genUI Card]
-                     ➔ 🔄 [Poll Status & Auto-Sync] ➔ 📋 [Deliver mcp-<id> Skill]
+                      ➔ 🔄 [Poll Status & Auto-Sync] ➔ 📋 [Deliver mcp-<id> Skill]
 ```
-
----
 
 ## 🚀 How to use
 
@@ -43,8 +36,6 @@ Flowchart:
 - **Secure Token Collection**: Always use the `<genui-mcp-auth>` tag for collecting secrets (tokens, keys). Never ask users to paste raw secrets in plaintext chat.
 - **Secrets Protection**: Never print collected access tokens back to the user or write them in session output logs.
 ```
-
----
 
 ## 💡 Real-World Examples / Scenarios
 

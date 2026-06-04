@@ -37,12 +37,9 @@ provider: antigravity
 
 ## 📖 Tại Sao Cần Skill Này?
 
-Khi nhận được một protein sequence chưa biết chức năng, cách tiếp cận phổ biến nhất là tìm protein tương đồng đã được nghiên cứu. Nếu sequence A giống 80% sequence B (đã biết chức năng), rất có khả năng A cũng có chức năng tương tự.
-
-- **MMseqs2 (default)**: Nhanh gấp 100-1000x so với BLAST, phù hợp cho initial scan
-- **BLAST (fallback)**: Toàn diện hơn, chạy khi MMseqs2 không tìm đủ kết quả
-- **Suy luận chức năng**: Từ danh sách homologs → infer function, domain, evolutionary relationships
-
+- **Suy luận chức năng**: Định danh chức năng của protein chưa rõ bằng cách tìm kiếm các chuỗi tương đồng đã được chú giải.
+- **MMseqs2 (Mặc định)**: Cung cấp khả năng tìm kiếm nhanh gấp 100-1000 lần BLAST, tối ưu cho lần quét đầu tiên.
+- **BLAST (Dự phòng)**: Tìm kiếm toàn diện hơn, tự động kích hoạt khi MMseqs2 không trả về đủ kết quả.
 ## ⚙️ Cách Hoạt Động
 
 ```
@@ -50,11 +47,11 @@ Protein sequence (FASTA) → MMseqs2/BLAST search →
 Return homologous proteins (E-value, identity%, coverage)
 ```
 
-1. **Input**: Protein sequence hoặc FASTA file
-2. **Search**: MMseqs2 mặc định (nhanh), tự động fallback sang BLAST nếu cần
-3. **Output**: Danh sách protein homologs với E-value, percent identity, query coverage, và database annotations
-
+- **Đầu vào**: Trình tự protein hoặc tệp FASTA.
+- **Thuật toán quét**: Sử dụng MMseqs2 để tìm kiếm nhanh, tự động chuyển sang BLAST nếu cần kết quả sâu hơn.
+- **Đầu ra**: Trích xuất các homologs kèm E-value, phần trăm đồng nhất (identity%), độ phủ (coverage) và chú giải.
 ## 🚀 Cách Sử Dụng
+
 
 ### Universal
 
@@ -77,6 +74,7 @@ Return homologous proteins (E-value, identity%, coverage)
 
 ## 💡 Kịch Bản Lập Trình Thực Tế
 
+
 ### 🧑‍💻 Nhà phát triển:
 > "Tôi vừa tìm thấy một chuỗi protein lạ từ mẫu đất. Hãy chạy BLAST để tìm xem protein này tương đồng với những protein đã biết nào."
 
@@ -91,6 +89,7 @@ Return homologous proteins (E-value, identity%, coverage)
 > *Bảng kết quả BLAST và báo cáo chú giải chức năng chi tiết sẽ giúp bạn định danh mẫu protein lạ chỉ trong tích tắc.*
 
 ## ⚠️ Lưu Ý & Gotchas
+
 
 - **Chỉ protein sequence**: Không dùng cho DNA/RNA. Nếu có coding DNA → translate trước.
 - **Không dùng cho structural search**: Nếu sequence identity <20%, thử Foldseek thay vì BLAST.

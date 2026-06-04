@@ -13,15 +13,11 @@ seoDescription: >-
 
 ## 📖 Why Do We Need This Skill?
 
-openFDA provides open-access API access to official US FDA records — including adverse event reports (FAERS), drug recalls, labeling instructions, approvals, shortages, and medical device clearances.
-
-- **Adverse events (FAERS)**: Monitor side effects reported by patients and healthcare providers
-- **Drug labeling**: Access FDA-approved labels containing indications, contraindications, and warnings
-- **Recalls & enforcements**: Track product recalls and safety warning justifications
-- **510(k) clearances**: Retrieve medical device approvals
-- **28 API endpoints**: Spans drugs, devices, food, tobacco, cosmetics, and veterinary products
-
+- **Adverse Events & Safety**: Search voluntary adverse event reports (FAERS) from patients and healthcare providers.
+- **Labeling & Recalls**: Retrieve drug indications, contraindications, warnings, dosages, and recall enforcement reports.
+- **Regulatory Approvals**: Access 510(k) medical device clearances, food, cosmetic, and tobacco data across 28 endpoints.
 ## ⚙️ How It Works
+
 
 ```
 Drug name / NDC / Query → openFDA REST API → 
@@ -29,6 +25,7 @@ Return adverse events, labeling, recalls, approval data
 ```
 
 ## 🚀 How to use
+
 
 ### Universal
 
@@ -41,6 +38,7 @@ Return adverse events, labeling, recalls, approval data
 ```
 
 ## 💡 Real-World Examples / Scenarios
+
 
 ### 🧑‍💻 Developer:
 > "Check recent serious adverse event reports associated with the pain reliever Ibuprofen on openFDA."
@@ -56,6 +54,7 @@ Return adverse events, labeling, recalls, approval data
 > *The safety report from official FDA records is prepared, helping you optimize clinical risk assessment.*
 
 ## ⚠️ Gotchas and notes
+
 
 - **Voluntary Reporting**: The FAERS database relies on voluntary reporting — under-reporting is highly common.
 - **Report ≠ Causation**: An adverse event record indicates a temporal association; it does not prove the drug caused the event.

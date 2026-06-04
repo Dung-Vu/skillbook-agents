@@ -15,16 +15,11 @@ seoDescription: >-
 
 ## 📖 Why Do We Need This Skill?
 
-When gathering academic data or testing web apps, using static HTTP request libraries (like `requests` or `urllib`) has limitations:
-* **No SPA support**: Modern websites built with React, Vue, or Next.js require JavaScript execution to render content.
-* **No physical interaction**: Cannot click buttons, fill forms, scroll pages, or solve CAPTCHAs/login gates.
+When gathering academic data or testing web apps, static HTTP request libraries (like `requests` or `urllib`) have major limitations:
+* **No SPA support**: Cannot execute JavaScript to render content on modern websites (React, Vue, Next.js).
+* **No physical interaction**: Cannot automatically click buttons, fill forms, scroll pages, or solve CAPTCHAs.
 
-**With the `/browser` skill, your AI Agent can:**
-1. **Render dynamically**: Read and compile JS-heavy web applications.
-2. **Interact physically**: Fill forms, click elements, capture screenshots, and download files.
-3. **Scrape intelligently**: Extract clean text content, tables, or JSON data from the DOM.
-
----
+With the `/browser` skill, the Agent can dynamically render JavaScript, perform UI interactions (click, fill, screenshot), and extract data cleanly into JSON or Markdown.
 
 ## ⚙️ How It Works
 
@@ -35,17 +30,13 @@ When gathering academic data or testing web apps, using static HTTP request libr
                               └── Extract DOM/Text/Screenshot ➔ 📋 [Write to output file]
 ```
 
-Agent's thought process when executing `/browser`:
-1. **Goal analysis**: Determine required page actions (login, search, scroll, click).
-2. **Connection startup**: Open a headless browser via Playwright or Puppeteer.
-3. **Physical operations**: Execute interaction steps sequentially using precise CSS selectors.
-4. **Extract and package**: Read page text or take screenshots, save results, and close the browser safely.
-
----
+1. **Diagnosis**: Determine page actions to be executed.
+2. **Initialization**: Open a headless browser via Playwright or Puppeteer.
+3. **Execution & Extraction**: Interact with CSS selectors and output results to files.
 
 ## 🚀 How to use
 
-````markdown
+```markdown
 # BROWSER AUTOMATION INSTRUCTIONS & RULES
 
 ## 1. Environment & Setup
@@ -59,9 +50,7 @@ Agent's thought process when executing `/browser`:
 ## 3. Data Extraction
 - Avoid loading the raw HTML code of the page into the chat context. Write an extraction script to retrieve only clean text tags (`innerText`) or required tables to save tokens.
 - Save scraped data as JSON or Markdown files.
-````
-
----
+```
 
 ## 💡 Real-World Examples / Scenarios
 
@@ -76,7 +65,5 @@ Agent's thought process when executing `/browser`:
 
 ## ⚠️ Gotchas and notes
 
-* **Timeout handling**: Slow sites can freeze the browser. Always set timeouts (15-30 seconds) for navigation or finding elements.
-* **Anti-Bot Detection**: Some sites block headless browsers. Use custom User-Agent headers and delay interaction speeds to avoid detection.
-```
-```
+* **Timeout handling**: Set wait limits (`timeout` 15-30 seconds) to avoid freezing processes on slow-loading websites.
+* **Anti-Bot Detection**: Simulating standard user behaviors and setting custom User-Agents to avoid headless browser blocks.

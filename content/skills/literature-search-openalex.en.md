@@ -13,15 +13,11 @@ seoDescription: >-
 
 ## 📖 Why Do We Need This Skill?
 
-OpenAlex is a massive open scholarly database containing >250 million works — a modern successor to Microsoft Academic Graph. It is ideal for bibliometric analysis and tracking author/institutional research.
-
-- **Comprehensive**: Index papers, authors, institutions, topics, publishers, and funders
-- **Bibliometrics**: Retrieve citation counts, h-index, impact factors, and trending research topics
-- **DOI resolution**: Resolve DOIs into complete metadata records
-- **Open-Access PDFs**: Direct links to download PDFs when openly available
-- **Taxonomy**: Explore academic taxonomies and topic classifications
-
+- **Bibliometric Analysis**: Track citation counts, h-indexes, and impact factors for authors and institutions.
+- **DOI & PDF Retrieval**: Resolve DOIs to complete metadata and download free open-access PDFs when available.
+- **Thematic Exploration**: Browse academic taxonomies, topics, sources, and publishers across >250 million records.
 ## ⚙️ How It Works
+
 
 ```
 Query / DOI / Author → OpenAlex API → 
@@ -29,6 +25,7 @@ Return works, author profiles, citation data, topic classifications
 ```
 
 ## 🚀 How to use
+
 
 ### Universal
 
@@ -41,6 +38,7 @@ Return works, author profiles, citation data, topic classifications
 ```
 
 ## 💡 Real-World Examples / Scenarios
+
 
 ### 🧑‍💻 Developer:
 > "Analyze the academic impact of Professor Shinya Yamanaka (inventor of iPSCs), including his h-index and top cited papers."
@@ -55,6 +53,7 @@ Return works, author profiles, citation data, topic classifications
 > *The professional academic impact report is prepared, giving you a detailed view of his research history.*
 
 ## ⚠️ Gotchas and notes
+
 
 - **OpenAlex vs PubMed**: OpenAlex spans all disciplines, whereas PubMed is strictly biomedical.
 - **Author Disambiguation**: OpenAlex uses machine learning to cluster authors — common names may occasionally contain errors.

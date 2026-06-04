@@ -13,25 +13,20 @@ title: Lark Tools
 
 ## 📖 Why Do We Need This Skill?
 
-This skill enables AI Agents to access and interact with the Feishu/Lark enterprise collaboration suite. Agents can inspect calendars, query contact lists, send real-time notifications to team channels, or write records to Bitable sheets, automating routine office communication and coordination.
-
----
+This skill enables AI Agents to access and interact with the Feishu/Lark enterprise collaboration suite. Agents can inspect calendars, query contact lists, send real-time notifications to team channels, or write records to Bitable sheets.
 
 ## ⚙️ How It Works
 
 The workflow operates as follows:
-1. **Install Check**: Ensure `@larksuite/cli` is installed globally.
-2. **Resolve Daemon URL**: Read `daemon.port` to compute the API base endpoint dynamically.
-3. **Verify Binding & Auth**: Check status using `lark-cli auth status`. If invalid or expired, trigger onboard or OAuth flows.
-4. **Invoke lark-cli**: Run target CLI commands (e.g., `lark-cli im +messages-send`) passing proper flags (`--as user` or `--as bot`) and parse the JSON output.
 
-Flowchart:
+1. **Environment Check**: Ensure `@larksuite/cli` is installed globally and resolve port from `daemon.port`.
+2. **Authentication**: Verify binding using `lark-cli auth status` (OAuth or Bot credentials).
+3. **Execution**: Execute CLI commands (like `calendar`, `im`, etc.) to interact with Lark APIs.
+
 ```
 [Lark Task] ➔ ⚙️ [Check CLI & Dynamic Port] ➔ 🔑 [Validate OAuth / Bot Credentials]
                 ➔ 💻 [Execute lark-cli command] ➔ 📦 [Parse JSON Output & Return]
 ```
-
----
 
 ## 🚀 How to use
 
@@ -42,8 +37,6 @@ Flowchart:
 - **Dynamic Port Resolution**: Never hardcode localhost ports; always resolve the base URL dynamically from `<dataDir>/daemon.port`.
 - **Pre-Read Sub-Skills**: Before running any shortcut like `+messages-send`, read its specific reference file under `cli-skills/lark-im/...` to handle formatting flags.
 ```
-
----
 
 ## 💡 Real-World Examples / Scenarios
 

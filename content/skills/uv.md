@@ -37,16 +37,10 @@ provider: antigravity
 
 ## 📖 Tại Sao Cần Skill Này?
 
-Python là ngôn ngữ phổ biến nhất cho AI, phân tích dữ liệu và tự động hóa. Tuy nhiên, việc quản lý môi trường ảo (`venv`) và cài đặt thư viện bằng `pip` truyền thống gặp nhiều trở ngại lớn đối với AI:
-* **Thời gian chờ đợi**: Phân giải và tải dependencies bằng `pip` rất chậm, dễ gây timeout phiên chat.
-* **Cấu hình môi trường phức tạp**: AI thường quên kích hoạt môi trường ảo hoặc cài đặt nhầm thư viện vào môi trường hệ thống (system-wide), dẫn đến xung đột và lỗi quyền ghi file.
-
-**Khi được trang bị Kỹ năng này, AI Agent của bạn sẽ:**
-1. **Gia tốc 10-100x**: Sử dụng UV (Rust-based) để phân giải và cài đặt toàn bộ thư viện chỉ trong vài giây thông qua cơ chế caching thông minh.
-2. **Khai thác PEP 0723**: Tự động nhận diện và nạp các inline dependencies khai báo trực tiếp ở đầu script Python mà không cần tệp tin `requirements.txt` cồng kềnh.
-3. **Môi trường cách ly an toàn (Zero-config)**: Tự động khởi tạo, kích hoạt và quản lý môi trường ảo độc lập cho từng kịch bản mà không cần sự hỗ trợ của người dùng.
-
----
+Việc quản lý môi trường ảo và cài đặt thư viện bằng `pip` truyền thống thường rất chậm, dễ gây timeout và xảy ra xung đột dependencies. Kỹ năng này giúp AI Agent tự động hóa hoàn toàn luồng quản lý gói Python bằng cách:
+- **Gia tốc cài đặt 10-100x**: Sử dụng UV viết bằng Rust để phân giải và tải gói siêu tốc thông qua cơ chế caching.
+- **Khai thác PEP 0723**: Tự động nhận diện và nạp các inline dependencies khai báo trực tiếp ở đầu script Python mà không cần file `requirements.txt`.
+- **Môi trường cách ly**: Tự động tạo và quản lý môi trường ảo độc lập, tránh xung đột hệ thống.
 
 ## ⚙️ Cách Hoạt Động
 
@@ -56,24 +50,18 @@ Python là ngôn ngữ phổ biến nhất cho AI, phân tích dữ liệu và t
                           └── ĐÃ CÀI   ➔ 🚀 [Thực Thi `uv run` + Tự Động Nạp Inline Deps]
 ```
 
-Quy trình suy nghĩ của Agent khi thực thi kỹ năng này:
-1. **Kiểm tra**: Chạy thử `uv --version` để kiểm tra sự tồn tại của UV trên môi trường.
-2. **Thiết lập**: Nếu chưa có, tự động tải xuống và cài đặt UV thông qua PowerShell (Windows) hoặc Shell Script (Unix) và cập nhật biến PATH của terminal.
-3. **Phân giải**: Thực thi các kịch bản khoa học/lập trình bằng lệnh `uv run <script.py>`. Lệnh này tự động tạo môi trường ảo tạm thời, cài đặt các dependencies được khai báo trong header của script và chạy mã nguồn hoàn toàn độc lập.
-
----
-
-## 🚀 Hướng Dẫn Kích Hoạt IDE
-
-### Với Cursor
-Nhúng bộ quy tắc prompt ở phần bên dưới vào tệp `.cursorrules` trong dự án có sử dụng Python để Cursor tự động chuyển hướng các lệnh chạy pip sang UV.
-
-### Với Windsurf (Cascade)
-Cài đặt quy tắc này vào `.windsurfrules` ở thư mục gốc của dự án để Cascade Agent tự động sử dụng UV cho mọi thao tác quản lý gói Python.
-
----
+Quy trình thực hiện:
+1. **Kiểm tra & Cài đặt**: Kiểm tra `uv --version`. Nếu chưa có, tự động cài đặt qua PowerShell/Shell script và cập nhật biến PATH.
+2. **Thực thi script**: Chạy lệnh `uv run <script.py>` để tự động tạo môi trường ảo độc lập, phân giải inline dependencies và thực thi script.
 
 ## 🚀 Cách Sử Dụng
+
+### Hướng Dẫn Kích Hoạt IDE
+
+- **Với Cursor**: Nhúng bộ quy tắc prompt ở phần bên dưới vào tệp `.cursorrules` trong dự án có sử dụng Python để Cursor tự động chuyển hướng các lệnh chạy pip sang UV.
+- **Với Windsurf (Cascade)**: Cài đặt quy tắc này vào `.windsurfrules` ở thư mục gốc của dự án để Cascade Agent tự động sử dụng UV cho mọi thao tác quản lý gói Python.
+
+### Chỉ dẫn & Quy tắc
 
 ````markdown
 # UV PACKAGE MANAGER INSTRUCTIONS & RULES
@@ -103,8 +91,6 @@ Cài đặt quy tắc này vào `.windsurfrules` ở thư mục gốc của dự
 - Để cài đặt gói vào môi trường ảo cục bộ của dự án, hãy dùng: `uv add package_name`.
 ````
 
----
-
 ## 💡 Kịch Bản Lập Trình Thực Tế
 
 ### 🧑‍💻 Nhà phát triển:
@@ -120,10 +106,8 @@ Cài đặt quy tắc này vào `.windsurfrules` ở thư mục gốc của dự
 >
 > *Nhờ có UV, bạn không cần phải tự gõ lệnh tạo môi trường ảo `venv`, kích hoạt nó, hay chạy lệnh `pip install` chờ đợi mệt mỏi.*
 
----
-
 ## ⚠️ Lưu Ý & Gotchas
 
-* **Xử Lý Lỗi PATH Biến Môi Trường**: Sau khi cài đặt UV lần đầu, terminal hiện tại có thể chưa nhận diện được lệnh `uv`. Luôn thử tắt và mở lại terminal hoặc nạp lại biến môi trường (`$env:Path` trên Windows) thay vì cài đặt lại nhiều lần.
-* **Tận Dụng Global Cache**: UV chia sẻ một bộ nhớ cache toàn cục cực kỳ thông minh. Nếu nhiều dự án của bạn cùng sử dụng một thư viện, UV sẽ tạo các liên kết cứng (hard links) thay vì sao chép vật lý các file, giúp tiết kiệm bộ nhớ ổ đĩa và gia tốc tối đa.
-* **Cảnh Báo Pip**: Nhắc nhở Agent tuyệt đối không được pha trộn giữa việc dùng `pip install` và `uv pip install` trong cùng một môi trường ảo để tránh xung đột cấu trúc package.
+* **Xử Lý Lỗi PATH Biến Môi Trường**: Sau khi cài đặt UV lần đầu, cần khởi động lại terminal hoặc reload biến PATH để hệ thống nhận diện lệnh `uv`.
+* **Tận Dụng Global Cache**: UV dùng liên kết cứng (hard links) chia sẻ cache toàn cục để tiết kiệm ổ đĩa và gia tốc tối đa.
+* **Cảnh Báo Pip**: Không sử dụng xen kẽ `pip install` và `uv` trong cùng một môi trường ảo để tránh xung đột cấu trúc package.

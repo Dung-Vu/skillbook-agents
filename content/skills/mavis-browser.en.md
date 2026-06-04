@@ -13,25 +13,20 @@ title: Mavis Browser
 
 ## 📖 Why Do We Need This Skill?
 
-Agents need this skill to interact with internal pages, SaaS dashboards, or sites requiring the user's active login states, cookies, and extensions (like Gmail, GitHub, or company portals). Traditional playwright scrapers cannot bypass SSO or MFA, but this tool routes actions securely through the developer's real Chrome session.
-
----
+Agents need this skill to interact with internal pages, SaaS dashboards, or sites requiring the user's active login states, cookies, and extensions. This tool routes actions securely through the developer's real Chrome session.
 
 ## ⚙️ How It Works
 
 The browser tool execution workflow:
-1. **Verify setup**: Call `mavis browser status` to check if the broker socket is open and the extension shows a green connection dot.
-2. **Claim Tab**: Open a tab (default `active:false` to avoid stealing focus). The first tool call automatically claims the tab for this session.
-3. **Run Browser Commands**: Invoke actions using `mavis browser tool <tool_name> '<args>'` (e.g. `open_tab`, `click`, `screenshot`) and parse the stdout JSON.
-4. **Release Tab**: The claim is released when the tab is closed, explicitly released via CLI, or when the agent session terminates.
 
-Flowchart:
+1. **Verify Setup**: Call `mavis browser status` to check broker and extension connection status.
+2. **Claim & Command**: Open target tab dynamically in background and send actions via `mavis browser tool <tool_name>`.
+3. **Release**: Release tab when task is finished or session ends.
+
 ```
 [Browser Request] ➔ 🔍 [Check broker & extension status] ➔ 📂 [Open Tab & Auto-Claim]
                       ➔ 💻 [Call browser tool (JSON input/output)] ➔ 🔓 [Release tab on completion]
 ```
-
----
 
 ## 🚀 How to use
 
@@ -42,8 +37,6 @@ Flowchart:
 - **Screenshot Base64 handling**: The screenshot output is a data URL. You must strip the `data:image/png;base64,` prefix before decoding with base64.
 - **Strict JSON Parsing**: Always parse stdout from CLI as JSON. Do not assume or regex-match raw textual structures.
 ```
-
----
 
 ## 💡 Real-World Examples / Scenarios
 

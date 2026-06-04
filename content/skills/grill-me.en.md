@@ -13,16 +13,10 @@ seoDescription: >-
 
 ## 📖 Why Do We Need This Skill?
 
-AI agents frequently guess user preferences when facing incomplete specifications. This leads to code misalignment and wasted computing cycles. Without this skill:
-* **Misaligned architecture**: AI builds a REST API when a simple utility script was desired.
-* **Security vulnerabilities**: AI exposes database credentials because the deployment scope was unclear.
-
-**With this skill, your AI Agent will:**
-1. **Detect ambiguity**: Halt execution when critical parameters are missing.
-2. **Propose clear choices**: Present the user with structured technical options rather than asking open questions.
-3. **Confirm constraints**: Verify target environments, performance, and security requirements early.
-
----
+AI agents frequently make assumptions when facing incomplete specifications. The `/grill-me` skill helps the AI Agent proactively align by:
+- **Detecting Ambiguities**: Identifies missing architecture, database schemas, or error-handling guidelines.
+- **Sharp Questioning**: Asks 2-3 targeted questions per round rather than dumping a massive questionnaire.
+- **Architectural Alignment**: Establishes a shared technical blueprint (`implementation_plan.md`) before writing code.
 
 ## ⚙️ How It Works
 
@@ -33,11 +27,9 @@ AI agents frequently guess user preferences when facing incomplete specification
 ```
 
 Alignment verification loop:
-1. **Pre-scan**: Analyze the user prompt for missing technical specifics (databases, runtime versions, auth mechanisms).
-2. **Halt & Inquire**: Stop execution and prompt the user with a structured questionnaire.
-3. **Apply & Resume**: Integrate user answers into the development context and execute.
-
----
+1. **Pre-scan**: Analyzes the request for missing details (auth, database, environments).
+2. **Halt & Inquire**: Asks targeted questions on scope, technology, and error handling.
+3. **Consensus**: Writes the finalized plan after user approval.
 
 ## 🚀 How to use
 
@@ -58,8 +50,6 @@ Alignment verification loop:
 - Transition to creating the detailed implementation plan file only after the user has explicitly confirmed agreement with all proposals.
 ````
 
----
-
 ## 💡 Real-World Examples / Scenarios
 
 ### Developer:
@@ -73,7 +63,5 @@ Alignment verification loop:
 
 ## ⚠️ Gotchas and notes
 
-* **Avoid Trivial Questions**: Only ask questions that genuinely impact the system architecture or coding logic. Avoid asking about minor details that the AI can decide effectively based on best practices.
-* **Maintain Objective Tone**: Provide clear pros/cons analysis for each technology option to help the user make accurate decisions.
-```
-```
+- **Avoid trivial details**: Only ask questions that impact architecture or programming logic; let best practices dictate minor implementation choices.
+- **Objective framing**: Provide neutral pros/cons for technology options to guide the user's decision making.
