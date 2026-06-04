@@ -31,14 +31,21 @@ export function getSkillBySlug(slug: string): Skill | null {
       content,
     };
 
-    // Dynamically assign sourceUrl for Minimax skills if local scripts/ folder exists
+    // Dynamically assign sourceUrl for Minimax skills if local scripts/ or script/ folder exists
     if (skill.provider === "minimax" && !skill.sourceUrl) {
       const os = require("os");
       const homedir = os.homedir();
       const customScriptsPath = path.join(homedir, ".minimax", "skills", slug, "scripts");
+      const customScriptPath = path.join(homedir, ".minimax", "skills", slug, "script");
       const builtinScriptsPath = path.join(homedir, ".minimax", ".builtin-skills", slug, "scripts");
+      const builtinScriptPath = path.join(homedir, ".minimax", ".builtin-skills", slug, "script");
 
-      if (fs.existsSync(customScriptsPath) || fs.existsSync(builtinScriptsPath)) {
+      if (
+        fs.existsSync(customScriptsPath) ||
+        fs.existsSync(customScriptPath) ||
+        fs.existsSync(builtinScriptsPath) ||
+        fs.existsSync(builtinScriptPath)
+      ) {
         skill.sourceUrl = `/skills/${slug}/source`;
       }
     }
@@ -111,13 +118,19 @@ export function getSkillSourceFiles(slug: string): SourceFile[] {
   const os = require("os");
   const homedir = os.homedir();
   const customScriptsPath = path.join(homedir, ".minimax", "skills", slug, "scripts");
+  const customScriptPath = path.join(homedir, ".minimax", "skills", slug, "script");
   const builtinScriptsPath = path.join(homedir, ".minimax", ".builtin-skills", slug, "scripts");
+  const builtinScriptPath = path.join(homedir, ".minimax", ".builtin-skills", slug, "script");
 
   let scriptsDir = "";
   if (fs.existsSync(customScriptsPath)) {
     scriptsDir = customScriptsPath;
+  } else if (fs.existsSync(customScriptPath)) {
+    scriptsDir = customScriptPath;
   } else if (fs.existsSync(builtinScriptsPath)) {
     scriptsDir = builtinScriptsPath;
+  } else if (fs.existsSync(builtinScriptPath)) {
+    scriptsDir = builtinScriptPath;
   }
 
   if (!scriptsDir) return [];
