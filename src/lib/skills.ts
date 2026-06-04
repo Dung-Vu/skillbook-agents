@@ -31,24 +31,7 @@ export function getSkillBySlug(slug: string): Skill | null {
       content,
     };
 
-    // Dynamically assign sourceUrl for Minimax skills if local scripts/ or script/ folder exists
-    if (skill.provider === "minimax" && !skill.sourceUrl) {
-      const os = require("os");
-      const homedir = os.homedir();
-      const customScriptsPath = path.join(homedir, ".minimax", "skills", slug, "scripts");
-      const customScriptPath = path.join(homedir, ".minimax", "skills", slug, "script");
-      const builtinScriptsPath = path.join(homedir, ".minimax", ".builtin-skills", slug, "scripts");
-      const builtinScriptPath = path.join(homedir, ".minimax", ".builtin-skills", slug, "script");
 
-      if (
-        fs.existsSync(customScriptsPath) ||
-        fs.existsSync(customScriptPath) ||
-        fs.existsSync(builtinScriptsPath) ||
-        fs.existsSync(builtinScriptPath)
-      ) {
-        skill.sourceUrl = `/skills/${slug}/source`;
-      }
-    }
 
     const enFilePath = path.join(SKILLS_DIR, `${slug}.en.md`);
     if (fs.existsSync(enFilePath)) {
@@ -107,65 +90,4 @@ export function getSkillCountByCategory(): Record<string, number> {
   return counts;
 }
 
-export interface SourceFile {
-  relPath: string;
-  name: string;
-  content: string;
-  size: number;
-}
 
-export function getSkillSourceFiles(slug: string): SourceFile[] {
-  const os = require("os");
-  const homedir = os.homedir();
-  const customScriptsPath = path.join(homedir, ".minimax", "skills", slug, "scripts");
-  const customScriptPath = path.join(homedir, ".minimax", "skills", slug, "script");
-  const builtinScriptsPath = path.join(homedir, ".minimax", ".builtin-skills", slug, "scripts");
-  const builtinScriptPath = path.join(homedir, ".minimax", ".builtin-skills", slug, "script");
-
-  let scriptsDir = "";
-  if (fs.existsSync(customScriptsPath)) {
-    scriptsDir = customScriptsPath;
-  } else if (fs.existsSync(customScriptPath)) {
-    scriptsDir = customScriptPath;
-  } else if (fs.existsSync(builtinScriptsPath)) {
-    scriptsDir = builtinScriptsPath;
-  } else if (fs.existsSync(builtinScriptPath)) {
-    scriptsDir = builtinScriptPath;
-  }
-
-  if (!scriptsDir) return [];
-
-  const results: SourceFile[] = [];
-
-  function readFilesRecursively(dir: string) {
-    if (!fs.existsSync(dir)) return;
-    const files = fs.readdirSync(dir);
-    for (const file of files) {
-      const filePath = path.join(dir, file);
-      const stat = fs.statSync(filePath);
-      if (stat.isDirectory()) {
-        readFilesRecursively(filePath);
-      } else {
-        const ext = path.extname(file).toLowerCase();
-        // Read only source code and config files under 200KB to prevent memory overflow
-        const codeExtensions = [".py", ".js", ".ts", ".sh", ".ps1", ".cs", ".go", ".json", ".yaml", ".yml", ".md"];
-        if (codeExtensions.includes(ext) && stat.size < 200 * 1024) {
-          try {
-            const content = fs.readFileSync(filePath, "utf-8");
-            results.push({
-              relPath: path.relative(scriptsDir, filePath).replace(/\\/g, "/"),
-              name: file,
-              content,
-              size: stat.size,
-            });
-          } catch (e) {
-            console.error(`Error reading source file at ${filePath}:`, e);
-          }
-        }
-      }
-    }
-  }
-
-  readFilesRecursively(scriptsDir);
-  return results.sort((a, b) => a.relPath.localeCompare(b.relPath));
-}
