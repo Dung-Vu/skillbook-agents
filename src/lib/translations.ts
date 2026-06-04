@@ -3,7 +3,6 @@ export const translations = {
     // Nav & Header
     "nav.skills": "Thư viện Kỹ năng",
     "nav.about": "Giới thiệu",
-    "nav.changelog": "Lịch sử thay đổi",
     "nav.search": "Tìm kiếm",
     
     // Footer
@@ -16,7 +15,6 @@ export const translations = {
     "footer.home": "Trang chủ",
     "footer.skills": "Thư viện Kỹ năng",
     "footer.about": "Giới thiệu",
-    "footer.changelog": "Lịch sử thay đổi",
     "footer.report": "Báo lỗi",
 
     // Catalog & Sidebar
@@ -133,34 +131,11 @@ export const translations = {
     "about.ctaTitle": "Sẵn sàng trải nghiệm AI đỉnh cao?",
     "about.ctaDesc": "Bắt đầu tra cứu kho tàng bách khoa toàn thư kỹ năng đã được kiểm định nghiêm ngặt để nâng cấp toàn diện năng lực cho AI Agent của bạn ngay hôm nay.",
     "about.ctaButton": "Tra cứu bách khoa toàn thư",
-
-    // Changelog Page
-    "changelog.briefing": "DEVELOPMENT JOURNAL / CHANGELOG",
-    "changelog.title": "Lịch sử phát triển & Xác minh Kỹ năng",
-    "changelog.desc": "Theo dõi nhật ký cập nhật toàn diện và quy trình xác minh kỹ năng tự động đảm bảo tính liêm chính 100% Passed dành cho AI Agents.",
-    "changelog.coreMilestones": "MỐC LỊCH SỬ LÕI (CORE MILESTONES)",
-    "changelog.recentlyVerified": "RECENTLY VERIFIED (TOP 5)",
-    "changelog.viewAll": "Xem tất cả kỹ năng",
-    "changelog.m7Title": "Nâng Cấp Premium Visual & Tối Ưu Hóa Trực Quan",
-    "changelog.m7Desc": "Viết lại toàn bộ trang Giới thiệu /about thành bảng mạch tri thức tương tác 3D Glassmorphism và quy trình timeline trượt spring dẻo dai. Hiện đại hóa các dẫn chứng mô hình ngôn ngữ lớn sang thế hệ siêu việt (Claude 4.8 Opus, GPT-5.5, Gemini 3.5, DeepSeek-V4). Khắc phục triệt để lỗi hiển thị định dạng in đậm của từ khóa Skills trên giao diện. Tối ưu hóa hiệu năng canvas nền lượng tử (MeshGridBackground) đạt 60 FPS buttery-smooth.",
-    "changelog.m6Title": "Trải Nghiệm Chuyển Cảnh & Encyclopedia Docs",
-    "changelog.m6Desc": "Tái cấu trúc /skills thành Bách khoa toàn thư phẳng Docs 2 cột chuyên nghiệp, loại bỏ phân nhóm category và view mode rườm rà. Tích hợp hiệu ứng chuyển cảnh trang (Page Transitions) dạng chất lỏng “Gliding Zoom & Spring Reveal” mượt mà thông qua Next.js template. Tối ưu hóa trang chi tiết kỹ năng, loại bỏ Platform Tab Switcher trùng lặp và nút chia sẻ dư thừa, tích hợp bong bóng mục lục TOC trượt đàn hồi.",
-    "changelog.m5Title": "Nền Neural Mesh Động Tương Tác & Search Hub",
-    "changelog.m5Desc": "Nâng cấp MeshGridBackground sang nền mạng lưới hạt động tương tác Neural Mesh phản hồi theo con trỏ chuột thời gian thực. Thiết kế lại ô tìm kiếm kính mờ Glassmorphism phát sáng gradient kép, tích hợp Monospace Tech Badge hiển thị số lượng kết quả thời gian thực. Tích hợp nút sao chép nhanh câu lệnh (Quick Copy) hiển thị mượt mà khi hover dòng phẳng của danh mục.",
-    "changelog.m4Title": "Hoạt Cảnh GSAP & Tối Ưu Hóa IDE Sandbox",
-    "changelog.m4Desc": "Tích hợp hoạt cảnh mượt mà bằng GSAP tại trang chủ và tối ưu hóa tính năng tìm kiếm mờ (fuzzy search) với Fuse.js trong trang catalog giúp việc tìm kiếm kỹ năng nhanh chóng, chính xác tuyệt đối. Tách biệt component SandboxIDE, giải phóng tài nguyên re-render của React 19 giúp triệt tiêu lag khựng.",
-    "changelog.m3Title": "Tích Hợp 10 Kỹ Năng Y Sinh Mới",
-    "changelog.m3Desc": "Nạp thêm 10 kỹ năng chuyên sâu về phân tích dữ liệu y sinh học (AlphaGenome, dbSNP, ChEMBL, Clinical Trials, gnomAD, GTEx, QuickGO, Reactome, UniProt, và PyMOL) mở rộng khả năng hỗ trợ đắc lực cho các tác vụ nghiên cứu khoa học.",
-    "changelog.m2Title": "Detail Page UX & TOC Scroll Spy",
-    "changelog.m2Desc": "Cải tiến giao diện trang chi tiết kỹ năng với mục lục động (Sticky TOC Sidebar) tự động cập nhật trạng thái khi cuộn (Scroll Spy), tích hợp bộ chuyển đổi platform và công cụ sao chép mã nguồn tiện lợi.",
-    "changelog.m1Title": "E2E Test Infra & CI Setup",
-    "changelog.m1Desc": "Thiết lập cơ sở hạ tầng kiểm thử tự động E2E bằng Playwright, đảm bảo độ ổn định cao và ngăn ngừa lỗi hồi quy (regression) cho các tính năng tương tác chính.",
   },
   en: {
     // Nav & Header
     "nav.skills": "Skills Catalog",
     "nav.about": "About",
-    "nav.changelog": "Changelog",
     "nav.search": "Search",
 
     // Footer
@@ -173,7 +148,6 @@ export const translations = {
     "footer.home": "Home",
     "footer.skills": "Skills Catalog",
     "footer.about": "About",
-    "footer.changelog": "Changelog",
     "footer.report": "Report Issue",
 
     // Catalog & Sidebar
@@ -290,28 +264,6 @@ export const translations = {
     "about.ctaTitle": "Ready to experience premium AI?",
     "about.ctaDesc": "Start searching the audited skills encyclopedia to upgrade your AI agent's capabilities today.",
     "about.ctaButton": "Search the Encyclopedia",
-
-    // Changelog Page
-    "changelog.briefing": "DEVELOPMENT JOURNAL / CHANGELOG",
-    "changelog.title": "Development Journal & Skill Verification",
-    "changelog.desc": "Track comprehensive updates and the automated skill verification process, ensuring 100% Passed integrity for AI agents.",
-    "changelog.coreMilestones": "CORE MILESTONES",
-    "changelog.recentlyVerified": "RECENTLY VERIFIED (TOP 5)",
-    "changelog.viewAll": "View All Skills",
-    "changelog.m7Title": "Premium Visual Upgrade & Visual Optimization",
-    "changelog.m7Desc": "Rewrote the entire /about page into an interactive 3D Glassmorphism paradigm board with elastic spring-slide timelines. Upgraded large language model examples to elite models (Claude 4.8 Opus, GPT-5.5, Gemini 3.5, DeepSeek-V4). Fully fixed bold styling bugs for the Skills keyword in the UI. Optimized quantum background canvas (MeshGridBackground) performance to reach buttery-smooth 60 FPS.",
-    "changelog.m6Title": "Page Transitions & Encyclopedia Docs",
-    "changelog.m6Desc": "Restructured /skills into a clean 2-column encyclopedia, removing bloated categories and redundant view modes. Integrated fluid 'Gliding Zoom & Spring Reveal' page transitions through Next.js templates. Optimized skill detail pages, eliminating duplicate Platform Switchers and useless share buttons, while embedding elastic TOC sidebar indicators.",
-    "changelog.m5Title": "Interactive Neural Mesh & Search Hub",
-    "changelog.m5Desc": "Upgraded MeshGridBackground to a responsive Neural Mesh canvas reacting to cursor position in real-time. Redesigned glassmorphic search input with dual gradient glow, embedding a Monospace Tech Badge for live result counting. Integrated Quick Copy command buttons that fade in smoothly when hovering over table list rows.",
-    "changelog.m4Title": "GSAP Animations & IDE Sandbox Optimization",
-    "changelog.m4Desc": "Integrated responsive GSAP animations on the homepage and optimized fuzzy searching with Fuse.js in the catalog for instant and absolute accuracy. Colocated SandboxIDE to liberate React 19 rendering overhead, eradicating micro-lag issues.",
-    "changelog.m3Title": "Integrated 10 New Bioinformatics Skills",
-    "changelog.m3Desc": "Ingested 10 advanced skills focused on bioinformatics data analysis (AlphaGenome, dbSNP, ChEMBL, Clinical Trials, gnomAD, GTEx, QuickGO, Reactome, UniProt, and PyMOL), expanding domain capability for scientific research tasks.",
-    "changelog.m2Title": "Detail Page UX & TOC Scroll Spy",
-    "changelog.m2Desc": "Enhanced skill detail pages with an interactive Sticky TOC Sidebar featuring scroll-spy tracking, while embedding convenient platform toggles and quick source code copying.",
-    "changelog.m1Title": "E2E Test Infra & CI Setup",
-    "changelog.m1Desc": "Established robust automated E2E testing infrastructure using Playwright, guaranteeing high stability and preventing regression bugs across key interactive systems."
   }
 };
 

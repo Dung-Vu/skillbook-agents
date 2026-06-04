@@ -6,8 +6,7 @@ const routes = [
   { name: "home", path: "/" },
   { name: "catalog", path: "/skills" },
   { name: "detail", path: "/skills/alphafold-database" },
-  { name: "about", path: "/about" },
-  { name: "changelog", path: "/changelog" }
+  { name: "about", path: "/about" }
 ];
 
 const viewports = [

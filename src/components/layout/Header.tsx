@@ -35,14 +35,9 @@ export function Header(): React.ReactElement {
       label: t("nav.about"),
       activeCheck: (path: string): boolean => path === "/about",
     },
-    {
-      href: "/changelog",
-      label: t("nav.changelog"),
-      activeCheck: (path: string): boolean => path === "/changelog",
-    },
   ];
 
-  const isLightThemePage = pathname === "/skills" || pathname === "/about" || pathname === "/changelog";
+  const isLightThemePage = pathname === "/skills" || pathname === "/about";
 
   return (
     <header
@@ -214,7 +209,6 @@ export function Header(): React.ReactElement {
               // Select appropriate icon
               let IconComponent = Terminal;
               if (link.href === "/about") IconComponent = Info;
-              if (link.href === "/changelog") IconComponent = History;
 
               return (
                 <Link

@@ -83,12 +83,7 @@ export function Footer({ isLight = false }: FooterProps): React.ReactElement {
             >
               {t("footer.about")}
             </Link>
-            <Link
-              href="/changelog"
-              className={cn("text-[10px] sm:text-xs no-underline transition-all duration-300 w-fit inline-block", isLight ? "text-slate-500 hover:text-indigo-600 hover:translate-x-1" : "text-[var(--color-text-secondary)] hover:text-[var(--color-cyber-violet)] hover:translate-x-1")}
-            >
-              {t("footer.changelog")}
-            </Link>
+
           </div>
 
           {/* Cột 3: Resources */}
