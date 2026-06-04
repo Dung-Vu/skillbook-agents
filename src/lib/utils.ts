@@ -12,3 +12,9 @@ export function formatDate(dateString: string): string {
     day: "numeric",
   });
 }
+
+export function formatCommand(command?: string, slug?: string): string {
+  const raw = command || slug || "";
+  if (!raw) return "";
+  return raw.startsWith("/") ? raw : `/${raw}`;
+}

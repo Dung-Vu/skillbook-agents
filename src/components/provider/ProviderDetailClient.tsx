@@ -6,7 +6,7 @@ import { CATEGORIES } from "@/lib/categories";
 import { PLATFORM_CONFIG } from "@/types/skill";
 import { motion } from "framer-motion";
 import { useLanguage } from "@/context/LanguageContext";
-import { cn } from "@/lib/utils";
+import { cn, formatCommand } from "@/lib/utils";
 import { Cpu, Terminal, Shield, Sparkles, BookOpen, Layers, CheckCircle2, ArrowRight } from "lucide-react";
 import Link from "next/link";
 
@@ -230,7 +230,7 @@ export function ProviderDetailClient({ providerId, skills }: ProviderDetailClien
                 >
                   <div className="flex items-center justify-between gap-2 mb-1">
                     <span className="text-[9px] font-mono font-bold text-indigo-600 bg-indigo-50 border border-indigo-100/50 px-1.5 py-0.5 rounded">
-                      {skill.command || skill.slug}
+                      {formatCommand(skill.command, skill.slug)}
                     </span>
                   </div>
                   <h3 className="text-sm font-bold text-slate-800 group-hover:text-indigo-600 transition-colors">

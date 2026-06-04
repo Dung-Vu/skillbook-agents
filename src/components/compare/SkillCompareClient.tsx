@@ -6,7 +6,7 @@ import { Skill, PlatformId } from "@/types/skill";
 import { PLATFORM_CONFIG, COMPLEXITY_CONFIG } from "@/types/skill";
 import { parseMarkdownToHtml } from "@/lib/markdown";
 import { useLanguage } from "@/context/LanguageContext";
-import { cn } from "@/lib/utils";
+import { cn, formatCommand } from "@/lib/utils";
 import { GitCompare, Sparkles, Cpu, BookOpen, AlertTriangle } from "lucide-react";
 import Link from "next/link";
 
@@ -179,7 +179,7 @@ export function SkillCompareClient({ skills }: SkillCompareClientProps): React.R
             >
               {skills.map((s) => (
                 <option key={s.slug} value={s.slug}>
-                  [{s.provider.toUpperCase()}] {s.title} ({s.command || s.slug})
+                  [{s.provider.toUpperCase()}] {s.title} ({formatCommand(s.command, s.slug)})
                 </option>
               ))}
             </select>
@@ -197,7 +197,7 @@ export function SkillCompareClient({ skills }: SkillCompareClientProps): React.R
             >
               {skills.map((s) => (
                 <option key={s.slug} value={s.slug}>
-                  [{s.provider.toUpperCase()}] {s.title} ({s.command || s.slug})
+                  [{s.provider.toUpperCase()}] {s.title} ({formatCommand(s.command, s.slug)})
                 </option>
               ))}
             </select>
@@ -229,7 +229,7 @@ export function SkillCompareClient({ skills }: SkillCompareClientProps): React.R
                     {skillA.title}
                   </h2>
                   <p className="text-[11px] font-mono font-bold text-indigo-600 truncate mb-2">
-                    {skillA.command || skillA.slug}
+                    {formatCommand(skillA.command, skillA.slug)}
                   </p>
                   <p className="text-[11px] text-slate-500 line-clamp-2 leading-relaxed">
                     {skillA.description}
@@ -294,7 +294,7 @@ export function SkillCompareClient({ skills }: SkillCompareClientProps): React.R
                     {skillB.title}
                   </h2>
                   <p className="text-[11px] font-mono font-bold text-indigo-600 truncate mb-2">
-                    {skillB.command || skillB.slug}
+                    {formatCommand(skillB.command, skillB.slug)}
                   </p>
                   <p className="text-[11px] text-slate-500 line-clamp-2 leading-relaxed">
                     {skillB.description}

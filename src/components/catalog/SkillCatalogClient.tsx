@@ -5,7 +5,7 @@ import Link from "next/link";
 import { motion, AnimatePresence, Variants } from "framer-motion";
 import { Search, ArrowRight, Copy, Check } from "lucide-react";
 import Fuse from "fuse.js";
-import { cn } from "@/lib/utils";
+import { cn, formatCommand } from "@/lib/utils";
 import {
   Skill,
   CategoryId,
@@ -85,7 +85,7 @@ const SkillRow = React.memo(function SkillRow({ skill, navigateTo }: SkillRowPro
   const handleCopy = useCallback((e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     e.stopPropagation();
-    navigator.clipboard.writeText(skill.command || skill.slug);
+    navigator.clipboard.writeText(formatCommand(skill.command, skill.slug));
     setCopied(true);
     setTimeout(() => setCopied(false), 1500);
   }, [skill.command, skill.slug]);
@@ -99,7 +99,7 @@ const SkillRow = React.memo(function SkillRow({ skill, navigateTo }: SkillRowPro
     >
       <div className="flex items-center gap-2 sm:w-[35%] shrink-0">
         <span className="font-bold font-mono text-[11px] sm:text-xs bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 bg-clip-text text-transparent group-hover:brightness-110 transition-all duration-200 truncate">
-          {skill.command || skill.slug}
+          {formatCommand(skill.command, skill.slug)}
         </span>
         <button
           onClick={handleCopy}

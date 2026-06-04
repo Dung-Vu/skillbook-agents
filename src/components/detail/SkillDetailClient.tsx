@@ -21,7 +21,7 @@ import {
 interface CustomWindow extends Window {
   __canvasPaused?: boolean;
 }
-import { cn, formatDate } from "@/lib/utils";
+import { cn, formatDate, formatCommand } from "@/lib/utils";
 import { parseMarkdownToHtml } from "@/lib/markdown";
 import {
   ArrowUp,
@@ -833,7 +833,7 @@ export function SkillDetailClient({
                       onClick={(e) => navigateTo(e, `/skills/${rs.slug}`)}
                     >
                       <div className="flex items-start justify-between gap-2">
-                        <span className="skill-card__command transition-colors duration-200">{rs.command || rs.slug}</span>
+                        <span className="skill-card__command transition-colors duration-200">{formatCommand(rs.command, rs.slug)}</span>
                         {rs.provider !== skill.provider && (
                           <span className="shrink-0 text-[9px] font-mono font-bold px-1.5 py-0.5 rounded bg-indigo-50 border border-indigo-200/50 text-indigo-600">
                             also available in {rs.provider}
