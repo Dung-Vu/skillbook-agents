@@ -713,12 +713,9 @@ export function SkillDetailClient({
                           backgroundImage: `linear-gradient(135deg, #ffffff 0%, ${category ? category.color : 'var(--color-cyber-violet)'} 100%)`
                         }}
                       >
-                        {skill.title}
+                        {formatCommand(skill.command, skill.slug)}
                       </span>
                     </h1>
-                    <div className="text-xs sm:text-sm font-mono text-[var(--color-accent-primary)] font-bold">
-                      {formatCommand(skill.command, skill.slug)}
-                    </div>
                   </div>
 
                 </div>
