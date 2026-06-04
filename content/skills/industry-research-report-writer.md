@@ -32,11 +32,11 @@ seoDescription: >-
 provider: minimax
 ---
 
-## 📖 Tại Sao AI Agent Của Bạn Cần Kỹ Năng Này?
+## 📖 Tại Sao Cần Skill Này?
 
 Biên soạn báo cáo nghiên cứu thị trường yêu cầu quy trình làm việc khắt khe để đảm bảo số liệu chính xác và cấu trúc tài liệu chuyên nghiệp. Kỹ năng này tự động hóa toàn bộ quy trình: từ thu thập thông tin nguồn sơ cấp, lập sơ đồ phân tích, chèn biểu đồ trực quan, cho đến xuất file Word (DOCX) có định dạng lề lối chuẩn mực.
 
-## ⚙️ Cơ Chế Hoạt Động & Quy Trình Tư Duy
+## ⚙️ Cách Hoạt Động
 
 Quy trình viết báo cáo ngành:
 
@@ -49,13 +49,24 @@ Quy trình viết báo cáo ngành:
 3. **Fact-Checking**: Chạy vòng lặp đối soát chéo số liệu để phát hiện thông tin mâu thuẫn.
 4. **Formatting**: Thiết lập CSS/XML định dạng tiêu đề, bảng biểu, lề trang cho file DOCX xuất bản.
 
-## 🚀 Bộ Quy Tắc Chỉ Dẫn Cho Agent (Prompt Guidelines)
+## 🚀 Cách Sử Dụng
 
 1. Báo cáo nghiên cứu phải được ghi trực tiếp ra file tài liệu, không được xuất nội dung thô ra khung chat.
 2. Tuyệt đối không trích dẫn thông tin từ Wikipedia; chỉ sử dụng báo cáo tài chính chính thức, website chính phủ hoặc các tổ chức nghiên cứu uy tín.
 3. Luôn thực hiện bước kiểm tra đối soát số liệu (Fact-checking) độc lập trước khi xuất file.
 
-## ⚠️ Cảnh Báo Vận Hành & Mẹo Tối Ưu (Developer Gotchas)
+## 💡 Kịch Bản Lập Trình Thực Tế
+
+### Nhà phát triển:
+> "Hãy hướng dẫn tôi cách thiết lập và sử dụng kỹ năng Industry Research Report Writer để Nghiên cứu thị trường và xuất báo cáo ngành chuyên nghiệp sang DOCX/PDF."
+
+### AI Agent (Đã được trang bị Kỹ năng):
+> "Tôi đã sẵn sàng. Dưới đây là kịch bản vận hành thực tế cho kỹ năng Industry Research Report Writer:
+> 1. Thiết lập các thông số cấu hình và tham số đầu vào cần thiết cho hệ thống.
+> 2. Thực thi tuần tự các bước xử lý logic và tích hợp theo đúng chỉ dẫn của Industry Research Report Writer.
+> 3. Kiểm thử đầu ra, tối ưu hóa hiệu năng và cung cấp kết quả hoàn chỉnh."
+
+## ⚠️ Lưu Ý & Gotchas
 
 - **Mất định dạng khi convert**: Việc chuyển đổi qua lại giữa định dạng Word và Markdown thường làm mất định dạng bảng biểu phức tạp. Hãy viết và sửa trực tiếp bằng cấu trúc XML/DOCX chuẩn.
 - **Biểu đồ trống**: Đảm bảo toàn bộ dữ liệu đầu vào của biểu đồ đầy đủ, tránh việc biểu đồ bị lỗi hiển thị khi xuất PDF.

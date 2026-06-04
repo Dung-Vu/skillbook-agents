@@ -1,9 +1,13 @@
 ---
-title: "ChEMBL Bioactive Molecules"
-description: "Query bioactive chemical compounds, drug targets, bioactivity data (IC50/Ki), and mechanisms of action."
-oneLiner: "Query the ChEMBL cheminformatics database for bioactive molecules."
-seoTitle: "ChEMBL Bioactive Molecules — Skillbook Agents"
-seoDescription: "Guide for Agents to query bioactive compounds, IC50/Ki values, and drug targets from ChEMBL."
+title: ChEMBL Bioactive Molecules
+description: >-
+  Query bioactive chemical compounds, drug targets, bioactivity data (IC50/Ki),
+  and mechanisms of action.
+oneLiner: Query the ChEMBL cheminformatics database for bioactive molecules.
+seoTitle: ChEMBL Bioactive Molecules — Skillbook Agents
+seoDescription: >-
+  Guide for Agents to query bioactive compounds, IC50/Ki values, and drug
+  targets from ChEMBL.
 ---
 
 

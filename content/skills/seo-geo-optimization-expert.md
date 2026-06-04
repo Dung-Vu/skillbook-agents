@@ -35,11 +35,11 @@ seoDescription: >-
 provider: minimax
 ---
 
-## 📖 Tại Sao AI Agent Của Bạn Cần Kỹ Năng Này?
+## 📖 Tại Sao Cần Skill Này?
 
 Cách người dùng tìm kiếm thông tin đang dịch chuyển từ việc click link Google sang đọc câu trả lời tổng hợp từ AI (ChatGPT, Perplexity). GEO (Generative Engine Optimization) là kỹ năng sống còn giúp nội dung thương hiệu xuất hiện trong các câu trả lời và nguồn trích dẫn của AI. Kỹ năng này cung cấp các tiêu chuẩn tối ưu hóa EEAT, định dạng dữ liệu có cấu trúc (Schema) và tối ưu hóa từ vựng học thuật.
 
-## ⚙️ Cơ Chế Hoạt Động & Quy Trình Tư Duy
+## ⚙️ Cách Hoạt Động
 
 Quy trình kiểm toán và tối ưu hóa GEO:
 ```
@@ -50,13 +50,24 @@ Phan tich Noi dung hien tai --> Danh gia chi so GEO --> Toi uu hoa Cau truc & EE
 3. **Tối ưu hóa**: Điều chỉnh văn bản theo nguyên tắc EEAT (Kinh nghiệm, Chuyên môn, Thẩm quyền, Độ tin cậy), chèn Schema Markup JSON-LD.
 4. **Báo cáo**: Xuất hướng dẫn chỉnh sửa chi tiết và file JSON-LD Schema tương thích.
 
-## 🚀 Bộ Quy Tắc Chỉ Dẫn Cho Agent (Prompt Guidelines)
+## 🚀 Cách Sử Dụng
 
 - Khuyên dùng cấu trúc định nghĩa rõ ràng ở đầu bài viết để công cụ AI dễ dàng trích xuất thông tin (Snippet extraction).
 - Tích hợp số liệu thống kê thực tế, nghiên cứu ca lâm sàng/doanh nghiệp có nguồn dẫn chứng rõ ràng để tăng độ tin cậy của bài viết.
 - Luôn tạo sẵn mã Schema Markup (JSON-LD) chính xác cho loại nội dung tương ứng (Article, FAQ, Product) để công cụ tìm kiếm AI phân tích.
 
-## ⚠️ Cảnh Báo Vận Hành & Mẹo Tối Ưu (Developer Gotchas)
+## 💡 Kịch Bản Lập Trình Thực Tế
+
+### Nhà phát triển:
+> "Hãy hướng dẫn tôi cách thiết lập và sử dụng kỹ năng SEO & GEO Optimization Expert để Tối ưu hóa nội dung website để hiển thị trên Google và các công cụ tìm kiếm AI (GEO)."
+
+### AI Agent (Đã được trang bị Kỹ năng):
+> "Tôi đã sẵn sàng. Dưới đây là kịch bản vận hành thực tế cho kỹ năng SEO & GEO Optimization Expert:
+> 1. Thiết lập các thông số cấu hình và tham số đầu vào cần thiết cho hệ thống.
+> 2. Thực thi tuần tự các bước xử lý logic và tích hợp theo đúng chỉ dẫn của SEO & GEO Optimization Expert.
+> 3. Kiểm thử đầu ra, tối ưu hóa hiệu năng và cung cấp kết quả hoàn chỉnh."
+
+## ⚠️ Lưu Ý & Gotchas
 
 - **Nhồi nhét từ khóa (Keyword stuffing)**: Tránh việc chèn ép từ khóa quá mức làm giảm trải nghiệm đọc của con người; các bộ lọc của AI tìm kiếm thế hệ mới sẽ loại bỏ nội dung kém tự nhiên.
 - **Trích dẫn giả**: Đảm bảo tất cả nguồn dữ liệu được đưa vào bài viết đều là thật và hoạt động, tránh tạo các liên kết hỏng.

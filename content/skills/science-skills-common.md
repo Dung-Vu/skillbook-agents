@@ -31,7 +31,7 @@ seoDescription: >-
 provider: antigravity
 ---
 
-## 📖 Tại Sao AI Agent Của Bạn Cần Kỹ Năng Này?
+## 📖 Tại Sao Cần Skill Này?
 
 Khi AI Agents thực hiện các tác vụ nghiên cứu khoa học chuyên sâu, chúng phải liên tục gọi các API cơ sở dữ liệu lớn trên thế giới (như NCBI, Ensembl, UniProt, ClinVar). Tuy nhiên, các máy chủ khoa học này cực kỳ nghiêm ngặt về tần suất truy cập:
 * **Chặn IP (Rate Limit block)**: Nếu AI gửi quá nhiều request cùng lúc, IP của bạn sẽ lập tức bị chặn (Lỗi HTTP 429). AI mặc định không biết cách tự kiềm chế hoặc trì hoãn giữa các lệnh.
@@ -44,7 +44,7 @@ Khi AI Agents thực hiện các tác vụ nghiên cứu khoa học chuyên sâu
 
 ---
 
-## ⚙️ Cơ Chế Hoạt Động & Quy Trình Tư Duy
+## ⚙️ Cách Hoạt Động
 
 ```
 [Science Script] ➔ 📞 [Gọi API qua RateLimitedClient]
@@ -69,7 +69,7 @@ Nhúng các quy tắc này vào `.windsurfrules` để Cascade Agent tự độn
 
 ---
 
-## 🚀 Bộ Quy Tắc Chỉ Dẫn Cho Agent (Prompt Guidelines)
+## 🚀 Cách Sử Dụng
 
 ````markdown
 # SCIENCE COMMON LIBRARY RULES & GUIDELINES
@@ -108,7 +108,7 @@ Nhúng các quy tắc này vào `.windsurfrules` để Cascade Agent tự độn
 
 ---
 
-## ⚠️ Cảnh Báo Vận Hành & Mẹo Tối Ưu (Developer Gotchas)
+## ⚠️ Lưu Ý & Gotchas
 
 * **Không Chạy Standalone**: Nhắc nhở Agent và chính bạn rằng đây không phải là một công cụ độc lập. Mọi cố gắng chạy nó đơn lẻ trên terminal đều sẽ báo lỗi.
 * **Cơ Chế Khóa File (File Locking)**: Thư viện sử dụng cơ chế ghi tệp tạm để đồng bộ rate-limiting giữa nhiều tiến trình. Tránh chạy scripts trên các ổ đĩa mạng chia sẻ (Network Drives/NAS) vì cơ chế khóa file có thể bị trễ hoặc lỗi ghi quyền.

@@ -1,10 +1,12 @@
 ---
-description: Controls the user's active Chrome browser profile (maintaining login
-  states, cookies, extensions) via the `mavis browser tool` CLI. Perfect for interacting
+description: >-
+  Controls the user's active Chrome browser profile (maintaining login states,
+  cookies, extensions) via the `mavis browser tool` CLI. Perfect for interacting
   with authenticated web dashboards.
-oneLiner: Automate operations on the user's active, authenticated Chrome browser.
-seoDescription: Drive the user's active Chrome browser profile. Use logins, cookies,
-  and extensions to automate authenticated web actions.
+oneLiner: 'Automate operations on the user''s active, authenticated Chrome browser.'
+seoDescription: >-
+  Drive the user's active Chrome browser profile. Use logins, cookies, and
+  extensions to automate authenticated web actions.
 seoTitle: Mavis Browser - Minimax Skill for AI Agents
 title: Mavis Browser
 ---
@@ -31,7 +33,7 @@ Flowchart:
 
 ---
 
-## 🚀 Agent Guidelines (Prompt Guidelines)
+## 🚀 How to use
 
 ```markdown
 # BROWSER CONTROL RULES
@@ -42,6 +44,17 @@ Flowchart:
 ```
 
 ---
+
+## 💡 Real-World Examples / Scenarios
+
+### Developer:
+> "Guide me on how to configure and deploy the Mavis Browser skill to Automate operations on the user's active, authenticated Chrome browser."
+
+### AI Agent (Equipped with Skill):
+> "I have initialized the configuration. Here is the execution flow for the Mavis Browser skill:
+> 1. Set up the environment variables and structure the inputs as specified.
+> 2. Execute the workflow steps and integrate core components.
+> 3. Verify results, optimize performance, and return the finalized assets."
 
 ## ⚠️ Gotchas and notes
 

@@ -36,7 +36,7 @@ seoDescription: >-
 provider: antigravity
 ---
 
-## 📖 Tại Sao AI Agent Của Bạn Cần Kỹ Năng Này?
+## 📖 Tại Sao Cần Skill Này?
 
 Khi nhận các yêu cầu phát triển phần mềm hoặc thiết kế hệ thống từ người dùng, các thông tin ban đầu thường mang tính khái quát, thiếu chi tiết hoặc tồn tại những mâu thuẫn ngầm định. Nếu không có kỹ năng phản biện:
 * **Mơ hồ dẫn đến sai lệch**: AI dễ tự suy đoán theo ý chủ quan, dẫn đến việc viết code sai kiến trúc mong muốn của người dùng.
@@ -49,7 +49,7 @@ Khi nhận các yêu cầu phát triển phần mềm hoặc thiết kế hệ t
 
 ---
 
-## ⚙️ Cơ Chế Hoạt Động & Quy Trình Tư Duy
+## ⚙️ Cách Hoạt Động
 
 ```
 [Nhận Yêu cầu ban đầu] ➔ 🔍 [Phân tích lỗ hổng thiết kế]
@@ -65,7 +65,7 @@ Quy trình suy nghĩ của Agent khi thực thi `/grill-me`:
 
 ---
 
-## 🚀 Bộ Quy Tắc Chỉ Dẫn Cho Agent (Prompt Guidelines)
+## 🚀 Cách Sử Dụng
 
 ````markdown
 # GRILL-ME INTERVIEW INSTRUCTIONS & RULES
@@ -86,7 +86,18 @@ Quy trình suy nghĩ của Agent khi thực thi `/grill-me`:
 
 ---
 
-## ⚠️ Cảnh Báo Vận Hành & Mẹo Tối Ưu (Developer Gotchas)
+## 💡 Kịch Bản Lập Trình Thực Tế
+
+### Nhà phát triển:
+> "Hãy hướng dẫn tôi cách thiết lập và sử dụng kỹ năng Grill Me Planning Interview để Tương tác phản biện sâu sắc giúp làm rõ các yêu cầu kiến trúc và quyết định thiết kế."
+
+### AI Agent (Đã được trang bị Kỹ năng):
+> "Tôi đã sẵn sàng. Dưới đây là kịch bản vận hành thực tế cho kỹ năng Grill Me Planning Interview:
+> 1. Thiết lập các thông số cấu hình và tham số đầu vào cần thiết cho hệ thống.
+> 2. Thực thi tuần tự các bước xử lý logic và tích hợp theo đúng chỉ dẫn của Grill Me Planning Interview.
+> 3. Kiểm thử đầu ra, tối ưu hóa hiệu năng và cung cấp kết quả hoàn chỉnh."
+
+## ⚠️ Lưu Ý & Gotchas
 
 * **Tránh Đặt Câu Hỏi Tầm Thường (Trivial Questions)**: Chỉ đặt những câu hỏi thực sự ảnh hưởng đến kiến trúc hệ thống hoặc logic viết code. Tránh hỏi các chi tiết quá nhỏ nhặt mà AI có thể tự quyết định tốt dựa trên các best practices.
 * **Duy Trì Giọng Điệu Khách Quan**: Đưa ra các phân tích ưu/nhược điểm rõ ràng cho từng phương án lựa chọn công nghệ để giúp người dùng đưa ra quyết định chính xác hơn.

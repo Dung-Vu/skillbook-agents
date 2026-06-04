@@ -1,9 +1,13 @@
 ---
-title: "Science Skills Common Library"
-description: "Provide a shared HTTP client infrastructure with rate-limiting and exponential backoff retry mechanisms for external science APIs (NCBI, EBI, RCSB)."
-oneLiner: "Shared rate-limiting and retry HTTP client library for science Agents."
-seoTitle: "Science Skills Common Library for AI Agents — Skillbook Agents"
-seoDescription: "Infrastructure guidelines for rate-limiting, retries, and exponential backoff in science API requests."
+title: Science Skills Common Library
+description: >-
+  Provide a shared HTTP client infrastructure with rate-limiting and exponential
+  backoff retry mechanisms for external science APIs (NCBI, EBI, RCSB).
+oneLiner: Shared rate-limiting and retry HTTP client library for science Agents.
+seoTitle: Science Skills Common Library for AI Agents — Skillbook Agents
+seoDescription: >-
+  Infrastructure guidelines for rate-limiting, retries, and exponential backoff
+  in science API requests.
 ---
 
 
@@ -45,7 +49,7 @@ Add these rules to `.windsurfrules` at the project root to enforce rate limits o
 
 ---
 
-## 🚀 Agent Guidelines (Prompt Guidelines)
+## 🚀 How to use
 
 ````markdown
 # SCIENCE COMMON LIBRARY RULES & GUIDELINES
@@ -83,6 +87,17 @@ Add these rules to `.windsurfrules` at the project root to enforce rate limits o
 > *Thanks to this background protection, your Python script can run reliably all night, downloading thousands of proteins smoothly without fear of being IP-blocked by the UniProt server or disrupting your research progress.*
 
 ---
+
+## 💡 Real-World Examples / Scenarios
+
+### Developer:
+> "Guide me on how to configure and deploy the Science Skills Common Library skill to Shared rate-limiting and retry HTTP client library for science Agents."
+
+### AI Agent (Equipped with Skill):
+> "I have initialized the configuration. Here is the execution flow for the Science Skills Common Library skill:
+> 1. Set up the environment variables and structure the inputs as specified.
+> 2. Execute the workflow steps and integrate core components.
+> 3. Verify results, optimize performance, and return the finalized assets."
 
 ## ⚠️ Gotchas and notes
 

@@ -32,11 +32,11 @@ seoDescription: >-
 provider: minimax
 ---
 
-## 📖 Tại Sao AI Agent Của Bạn Cần Kỹ Năng Này?
+## 📖 Tại Sao Cần Skill Này?
 
 Viết mã nguồn khi chưa làm rõ yêu cầu là nguyên nhân hàng đầu dẫn đến việc phải làm lại từ đầu (rework). Kỹ năng này thiết lập một rào cản bắt buộc Agent phải trao đổi, làm rõ ý định, đề xuất 2-3 giải pháp và viết đặc tả thiết kế (spec) trước khi viết dòng code đầu tiên.
 
-## ⚙️ Cơ Chế Hoạt Động & Quy Trình Tư Duy
+## ⚙️ Cách Hoạt Động
 
 Quy trình từ ý tưởng đến đặc tả kỹ thuật:
 
@@ -48,13 +48,24 @@ Quy trình từ ý tưởng đến đặc tả kỹ thuật:
 2. **Propose**: Trình bày các hướng tiếp cận kèm theo ưu/nhược điểm.
 3. **Spec Review**: Viết tài liệu đặc tả và chạy qua vòng lặp kiểm duyệt chất lượng nghiêm ngặt.
 
-## 🚀 Bộ Quy Tắc Chỉ Dẫn Cho Agent (Prompt Guidelines)
+## 🚀 Cách Sử Dụng
 
 1. Tuyệt đối KHÔNG viết code hay tạo dự án khi đặc tả thiết kế chưa được người dùng phê duyệt.
 2. Chỉ hỏi một câu hỏi làm rõ tại một thời điểm để tránh làm người dùng bị ngợp.
 3. Luôn viết tài liệu thiết kế lưu vào thư mục `docs/superpowers/specs/` để làm căn cứ triển khai.
 
-## ⚠️ Cảnh Báo Vận Hành & Mẹo Tối Ưu (Developer Gotchas)
+## 💡 Kịch Bản Lập Trình Thực Tế
+
+### Nhà phát triển:
+> "Hãy hướng dẫn tôi cách thiết lập và sử dụng kỹ năng Brainstorming để Khám phá yêu cầu và thiết kế hệ thống trước khi bắt đầu lập trình."
+
+### AI Agent (Đã được trang bị Kỹ năng):
+> "Tôi đã sẵn sàng. Dưới đây là kịch bản vận hành thực tế cho kỹ năng Brainstorming:
+> 1. Thiết lập các thông số cấu hình và tham số đầu vào cần thiết cho hệ thống.
+> 2. Thực thi tuần tự các bước xử lý logic và tích hợp theo đúng chỉ dẫn của Brainstorming.
+> 3. Kiểm thử đầu ra, tối ưu hóa hiệu năng và cung cấp kết quả hoàn chỉnh."
+
+## ⚠️ Lưu Ý & Gotchas
 
 - **Hội chứng 'Dự án này quá đơn giản'**: Ngay cả một ứng dụng nhỏ hay một thay đổi cấu hình cũng cần được brainstorm nhanh để thống nhất các giả định ngầm.
 - **Tràn lan câu hỏi**: Tránh hỏi quá nhiều câu hỏi lý thuyết không cần thiết. Đưa ra các gợi ý trắc nghiệm để người dùng dễ chọn lựa.

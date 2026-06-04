@@ -1,9 +1,16 @@
 ---
-title: "Video Motion Analysis"
-description: "Professional video motion and posture analysis. Extracts keyframes, estimates body poses, renders stickman skeletons, and delivers improvement recommendations."
-oneLiner: "Extract keyframes, analyze human motion, and draw stickman pose diagrams from video files."
-seoTitle: "Video Motion Analysis - Minimax Skill for AI Agents"
-seoDescription: "Implement video posture diagnostics, keyframe extraction, and stickman visualization workflows on AI Agents."
+title: Video Motion Analysis
+description: >-
+  Professional video motion and posture analysis. Extracts keyframes, estimates
+  body poses, renders stickman skeletons, and delivers improvement
+  recommendations.
+oneLiner: >-
+  Extract keyframes, analyze human motion, and draw stickman pose diagrams from
+  video files.
+seoTitle: Video Motion Analysis - Minimax Skill for AI Agents
+seoDescription: >-
+  Implement video posture diagnostics, keyframe extraction, and stickman
+  visualization workflows on AI Agents.
 ---
 
 ## 📖 Why Do We Need This Skill?
@@ -21,11 +28,22 @@ Raw Video Source --> Keyframe Selection --> Skeletal Joint Estimation --> Draw S
 3. **Skeletal Plotting**: Construct stickman coordinates marking head, shoulders, hips, knees, and ankles.
 4. **Metrics Analysis**: Measure critical angles (e.g. knee flexion) and provide target corrections.
 
-## 🚀 Agent Guidelines (Prompt Guidelines)
+## 🚀 How to use
 
 - Skeletal stickman diagrams must use bright contrast colors (red, lime, yellow) to be clearly visible against clothing.
 - Measure and state exact degree angles of joints rather than using vague words (e.g., 'your knee is bent too much').
 - Package the generated pose frames and stickman diagrams cleanly, returning local paths via `<deliver_assets>`.
+
+## 💡 Real-World Examples / Scenarios
+
+### Developer:
+> "Guide me on how to configure and deploy the Video Motion Analysis skill to Extract keyframes, analyze human motion, and draw stickman pose diagrams from video files."
+
+### AI Agent (Equipped with Skill):
+> "I have initialized the configuration. Here is the execution flow for the Video Motion Analysis skill:
+> 1. Set up the environment variables and structure the inputs as specified.
+> 2. Execute the workflow steps and integrate core components.
+> 3. Verify results, optimize performance, and return the finalized assets."
 
 ## ⚠️ Gotchas and notes
 

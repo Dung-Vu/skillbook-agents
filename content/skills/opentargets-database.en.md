@@ -1,9 +1,13 @@
 ---
-title: "Open Targets Drug Discovery"
-description: "Support biological target validation by integrating genetic, literature, and clinical trial evidence from Open Targets."
-oneLiner: "Query target-disease associations and drug development profiles."
-seoTitle: "Open Targets Drug Discovery — Skillbook Agents"
-seoDescription: "Guide for Agents to query target-disease associations and tractability profiles from the Open Targets Platform."
+title: Open Targets Drug Discovery
+description: >-
+  Support biological target validation by integrating genetic, literature, and
+  clinical trial evidence from Open Targets.
+oneLiner: Query target-disease associations and drug development profiles.
+seoTitle: Open Targets Drug Discovery — Skillbook Agents
+seoDescription: >-
+  Guide for Agents to query target-disease associations and tractability
+  profiles from the Open Targets Platform.
 ---
 
 

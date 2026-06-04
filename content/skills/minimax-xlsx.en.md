@@ -1,9 +1,11 @@
 ---
-description: Processes, analyzes, and writes Excel spreadsheet (`.xlsx`) files. Provides
-  a library cookbook and decision tree (e.g., pandas vs openpyxl) based on data size
-  and target operation.
+description: >-
+  Processes, analyzes, and writes Excel spreadsheet (`.xlsx`) files. Provides a
+  library cookbook and decision tree (e.g., pandas vs openpyxl) based on data
+  size and target operation.
 oneLiner: Read and write Excel (.xlsx) sheets using optimized libraries.
-seoDescription: Professional Excel (.xlsx) processing. Standard guide on pandas/openpyxl,
+seoDescription: >-
+  Professional Excel (.xlsx) processing. Standard guide on pandas/openpyxl,
   writing live formulas, and running recalculation.
 seoTitle: Minimax XLSX - Minimax Skill for AI Agents
 title: Minimax XLSX
@@ -31,7 +33,7 @@ Flowchart:
 
 ---
 
-## 🚀 Agent Guidelines (Prompt Guidelines)
+## 🚀 How to use
 
 ```markdown
 # EXCEL FORMULA-FIRST RULES
@@ -42,6 +44,17 @@ Flowchart:
 ```
 
 ---
+
+## 💡 Real-World Examples / Scenarios
+
+### Developer:
+> "Guide me on how to configure and deploy the Minimax XLSX skill to Read and write Excel (.xlsx) sheets using optimized libraries."
+
+### AI Agent (Equipped with Skill):
+> "I have initialized the configuration. Here is the execution flow for the Minimax XLSX skill:
+> 1. Set up the environment variables and structure the inputs as specified.
+> 2. Execute the workflow steps and integrate core components.
+> 3. Verify results, optimize performance, and return the finalized assets."
 
 ## ⚠️ Gotchas and notes
 

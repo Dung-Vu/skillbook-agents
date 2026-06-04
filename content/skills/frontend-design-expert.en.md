@@ -1,9 +1,14 @@
 ---
-title: "Frontend Design Expert"
-description: "Expert frontend design guidelines for creating beautiful, modern user interfaces. Focuses on UI/UX best practices, component design, and design systems."
-oneLiner: "Provide UI/UX standards and design system design guidelines."
-seoTitle: "Frontend Design Expert - Minimax Skill for AI Agents"
-seoDescription: "UI/UX consultation and design system engineering, optimizing interfaces for clarity, responsiveness, and accessibility."
+title: Frontend Design Expert
+description: >-
+  Expert frontend design guidelines for creating beautiful, modern user
+  interfaces. Focuses on UI/UX best practices, component design, and design
+  systems.
+oneLiner: Provide UI/UX standards and design system design guidelines.
+seoTitle: Frontend Design Expert - Minimax Skill for AI Agents
+seoDescription: >-
+  UI/UX consultation and design system engineering, optimizing interfaces for
+  clarity, responsiveness, and accessibility.
 ---
 
 ## 📖 Why Do We Need This Skill?
@@ -22,11 +27,22 @@ The UX/UI standardization flow:
 2. **Design System**: Establishes typography scale, color tokens, and spatial grids.
 3. **Accessibility Audit**: Verifies text contrast and screen-reader friendliness against WCAG standards.
 
-## 🚀 Agent Guidelines (Prompt Guidelines)
+## 🚀 How to use
 
 1. Maintain color contrast ratios compliant with WCAG AA standards (minimum 4.5:1 for normal text).
 2. Keep interface patterns consistent to reduce learning curves for the user.
 3. Always design clear states for loading, error, success, and empty data scenarios.
+
+## 💡 Real-World Examples / Scenarios
+
+### Developer:
+> "Guide me on how to configure and deploy the Frontend Design Expert skill to Provide UI/UX standards and design system design guidelines."
+
+### AI Agent (Equipped with Skill):
+> "I have initialized the configuration. Here is the execution flow for the Frontend Design Expert skill:
+> 1. Set up the environment variables and structure the inputs as specified.
+> 2. Execute the workflow steps and integrate core components.
+> 3. Verify results, optimize performance, and return the finalized assets."
 
 ## ⚠️ Gotchas and notes
 

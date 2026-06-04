@@ -1,10 +1,12 @@
 ---
-description: Provides full access to Feishu/Lark services (Calendar, Chat, Tasks,
-  Bitable, Docs) using the official `lark-cli` and daemon endpoints, handling OAuth
-  auth flows and bot integrations.
+description: >-
+  Provides full access to Feishu/Lark services (Calendar, Chat, Tasks, Bitable,
+  Docs) using the official `lark-cli` and daemon endpoints, handling OAuth auth
+  flows and bot integrations.
 oneLiner: Connect and interact with Feishu/Lark workspace APIs via lark-cli.
-seoDescription: Feishu/Lark integration for AI Agents. Details lark-cli installation,
-  daemon endpoints routing, OAuth login, and API usage.
+seoDescription: >-
+  Feishu/Lark integration for AI Agents. Details lark-cli installation, daemon
+  endpoints routing, OAuth login, and API usage.
 seoTitle: Lark Tools - Minimax Skill for AI Agents
 title: Lark Tools
 ---
@@ -31,7 +33,7 @@ Flowchart:
 
 ---
 
-## 🚀 Agent Guidelines (Prompt Guidelines)
+## 🚀 How to use
 
 ```markdown
 # LARK TOOLS OPERATIONS RULES
@@ -42,6 +44,17 @@ Flowchart:
 ```
 
 ---
+
+## 💡 Real-World Examples / Scenarios
+
+### Developer:
+> "Guide me on how to configure and deploy the Lark Tools skill to Connect and interact with Feishu/Lark workspace APIs via lark-cli."
+
+### AI Agent (Equipped with Skill):
+> "I have initialized the configuration. Here is the execution flow for the Lark Tools skill:
+> 1. Set up the environment variables and structure the inputs as specified.
+> 2. Execute the workflow steps and integrate core components.
+> 3. Verify results, optimize performance, and return the finalized assets."
 
 ## ⚠️ Gotchas and notes
 

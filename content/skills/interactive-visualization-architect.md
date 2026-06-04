@@ -35,11 +35,11 @@ seoDescription: >-
 provider: minimax
 ---
 
-## 📖 Tại Sao AI Agent Của Bạn Cần Kỹ Năng Này?
+## 📖 Tại Sao Cần Skill Này?
 
 Việc giải thích các nguyên lý khoa học phức tạp bằng chữ viết thường rất khó hiểu. Kỹ năng này cho phép Agent đóng vai trò là lập trình viên đồ họa web đỉnh cao, thiết kế ra các trang web tương tác (Interactive Web Apps) nơi người dùng có thể kéo thả, trượt thanh cuộn để trực tiếp quan sát sự thay đổi của vật lý hoặc toán học.
 
-## ⚙️ Cơ Chế Hoạt Động & Quy Trình Tư Duy
+## ⚙️ Cách Hoạt Động
 
 Quy trình xây dựng mô hình trực quan tương tác:
 
@@ -51,13 +51,24 @@ Quy trình xây dựng mô hình trực quan tương tác:
 2. **Stack Selection**: Chọn Canvas API, SVG hay WebGL (Three.js) tùy thuộc vào độ phức tạp.
 3. **Deployment**: Triển khai mã nguồn lên môi trường web và cung cấp một đường link (URL) để trải nghiệm trực tiếp.
 
-## 🚀 Bộ Quy Tắc Chỉ Dẫn Cho Agent (Prompt Guidelines)
+## 🚀 Cách Sử Dụng
 
 1. Mục tiêu tối thượng là phải bàn giao được một đường link URL chạy được giao diện tương tác; thiết kế suông mà không có link là thất bại.
 2. Thiết kế cơ chế 'Playful Learning' (học qua chơi) bằng cách thêm các nút bấm, thanh trượt (sliders) điều chỉnh tham số.
 3. Tối ưu hóa mã nguồn đồ họa để chạy mượt mà ở tốc độ 60 FPS trên cả thiết bị di động.
 
-## ⚠️ Cảnh Báo Vận Hành & Mẹo Tối Ưu (Developer Gotchas)
+## 💡 Kịch Bản Lập Trình Thực Tế
+
+### Nhà phát triển:
+> "Hãy hướng dẫn tôi cách thiết lập và sử dụng kỹ năng Interactive Visualization Architect để Tạo các mô phỏng Web tương tác trực quan để giải thích nguyên lý khoa học."
+
+### AI Agent (Đã được trang bị Kỹ năng):
+> "Tôi đã sẵn sàng. Dưới đây là kịch bản vận hành thực tế cho kỹ năng Interactive Visualization Architect:
+> 1. Thiết lập các thông số cấu hình và tham số đầu vào cần thiết cho hệ thống.
+> 2. Thực thi tuần tự các bước xử lý logic và tích hợp theo đúng chỉ dẫn của Interactive Visualization Architect.
+> 3. Kiểm thử đầu ra, tối ưu hóa hiệu năng và cung cấp kết quả hoàn chỉnh."
+
+## ⚠️ Lưu Ý & Gotchas
 
 - **Quá tải tài nguyên đồ họa**: Khởi tạo quá nhiều đối tượng 3D không giải phóng bộ nhớ sẽ làm đơ trình duyệt. Luôn dọn dẹp các mesh, texture sau khi component bị hủy (unmount).
 - **Trải nghiệm di động kém**: Các tương tác kéo thả trên máy tính có thể bị lỗi trên màn hình cảm ứng di động. Hãy thiết kế tương tác thân thiện với cảm ứng (touch-friendly).

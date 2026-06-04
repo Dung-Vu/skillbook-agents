@@ -1,10 +1,12 @@
 ---
-description: Manages the configuration, lists, and operational states of Model Context
-  Protocol (MCP) servers. Allows agents to query active servers, add or update configurations,
-  and inspect raw server settings.
+description: >-
+  Manages the configuration, lists, and operational states of Model Context
+  Protocol (MCP) servers. Allows agents to query active servers, add or update
+  configurations, and inspect raw server settings.
 oneLiner: Manage Model Context Protocol (MCP) server settings and lifecycle.
-seoDescription: Model Context Protocol (MCP) CLI management tool. Configure, sync,
-  and invoke MCP tools through Mavis.
+seoDescription: >-
+  Model Context Protocol (MCP) CLI management tool. Configure, sync, and invoke
+  MCP tools through Mavis.
 seoTitle: MCP CLI - Minimax Skill for AI Agents
 title: MCP CLI
 ---
@@ -31,7 +33,7 @@ Flowchart:
 
 ---
 
-## 🚀 Agent Guidelines (Prompt Guidelines)
+## 🚀 How to use
 
 ```markdown
 # MCP CLI RULES
@@ -41,6 +43,17 @@ Flowchart:
 ```
 
 ---
+
+## 💡 Real-World Examples / Scenarios
+
+### Developer:
+> "Guide me on how to configure and deploy the MCP CLI skill to Manage Model Context Protocol (MCP) server settings and lifecycle."
+
+### AI Agent (Equipped with Skill):
+> "I have initialized the configuration. Here is the execution flow for the MCP CLI skill:
+> 1. Set up the environment variables and structure the inputs as specified.
+> 2. Execute the workflow steps and integrate core components.
+> 3. Verify results, optimize performance, and return the finalized assets."
 
 ## ⚠️ Gotchas and notes
 

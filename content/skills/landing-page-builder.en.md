@@ -1,9 +1,16 @@
 ---
-title: "Landing Page Builder"
-description: "Professional high-end Landing Page generation tool. Creates visually stunning, Awwwards-level web pages with cinematic hero sections, deploys them online, and delivers deployment URLs."
-oneLiner: "Create and deploy premium, Awwwards-level landing pages with cinematic hero sections."
-seoTitle: "Landing Page Builder - Minimax Skill for AI Agents"
-seoDescription: "Guide to building a landing page builder skill for AI agents, specializing in modern aesthetics without standard tech blue."
+title: Landing Page Builder
+description: >-
+  Professional high-end Landing Page generation tool. Creates visually stunning,
+  Awwwards-level web pages with cinematic hero sections, deploys them online,
+  and delivers deployment URLs.
+oneLiner: >-
+  Create and deploy premium, Awwwards-level landing pages with cinematic hero
+  sections.
+seoTitle: Landing Page Builder - Minimax Skill for AI Agents
+seoDescription: >-
+  Guide to building a landing page builder skill for AI agents, specializing in
+  modern aesthetics without standard tech blue.
 ---
 
 ## 📖 Why Do We Need This Skill?
@@ -23,12 +30,23 @@ User Requirements ──> Generate spec.md ──> Asset Generation ──> Code
 5. **Integrity Validation**: Run Playwright script to verify zero console errors and 100% media link resolution.
 6. **Deployment**: Publish using the `deploy` tool and return the live URL to the user.
 
-## 🚀 Agent Guidelines (Prompt Guidelines)
+## 🚀 How to use
 
 - **Strict Color Constraint**: Standard tech blue, indigo, violet, and purple hues are strictly forbidden. Use warm earth tones, monochrome, gold, or forest greens.
 - Hero videos must autoplay, loop, and be muted with no static image overlay that blocks initial playback.
 - Implement defensive HTML attributes, such as `loading="lazy"` and `onerror="this.style.display='none'"` on all image tags.
 - Playwright checks must pass before pushing to deployment.
+
+## 💡 Real-World Examples / Scenarios
+
+### Developer:
+> "Guide me on how to configure and deploy the Landing Page Builder skill to Create and deploy premium, Awwwards-level landing pages with cinematic hero sections."
+
+### AI Agent (Equipped with Skill):
+> "I have initialized the configuration. Here is the execution flow for the Landing Page Builder skill:
+> 1. Set up the environment variables and structure the inputs as specified.
+> 2. Execute the workflow steps and integrate core components.
+> 3. Verify results, optimize performance, and return the finalized assets."
 
 ## ⚠️ Gotchas and notes
 

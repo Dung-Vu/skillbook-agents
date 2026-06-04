@@ -1,10 +1,12 @@
 ---
-description: Activates a dedicated planning mode before writing any code. Instructs
-  the agent to create architectural blueprints, analyze risks, plan tests, and establish
-  concrete acceptance criteria.
-oneLiner: Draft detailed, verifiable implementation plans before modifying code.
-seoDescription: Implementation planning mode for AI Agents. Define scope, architect
-  code changes, and outline test paths before execution.
+description: >-
+  Activates a dedicated planning mode before writing any code. Instructs the
+  agent to create architectural blueprints, analyze risks, plan tests, and
+  establish concrete acceptance criteria.
+oneLiner: 'Draft detailed, verifiable implementation plans before modifying code.'
+seoDescription: >-
+  Implementation planning mode for AI Agents. Define scope, architect code
+  changes, and outline test paths before execution.
 seoTitle: Plan Mode - Minimax Skill for AI Agents
 title: Plan Mode
 ---
@@ -31,7 +33,7 @@ Flowchart:
 
 ---
 
-## 🚀 Agent Guidelines (Prompt Guidelines)
+## 🚀 How to use
 
 ```markdown
 # PLAN MODE PRINCIPLES
@@ -41,6 +43,17 @@ Flowchart:
 ```
 
 ---
+
+## 💡 Real-World Examples / Scenarios
+
+### Developer:
+> "Guide me on how to configure and deploy the Plan Mode skill to Draft detailed, verifiable implementation plans before modifying code."
+
+### AI Agent (Equipped with Skill):
+> "I have initialized the configuration. Here is the execution flow for the Plan Mode skill:
+> 1. Set up the environment variables and structure the inputs as specified.
+> 2. Execute the workflow steps and integrate core components.
+> 3. Verify results, optimize performance, and return the finalized assets."
 
 ## ⚠️ Gotchas and notes
 

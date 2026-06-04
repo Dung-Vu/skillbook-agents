@@ -1,11 +1,12 @@
 ---
-description: Reads, parses, and extracts structural data from PowerPoint (`.pptx`)
-  presentations. Supports slide layout traversal, reading speaker notes, and extracting
-  embedded media.
-oneLiner: Parse slide structures, text, and speaker notes from PowerPoint (.pptx)
-  files.
-seoDescription: PowerPoint (.pptx) file generation and inspection. Implement PptxGenJS
-  slides, handle layout coordinates, and execute QA checks.
+description: >-
+  Reads, parses, and extracts structural data from PowerPoint (`.pptx`)
+  presentations. Supports slide layout traversal, reading speaker notes, and
+  extracting embedded media.
+oneLiner: 'Parse slide structures, text, and speaker notes from PowerPoint (.pptx) files.'
+seoDescription: >-
+  PowerPoint (.pptx) file generation and inspection. Implement PptxGenJS slides,
+  handle layout coordinates, and execute QA checks.
 seoTitle: Minimax PPTX - Minimax Skill for AI Agents
 title: Minimax PPTX
 ---
@@ -32,7 +33,7 @@ Flowchart:
 
 ---
 
-## 🚀 Agent Guidelines (Prompt Guidelines)
+## 🚀 How to use
 
 ```markdown
 # MINIMAX PPTX CONSTRAINTS
@@ -43,6 +44,17 @@ Flowchart:
 ```
 
 ---
+
+## 💡 Real-World Examples / Scenarios
+
+### Developer:
+> "Guide me on how to configure and deploy the Minimax PPTX skill to Parse slide structures, text, and speaker notes from PowerPoint (.pptx) files."
+
+### AI Agent (Equipped with Skill):
+> "I have initialized the configuration. Here is the execution flow for the Minimax PPTX skill:
+> 1. Set up the environment variables and structure the inputs as specified.
+> 2. Execute the workflow steps and integrate core components.
+> 3. Verify results, optimize performance, and return the finalized assets."
 
 ## ⚠️ Gotchas and notes
 

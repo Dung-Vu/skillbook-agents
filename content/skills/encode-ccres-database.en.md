@@ -1,9 +1,11 @@
 ---
-title: "ENCODE Regulatory Elements"
-description: "Search cis-regulatory elements (cCREs) and epigenomic experimental datasets across human cell lines."
-oneLiner: "Query candidate cis-Regulatory Elements (cCREs) from ENCODE."
-seoTitle: "ENCODE Regulatory Elements — Skillbook Agents"
-seoDescription: "Guide for Agents to query ENCODE cCRE annotations and ChIP-seq experiments."
+title: ENCODE Regulatory Elements
+description: >-
+  Search cis-regulatory elements (cCREs) and epigenomic experimental datasets
+  across human cell lines.
+oneLiner: Query candidate cis-Regulatory Elements (cCREs) from ENCODE.
+seoTitle: ENCODE Regulatory Elements — Skillbook Agents
+seoDescription: Guide for Agents to query ENCODE cCRE annotations and ChIP-seq experiments.
 ---
 
 

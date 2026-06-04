@@ -1,10 +1,12 @@
 ---
-description: Fetches and analyzes content from X (formerly Twitter) links. Guides
-  agents through retrieving single tweet details (metrics, content text) or profile
+description: >-
+  Fetches and analyzes content from X (formerly Twitter) links. Guides agents
+  through retrieving single tweet details (metrics, content text) or profile
   information.
 oneLiner: Retrieve tweet details and user profile metrics from X (Twitter) URLs.
-seoDescription: Read public X/Twitter data via FxTwitter proxy API. Access single
-  tweets, user profile metrics, and media content in JSON.
+seoDescription: >-
+  Read public X/Twitter data via FxTwitter proxy API. Access single tweets, user
+  profile metrics, and media content in JSON.
 seoTitle: X Link Reader - Minimax Skill for AI Agents
 title: X Link Reader
 ---
@@ -31,7 +33,7 @@ Flowchart:
 
 ---
 
-## 🚀 Agent Guidelines (Prompt Guidelines)
+## 🚀 How to use
 
 ```markdown
 # X LINK READER CONSTRAINTS
@@ -41,6 +43,17 @@ Flowchart:
 ```
 
 ---
+
+## 💡 Real-World Examples / Scenarios
+
+### Developer:
+> "Guide me on how to configure and deploy the X Link Reader skill to Retrieve tweet details and user profile metrics from X (Twitter) URLs."
+
+### AI Agent (Equipped with Skill):
+> "I have initialized the configuration. Here is the execution flow for the X Link Reader skill:
+> 1. Set up the environment variables and structure the inputs as specified.
+> 2. Execute the workflow steps and integrate core components.
+> 3. Verify results, optimize performance, and return the finalized assets."
 
 ## ⚠️ Gotchas and notes
 

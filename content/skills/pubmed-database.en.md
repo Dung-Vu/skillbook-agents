@@ -1,9 +1,13 @@
 ---
-title: "PubMed Literature Search"
-description: "Query MEDLINE biomedical abstracts, linking literature to biological entities such as genes, proteins, and chemical compounds."
-oneLiner: "Search biomedical literature from PubMed."
-seoTitle: "PubMed Literature Search — Skillbook Agents"
-seoDescription: "Guide for Agents to search and analyze biomedical literature from PubMed using NCBI E-utilities."
+title: PubMed Literature Search
+description: >-
+  Query MEDLINE biomedical abstracts, linking literature to biological entities
+  such as genes, proteins, and chemical compounds.
+oneLiner: Search biomedical literature from PubMed.
+seoTitle: PubMed Literature Search — Skillbook Agents
+seoDescription: >-
+  Guide for Agents to search and analyze biomedical literature from PubMed using
+  NCBI E-utilities.
 ---
 
 

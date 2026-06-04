@@ -1,9 +1,13 @@
 ---
-title: "Agent Alignment Verification"
-description: "Methodology for Agents to proactively query human intent, verifying ambiguities and edge cases before execution."
-oneLiner: "Proactively clarify intent and edge cases before code execution."
-seoTitle: "Agent Alignment Verification — Skillbook Agents"
-seoDescription: "Guide for Agents to proactively align goals and verify implementation details with the user."
+title: Agent Alignment Verification
+description: >-
+  Methodology for Agents to proactively query human intent, verifying
+  ambiguities and edge cases before execution.
+oneLiner: Proactively clarify intent and edge cases before code execution.
+seoTitle: Agent Alignment Verification — Skillbook Agents
+seoDescription: >-
+  Guide for Agents to proactively align goals and verify implementation details
+  with the user.
 ---
 
 
@@ -35,7 +39,7 @@ Alignment verification loop:
 
 ---
 
-## 🚀 Agent Guidelines (Prompt Guidelines)
+## 🚀 How to use
 
 ````markdown
 # GRILL-ME INTERVIEW INSTRUCTIONS & RULES
@@ -55,6 +59,17 @@ Alignment verification loop:
 ````
 
 ---
+
+## 💡 Real-World Examples / Scenarios
+
+### Developer:
+> "Guide me on how to configure and deploy the Agent Alignment Verification skill to Proactively clarify intent and edge cases before code execution."
+
+### AI Agent (Equipped with Skill):
+> "I have initialized the configuration. Here is the execution flow for the Agent Alignment Verification skill:
+> 1. Set up the environment variables and structure the inputs as specified.
+> 2. Execute the workflow steps and integrate core components.
+> 3. Verify results, optimize performance, and return the finalized assets."
 
 ## ⚠️ Gotchas and notes
 

@@ -34,11 +34,11 @@ seoDescription: >-
 provider: minimax
 ---
 
-## 📖 Tại Sao AI Agent Của Bạn Cần Kỹ Năng Này?
+## 📖 Tại Sao Cần Skill Này?
 
 Đánh giá một cơ hội đầu tư đòi hỏi kiến thức chuyên môn từ nhiều trường phái tài chính khác nhau (phân tích định giá, kỹ thuật, tâm lý thị trường, quản trị rủi ro). Kỹ năng này tập hợp một 'Dream Team' gồm 18 chuyên gia AI hoạt động dưới quyền điều phối viên để mổ xẻ mã cổ phiếu một cách toàn diện nhất.
 
-## ⚙️ Cơ Chế Hoạt Động & Quy Trình Tư Duy
+## ⚙️ Cách Hoạt Động
 
 Mô hình phối hợp hội đồng đầu tư:
 
@@ -50,13 +50,24 @@ Mô hình phối hợp hội đồng đầu tư:
 2. **Analysis**: Các nhà phân tích viết báo cáo chi tiết về định giá (Damodaran), cơ bản, kỹ thuật.
 3. **Consensus**: Các bậc thầy đầu tư (Buffett, Munger, Soros) đưa ra bình luận dựa trên triết lý cá nhân và bỏ phiếu quyết định.
 
-## 🚀 Bộ Quy Tắc Chỉ Dẫn Cho Agent (Prompt Guidelines)
+## 🚀 Cách Sử Dụng
 
 1. Luôn bao gồm tuyên bố miễn trừ trách nhiệm tài chính ở cuối báo cáo.
 2. Phân chia rõ ràng ý kiến của từng chuyên gia dưới dạng hội thoại hoặc đề mục riêng biệt để người dùng dễ theo dõi.
 3. Đưa ra khuyến nghị cuối cùng có cấu trúc rõ ràng về tỷ lệ phân bổ danh mục và quản trị rủi ro.
 
-## ⚠️ Cảnh Báo Vận Hành & Mẹo Tối Ưu (Developer Gotchas)
+## 💡 Kịch Bản Lập Trình Thực Tế
+
+### Nhà phát triển:
+> "Hãy hướng dẫn tôi cách thiết lập và sử dụng kỹ năng Hedge Fund Expert Team để Đánh giá cơ hội đầu tư bằng hội đồng 18 chuyên gia và nhà phân tích AI."
+
+### AI Agent (Đã được trang bị Kỹ năng):
+> "Tôi đã sẵn sàng. Dưới đây là kịch bản vận hành thực tế cho kỹ năng Hedge Fund Expert Team:
+> 1. Thiết lập các thông số cấu hình và tham số đầu vào cần thiết cho hệ thống.
+> 2. Thực thi tuần tự các bước xử lý logic và tích hợp theo đúng chỉ dẫn của Hedge Fund Expert Team.
+> 3. Kiểm thử đầu ra, tối ưu hóa hiệu năng và cung cấp kết quả hoàn chỉnh."
+
+## ⚠️ Lưu Ý & Gotchas
 
 - **Mâu thuẫn triết lý**: Các master có thể xung đột dữ dội (ví dụ: Graham đòi an toàn biên lớn còn Cathie Wood muốn tăng trưởng nhanh). Nhiệm vụ của bạn là tổng hợp các luồng ý kiến này thay vì cố dung hòa họ thành một tiếng nói chung.
 - **Quá tải thông tin**: Phối hợp 18 chuyên gia có thể tạo ra báo cáo quá dài. Hãy tóm tắt các ý chính trong phần Executive Summary.

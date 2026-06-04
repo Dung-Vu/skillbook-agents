@@ -1,9 +1,13 @@
 ---
-title: "PyMOL Molecular Visualization"
-description: "Render high-quality 3D molecular structures, perform structural alignments, measure distances, and color structures by pLDDT confidence."
-oneLiner: "Visualize and render molecular structures in 3D using PyMOL."
-seoTitle: "PyMOL Molecular Visualization — Skillbook Agents"
-seoDescription: "Guide for Agents to render protein structures, analyze binding pockets, and create molecular graphics using PyMOL."
+title: PyMOL Molecular Visualization
+description: >-
+  Render high-quality 3D molecular structures, perform structural alignments,
+  measure distances, and color structures by pLDDT confidence.
+oneLiner: Visualize and render molecular structures in 3D using PyMOL.
+seoTitle: PyMOL Molecular Visualization — Skillbook Agents
+seoDescription: >-
+  Guide for Agents to render protein structures, analyze binding pockets, and
+  create molecular graphics using PyMOL.
 ---
 
 

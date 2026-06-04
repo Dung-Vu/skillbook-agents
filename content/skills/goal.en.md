@@ -1,9 +1,13 @@
 ---
-title: "Goal-Oriented Planning"
-description: "Structured planning guidelines enabling AI Agents to dissect complex requests, create execution plans, and track milestones."
-oneLiner: "Structured planning guidelines for AI Agents to break down complex requests."
-seoTitle: "Goal-Oriented Planning for AI Agents — Skillbook Agents"
-seoDescription: "How to instruct AI Agents to form structured plans, outline assumptions, and implement milestone tracking."
+title: Goal-Oriented Planning
+description: >-
+  Structured planning guidelines enabling AI Agents to dissect complex requests,
+  create execution plans, and track milestones.
+oneLiner: Structured planning guidelines for AI Agents to break down complex requests.
+seoTitle: Goal-Oriented Planning for AI Agents — Skillbook Agents
+seoDescription: >-
+  How to instruct AI Agents to form structured plans, outline assumptions, and
+  implement milestone tracking.
 ---
 
 
@@ -37,7 +41,7 @@ Agent planning workflow:
 
 ---
 
-## 🚀 Agent Guidelines (Prompt Guidelines)
+## 🚀 How to use
 
 ````markdown
 # GOAL COMMAND INSTRUCTIONS & RULES
@@ -56,6 +60,17 @@ Agent planning workflow:
 ````
 
 ---
+
+## 💡 Real-World Examples / Scenarios
+
+### Developer:
+> "Guide me on how to configure and deploy the Goal-Oriented Planning skill to Structured planning guidelines for AI Agents to break down complex requests."
+
+### AI Agent (Equipped with Skill):
+> "I have initialized the configuration. Here is the execution flow for the Goal-Oriented Planning skill:
+> 1. Set up the environment variables and structure the inputs as specified.
+> 2. Execute the workflow steps and integrate core components.
+> 3. Verify results, optimize performance, and return the finalized assets."
 
 ## ⚠️ Gotchas and notes
 

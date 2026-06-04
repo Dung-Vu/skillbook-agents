@@ -1,9 +1,13 @@
 ---
-title: "Reactome Pathway Analysis"
-description: "Perform pathway enrichment analysis, look up cellular reaction mechanisms, and export pathway diagrams."
-oneLiner: "Query biochemical and signaling pathways from Reactome."
-seoTitle: "Reactome Pathway Analysis — Skillbook Agents"
-seoDescription: "Guide for Agents to analyze pathway enrichment and navigate biochemical reactions in Reactome."
+title: Reactome Pathway Analysis
+description: >-
+  Perform pathway enrichment analysis, look up cellular reaction mechanisms, and
+  export pathway diagrams.
+oneLiner: Query biochemical and signaling pathways from Reactome.
+seoTitle: Reactome Pathway Analysis — Skillbook Agents
+seoDescription: >-
+  Guide for Agents to analyze pathway enrichment and navigate biochemical
+  reactions in Reactome.
 ---
 
 

@@ -1,9 +1,13 @@
 ---
-title: "ClinicalTrials.gov Search"
-description: "Search clinical trials by condition, intervention, sponsor, recruiting status, and study locations."
-oneLiner: "Query the ClinicalTrials.gov clinical trials registry."
-seoTitle: "ClinicalTrials.gov Search — Skillbook Agents"
-seoDescription: "Guide for Agents to search and analyze clinical trials using the ClinicalTrials.gov APIv2."
+title: ClinicalTrials.gov Search
+description: >-
+  Search clinical trials by condition, intervention, sponsor, recruiting status,
+  and study locations.
+oneLiner: Query the ClinicalTrials.gov clinical trials registry.
+seoTitle: ClinicalTrials.gov Search — Skillbook Agents
+seoDescription: >-
+  Guide for Agents to search and analyze clinical trials using the
+  ClinicalTrials.gov APIv2.
 ---
 
 

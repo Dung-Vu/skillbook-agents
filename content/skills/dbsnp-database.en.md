@@ -1,9 +1,13 @@
 ---
-title: "dbSNP Variant Lookup"
-description: "Look up SNP and indel details using rsIDs or genomic coordinates, and fetch allele frequencies and disease associations."
-oneLiner: "Query and map short genetic variants in the dbSNP database."
-seoTitle: "dbSNP Variant Lookup — Skillbook Agents"
-seoDescription: "Guide for Agents to look up SNPs and indels in dbSNP, mapping between rsID, genomic coordinates, and HGVS."
+title: dbSNP Variant Lookup
+description: >-
+  Look up SNP and indel details using rsIDs or genomic coordinates, and fetch
+  allele frequencies and disease associations.
+oneLiner: Query and map short genetic variants in the dbSNP database.
+seoTitle: dbSNP Variant Lookup — Skillbook Agents
+seoDescription: >-
+  Guide for Agents to look up SNPs and indels in dbSNP, mapping between rsID,
+  genomic coordinates, and HGVS.
 ---
 
 

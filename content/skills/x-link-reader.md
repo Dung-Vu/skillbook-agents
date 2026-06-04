@@ -36,13 +36,13 @@ tags:
 title: X Link Reader
 ---
 
-## 📖 Tại Sao AI Agent Của Bạn Cần Kỹ Năng Này?
+## 📖 Tại Sao Cần Skill Này?
 
 AI Agent thông thường không thể truy cập trực tiếp vào các liên kết x.com (Twitter) do cơ chế chống cào dữ liệu của nền tảng này, dẫn đến việc trả về các trang trống hoặc yêu cầu đăng nhập. Kỹ năng này hướng dẫn Agent định tuyến cuộc gọi qua proxy API của FxTwitter để trích xuất dữ liệu JSON của các bài viết hoặc thông tin người dùng công khai mà không cần tài khoản.
 
 ---
 
-## ⚙️ Cơ Chế Hoạt Động & Quy Trình Tư Duy
+## ⚙️ Cách Hoạt Động
 
 Quy trình đọc tin từ mạng xã hội X:
 1. **Phát hiện URL**: Nhận dạng các liên kết có chứa định dạng tên miền `x.com` hoặc `twitter.com`.
@@ -60,7 +60,7 @@ Sơ đồ quy trình:
 
 ---
 
-## 🚀 Bộ Quy Tắc Chỉ Dẫn Cho Agent (Prompt Guidelines)
+## 🚀 Cách Sử Dụng
 
 ```markdown
 # QUY TẮC ĐỌC LIÊN KẾT X/TWITTER
@@ -71,7 +71,18 @@ Sơ đồ quy trình:
 
 ---
 
-## ⚠️ Cảnh Báo Vận Hành & Mẹo Tối Ưu (Developer Gotchas)
+## 💡 Kịch Bản Lập Trình Thực Tế
+
+### Nhà phát triển:
+> "Hãy hướng dẫn tôi cách thiết lập và sử dụng kỹ năng X Link Reader để Đọc và trích xuất dữ liệu bài viết hoặc hồ sơ người dùng từ mạng xã hội X (Twitter)."
+
+### AI Agent (Đã được trang bị Kỹ năng):
+> "Tôi đã sẵn sàng. Dưới đây là kịch bản vận hành thực tế cho kỹ năng X Link Reader:
+> 1. Thiết lập các thông số cấu hình và tham số đầu vào cần thiết cho hệ thống.
+> 2. Thực thi tuần tự các bước xử lý logic và tích hợp theo đúng chỉ dẫn của X Link Reader.
+> 3. Kiểm thử đầu ra, tối ưu hóa hiệu năng và cung cấp kết quả hoàn chỉnh."
+
+## ⚠️ Lưu Ý & Gotchas
 
 * **Bài viết riêng tư / Đã xóa**: Các tài khoản được bảo vệ (khóa) hoặc các tweet đã bị chủ tài khoản xóa sẽ khiến proxy trả về lỗi 404 hoặc 401. Agent cần thông báo rõ ràng trường hợp này cho người dùng.
 * **Không hỗ trợ viết bài**: Proxy này là công cụ đọc công cộng, chỉ hỗ trợ trích xuất dữ liệu một chiều. Tuyệt đối không dùng để đăng bài hoặc tương tác trực tiếp lên mạng xã hội X.

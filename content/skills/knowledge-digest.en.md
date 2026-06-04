@@ -1,9 +1,14 @@
 ---
-title: "Knowledge Digest"
-description: "Converts textbooks or PDFs into personalized, multimodal interactive learning materials including handwritten notes, quiz webpages, slides, audio courses, and mind maps."
-oneLiner: "Convert textbooks and learning materials into personalized multimodal content."
-seoTitle: "Knowledge Digest - Minimax Skill for AI Agents"
-seoDescription: "Guide for integrating multimodal learning content converter skills (quizzes, slides, mindmaps, audio) for AI Agents."
+title: Knowledge Digest
+description: >-
+  Converts textbooks or PDFs into personalized, multimodal interactive learning
+  materials including handwritten notes, quiz webpages, slides, audio courses,
+  and mind maps.
+oneLiner: Convert textbooks and learning materials into personalized multimodal content.
+seoTitle: Knowledge Digest - Minimax Skill for AI Agents
+seoDescription: >-
+  Guide for integrating multimodal learning content converter skills (quizzes,
+  slides, mindmaps, audio) for AI Agents.
 ---
 
 ## 📖 Why Do We Need This Skill?
@@ -21,12 +26,23 @@ Input Source (PDF/Text) ──> Structural & Concept Analysis ──> Generate M
 3. **Asset Generation**: Synthesize notes, interactive quiz, slides, mind map, and audio course matching the user's level and interests.
 4. **Deliver Assets**: Provide local file paths using the `<deliver_assets>` format without inline autoplay or image rendering in the chat.
 
-## 🚀 Agent Guidelines (Prompt Guidelines)
+## 🚀 How to use
 
 - Adapt language, tone, and visual density based on the target Grade Level (e.g., lively and story-based for Elementary; professional and high-density for University).
 - Handwritten notes must use a maximum of 2 colors (default: blue and pink) and look like natural hand-drawn annotations.
 - SVG diagrams must be used for slides instead of decorative placeholder images. Avoid blue/purple themes in slides by default.
 - Quizzes must be self-contained HTML files with minimal styling and instant JavaScript validation feedback.
+
+## 💡 Real-World Examples / Scenarios
+
+### Developer:
+> "Guide me on how to configure and deploy the Knowledge Digest skill to Convert textbooks and learning materials into personalized multimodal content."
+
+### AI Agent (Equipped with Skill):
+> "I have initialized the configuration. Here is the execution flow for the Knowledge Digest skill:
+> 1. Set up the environment variables and structure the inputs as specified.
+> 2. Execute the workflow steps and integrate core components.
+> 3. Verify results, optimize performance, and return the finalized assets."
 
 ## ⚠️ Gotchas and notes
 

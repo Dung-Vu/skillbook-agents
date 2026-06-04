@@ -34,13 +34,13 @@ tags:
 title: MCP Onboarding
 ---
 
-## 📖 Tại Sao AI Agent Của Bạn Cần Kỹ Năng Này?
+## 📖 Tại Sao Cần Skill Này?
 
 Kỹ năng này cung cấp một quy trình hướng dẫn thân thiện để tích hợp các dịch vụ bên ngoài vào hệ thống Agent mà người dùng không cần biết hoặc tự chạy các câu lệnh CLI phức tạp. AI Agent sẽ tự động hóa việc thu thập thông tin, kiểm tra tính hợp lệ của token và đồng bộ hóa công cụ thông qua giao diện hội thoại.
 
 ---
 
-## ⚙️ Cơ Chế Hoạt Động & Quy Trình Tư Duy
+## ⚙️ Cách Hoạt Động
 
 Quy trình onboarding 1-chọn-1:
 1. **Thu thập thông tin tối thiểu**: Xác định loại dịch vụ (ví dụ: Figma) và lấy cấu hình mặc định (preset). Chỉ hỏi người dùng các trường còn thiếu (API key hoặc URL).
@@ -58,7 +58,7 @@ Sơ đồ quy trình:
 
 ---
 
-## 🚀 Bộ Quy Tắc Chỉ Dẫn Cho Agent (Prompt Guidelines)
+## 🚀 Cách Sử Dụng
 
 ```markdown
 # QUY TẮC ONBOARDING MCP
@@ -69,7 +69,18 @@ Sơ đồ quy trình:
 
 ---
 
-## ⚠️ Cảnh Báo Vận Hành & Mẹo Tối Ưu (Developer Gotchas)
+## 💡 Kịch Bản Lập Trình Thực Tế
+
+### Nhà phát triển:
+> "Hãy hướng dẫn tôi cách thiết lập và sử dụng kỹ năng MCP Onboarding để Quy trình tương tác hướng dẫn người dùng kết nối và cấu hình máy chủ MCP mới."
+
+### AI Agent (Đã được trang bị Kỹ năng):
+> "Tôi đã sẵn sàng. Dưới đây là kịch bản vận hành thực tế cho kỹ năng MCP Onboarding:
+> 1. Thiết lập các thông số cấu hình và tham số đầu vào cần thiết cho hệ thống.
+> 2. Thực thi tuần tự các bước xử lý logic và tích hợp theo đúng chỉ dẫn của MCP Onboarding.
+> 3. Kiểm thử đầu ra, tối ưu hóa hiệu năng và cung cấp kết quả hoàn chỉnh."
+
+## ⚠️ Lưu Ý & Gotchas
 
 * **Lỗi chặn popup trình duyệt**: Khi gửi link OAuth, người dùng cần mở trình duyệt và đồng ý cấp quyền. Nếu trình duyệt chặn redirect, lệnh poll status sẽ bị timeout (30s). Cần hướng dẫn người dùng thử lại.
 * **Tham số bổ sung**: Giao diện `<genui-mcp-auth>` chỉ hỗ trợ lưu Host + Token. Nếu dịch vụ cần nhiều tham số tùy chỉnh khác, Agent phải thu thập trước các tham số không nhạy cảm này qua chat rồi mới hiển thị thẻ nhập token.

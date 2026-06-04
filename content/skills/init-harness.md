@@ -32,13 +32,13 @@ tags:
 title: Init Harness
 ---
 
-## 📖 Tại Sao AI Agent Của Bạn Cần Kỹ Năng Này?
+## 📖 Tại Sao Cần Skill Này?
 
 Khi khởi chạy một dự án lập trình mới, AI Agent cần kỹ năng này để tự động thiết lập môi trường cộng tác đa Agent (Harness). Việc này giúp cấu trúc hóa quá trình code, phân chia nhiệm vụ lập trình, kiểm thử và review mã nguồn cho các Agent chuyên biệt ngay từ đầu, thay vì dựa vào một Agent duy nhất xử lý toàn bộ cơ sở mã nguồn khổng lồ.
 
 ---
 
-## ⚙️ Cơ Chế Hoạt Động & Quy Trình Tư Duy
+## ⚙️ Cách Hoạt Động
 
 Quy trình gồm 6 bước thực thi trong một worker session:
 1. **Nhận diện không gian làm việc**: Xác định repo đơn, monorepo hay thư mục chứa nhiều repo.
@@ -56,7 +56,7 @@ Sơ đồ hoạt động:
 
 ---
 
-## 🚀 Bộ Quy Tắc Chỉ Dẫn Cho Agent (Prompt Guidelines)
+## 🚀 Cách Sử Dụng
 
 ```markdown
 # QUY TẮC KHỞI TẠO .HARNESS DỰ ÁN
@@ -68,7 +68,18 @@ Sơ đồ hoạt động:
 
 ---
 
-## ⚠️ Cảnh Báo Vận Hành & Mẹo Tối Ưu (Developer Gotchas)
+## 💡 Kịch Bản Lập Trình Thực Tế
+
+### Nhà phát triển:
+> "Hãy hướng dẫn tôi cách thiết lập và sử dụng kỹ năng Init Harness để Tự động phân tích mã nguồn và thiết lập nhóm đa Agent phối hợp cho dự án."
+
+### AI Agent (Đã được trang bị Kỹ năng):
+> "Tôi đã sẵn sàng. Dưới đây là kịch bản vận hành thực tế cho kỹ năng Init Harness:
+> 1. Thiết lập các thông số cấu hình và tham số đầu vào cần thiết cho hệ thống.
+> 2. Thực thi tuần tự các bước xử lý logic và tích hợp theo đúng chỉ dẫn của Init Harness.
+> 3. Kiểm thử đầu ra, tối ưu hóa hiệu năng và cung cấp kết quả hoàn chỉnh."
+
+## ⚠️ Lưu Ý & Gotchas
 
 * **Lạm dụng commit tự động**: Đừng tự động thực hiện commit Git sau khi tạo tệp, hãy để người dùng review các tệp cấu hình và commit thủ công khi họ sẵn sàng.
 * **Cố định đường dẫn tuyệt đối**: Mọi tệp chỉ dẫn của Agent nên sử dụng đường dẫn tương đối hoặc link đến `.harness/docs/` thay vì viết cứng đường dẫn tuyệt đối của máy chủ phát triển hiện tại.

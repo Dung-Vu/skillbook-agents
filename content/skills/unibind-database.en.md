@@ -1,9 +1,13 @@
 ---
-title: "UniBind TF Binding Sites"
-description: "Download experimentally validated direct TF-DNA binding site coordinates from the UniBind database."
-oneLiner: "Retrieve experimentally validated transcription factor binding sites."
-seoTitle: "UniBind TF Binding Sites — Skillbook Agents"
-seoDescription: "Guide for Agents to query experimentally validated TF binding sites from the UniBind database."
+title: UniBind TF Binding Sites
+description: >-
+  Download experimentally validated direct TF-DNA binding site coordinates from
+  the UniBind database.
+oneLiner: Retrieve experimentally validated transcription factor binding sites.
+seoTitle: UniBind TF Binding Sites — Skillbook Agents
+seoDescription: >-
+  Guide for Agents to query experimentally validated TF binding sites from the
+  UniBind database.
 ---
 
 

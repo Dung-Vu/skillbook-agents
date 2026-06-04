@@ -36,7 +36,7 @@ seoDescription: >-
 provider: antigravity
 ---
 
-## 📖 Tại Sao AI Agent Của Bạn Cần Kỹ Năng Này?
+## 📖 Tại Sao Cần Skill Này?
 
 Khi đối mặt với các dự án phần mềm hoặc hệ thống thông tin quy mô lớn, một AI Agent đơn lẻ thường gặp khó khăn do giới hạn về dung lượng ngữ cảnh (context limit) và khả năng đảm nhiệm nhiều vai trò cùng lúc:
 * **Quá tải thông tin**: Một Agent phải tự viết code, tự kiểm thử, tự sửa lỗi và tự viết tài liệu dễ dẫn đến mất tập trung hoặc chất lượng sản phẩm giảm sút.
@@ -49,7 +49,7 @@ Khi đối mặt với các dự án phần mềm hoặc hệ thống thông tin
 
 ---
 
-## ⚙️ Cơ Chế Hoạt Động & Quy Trình Tư Duy
+## ⚙️ Cách Hoạt Động
 
 ```
 [Nhận Dự Án Lớn] ➔ 👥 [Khởi tạo Đội ngũ Agent]
@@ -67,7 +67,7 @@ Quy trình suy nghĩ của Agent khi thực thi `/teamwork-preview`:
 
 ---
 
-## 🚀 Bộ Quy Tắc Chỉ Dẫn Cho Agent (Prompt Guidelines)
+## 🚀 Cách Sử Dụng
 
 ````markdown
 # TEAMWORK MULTI-AGENT INSTRUCTIONS & RULES
@@ -87,7 +87,18 @@ Quy trình suy nghĩ của Agent khi thực thi `/teamwork-preview`:
 
 ---
 
-## ⚠️ Cảnh Báo Vận Hành & Mẹo Tối Ưu (Developer Gotchas)
+## 💡 Kịch Bản Lập Trình Thực Tế
+
+### Nhà phát triển:
+> "Hãy hướng dẫn tôi cách thiết lập và sử dụng kỹ năng Teamwork Multi-Agent Preview để Tổ chức mạng lưới cộng tác giữa nhiều AI Agent chuyên biệt để giải quyết dự án lớn."
+
+### AI Agent (Đã được trang bị Kỹ năng):
+> "Tôi đã sẵn sàng. Dưới đây là kịch bản vận hành thực tế cho kỹ năng Teamwork Multi-Agent Preview:
+> 1. Thiết lập các thông số cấu hình và tham số đầu vào cần thiết cho hệ thống.
+> 2. Thực thi tuần tự các bước xử lý logic và tích hợp theo đúng chỉ dẫn của Teamwork Multi-Agent Preview.
+> 3. Kiểm thử đầu ra, tối ưu hóa hiệu năng và cung cấp kết quả hoàn chỉnh."
+
+## ⚠️ Lưu Ý & Gotchas
 
 * **Xung Đột Tài Nguyên (Race Conditions)**: Khi nhiều Agent cùng chỉnh sửa một file nguồn hoặc ghi đè lên thư mục test, dễ xảy ra lỗi race condition. Đảm bảo các Agent làm việc trên các phân vùng thư mục hoặc tệp tin độc lập.
 * **Tối Ưu Hóa Giao Tiếp**: Hạn chế việc các Agent thảo luận quá dông dài hoặc lặp đi lặp lại một vấn đề. PM Agent phải có quyền quyết định và chấm dứt các cuộc tranh luận kỹ thuật kéo dài.

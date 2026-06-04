@@ -1,9 +1,13 @@
 ---
-title: "EMBL-EBI Ontology Lookup"
-description: "Search terms, definitions, and hierarchies across 250+ biomedical ontologies (GO, DOID, HP)."
-oneLiner: "Query EMBL-EBI's Ontology Lookup Service."
-seoTitle: "EMBL-EBI Ontology Lookup — Skillbook Agents"
-seoDescription: "Guide for Agents to search and navigate 250+ biomedical ontologies via EMBL-EBI OLS."
+title: EMBL-EBI Ontology Lookup
+description: >-
+  Search terms, definitions, and hierarchies across 250+ biomedical ontologies
+  (GO, DOID, HP).
+oneLiner: Query EMBL-EBI's Ontology Lookup Service.
+seoTitle: EMBL-EBI Ontology Lookup — Skillbook Agents
+seoDescription: >-
+  Guide for Agents to search and navigate 250+ biomedical ontologies via
+  EMBL-EBI OLS.
 ---
 
 

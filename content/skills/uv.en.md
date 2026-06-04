@@ -1,9 +1,13 @@
 ---
-title: "UV Python Package Manager"
-description: "Guide for Agents to check, install, and utilize UV — a fast Rust-based Python package and environment manager accelerating dependency resolution by 10-100x."
-oneLiner: "Automate fast Python package and environment management using UV."
-seoTitle: "UV Python Package Manager Setup & Rules for AI — Skillbook Agents"
-seoDescription: "Optimization guidelines helping AI Agents set up and execute Python scripts rapidly using the UV package manager."
+title: UV Python Package Manager
+description: >-
+  Guide for Agents to check, install, and utilize UV — a fast Rust-based Python
+  package and environment manager accelerating dependency resolution by 10-100x.
+oneLiner: Automate fast Python package and environment management using UV.
+seoTitle: UV Python Package Manager Setup & Rules for AI — Skillbook Agents
+seoDescription: >-
+  Optimization guidelines helping AI Agents set up and execute Python scripts
+  rapidly using the UV package manager.
 ---
 
 
@@ -45,7 +49,7 @@ Add these rules to `.windsurfrules` at the project root to enforce UV packages.
 
 ---
 
-## 🚀 Agent Guidelines (Prompt Guidelines)
+## 🚀 How to use
 
 ````markdown
 # UV PACKAGE MANAGER INSTRUCTIONS & RULES
@@ -93,6 +97,17 @@ Add these rules to `.windsurfrules` at the project root to enforce UV packages.
 > *Thanks to UV, you do not need to manually type commands to create a `venv` virtual environment, activate it, or wait for the `pip install` command to finish.*
 
 ---
+
+## 💡 Real-World Examples / Scenarios
+
+### Developer:
+> "Guide me on how to configure and deploy the UV Python Package Manager skill to Automate fast Python package and environment management using UV."
+
+### AI Agent (Equipped with Skill):
+> "I have initialized the configuration. Here is the execution flow for the UV Python Package Manager skill:
+> 1. Set up the environment variables and structure the inputs as specified.
+> 2. Execute the workflow steps and integrate core components.
+> 3. Verify results, optimize performance, and return the finalized assets."
 
 ## ⚠️ Gotchas and notes
 

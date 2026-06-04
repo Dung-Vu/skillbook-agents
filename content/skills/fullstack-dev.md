@@ -35,11 +35,11 @@ seoDescription: >-
 provider: minimax
 ---
 
-## 📖 Tại Sao AI Agent Của Bạn Cần Kỹ Năng Này?
+## 📖 Tại Sao Cần Skill Này?
 
 Kết nối giữa frontend và backend thường là nơi dễ phát sinh lỗi nhất do không đồng bộ về kiểu dữ liệu, thiếu cơ chế xử lý lỗi nhất quán hoặc bảo mật API kém. Kỹ năng này cung cấp một quy trình tích hợp chuẩn mực dựa trên Twelve-Factor App và Clean Architecture.
 
-## ⚙️ Cơ Chế Hoạt Động & Quy Trình Tư Duy
+## ⚙️ Cách Hoạt Động
 
 Workflow lập trình full-stack chuẩn:
 
@@ -51,13 +51,24 @@ Workflow lập trình full-stack chuẩn:
 2. **Security**: Cài đặt bảo mật CORS, mã hóa mật khẩu, quản lý JWT token an toàn.
 3. **Robust Code**: Áp dụng các khối try/catch đồng bộ và xử lý lỗi tập trung ở API Gateway.
 
-## 🚀 Bộ Quy Tắc Chỉ Dẫn Cho Agent (Prompt Guidelines)
+## 🚀 Cách Sử Dụng
 
 1. Luôn xác thực và làm sạch (sanitize) toàn bộ dữ liệu đầu vào phía backend, không bao giờ tin tưởng client.
 2. Viết tài liệu API rõ ràng (ví dụ: Swagger/OpenAPI) để làm cầu nối tích hợp với frontend.
 3. Tách biệt cấu hình ứng dụng khỏi mã nguồn bằng cách sử dụng các biến môi trường (`.env`).
 
-## ⚠️ Cảnh Báo Vận Hành & Mẹo Tối Ưu (Developer Gotchas)
+## 💡 Kịch Bản Lập Trình Thực Tế
+
+### Nhà phát triển:
+> "Hãy hướng dẫn tôi cách thiết lập và sử dụng kỹ năng Fullstack Dev để Phát triển ứng dụng full-stack chất lượng cao và tích hợp hệ thống."
+
+### AI Agent (Đã được trang bị Kỹ năng):
+> "Tôi đã sẵn sàng. Dưới đây là kịch bản vận hành thực tế cho kỹ năng Fullstack Dev:
+> 1. Thiết lập các thông số cấu hình và tham số đầu vào cần thiết cho hệ thống.
+> 2. Thực thi tuần tự các bước xử lý logic và tích hợp theo đúng chỉ dẫn của Fullstack Dev.
+> 3. Kiểm thử đầu ra, tối ưu hóa hiệu năng và cung cấp kết quả hoàn chỉnh."
+
+## ⚠️ Lưu Ý & Gotchas
 
 - **Không đồng bộ kiểu dữ liệu (Type Drift)**: Khi backend thay đổi API nhưng frontend không cập nhật dẫn đến lỗi crash app. Sử dụng các công cụ chia sẻ type hoặc Zod schema chung.
 - **Lộ thông tin nhạy cảm**: Tránh trả về toàn bộ dữ liệu database (như password hash) cho client. Chỉ select các trường thực sự cần thiết.

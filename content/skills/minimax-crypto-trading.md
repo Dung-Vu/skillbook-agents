@@ -37,11 +37,11 @@ seoDescription: >-
 provider: minimax
 ---
 
-## 📖 Tại Sao AI Agent Của Bạn Cần Kỹ Năng Này?
+## 📖 Tại Sao Cần Skill Này?
 
 Thị trường tiền mã hóa biến động cực kỳ mạnh mẽ và phần lớn các bot trading thua lỗ do cố gắng dự đoán giá hoặc giao dịch quá mức. Kỹ năng này lập trình Agent hoạt động như một nhà quản trị rủi ro kỷ luật, chỉ ra quyết định giao dịch khi có sự hội tụ của nhiều yếu tố kỹ thuật và tỷ lệ lợi nhuận/rủi ro cực kỳ bất đối xứng, hướng tới mục tiêu tối thượng: Sống sót trong mọi điều kiện.
 
-## ⚙️ Cơ Chế Hoạt Động & Quy Trình Tư Duy
+## ⚙️ Cách Hoạt Động
 
 Kiến trúc hệ thống quyết định gồm 6 tầng:
 ```
@@ -54,14 +54,25 @@ Dữ liệu thị trường ──> Macro Gatekeeper ──> Anti-Consensus Filt
 5. **Minimax Executor**: Tính toán rủi ro và xác định Stop Loss chuẩn xác.
 6. **Risk Governor**: Áp dụng các quy tắc giới hạn rủi ro tài khoản nghiêm ngặt.
 
-## 🚀 Bộ Quy Tắc Chỉ Dẫn Cho Agent (Prompt Guidelines)
+## 🚀 Cách Sử Dụng
 
 - **Nguyên tắc Sống sót là trên hết**: Giao dịch không lệnh (NO TRADE) được coi là một quyết định thành công. Luôn ưu tiên không mất tiền trước khi kiếm tiền.
 - Chỉ chấp nhận giao dịch nếu Expected R đạt tối thiểu từ 3 trở lên (hoặc >= 4 nếu thị trường có sự đồng thuận quá cao).
 - Tín hiệu kích hoạt duy nhất được phép để vào lệnh là Swing Failure Pattern (SFP) được xác nhận đóng nến ở khung thời gian nhỏ.
 - Giới hạn rủi ro trên mỗi lệnh giao dịch tối đa là 1% tổng giá trị tài khoản.
 
-## ⚠️ Cảnh Báo Vận Hành & Mẹo Tối Ưu (Developer Gotchas)
+## 💡 Kịch Bản Lập Trình Thực Tế
+
+### Nhà phát triển:
+> "Hãy hướng dẫn tôi cách thiết lập và sử dụng kỹ năng Minimax Crypto Trading để Đưa ra quyết định giao dịch BTC/ETH/SOL ưu tiên quản trị rủi ro."
+
+### AI Agent (Đã được trang bị Kỹ năng):
+> "Tôi đã sẵn sàng. Dưới đây là kịch bản vận hành thực tế cho kỹ năng Minimax Crypto Trading:
+> 1. Thiết lập các thông số cấu hình và tham số đầu vào cần thiết cho hệ thống.
+> 2. Thực thi tuần tự các bước xử lý logic và tích hợp theo đúng chỉ dẫn của Minimax Crypto Trading.
+> 3. Kiểm thử đầu ra, tối ưu hóa hiệu năng và cung cấp kết quả hoàn chỉnh."
+
+## ⚠️ Lưu Ý & Gotchas
 
 - **Không dự báo tương lai**: Agent không được dự đoán giá đi về đâu mà chỉ phản ứng trước hành vi quét thanh khoản tại các vùng biên.
 - **Trạng thái đóng băng**: Khi tài khoản sụt giảm (Drawdown) vượt quá 5%, hệ thống bắt buộc phải giảm tần suất giao dịch; vượt quá 8% sẽ khóa kích hoạt giao dịch hoàn toàn.

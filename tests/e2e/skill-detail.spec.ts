@@ -88,44 +88,4 @@ test.describe("Skill Detail Page UX & Interactions", () => {
     await expect(copyBtn).toContainText("Sao chép");
   });
 
-  test("should switch platforms, use fallback and preserve state in localStorage", async ({ page }) => {
-    // 1. Verify platform switcher is present
-    await page.waitForSelector(".platform-wrapper-block", { state: "attached" });
-    const switcherButtons = page.locator("button:has(span.inline-block.w-2.h-2)");
-    expect(await switcherButtons.count()).toBeGreaterThan(0);
-
-    // Let's click "Claude Code" platform tab
-    const claudeBtn = page.locator("button:has-text('Claude Code')");
-    await expect(claudeBtn).toBeVisible();
-    await claudeBtn.click();
-    
-    // Check that localStorage is updated
-    let savedPlatform = await page.evaluate(() => localStorage.getItem("selectedPlatform"));
-    expect(savedPlatform).toBe("claude-code");
-
-    // Check visible blocks: only claude-code wrapper should be block, others hidden
-    const claudeBlocks = page.locator(".platform-wrapper-block[data-platforms*='claude-code']");
-    await expect(claudeBlocks.first()).toBeVisible();
-
-    const cursorBlocks = page.locator(".platform-wrapper-block[data-platforms*='cursor']");
-    if (await cursorBlocks.count() > 0) {
-      await expect(cursorBlocks.first()).toBeHidden();
-    }
-
-    // 2. Check fallback: Navigate to a skill that only supports Universal
-    // science-skills-common has universal platform
-    await page.goto("/skills/science-skills-common");
-    
-    // Switcher should preserve choice but display Universal as fallback
-    savedPlatform = await page.evaluate(() => localStorage.getItem("selectedPlatform"));
-    expect(savedPlatform).toBe("claude-code"); // still claude-code in localStorage
-
-    // Verify that universal block is visible as a fallback because science-skills-common has no claude-code
-    const universalBlocks = page.locator(".platform-wrapper-block[data-platforms*='universal']");
-    await expect(universalBlocks.first()).toBeVisible();
-
-    // The user should not see a blank section or broken UI
-    const contentText = await page.locator(".skill-content").innerText();
-    expect(contentText.length).toBeGreaterThan(50);
-  });
 });

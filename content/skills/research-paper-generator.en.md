@@ -1,9 +1,16 @@
 ---
-title: "Research Paper Generator"
-description: "Deep research paper generator capable of producing 12k-15k word academic papers. Automates literature search, outlines chapters, writes contents segment-by-segment, and manages academic citations."
-oneLiner: "Generate comprehensive academic research papers (12k-15k words) with valid citations."
-seoTitle: "Research Paper Generator - Minimax Skill for AI Agents"
-seoDescription: "Implement academic writing, citation management, and deep literature review capabilities on AI Agents."
+title: Research Paper Generator
+description: >-
+  Deep research paper generator capable of producing 12k-15k word academic
+  papers. Automates literature search, outlines chapters, writes contents
+  segment-by-segment, and manages academic citations.
+oneLiner: >-
+  Generate comprehensive academic research papers (12k-15k words) with valid
+  citations.
+seoTitle: Research Paper Generator - Minimax Skill for AI Agents
+seoDescription: >-
+  Implement academic writing, citation management, and deep literature review
+  capabilities on AI Agents.
 ---
 
 ## 📖 Why Do We Need This Skill?
@@ -22,11 +29,22 @@ Research Topic --> Literature Search & Outlining --> Segmented Writing --> Citat
 4. **Citation Management**: Insert and cross-reference citations against the bibliography.
 5. **Compilation**: Package the output into clean `.docx` or Markdown deliverables.
 
-## 🚀 Agent Guidelines (Prompt Guidelines)
+## 🚀 How to use
 
 - Never attempt to write a 12k-15k word paper in a single turn. Enforce segmented writing of individual sections.
 - Ensure all inline citations point to existing publications, journals, or verified datasets listed in the references.
 - Style must be academic and formal. Include data tables and structural definitions in the methodology and results sections.
+
+## 💡 Real-World Examples / Scenarios
+
+### Developer:
+> "Guide me on how to configure and deploy the Research Paper Generator skill to Generate comprehensive academic research papers (12k-15k words) with valid citations."
+
+### AI Agent (Equipped with Skill):
+> "I have initialized the configuration. Here is the execution flow for the Research Paper Generator skill:
+> 1. Set up the environment variables and structure the inputs as specified.
+> 2. Execute the workflow steps and integrate core components.
+> 3. Verify results, optimize performance, and return the finalized assets."
 
 ## ⚠️ Gotchas and notes
 

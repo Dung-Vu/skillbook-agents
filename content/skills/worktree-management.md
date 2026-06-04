@@ -37,13 +37,13 @@ tags:
 title: Worktree Management
 ---
 
-## 📖 Tại Sao AI Agent Của Bạn Cần Kỹ Năng Này?
+## 📖 Tại Sao Cần Skill Này?
 
 Trong môi trường làm việc nhóm, việc chỉnh sửa mã nguồn trực tiếp trên nhánh chính thường gây ra xung đột Git và làm gián đoạn các server phát triển đang chạy chế độ theo dõi file (watch mode). Git Worktrees giúp Agent cô lập hoàn toàn môi trường code của từng tính năng trên các thư mục riêng biệt, giúp phát triển song song nhiều tính năng và chạy kiểm thử invasive độc lập an toàn.
 
 ---
 
-## ⚙️ Cơ Chế Hoạt Động & Quy Trình Tư Duy
+## ⚙️ Cách Hoạt Động
 
 Quy trình quản lý Git Worktree:
 1. **Phát hiện Nhánh mặc định**: Tìm nhánh chính qua lệnh remote (ví dụ: `main` hoặc `dev`), tránh viết cứng tên nhánh.
@@ -60,7 +60,7 @@ Sơ đồ quy trình:
 
 ---
 
-## 🚀 Bộ Quy Tắc Chỉ Dẫn Cho Agent (Prompt Guidelines)
+## 🚀 Cách Sử Dụng
 
 ```markdown
 # QUY TẮC QUẢN LÝ GIT WORKTREE
@@ -72,7 +72,18 @@ Sơ đồ quy trình:
 
 ---
 
-## ⚠️ Cảnh Báo Vận Hành & Mẹo Tối Ưu (Developer Gotchas)
+## 💡 Kịch Bản Lập Trình Thực Tế
+
+### Nhà phát triển:
+> "Hãy hướng dẫn tôi cách thiết lập và sử dụng kỹ năng Worktree Management để Phát triển song song nhiều nhánh Git độc lập trên cùng một repository bằng Git Worktrees."
+
+### AI Agent (Đã được trang bị Kỹ năng):
+> "Tôi đã sẵn sàng. Dưới đây là kịch bản vận hành thực tế cho kỹ năng Worktree Management:
+> 1. Thiết lập các thông số cấu hình và tham số đầu vào cần thiết cho hệ thống.
+> 2. Thực thi tuần tự các bước xử lý logic và tích hợp theo đúng chỉ dẫn của Worktree Management.
+> 3. Kiểm thử đầu ra, tối ưu hóa hiệu năng và cung cấp kết quả hoàn chỉnh."
+
+## ⚠️ Lưu Ý & Gotchas
 
 * **Lỗi trùng cổng phát triển (Port Conflict)**: Khi khởi chạy các dev server trong nhiều thư mục worktree song song, các tiến trình sẽ bị lỗi do tranh chấp cùng một cổng mạng. Cần cấu hình đổi cổng chạy qua biến môi trường.
 * **Xử lý file node_modules**: Không sao chép node_modules giữa các thư mục worktree để tránh lỗi symlink hoặc sai lệch phiên bản package.

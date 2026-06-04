@@ -1,9 +1,13 @@
 ---
-title: "NCBI Sequence Retrieval"
-description: "Download gene and protein sequences using Accession IDs or search by organism from NCBI databases."
-oneLiner: "Retrieve nucleotide and protein sequences from NCBI."
-seoTitle: "NCBI Sequence Retrieval — Skillbook Agents"
-seoDescription: "Guide for Agents to retrieve protein and nucleotide sequences from NCBI using E-utilities."
+title: NCBI Sequence Retrieval
+description: >-
+  Download gene and protein sequences using Accession IDs or search by organism
+  from NCBI databases.
+oneLiner: Retrieve nucleotide and protein sequences from NCBI.
+seoTitle: NCBI Sequence Retrieval — Skillbook Agents
+seoDescription: >-
+  Guide for Agents to retrieve protein and nucleotide sequences from NCBI using
+  E-utilities.
 ---
 
 

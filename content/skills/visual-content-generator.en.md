@@ -1,9 +1,15 @@
 ---
-title: "Visual Content Generator"
-description: "Visual content generation tool. Creates mind maps, timelines, infographics, and dashboard visualizations in crisp image formats."
-oneLiner: "Generate infographics, timelines, mind maps, and dashboard graphics dynamically."
-seoTitle: "Visual Content Generator - Minimax Skill for AI Agents"
-seoDescription: "Build diagramming and infographic generation skills into AI Agents using SVG and python plotting scripts."
+title: Visual Content Generator
+description: >-
+  Visual content generation tool. Creates mind maps, timelines, infographics,
+  and dashboard visualizations in crisp image formats.
+oneLiner: >-
+  Generate infographics, timelines, mind maps, and dashboard graphics
+  dynamically.
+seoTitle: Visual Content Generator - Minimax Skill for AI Agents
+seoDescription: >-
+  Build diagramming and infographic generation skills into AI Agents using SVG
+  and python plotting scripts.
 ---
 
 ## 📖 Why Do We Need This Skill?
@@ -21,11 +27,22 @@ Raw Information --> Select Visual Format --> Layout & Spacing Calculation --> Ge
 3. **Code Generation**: Write inline SVG code or Matplotlib/Pillow python scripts with defined coordinate math.
 4. **Compilation**: Execute scripts to render diagrams into high-resolution PNG or vector SVG files.
 
-## 🚀 Agent Guidelines (Prompt Guidelines)
+## 🚀 How to use
 
 - Always use clean color palettes and verify readable contrast between text overlays and backgrounds.
 - Keep layout components structured with explicit padding, preventing overlap of texts or symbols.
 - Set output images to vector format (SVG) or high-density PNG (300 DPI) for printing.
+
+## 💡 Real-World Examples / Scenarios
+
+### Developer:
+> "Guide me on how to configure and deploy the Visual Content Generator skill to Generate infographics, timelines, mind maps, and dashboard graphics dynamically."
+
+### AI Agent (Equipped with Skill):
+> "I have initialized the configuration. Here is the execution flow for the Visual Content Generator skill:
+> 1. Set up the environment variables and structure the inputs as specified.
+> 2. Execute the workflow steps and integrate core components.
+> 3. Verify results, optimize performance, and return the finalized assets."
 
 ## ⚠️ Gotchas and notes
 

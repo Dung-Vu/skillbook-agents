@@ -1,9 +1,13 @@
 ---
-title: "Tidy Folder"
-description: "Automates folder organization and cleanup. Categorizes files by extension, archives cluttered documents to temporary folders, and ensures zero data loss."
-oneLiner: "Organize cluttered directories safely by extension and type with backups."
-seoTitle: "Tidy Folder - Minimax Skill for AI Agents"
-seoDescription: "Build folder cleanup, archiving, and file organization skills for AI Agents with strict data safety rules."
+title: Tidy Folder
+description: >-
+  Automates folder organization and cleanup. Categorizes files by extension,
+  archives cluttered documents to temporary folders, and ensures zero data loss.
+oneLiner: Organize cluttered directories safely by extension and type with backups.
+seoTitle: Tidy Folder - Minimax Skill for AI Agents
+seoDescription: >-
+  Build folder cleanup, archiving, and file organization skills for AI Agents
+  with strict data safety rules.
 ---
 
 ## 📖 Why Do We Need This Skill?
@@ -21,11 +25,22 @@ Scan Source Directory --> Create Backup Archive --> Classify by File Type --> Mo
 3. **Classification**: Group extensions (e.g., `.docx` to /Documents, `.zip` to /Archives).
 4. **Relocation**: Execute file moves, skipping protected files, and delete residual empty directories.
 
-## 🚀 Agent Guidelines (Prompt Guidelines)
+## 🚀 How to use
 
 - Never delete a user's file permanently. Always archive, quarantine, or move files to a temporary recovery folder.
 - Preserve configuration files (e.g., `.env`, `.gitignore`, `.git`, system files) without modifications.
 - Output a directory tree representation of the organized folder upon completion.
+
+## 💡 Real-World Examples / Scenarios
+
+### Developer:
+> "Guide me on how to configure and deploy the Tidy Folder skill to Organize cluttered directories safely by extension and type with backups."
+
+### AI Agent (Equipped with Skill):
+> "I have initialized the configuration. Here is the execution flow for the Tidy Folder skill:
+> 1. Set up the environment variables and structure the inputs as specified.
+> 2. Execute the workflow steps and integrate core components.
+> 3. Verify results, optimize performance, and return the finalized assets."
 
 ## ⚠️ Gotchas and notes
 

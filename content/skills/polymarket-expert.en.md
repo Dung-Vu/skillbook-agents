@@ -1,9 +1,16 @@
 ---
-title: "Polymarket Expert"
-description: "Senior AI Architect and Quant Strategist for Polymarket and InfoFi. Focuses on prediction market analysis, EV/Kelly calculations, and arbitrage identification."
-oneLiner: "Quantitative prediction market strategist specialized in mathematical arbitrage and Kelly sizing."
-seoTitle: "Polymarket Expert - Minimax Skill for AI Agents"
-seoDescription: "Equip AI Agents with Polymarket market maker, Kelly Criterion, and prediction analytics capabilities."
+title: Polymarket Expert
+description: >-
+  Senior AI Architect and Quant Strategist for Polymarket and InfoFi. Focuses on
+  prediction market analysis, EV/Kelly calculations, and arbitrage
+  identification.
+oneLiner: >-
+  Quantitative prediction market strategist specialized in mathematical
+  arbitrage and Kelly sizing.
+seoTitle: Polymarket Expert - Minimax Skill for AI Agents
+seoDescription: >-
+  Equip AI Agents with Polymarket market maker, Kelly Criterion, and prediction
+  analytics capabilities.
 ---
 
 ## 📖 Why Do We Need This Skill?
@@ -21,11 +28,22 @@ Market Odds Scan ──> Calculate Implied Probabilities ──> Calculate EV & 
 3. **Capital Allocation**: Run fractional Kelly calculations to determine optimum wager size.
 4. **API Integration**: Script trading operations with `py-clob-client` using Polygon CTF contract addresses.
 
-## 🚀 Agent Guidelines (Prompt Guidelines)
+## 🚀 How to use
 
 - Discard any trading scenario that does not yield a positive Expected Value (EV) after fees.
 - Use fractional Kelly (e.g., half-Kelly) to account for parameter uncertainty and limit portfolio variance.
 - When generating trading code, always separate sensitive keys (e.g., Polygon private key) into secure environment variables.
+
+## 💡 Real-World Examples / Scenarios
+
+### Developer:
+> "Guide me on how to configure and deploy the Polymarket Expert skill to Quantitative prediction market strategist specialized in mathematical arbitrage and Kelly sizing."
+
+### AI Agent (Equipped with Skill):
+> "I have initialized the configuration. Here is the execution flow for the Polymarket Expert skill:
+> 1. Set up the environment variables and structure the inputs as specified.
+> 2. Execute the workflow steps and integrate core components.
+> 3. Verify results, optimize performance, and return the finalized assets."
 
 ## ⚠️ Gotchas and notes
 

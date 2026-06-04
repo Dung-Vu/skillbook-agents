@@ -36,7 +36,7 @@ seoDescription: >-
 provider: antigravity
 ---
 
-## 📖 Tại Sao AI Agent Của Bạn Cần Kỹ Năng Này?
+## 📖 Tại Sao Cần Skill Này?
 
 Khi thu thập dữ liệu học thuật hoặc kiểm tra các ứng dụng web, việc chỉ sử dụng các thư viện gửi request HTTP tĩnh (như `requests` hoặc `urllib`) gặp nhiều hạn chế:
 * **Không hỗ trợ Single Page Application (SPA)**: Các trang web hiện đại dựng bằng React, Vue, Next.js yêu cầu chạy Javascript để hiển thị nội dung.
@@ -49,7 +49,7 @@ Khi thu thập dữ liệu học thuật hoặc kiểm tra các ứng dụng web
 
 ---
 
-## ⚙️ Cơ Chế Hoạt Động & Quy Trình Tư Duy
+## ⚙️ Cách Hoạt Động
 
 ```
 [Nhận URL & Yêu cầu] ➔ 🌐 [Khởi tạo Headless Browser]
@@ -66,7 +66,7 @@ Quy trình suy nghĩ của Agent khi thực thi `/browser`:
 
 ---
 
-## 🚀 Bộ Quy Tắc Chỉ Dẫn Cho Agent (Prompt Guidelines)
+## 🚀 Cách Sử Dụng
 
 ````markdown
 # BROWSER AUTOMATION INSTRUCTIONS & RULES
@@ -86,7 +86,18 @@ Quy trình suy nghĩ của Agent khi thực thi `/browser`:
 
 ---
 
-## ⚠️ Cảnh Báo Vận Hành & Mẹo Tối Ưu (Developer Gotchas)
+## 💡 Kịch Bản Lập Trình Thực Tế
+
+### Nhà phát triển:
+> "Hãy hướng dẫn tôi cách thiết lập và sử dụng kỹ năng Browser Automation để Tương tác trực tiếp và thu thập dữ liệu từ các ứng dụng web thông qua trình duyệt tự động."
+
+### AI Agent (Đã được trang bị Kỹ năng):
+> "Tôi đã sẵn sàng. Dưới đây là kịch bản vận hành thực tế cho kỹ năng Browser Automation:
+> 1. Thiết lập các thông số cấu hình và tham số đầu vào cần thiết cho hệ thống.
+> 2. Thực thi tuần tự các bước xử lý logic và tích hợp theo đúng chỉ dẫn của Browser Automation.
+> 3. Kiểm thử đầu ra, tối ưu hóa hiệu năng và cung cấp kết quả hoàn chỉnh."
+
+## ⚠️ Lưu Ý & Gotchas
 
 * **Xử Lý Timeout**: Các trang web tải chậm có thể gây treo trình duyệt. Luôn thiết lập giới hạn thời gian chờ (`timeout` khoảng 15-30 giây) cho mọi thao tác tải trang hoặc tìm kiếm phần tử để tránh treo tiến trình.
 * **Phát Hiện Bot (Anti-Bot Detection)**: Một số trang web chặn các kết nối từ headless browser. Hãy thiết lập User-Agent giả lập trình duyệt thông thường và sử dụng các mẹo giảm tốc độ tương tác để tránh bị chặn.

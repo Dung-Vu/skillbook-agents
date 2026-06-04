@@ -36,13 +36,13 @@ tags:
 title: Visual Summary
 ---
 
-## 📖 Tại Sao AI Agent Của Bạn Cần Kỹ Năng Này?
+## 📖 Tại Sao Cần Skill Này?
 
 Khi đối mặt với các cấu trúc hệ thống phức tạp, luồng API lằng nhằng hoặc các bảng so sánh dữ liệu đồ sộ, việc trình bày bằng văn bản Markdown thông thường sẽ gây mệt mỏi cho người đọc. Kỹ năng này cho phép Agent chủ động thiết kế một trang web HTML cục bộ tuyệt đẹp, nhúng sơ đồ trực quan và gửi trực tiếp qua khung chat để nhà phát triển nắm bắt toàn bộ kiến trúc dự án chỉ trong vài giây.
 
 ---
 
-## ⚙️ Cơ Chế Hoạt Động & Quy Trình Tư Duy
+## ⚙️ Cách Hoạt Động
 
 Quy trình tạo trang tóm tắt trực quan:
 1. **Chọn chế độ trang**: Chọn Data UI (cho biểu đồ, bảng số liệu), Report (cho báo cáo chữ dài, dùng font Serif) hoặc Terminal (cho log, mã nguồn).
@@ -58,7 +58,7 @@ Sơ đồ quy trình:
 
 ---
 
-## 🚀 Bộ Quy Tắc Chỉ Dẫn Cho Agent (Prompt Guidelines)
+## 🚀 Cách Sử Dụng
 
 ```markdown
 # QUY TẮC THIẾT KẾ TRANG TRỰC QUAN
@@ -70,7 +70,18 @@ Sơ đồ quy trình:
 
 ---
 
-## ⚠️ Cảnh Báo Vận Hành & Mẹo Tối Ưu (Developer Gotchas)
+## 💡 Kịch Bản Lập Trình Thực Tế
+
+### Nhà phát triển:
+> "Hãy hướng dẫn tôi cách thiết lập và sử dụng kỹ năng Visual Summary để Tạo sơ đồ Mermaid, cây cấu trúc và bảng so sánh trực quan từ thông tin phức tạp."
+
+### AI Agent (Đã được trang bị Kỹ năng):
+> "Tôi đã sẵn sàng. Dưới đây là kịch bản vận hành thực tế cho kỹ năng Visual Summary:
+> 1. Thiết lập các thông số cấu hình và tham số đầu vào cần thiết cho hệ thống.
+> 2. Thực thi tuần tự các bước xử lý logic và tích hợp theo đúng chỉ dẫn của Visual Summary.
+> 3. Kiểm thử đầu ra, tối ưu hóa hiệu năng và cung cấp kết quả hoàn chỉnh."
+
+## ⚠️ Lưu Ý & Gotchas
 
 * **Lỗi CORS khi tải tài nguyên bên ngoài**: Tránh tải các file JS/CSS/Fonts từ CDN không hỗ trợ CORS hoặc các domain lạ. Ưu tiên các CDN chính thống như `cdn.tailwindcss.com` hoặc nhúng trực tiếp code vào file HTML.
 * **Tải chậm sơ đồ Mermaid phức tạp**: Đối với các sơ đồ Mermaid có số lượng nút quá lớn (> 20 nút), trình duyệt cần nhiều thời gian để render layout. Khi đó, nên cân nhắc chia nhỏ sơ đồ hoặc xuất ảnh tĩnh SVG để tăng tốc độ tải trang.

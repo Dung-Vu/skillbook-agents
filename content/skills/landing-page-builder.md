@@ -36,11 +36,11 @@ seoDescription: >-
 provider: minimax
 ---
 
-## 📖 Tại Sao AI Agent Của Bạn Cần Kỹ Năng Này?
+## 📖 Tại Sao Cần Skill Này?
 
 Các trang Landing Page thông thường dễ tạo ra cảm giác rập khuôn và thiếu chuyên nghiệp. Kỹ năng này biến AI Agent thành một nhà thiết kế web chuyên nghiệp, có khả năng thiết kế giao diện theo phong cách 'Awwwards' với hình ảnh sắc nét, các phần hero cuốn hút, cấu trúc mã tối ưu và tự động triển khai trực tuyến.
 
-## ⚙️ Cơ Chế Hoạt Động & Quy Trình Tư Duy
+## ⚙️ Cách Hoạt Động
 
 Luồng công việc gồm các bước:
 ```
@@ -53,14 +53,25 @@ Yêu cầu người dùng ──> Spec thiết kế ──> Tạo Tài sản (Vi
 5. **Kiểm tra**: Chạy Playwright để kiểm tra lỗi console hoặc lỗi 404 về tài nguyên.
 6. **Triển khai**: Sử dụng công cụ deploy để đưa trang web lên URL hoạt động thực tế.
 
-## 🚀 Bộ Quy Tắc Chỉ Dẫn Cho Agent (Prompt Guidelines)
+## 🚀 Cách Sử Dụng
 
 - **Tuyệt đối cấm màu xanh dương/tím công nghệ**: Sử dụng các bảng màu được phê duyệt (tông màu đất, đơn sắc, tông màu ấm hoặc xanh tự nhiên) để tránh thiết kế 'generic SaaS blue'.
 - Phần Hero phải cực kỳ ấn tượng, sử dụng video lặp nền mờ chạy tự động làm chủ đạo và không chèn ảnh tĩnh che phủ video.
 - Sử dụng các đường dẫn tương đối (ví dụ: `./videos/hero_loop.mp4`) và bắt buộc thêm thuộc tính xử lý lỗi hình ảnh: `onerror="this.style.display='none'"`.
 - Luôn kiểm tra tính toàn vẹn của mã nguồn bằng Playwright trước khi thực hiện bước deploy.
 
-## ⚠️ Cảnh Báo Vận Hành & Mẹo Tối Ưu (Developer Gotchas)
+## 💡 Kịch Bản Lập Trình Thực Tế
+
+### Nhà phát triển:
+> "Hãy hướng dẫn tôi cách thiết lập và sử dụng kỹ năng Landing Page Builder để Thiết kế và triển khai trang Landing Page chất lượng cao chuẩn Awwwards trực tuyến."
+
+### AI Agent (Đã được trang bị Kỹ năng):
+> "Tôi đã sẵn sàng. Dưới đây là kịch bản vận hành thực tế cho kỹ năng Landing Page Builder:
+> 1. Thiết lập các thông số cấu hình và tham số đầu vào cần thiết cho hệ thống.
+> 2. Thực thi tuần tự các bước xử lý logic và tích hợp theo đúng chỉ dẫn của Landing Page Builder.
+> 3. Kiểm thử đầu ra, tối ưu hóa hiệu năng và cung cấp kết quả hoàn chỉnh."
+
+## ⚠️ Lưu Ý & Gotchas
 
 - **Tránh lỗi 404 tài nguyên**: Đảm bảo tên file video và ảnh trong code HTML khớp chính xác tuyệt đối với các file đã tạo.
 - **Không chạy server local**: Không sử dụng `python -m http.server` để bàn giao kết quả; phải dùng công cụ `deploy` được tích hợp sẵn.

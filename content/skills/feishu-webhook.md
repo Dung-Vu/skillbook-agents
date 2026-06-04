@@ -35,11 +35,11 @@ seoDescription: >-
 provider: minimax
 ---
 
-## 📖 Tại Sao AI Agent Của Bạn Cần Kỹ Năng Này?
+## 📖 Tại Sao Cần Skill Này?
 
 Gửi thông báo thủ công hoặc sử dụng tin nhắn văn bản thô sơ làm giảm hiệu suất trao đổi công việc trong đội ngũ. Kỹ năng này cho phép Agent tự động xây dựng các thẻ tin nhắn tương tác (interactive cards) trực quan, đẹp mắt và gửi tự động vào các nhóm chat Feishu/Lark để tối ưu hóa luồng công việc.
 
-## ⚙️ Cơ Chế Hoạt Động & Quy Trình Tư Duy
+## ⚙️ Cách Hoạt Động
 
 Quy trình gửi tin nhắn qua Feishu Webhook:
 
@@ -51,13 +51,24 @@ Quy trình gửi tin nhắn qua Feishu Webhook:
 2. **Build**: Thiết lập cấu trúc JSON tin nhắn (text, post, hoặc interactive card) theo đặc tả của Feishu.
 3. **Send**: Thực hiện gửi yêu cầu HTTP POST đến webhook và nhận phản hồi xác nhận thành công.
 
-## 🚀 Bộ Quy Tắc Chỉ Dẫn Cho Agent (Prompt Guidelines)
+## 🚀 Cách Sử Dụng
 
 1. Luôn sử dụng biến môi trường để lưu trữ Webhook URL và token bảo mật, tuyệt đối không hardcode trong mã nguồn.
 2. Định cấu hình xử lý lỗi (error handling) khi gửi yêu cầu HTTP để xử lý trường hợp mạng lỗi hoặc rate limit từ phía Feishu.
 3. Khi gửi thẻ tin nhắn (interactive cards), hãy sử dụng công cụ kéo thả thiết kế thẻ của Feishu để tạo cấu trúc JSON chuẩn trước khi lập trình.
 
-## ⚠️ Cảnh Báo Vận Hành & Mẹo Tối Ưu (Developer Gotchas)
+## 💡 Kịch Bản Lập Trình Thực Tế
+
+### Nhà phát triển:
+> "Hãy hướng dẫn tôi cách thiết lập và sử dụng kỹ năng Feishu Webhook để Gửi tin nhắn và thẻ tương tác tự động vào Feishu/Lark nhóm qua Webhook."
+
+### AI Agent (Đã được trang bị Kỹ năng):
+> "Tôi đã sẵn sàng. Dưới đây là kịch bản vận hành thực tế cho kỹ năng Feishu Webhook:
+> 1. Thiết lập các thông số cấu hình và tham số đầu vào cần thiết cho hệ thống.
+> 2. Thực thi tuần tự các bước xử lý logic và tích hợp theo đúng chỉ dẫn của Feishu Webhook.
+> 3. Kiểm thử đầu ra, tối ưu hóa hiệu năng và cung cấp kết quả hoàn chỉnh."
+
+## ⚠️ Lưu Ý & Gotchas
 
 - **Giới hạn tốc độ (Rate Limit)**: Feishu giới hạn số lượng tin nhắn gửi qua Webhook (thường là 100 tin nhắn/phút). Cần cài đặt hàng đợi hoặc cơ chế delay nếu gửi hàng loạt.
 - **Lỗi hiển thị thẻ**: Định dạng JSON của thẻ tương tác rất nghiêm ngặt. Chỉ cần sai một thẻ đóng hoặc sai kiểu dữ liệu của một trường, tin nhắn sẽ không thể hiển thị.

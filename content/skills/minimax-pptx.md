@@ -35,13 +35,13 @@ tags:
 title: Minimax PPTX
 ---
 
-## 📖 Tại Sao AI Agent Của Bạn Cần Kỹ Năng Này?
+## 📖 Tại Sao Cần Skill Này?
 
 Tạo slide PowerPoint (`.pptx`) bằng code thường dễ gặp lỗi tràn khung văn bản, sai tỷ lệ màn hình hoặc mất định dạng phong cách của công ty. Kỹ năng này cung cấp các giới hạn kích thước canvas chuẩn 16x9, hướng dẫn thiết kế slide module hóa bằng JavaScript (PptxGenJS) và các bước trích xuất ghi chú, hình ảnh từ slide cũ để tạo mới hoặc chỉnh sửa an toàn.
 
 ---
 
-## ⚙️ Cơ Chế Hoạt Động & Quy Trình Tư Duy
+## ⚙️ Cách Hoạt Động
 
 Quy trình tạo và sửa slide:
 1. **Phân tích yêu cầu & Bố cục**: Chọn tỷ lệ 16x9. Nếu có slide mẫu, dùng lệnh `audit_pptx.py` để phân tích mã màu (theme) và font chữ gốc.
@@ -57,7 +57,7 @@ Sơ đồ quy trình:
 
 ---
 
-## 🚀 Bộ Quy Tắc Chỉ Dẫn Cho Agent (Prompt Guidelines)
+## 🚀 Cách Sử Dụng
 
 ```markdown
 # QUY TẮC THIẾT KẾ SLIDE POWERPOINT
@@ -69,7 +69,18 @@ Sơ đồ quy trình:
 
 ---
 
-## ⚠️ Cảnh Báo Vận Hành & Mẹo Tối Ưu (Developer Gotchas)
+## 💡 Kịch Bản Lập Trình Thực Tế
+
+### Nhà phát triển:
+> "Hãy hướng dẫn tôi cách thiết lập và sử dụng kỹ năng Minimax PPTX để Phân tích cấu trúc, trích xuất nội dung và ghi chú từ slide PowerPoint (.pptx)."
+
+### AI Agent (Đã được trang bị Kỹ năng):
+> "Tôi đã sẵn sàng. Dưới đây là kịch bản vận hành thực tế cho kỹ năng Minimax PPTX:
+> 1. Thiết lập các thông số cấu hình và tham số đầu vào cần thiết cho hệ thống.
+> 2. Thực thi tuần tự các bước xử lý logic và tích hợp theo đúng chỉ dẫn của Minimax PPTX.
+> 3. Kiểm thử đầu ra, tối ưu hóa hiệu năng và cung cấp kết quả hoàn chỉnh."
+
+## ⚠️ Lưu Ý & Gotchas
 
 * **Lỗi ghi đè màu sắc của Template**: Khi sao chép phong cách (imitate) từ slide mẫu, hãy cẩn thận gán đúng vai trò của màu nền (`bg`) và màu chữ chính (`primary`). Trong slide tối màu (dark-mode), màu nền sẽ là màu tối và màu chữ là màu sáng.
 * **Hạn chế chụp ảnh màn hình**: Việc chụp ảnh màn hình slide để xem thử trực quan chỉ hỗ trợ trên hệ điều hành macOS và yêu cầu môi trường có cài đặt `soffice` và `swiftc`.

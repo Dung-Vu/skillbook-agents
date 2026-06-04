@@ -35,13 +35,13 @@ tags:
 title: MCP CLI
 ---
 
-## 📖 Tại Sao AI Agent Của Bạn Cần Kỹ Năng Này?
+## 📖 Tại Sao Cần Skill Này?
 
 Model Context Protocol (MCP) là giao thức chuẩn hóa để kết nối mô hình ngôn ngữ lớn với các công cụ ngoài. Agent cần kỹ năng này để cấu hình, kiểm tra trạng thái hoạt động của các server MCP và đồng bộ các công cụ (tools) của server đó thành các kỹ năng (skills) cục bộ mà Agent có thể trực tiếp gọi qua dòng lệnh CLI.
 
 ---
 
-## ⚙️ Cơ Chế Hoạt Động & Quy Trình Tư Duy
+## ⚙️ Cách Hoạt Động
 
 Quy trình quản lý server MCP:
 1. **Liệt kê server**: Chạy `mavis mcp list` để xem danh sách các server đã đăng ký và trạng thái xác thực.
@@ -57,7 +57,7 @@ Sơ đồ quy trình:
 
 ---
 
-## 🚀 Bộ Quy Tắc Chỉ Dẫn Cho Agent (Prompt Guidelines)
+## 🚀 Cách Sử Dụng
 
 ```markdown
 # QUY TẮC QUẢN LÝ MCP CLI
@@ -68,7 +68,18 @@ Sơ đồ quy trình:
 
 ---
 
-## ⚠️ Cảnh Báo Vận Hành & Mẹo Tối Ưu (Developer Gotchas)
+## 💡 Kịch Bản Lập Trình Thực Tế
+
+### Nhà phát triển:
+> "Hãy hướng dẫn tôi cách thiết lập và sử dụng kỹ năng MCP CLI để Quản lý danh sách và cấu hình các máy chủ Model Context Protocol (MCP)."
+
+### AI Agent (Đã được trang bị Kỹ năng):
+> "Tôi đã sẵn sàng. Dưới đây là kịch bản vận hành thực tế cho kỹ năng MCP CLI:
+> 1. Thiết lập các thông số cấu hình và tham số đầu vào cần thiết cho hệ thống.
+> 2. Thực thi tuần tự các bước xử lý logic và tích hợp theo đúng chỉ dẫn của MCP CLI.
+> 3. Kiểm thử đầu ra, tối ưu hóa hiệu năng và cung cấp kết quả hoàn chỉnh."
+
+## ⚠️ Lưu Ý & Gotchas
 
 * **Lỗi tiến trình MCP chạy ngầm**: Các máy chủ MCP stdio chạy như các tiến trình con kéo dài. Nếu token của daemon thay đổi, các tiến trình này không tự động nhận token mới. Cần chạy `mavis mcp sync` để ép buộc khởi động lại tiến trình.
 * **Thời gian nạp skill**: Các skill mới được tạo sau khi chạy lệnh sync sẽ không khả dụng ngay lập tức trong session hiện tại. Chúng chỉ có hiệu lực ở session tiếp theo.

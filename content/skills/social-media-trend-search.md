@@ -34,11 +34,11 @@ seoDescription: >-
 provider: minimax
 ---
 
-## 📖 Tại Sao AI Agent Của Bạn Cần Kỹ Năng Này?
+## 📖 Tại Sao Cần Skill Này?
 
 Xu hướng trên mạng xã hội thay đổi theo từng giờ, việc nắm bắt chậm sẽ khiến các chiến dịch marketing mất đi cơ hội tiếp cận khách hàng. Kỹ năng này cung cấp cho Agent khả năng quét các từ khóa, phân tích sự thay đổi lượng thảo luận của thẻ hashtag, phân loại nội dung đang thu hút tương tác lớn và gửi cảnh báo tự động về nhóm chat công việc thông qua Webhook.
 
-## ⚙️ Cơ Chế Hoạt Động & Quy Trình Tư Duy
+## ⚙️ Cách Hoạt Động
 
 Quy trình phân tích và báo cáo xu hướng:
 ```
@@ -49,13 +49,24 @@ Nhap Hashtag/Tu khoa --> Quet Du lieu Mang xa hoi --> Phan loai Xu huong --> Gui
 3. **Phân tích**: Lọc ra các nội dung có tốc độ tăng trưởng tương tác đột biến (Breakout trends).
 4. **Đóng gói & Gửi**: Định dạng báo cáo dạng thẻ đẹp mắt và gửi qua webhook của ứng dụng quản trị công việc Lark/Feishu.
 
-## 🚀 Bộ Quy Tắc Chỉ Dẫn Cho Agent (Prompt Guidelines)
+## 🚀 Cách Sử Dụng
 
 - Báo cáo gửi qua Webhook Feishu/Lark phải sử dụng định dạng thẻ tin nhắn (Interactive Message Card JSON) để hiển thị chuyên nghiệp.
 - Nhóm các xu hướng theo ngành hàng cụ thể (Thời trang, Công nghệ, Đồ ăn, v.v.) để dễ dàng theo dõi.
 - Cung cấp dẫn chứng trực tiếp bằng link các video/bài viết tiêu biểu đang dẫn đầu xu hướng đó.
 
-## ⚠️ Cảnh Báo Vận Hành & Mẹo Tối Ưu (Developer Gotchas)
+## 💡 Kịch Bản Lập Trình Thực Tế
+
+### Nhà phát triển:
+> "Hãy hướng dẫn tôi cách thiết lập và sử dụng kỹ năng Social Media Trend Search để Quét và phân tích xu hướng mạng xã hội hot nhất, xuất báo cáo Lark/Feishu."
+
+### AI Agent (Đã được trang bị Kỹ năng):
+> "Tôi đã sẵn sàng. Dưới đây là kịch bản vận hành thực tế cho kỹ năng Social Media Trend Search:
+> 1. Thiết lập các thông số cấu hình và tham số đầu vào cần thiết cho hệ thống.
+> 2. Thực thi tuần tự các bước xử lý logic và tích hợp theo đúng chỉ dẫn của Social Media Trend Search.
+> 3. Kiểm thử đầu ra, tối ưu hóa hiệu năng và cung cấp kết quả hoàn chỉnh."
+
+## ⚠️ Lưu Ý & Gotchas
 
 - **Lỗi định dạng JSON Webhook**: Đảm bảo cấu trúc JSON gửi lên webhook Feishu đúng chuẩn, không bị thiếu dấu ngoặc gây lỗi 400.
 - **Giới hạn tần suất (Rate limit)**: Tránh gửi tin nhắn liên tục gây spam nhóm chat; khuyên dùng tần suất tối đa 1 lần/giờ.

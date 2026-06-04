@@ -1,9 +1,13 @@
 ---
-title: "gnomAD Population Genetics"
-description: "Query the Genome Aggregation Database (gnomAD) to fetch variant frequencies and gene constraint metrics (pLI, LOEUF)."
-oneLiner: "Query allele frequencies and gene constraints from gnomAD."
-seoTitle: "gnomAD Population Genetics — Skillbook Agents"
-seoDescription: "Guide for Agents to check variant frequencies and loss-of-function intolerance in gnomAD."
+title: gnomAD Population Genetics
+description: >-
+  Query the Genome Aggregation Database (gnomAD) to fetch variant frequencies
+  and gene constraint metrics (pLI, LOEUF).
+oneLiner: Query allele frequencies and gene constraints from gnomAD.
+seoTitle: gnomAD Population Genetics — Skillbook Agents
+seoDescription: >-
+  Guide for Agents to check variant frequencies and loss-of-function intolerance
+  in gnomAD.
 ---
 
 

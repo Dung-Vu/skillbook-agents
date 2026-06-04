@@ -1,10 +1,12 @@
 ---
-description: Refines and optimizes existing skill instructions. Focuses on eliminating
-  redundant prompts, cleaning up code recipes, updating references, and ensuring top-tier
-  adherence to Luminous quality standards.
-oneLiner: Refine, clean up, and optimize existing skills for better performance.
-seoDescription: Refining existing AI Agent skills. Apply minimal patches, eliminate
-  redundant instructions, and verify integrity with CAS.
+description: >-
+  Refines and optimizes existing skill instructions. Focuses on eliminating
+  redundant prompts, cleaning up code recipes, updating references, and ensuring
+  top-tier adherence to Luminous quality standards.
+oneLiner: 'Refine, clean up, and optimize existing skills for better performance.'
+seoDescription: >-
+  Refining existing AI Agent skills. Apply minimal patches, eliminate redundant
+  instructions, and verify integrity with CAS.
 seoTitle: Skill Refiner - Minimax Skill for AI Agents
 title: Skill Refiner
 ---
@@ -32,7 +34,7 @@ Flowchart:
 
 ---
 
-## 🚀 Agent Guidelines (Prompt Guidelines)
+## 🚀 How to use
 
 ```markdown
 # SKILL REFINER CONSTRAINTS
@@ -43,6 +45,17 @@ Flowchart:
 ```
 
 ---
+
+## 💡 Real-World Examples / Scenarios
+
+### Developer:
+> "Guide me on how to configure and deploy the Skill Refiner skill to Refine, clean up, and optimize existing skills for better performance."
+
+### AI Agent (Equipped with Skill):
+> "I have initialized the configuration. Here is the execution flow for the Skill Refiner skill:
+> 1. Set up the environment variables and structure the inputs as specified.
+> 2. Execute the workflow steps and integrate core components.
+> 3. Verify results, optimize performance, and return the finalized assets."
 
 ## ⚠️ Gotchas and notes
 

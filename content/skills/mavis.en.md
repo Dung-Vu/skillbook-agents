@@ -1,10 +1,13 @@
 ---
-description: The central runtime entry point for the Mavis system. Manages session
-  lifecycles, inter-agent communication, scheduled tasks (crons), Git hooks, and system
-  resource orchestration.
-oneLiner: Central entry point for managing Mavis sessions, crons, hooks, and agent
+description: >-
+  The central runtime entry point for the Mavis system. Manages session
+  lifecycles, inter-agent communication, scheduled tasks (crons), Git hooks, and
+  system resource orchestration.
+oneLiner: >-
+  Central entry point for managing Mavis sessions, crons, hooks, and agent
   runtime.
-seoDescription: Core operational guide for Mavis agent runtime. Control session lifecycles,
+seoDescription: >-
+  Core operational guide for Mavis agent runtime. Control session lifecycles,
   memory boundaries, git hooks, and scheduling.
 seoTitle: Mavis - Minimax Skill for AI Agents
 title: Mavis
@@ -31,7 +34,7 @@ Flowchart:
 
 ---
 
-## 🚀 Agent Guidelines (Prompt Guidelines)
+## 🚀 How to use
 
 ```markdown
 # MAVIS OPERATIONAL RULES
@@ -41,6 +44,17 @@ Flowchart:
 ```
 
 ---
+
+## 💡 Real-World Examples / Scenarios
+
+### Developer:
+> "Guide me on how to configure and deploy the Mavis skill to Central entry point for managing Mavis sessions, crons, hooks, and agent runtime."
+
+### AI Agent (Equipped with Skill):
+> "I have initialized the configuration. Here is the execution flow for the Mavis skill:
+> 1. Set up the environment variables and structure the inputs as specified.
+> 2. Execute the workflow steps and integrate core components.
+> 3. Verify results, optimize performance, and return the finalized assets."
 
 ## ⚠️ Gotchas and notes
 

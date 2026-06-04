@@ -1,10 +1,12 @@
 ---
-description: Guides the user through onboarding a new MCP server via a structured,
-  interactive conversational flow. Collects missing details (like API keys) and validates
-  connection before writing settings.
-oneLiner: Interactive workflow to onboard, configure, and validate new MCP servers.
-seoDescription: Interactive onboarding workflow for MCP servers. Automate configuration,
-  OAuth flow, and token setup using genUI cards.
+description: >-
+  Guides the user through onboarding a new MCP server via a structured,
+  interactive conversational flow. Collects missing details (like API keys) and
+  validates connection before writing settings.
+oneLiner: 'Interactive workflow to onboard, configure, and validate new MCP servers.'
+seoDescription: >-
+  Interactive onboarding workflow for MCP servers. Automate configuration, OAuth
+  flow, and token setup using genUI cards.
 seoTitle: MCP Onboarding - Minimax Skill for AI Agents
 title: MCP Onboarding
 ---
@@ -33,7 +35,7 @@ Flowchart:
 
 ---
 
-## 🚀 Agent Guidelines (Prompt Guidelines)
+## 🚀 How to use
 
 ```markdown
 # MCP ONBOARDING RULES
@@ -43,6 +45,17 @@ Flowchart:
 ```
 
 ---
+
+## 💡 Real-World Examples / Scenarios
+
+### Developer:
+> "Guide me on how to configure and deploy the MCP Onboarding skill to Interactive workflow to onboard, configure, and validate new MCP servers."
+
+### AI Agent (Equipped with Skill):
+> "I have initialized the configuration. Here is the execution flow for the MCP Onboarding skill:
+> 1. Set up the environment variables and structure the inputs as specified.
+> 2. Execute the workflow steps and integrate core components.
+> 3. Verify results, optimize performance, and return the finalized assets."
 
 ## ⚠️ Gotchas and notes
 

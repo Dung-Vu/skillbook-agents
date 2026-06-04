@@ -32,13 +32,13 @@ tags:
 title: Mavis
 ---
 
-## 📖 Tại Sao AI Agent Của Bạn Cần Kỹ Năng Này?
+## 📖 Tại Sao Cần Skill Này?
 
 Mavis là kỹ năng vận hành cốt lõi giúp Agent điều khiển chính hệ thống của nó. Agent cần kỹ năng này để kiểm tra danh sách Agent khác, trao đổi thông điệp liên-session, lên lịch thực hiện công việc tự động (crons), thiết lập các chốt chặn kiểm thử mã nguồn (hooks), và quản lý bộ nhớ dài hạn.
 
 ---
 
-## ⚙️ Cơ Chế Hoạt Động & Quy Trình Tư Duy
+## ⚙️ Cách Hoạt Động
 
 Hệ thống được vận hành thông qua CLI của Mavis và các file cấu hình tương ứng:
 1. **Ánh xạ khả năng**: Phân loại yêu cầu của người dùng vào các mục như `agent`, `session`, `memory`, `cron`, `hook`, `skill-management` hoặc `skill-evolution`.
@@ -53,7 +53,7 @@ Sơ đồ quy trình:
 
 ---
 
-## 🚀 Bộ Quy Tắc Chỉ Dẫn Cho Agent (Prompt Guidelines)
+## 🚀 Cách Sử Dụng
 
 ```markdown
 # QUY TẮC VẬN HÀNH MAVIS
@@ -64,7 +64,18 @@ Sơ đồ quy trình:
 
 ---
 
-## ⚠️ Cảnh Báo Vận Hành & Mẹo Tối Ưu (Developer Gotchas)
+## 💡 Kịch Bản Lập Trình Thực Tế
+
+### Nhà phát triển:
+> "Hãy hướng dẫn tôi cách thiết lập và sử dụng kỹ năng Mavis để Quản lý vòng đời session, giao tiếp liên Agent và vận hành hệ thống Mavis."
+
+### AI Agent (Đã được trang bị Kỹ năng):
+> "Tôi đã sẵn sàng. Dưới đây là kịch bản vận hành thực tế cho kỹ năng Mavis:
+> 1. Thiết lập các thông số cấu hình và tham số đầu vào cần thiết cho hệ thống.
+> 2. Thực thi tuần tự các bước xử lý logic và tích hợp theo đúng chỉ dẫn của Mavis.
+> 3. Kiểm thử đầu ra, tối ưu hóa hiệu năng và cung cấp kết quả hoàn chỉnh."
+
+## ⚠️ Lưu Ý & Gotchas
 
 * **Cổng daemon thay đổi**: Không viết cứng địa chỉ IP hoặc cổng của daemon. Luôn đọc từ tệp `daemon.port`.
 * **Lỗi định dạng YAML cấu hình cron/hook**: Nếu file cấu hình YAML thụt lề sai, daemon sẽ từ chối nạp, khiến cron hoặc hook không hoạt động mà không có thông báo lỗi chi tiết ở CLI. Rerun `mavis status` để kiểm tra.

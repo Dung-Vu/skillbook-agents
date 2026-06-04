@@ -36,13 +36,13 @@ tags:
 title: LLM Call
 ---
 
-## 📖 Tại Sao AI Agent Của Bạn Cần Kỹ Năng Này?
+## 📖 Tại Sao Cần Skill Này?
 
 AI Agent cần kỹ năng này khi lập trình viên yêu cầu thử nghiệm trực tiếp một prompt thô, so sánh câu trả lời giữa các phiên bản mô hình khác nhau (ví dụ: Claude 3.5 Sonnet vs Gemini 1.5 Pro) hoặc thực hiện các cuộc gọi API riêng lẻ không phụ thuộc vào luồng suy nghĩ mặc định của Agent hiện tại.
 
 ---
 
-## ⚙️ Cơ Chế Hoạt Động & Quy Trình Tư Duy
+## ⚙️ Cách Hoạt Động
 
 Quy trình hoạt động:
 1. **Đọc đầu vào**: Xác định mô hình đích (ví dụ: `anthropic/claude-sonnet-4-6`) và nội dung prompt.
@@ -58,7 +58,7 @@ Sơ đồ quy trình:
 
 ---
 
-## 🚀 Bộ Quy Tắc Chỉ Dẫn Cho Agent (Prompt Guidelines)
+## 🚀 Cách Sử Dụng
 
 ```markdown
 # QUY TẮC GỌI TRỰC TIẾP LLM
@@ -69,7 +69,18 @@ Sơ đồ quy trình:
 
 ---
 
-## ⚠️ Cảnh Báo Vận Hành & Mẹo Tối Ưu (Developer Gotchas)
+## 💡 Kịch Bản Lập Trình Thực Tế
+
+### Nhà phát triển:
+> "Hãy hướng dẫn tôi cách thiết lập và sử dụng kỹ năng LLM Call để Gọi trực tiếp các mô hình LLM cấu hình sẵn để kiểm thử prompt và so sánh."
+
+### AI Agent (Đã được trang bị Kỹ năng):
+> "Tôi đã sẵn sàng. Dưới đây là kịch bản vận hành thực tế cho kỹ năng LLM Call:
+> 1. Thiết lập các thông số cấu hình và tham số đầu vào cần thiết cho hệ thống.
+> 2. Thực thi tuần tự các bước xử lý logic và tích hợp theo đúng chỉ dẫn của LLM Call.
+> 3. Kiểm thử đầu ra, tối ưu hóa hiệu năng và cung cấp kết quả hoàn chỉnh."
+
+## ⚠️ Lưu Ý & Gotchas
 
 * **Lỗi môi trường Python trên Windows**: Không được giả định lệnh `python3` hoạt động trên Windows. Hãy sử dụng trình khởi chạy `py -3` hoặc `python` đã được xác định trước.
 * **Thiếu API Key**: Nếu tệp `config.yaml` bị thiếu credentials của provider tương ứng, CLI sẽ báo lỗi 400. Agent cần chỉ rõ key nào đang bị thiếu.

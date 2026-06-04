@@ -34,13 +34,13 @@ tags:
 title: Minimax XLSX
 ---
 
-## 📖 Tại Sao AI Agent Của Bạn Cần Kỹ Năng Này?
+## 📖 Tại Sao Cần Skill Này?
 
 Tệp bảng tính Excel (`.xlsx`) thường được sử dụng cho các mô hình tài chính, tính toán doanh nghiệp và quản lý dữ liệu lớn. Kỹ năng này cung cấp nguyên tắc "Formula-first" (Ưu tiên công thức) bắt buộc để tệp Excel giữ được tính năng tính toán động thay vì xuất ra các số tĩnh chết, kết hợp quy trình recalculate bằng LibreOffice để cập nhật kết quả tính toán trước khi giao cho khách hàng.
 
 ---
 
-## ⚙️ Cơ Chế Hoạt Động & Quy Trình Tư Duy
+## ⚙️ Cách Hoạt Động
 
 Quy trình thao tác với file Excel:
 1. **Lựa chọn thư viện**: Đối chiếu yêu cầu với decision tree (dùng `pandas` để xử lý dữ liệu thô lớn >500k dòng, dùng `openpyxl` để viết công thức, định dạng màu sắc và vẽ biểu đồ).
@@ -56,7 +56,7 @@ Sơ đồ quy trình:
 
 ---
 
-## 🚀 Bộ Quy Tắc Chỉ Dẫn Cho Agent (Prompt Guidelines)
+## 🚀 Cách Sử Dụng
 
 ```markdown
 # QUY TẮC XỬ LÝ BẢNG TÍNH EXCEL
@@ -68,7 +68,18 @@ Sơ đồ quy trình:
 
 ---
 
-## ⚠️ Cảnh Báo Vận Hành & Mẹo Tối Ưu (Developer Gotchas)
+## 💡 Kịch Bản Lập Trình Thực Tế
+
+### Nhà phát triển:
+> "Hãy hướng dẫn tôi cách thiết lập và sử dụng kỹ năng Minimax XLSX để Đọc, ghi và xử lý bảng tính Excel (.xlsx) dựa trên cây quyết định tối ưu."
+
+### AI Agent (Đã được trang bị Kỹ năng):
+> "Tôi đã sẵn sàng. Dưới đây là kịch bản vận hành thực tế cho kỹ năng Minimax XLSX:
+> 1. Thiết lập các thông số cấu hình và tham số đầu vào cần thiết cho hệ thống.
+> 2. Thực thi tuần tự các bước xử lý logic và tích hợp theo đúng chỉ dẫn của Minimax XLSX.
+> 3. Kiểm thử đầu ra, tối ưu hóa hiệu năng và cung cấp kết quả hoàn chỉnh."
+
+## ⚠️ Lưu Ý & Gotchas
 
 * **Lỗi Công thức trống (String-only)**: openpyxl chỉ ghi chuỗi công thức dạng text chứ không thực tế chạy tính toán. Nếu bỏ qua bước recalculate, tệp Excel mở ra trên một số ứng dụng đọc sẽ hiển thị trống hoặc bằng 0 cho đến khi người dùng nhấn F9.
 * **Lỗi đọc file chứa vùng gộp (Merged Cells)**: Khi dùng `iter_rows()` đọc dữ liệu, chỉ có ô góc trên bên trái của vùng gộp chứa dữ liệu thực tế, các ô còn lại sẽ trả về `None`. Cần unmerge trước khi đọc nếu muốn duyệt toàn bộ hàng.

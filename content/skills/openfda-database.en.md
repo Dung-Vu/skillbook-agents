@@ -1,9 +1,13 @@
 ---
-title: "OpenFDA Drug & Safety Data"
-description: "Query official FDA data on drug adverse events, product recalls, labeling guidelines, and medical device registrations."
-oneLiner: "Query FDA labeling, adverse events, and approval records."
-seoTitle: "OpenFDA Drug & Safety Data — Skillbook Agents"
-seoDescription: "Guide for Agents to query openFDA for drug adverse events, recalls, and regulatory data."
+title: OpenFDA Drug & Safety Data
+description: >-
+  Query official FDA data on drug adverse events, product recalls, labeling
+  guidelines, and medical device registrations.
+oneLiner: 'Query FDA labeling, adverse events, and approval records.'
+seoTitle: OpenFDA Drug & Safety Data — Skillbook Agents
+seoDescription: >-
+  Guide for Agents to query openFDA for drug adverse events, recalls, and
+  regulatory data.
 ---
 
 

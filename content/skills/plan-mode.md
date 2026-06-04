@@ -32,13 +32,13 @@ tags:
 title: Plan Mode
 ---
 
-## 📖 Tại Sao AI Agent Của Bạn Cần Kỹ Năng Này?
+## 📖 Tại Sao Cần Skill Này?
 
 Trước khi bắt tay vào viết mã nguồn cho các tính năng phức tạp, AI Agent dễ gặp rủi ro viết sai hướng, gây ra việc phải sửa đổi lớn về sau. Kỹ năng này kích hoạt chế độ tư duy thiết kế hệ thống, giúp Agent thảo luận giải pháp với người dùng dưới vai trò một đồng nghiệp tin cậy, làm rõ các ràng buộc kỹ thuật và chốt kế hoạch thực thi rõ ràng trước khi viết dòng code đầu tiên.
 
 ---
 
-## ⚙️ Cơ Chế Hoạt Động & Quy Trình Tư Duy
+## ⚙️ Cách Hoạt Động
 
 Quy trình lập kế hoạch hoạt động như sau:
 1. **Xác nhận kích hoạt**: Kích hoạt khi có yêu cầu lập kế hoạch hoặc khi phát hiện nhiệm vụ phức tạp đụng chạm nhiều file.
@@ -54,7 +54,7 @@ Sơ đồ hoạt động:
 
 ---
 
-## 🚀 Bộ Quy Tắc Chỉ Dẫn Cho Agent (Prompt Guidelines)
+## 🚀 Cách Sử Dụng
 
 ```markdown
 # QUY TẮC LẬP KẾ HOẠCH DỰ ÁN
@@ -65,7 +65,18 @@ Sơ đồ hoạt động:
 
 ---
 
-## ⚠️ Cảnh Báo Vận Hành & Mẹo Tối Ưu (Developer Gotchas)
+## 💡 Kịch Bản Lập Trình Thực Tế
+
+### Nhà phát triển:
+> "Hãy hướng dẫn tôi cách thiết lập và sử dụng kỹ năng Plan Mode để Xây dựng kế hoạch triển khai chi tiết và kiểm thử trước khi thay đổi mã nguồn."
+
+### AI Agent (Đã được trang bị Kỹ năng):
+> "Tôi đã sẵn sàng. Dưới đây là kịch bản vận hành thực tế cho kỹ năng Plan Mode:
+> 1. Thiết lập các thông số cấu hình và tham số đầu vào cần thiết cho hệ thống.
+> 2. Thực thi tuần tự các bước xử lý logic và tích hợp theo đúng chỉ dẫn của Plan Mode.
+> 3. Kiểm thử đầu ra, tối ưu hóa hiệu năng và cung cấp kết quả hoàn chỉnh."
+
+## ⚠️ Lưu Ý & Gotchas
 
 * **Kế hoạch quá phức tạp (Over-engineering)**: Tránh thiết kế các kiến trúc quá đồ sộ cho các nhiệm vụ đơn giản. Kế hoạch phải phù hợp với quy mô hiện tại của cơ sở mã nguồn.
 * **Bỏ qua bước khảo sát thực tế**: Đề xuất giải pháp lý thuyết mà không mở file thực tế xem cấu trúc code hiện tại thường dẫn đến việc đề xuất các hàm hoặc thư viện bị trùng lặp.

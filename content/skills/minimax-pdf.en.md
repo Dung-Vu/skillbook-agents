@@ -1,8 +1,11 @@
 ---
-description: Performs read and write operations on PDF documents. Guides text extraction,
-  layout parsing, search, and generation of PDF files using compatible standard libraries.
+description: >-
+  Performs read and write operations on PDF documents. Guides text extraction,
+  layout parsing, search, and generation of PDF files using compatible standard
+  libraries.
 oneLiner: Extract content from and generate PDF documents reliably.
-seoDescription: Bilingual PDF processing guide for AI Agents. Covers text extraction
+seoDescription: >-
+  Bilingual PDF processing guide for AI Agents. Covers text extraction
   (pdfplumber/vision), LaTeX compiling, and clickable TOC creation.
 seoTitle: Minimax PDF - Minimax Skill for AI Agents
 title: Minimax PDF
@@ -31,7 +34,7 @@ Flowchart:
 
 ---
 
-## 🚀 Agent Guidelines (Prompt Guidelines)
+## 🚀 How to use
 
 ```markdown
 # MINIMAX PDF OPERATION RULES
@@ -42,6 +45,17 @@ Flowchart:
 ```
 
 ---
+
+## 💡 Real-World Examples / Scenarios
+
+### Developer:
+> "Guide me on how to configure and deploy the Minimax PDF skill to Extract content from and generate PDF documents reliably."
+
+### AI Agent (Equipped with Skill):
+> "I have initialized the configuration. Here is the execution flow for the Minimax PDF skill:
+> 1. Set up the environment variables and structure the inputs as specified.
+> 2. Execute the workflow steps and integrate core components.
+> 3. Verify results, optimize performance, and return the finalized assets."
 
 ## ⚠️ Gotchas and notes
 

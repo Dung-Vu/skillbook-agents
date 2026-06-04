@@ -1,9 +1,13 @@
 ---
-title: "Europe PMC Literature"
-description: "Search biomedical literature, download open-access full texts (PMCID), and retrieve citations."
-oneLiner: "Query biomedical literature on the Europe PMC system."
-seoTitle: "Europe PMC Literature — Skillbook Agents"
-seoDescription: "Guide for Agents to search scientific literature and download full-text papers from Europe PMC."
+title: Europe PMC Literature
+description: >-
+  Search biomedical literature, download open-access full texts (PMCID), and
+  retrieve citations.
+oneLiner: Query biomedical literature on the Europe PMC system.
+seoTitle: Europe PMC Literature — Skillbook Agents
+seoDescription: >-
+  Guide for Agents to search scientific literature and download full-text papers
+  from Europe PMC.
 ---
 
 

@@ -1,9 +1,13 @@
 ---
-title: "UniProt Protein Database"
-description: "Access the global UniProtKB database to query protein descriptions, point mutations, and literature references."
-oneLiner: "Query protein annotations and sequences from UniProt."
-seoTitle: "UniProt Protein Database — Skillbook Agents"
-seoDescription: "Guide for Agents to retrieve protein metadata, function annotations, and sequences from UniProtKB."
+title: UniProt Protein Database
+description: >-
+  Access the global UniProtKB database to query protein descriptions, point
+  mutations, and literature references.
+oneLiner: Query protein annotations and sequences from UniProt.
+seoTitle: UniProt Protein Database — Skillbook Agents
+seoDescription: >-
+  Guide for Agents to retrieve protein metadata, function annotations, and
+  sequences from UniProtKB.
 ---
 
 

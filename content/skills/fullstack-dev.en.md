@@ -1,9 +1,14 @@
 ---
-title: "Fullstack Dev"
-description: "Full-stack backend architecture and frontend-backend integration guide. Focuses on REST API design, security, authentication, and robust integration patterns."
-oneLiner: "Build high-quality full-stack applications and integrate APIs."
-seoTitle: "Fullstack Dev - Minimax Skill for AI Agents"
-seoDescription: "Full-stack development guide covering database modeling, RESTful API design, authentication, and secure system integration."
+title: Fullstack Dev
+description: >-
+  Full-stack backend architecture and frontend-backend integration guide.
+  Focuses on REST API design, security, authentication, and robust integration
+  patterns.
+oneLiner: Build high-quality full-stack applications and integrate APIs.
+seoTitle: Fullstack Dev - Minimax Skill for AI Agents
+seoDescription: >-
+  Full-stack development guide covering database modeling, RESTful API design,
+  authentication, and secure system integration.
 ---
 
 ## 📖 Why Do We Need This Skill?
@@ -22,11 +27,22 @@ The full-stack development workflow follows:
 2. **Security**: Standardizes CORS, password hashing, JWT storage, and route authorization.
 3. **Integration**: Connects the UI client to backend services using typed API clients.
 
-## 🚀 Agent Guidelines (Prompt Guidelines)
+## 🚀 How to use
 
 1. Always validate and sanitize all client inputs on the backend; never trust frontend validation alone.
 2. Maintain up-to-date API contracts (e.g., OpenAPI schemas) to ensure seamless frontend-backend alignment.
 3. Keep application configurations decoupled from code by using environment variables (`.env`).
+
+## 💡 Real-World Examples / Scenarios
+
+### Developer:
+> "Guide me on how to configure and deploy the Fullstack Dev skill to Build high-quality full-stack applications and integrate APIs."
+
+### AI Agent (Equipped with Skill):
+> "I have initialized the configuration. Here is the execution flow for the Fullstack Dev skill:
+> 1. Set up the environment variables and structure the inputs as specified.
+> 2. Execute the workflow steps and integrate core components.
+> 3. Verify results, optimize performance, and return the finalized assets."
 
 ## ⚠️ Gotchas and notes
 

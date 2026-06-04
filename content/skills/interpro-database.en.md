@@ -1,9 +1,13 @@
 ---
-title: "InterPro Domain Analysis"
-description: "Identify functional domains and classify protein families using InterPro, mapped against taxonomic distributions."
-oneLiner: "Analyze and identify protein domains and families."
-seoTitle: "InterPro Domain Analysis — Skillbook Agents"
-seoDescription: "Guide for Agents to identify protein domains and families using InterPro and its 14 member databases."
+title: InterPro Domain Analysis
+description: >-
+  Identify functional domains and classify protein families using InterPro,
+  mapped against taxonomic distributions.
+oneLiner: Analyze and identify protein domains and families.
+seoTitle: InterPro Domain Analysis — Skillbook Agents
+seoDescription: >-
+  Guide for Agents to identify protein domains and families using InterPro and
+  its 14 member databases.
 ---
 
 

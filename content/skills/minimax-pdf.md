@@ -32,13 +32,13 @@ tags:
 title: Minimax PDF
 ---
 
-## 📖 Tại Sao AI Agent Của Bạn Cần Kỹ Năng Này?
+## 📖 Tại Sao Cần Skill Này?
 
 PDF là định dạng tài liệu phổ biến nhưng rất khó trích xuất thông tin chính xác hoặc sinh ra với định dạng bố cục đẹp mắt. Kỹ năng này cung cấp cho Agent các giải pháp trích xuất văn bản (pdfplumber), gọi mô hình thị giác (vision) khi gặp sơ đồ hoặc bảng tài chính phức tạp, compile tệp báo cáo học thuật bằng LaTeX và sinh tệp PDF tiêu chuẩn có mục lục (TOC) tương tác.
 
 ---
 
-## ⚙️ Cơ Chế Hoạt Động & Quy Trình Tư Duy
+## ⚙️ Cách Hoạt Động
 
 Quy trình xử lý tài liệu PDF:
 1. **Tra cứu Pitfalls**: Đối chiếu yêu cầu với danh sách 10 mẫu truy vấn mẫu tiêu chuẩn (P1-P10) trong `pitfalls-index.md` để sao chép prompt đã được tối ưu hóa.
@@ -55,7 +55,7 @@ Sơ đồ quy trình:
 
 ---
 
-## 🚀 Bộ Quy Tắc Chỉ Dẫn Cho Agent (Prompt Guidelines)
+## 🚀 Cách Sử Dụng
 
 ```markdown
 # QUY TẮC XỬ LÝ TỆP PDF
@@ -66,7 +66,18 @@ Sơ đồ quy trình:
 
 ---
 
-## ⚠️ Cảnh Báo Vận Hành & Mẹo Tối Ưu (Developer Gotchas)
+## 💡 Kịch Bản Lập Trình Thực Tế
+
+### Nhà phát triển:
+> "Hãy hướng dẫn tôi cách thiết lập và sử dụng kỹ năng Minimax PDF để Đọc, trích xuất thông tin và tạo tệp tin PDF ổn định trên các nền tảng."
+
+### AI Agent (Đã được trang bị Kỹ năng):
+> "Tôi đã sẵn sàng. Dưới đây là kịch bản vận hành thực tế cho kỹ năng Minimax PDF:
+> 1. Thiết lập các thông số cấu hình và tham số đầu vào cần thiết cho hệ thống.
+> 2. Thực thi tuần tự các bước xử lý logic và tích hợp theo đúng chỉ dẫn của Minimax PDF.
+> 3. Kiểm thử đầu ra, tối ưu hóa hiệu năng và cung cấp kết quả hoàn chỉnh."
+
+## ⚠️ Lưu Ý & Gotchas
 
 * **Lỗi mất font chữ CJK**: Khi render HTML sang PDF bằng Playwright/Chromium, nếu thiếu cài đặt font chữ tiếng Trung/Việt trong môi trường hệ thống, văn bản sẽ bị hiển thị thành các ô vuông trống.
 * **Thời gian chờ hiển thị biểu đồ**: Khi sử dụng các thư viện như Chart.js để vẽ biểu đồ trên HTML trước khi xuất PDF, hãy chắc chắn đặt sự kiện đợi biểu đồ render xong hoàn toàn, tránh xuất tệp PDF khi biểu đồ còn đang tải hoạt họa (animation).

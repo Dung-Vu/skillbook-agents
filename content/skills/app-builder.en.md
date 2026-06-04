@@ -1,9 +1,14 @@
 ---
-title: "App Builder"
-description: "Full-stack application builder that creates web apps, APIs, mobile apps, and more from natural language requests. Helps with project structure setup and implementation planning."
-oneLiner: "Build full-stack applications and scaffold projects from descriptions."
-seoTitle: "App Builder - Minimax Skill for AI Agents"
-seoDescription: "Initialize, plan folder structures, and develop full-stack applications starting from natural language requests."
+title: App Builder
+description: >-
+  Full-stack application builder that creates web apps, APIs, mobile apps, and
+  more from natural language requests. Helps with project structure setup and
+  implementation planning.
+oneLiner: Build full-stack applications and scaffold projects from descriptions.
+seoTitle: App Builder - Minimax Skill for AI Agents
+seoDescription: >-
+  Initialize, plan folder structures, and develop full-stack applications
+  starting from natural language requests.
 ---
 
 ## 📖 Why Do We Need This Skill?
@@ -22,11 +27,22 @@ The application building flow consists of:
 2. **Scaffolding**: Generates the folder structure and base configuration files.
 3. **Iterative Build**: Implements modules incrementally following the agreed Implementation Plan.
 
-## 🚀 Agent Guidelines (Prompt Guidelines)
+## 🚀 How to use
 
 1. Inspect existing project directories before creating new folders to prevent overwriting existing assets.
 2. Ensure the generated application structure enforces separation of concerns.
 3. Write a clear startup guide (`README.md`) immediately after scaffolding the project.
+
+## 💡 Real-World Examples / Scenarios
+
+### Developer:
+> "Guide me on how to configure and deploy the App Builder skill to Build full-stack applications and scaffold projects from descriptions."
+
+### AI Agent (Equipped with Skill):
+> "I have initialized the configuration. Here is the execution flow for the App Builder skill:
+> 1. Set up the environment variables and structure the inputs as specified.
+> 2. Execute the workflow steps and integrate core components.
+> 3. Verify results, optimize performance, and return the finalized assets."
 
 ## ⚠️ Gotchas and notes
 

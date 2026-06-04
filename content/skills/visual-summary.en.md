@@ -1,10 +1,12 @@
 ---
-description: Generates visual summaries from complex data or documents using Mermaid
-  diagrams, ASCII trees, or comparison tables. Helps developers grasp system architectures
-  and workflows instantly.
+description: >-
+  Generates visual summaries from complex data or documents using Mermaid
+  diagrams, ASCII trees, or comparison tables. Helps developers grasp system
+  architectures and workflows instantly.
 oneLiner: Transform complex data and documents into clear visual summaries and charts.
-seoDescription: Generate HTML visual summaries. Create charts, Mermaid flowcharts,
-  and structured data views linked via media tags.
+seoDescription: >-
+  Generate HTML visual summaries. Create charts, Mermaid flowcharts, and
+  structured data views linked via media tags.
 seoTitle: Visual Summary - Minimax Skill for AI Agents
 title: Visual Summary
 ---
@@ -31,7 +33,7 @@ Flowchart:
 
 ---
 
-## 🚀 Agent Guidelines (Prompt Guidelines)
+## 🚀 How to use
 
 ```markdown
 # VISUAL SUMMARY RULES
@@ -42,6 +44,17 @@ Flowchart:
 ```
 
 ---
+
+## 💡 Real-World Examples / Scenarios
+
+### Developer:
+> "Guide me on how to configure and deploy the Visual Summary skill to Transform complex data and documents into clear visual summaries and charts."
+
+### AI Agent (Equipped with Skill):
+> "I have initialized the configuration. Here is the execution flow for the Visual Summary skill:
+> 1. Set up the environment variables and structure the inputs as specified.
+> 2. Execute the workflow steps and integrate core components.
+> 3. Verify results, optimize performance, and return the finalized assets."
 
 ## ⚠️ Gotchas and notes
 

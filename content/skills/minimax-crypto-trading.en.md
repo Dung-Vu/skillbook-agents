@@ -1,9 +1,16 @@
 ---
-title: "Minimax Crypto Trading"
-description: "A professional-grade crypto trading decision agent for BTC/ETH/SOL. Uses multi-layer analysis to identify asymmetric trades. Prioritizes survival over profit."
-oneLiner: "Quantitative crypto trading agent specializing in SFP setups and strict risk control."
-seoTitle: "Minimax Crypto Trading - Minimax Skill for AI Agents"
-seoDescription: "Implement quantitative crypto trading logic on AI Agents, leveraging Swing Failure Pattern identification and expected R calculations."
+title: Minimax Crypto Trading
+description: >-
+  A professional-grade crypto trading decision agent for BTC/ETH/SOL. Uses
+  multi-layer analysis to identify asymmetric trades. Prioritizes survival over
+  profit.
+oneLiner: >-
+  Quantitative crypto trading agent specializing in SFP setups and strict risk
+  control.
+seoTitle: Minimax Crypto Trading - Minimax Skill for AI Agents
+seoDescription: >-
+  Implement quantitative crypto trading logic on AI Agents, leveraging Swing
+  Failure Pattern identification and expected R calculations.
 ---
 
 ## 📖 Why Do We Need This Skill?
@@ -23,12 +30,23 @@ Market Inputs ──> Macro Filter ──> Anti-Consensus check ──> SFP Iden
 5. **Risk Governor**: Ensure single-trade risk <= 1% and verify account drawdown limits.
 6. **Output**: Return strictly formatted EXECUTE or NO TRADE decisions.
 
-## 🚀 Agent Guidelines (Prompt Guidelines)
+## 🚀 How to use
 
 - **Survival Over Profit**: Reject neutral trades. Ensure expected R >= 3 (or >= 4 under high consensus).
 - SFP confirmation requires a candle low/high breaching a key level and closing back inside the level.
 - Risk management is hardcoded: maximum single trade risk is 1%, and maximum position size is 20%.
 - Maintain a minimum 60% NO TRADE ratio to avoid overtrading in noise.
+
+## 💡 Real-World Examples / Scenarios
+
+### Developer:
+> "Guide me on how to configure and deploy the Minimax Crypto Trading skill to Quantitative crypto trading agent specializing in SFP setups and strict risk control."
+
+### AI Agent (Equipped with Skill):
+> "I have initialized the configuration. Here is the execution flow for the Minimax Crypto Trading skill:
+> 1. Set up the environment variables and structure the inputs as specified.
+> 2. Execute the workflow steps and integrate core components.
+> 3. Verify results, optimize performance, and return the finalized assets."
 
 ## ⚠️ Gotchas and notes
 

@@ -35,7 +35,7 @@ seoDescription: >-
 provider: antigravity
 ---
 
-## 📖 Tại Sao AI Agent Của Bạn Cần Kỹ Năng Này?
+## 📖 Tại Sao Cần Skill Này?
 
 Trong quá trình phát triển dự án, lập trình viên và AI thường phối hợp thực hiện nhiều quy trình làm việc (workflow) rất phức tạp — bao gồm gọi liên chuỗi API, chuyển đổi cấu trúc dữ liệu, build và chạy kiểm thử tự động. Nếu không có kỹ năng này:
 * **Mất mát tri thức**: Khi phiên hội thoại chat kết thúc, toàn bộ phương pháp xử lý thông minh và chuỗi câu lệnh đúc rút được sẽ biến mất. Bạn sẽ phải dạy lại AI từ đầu ở phiên chat mới.
@@ -48,7 +48,7 @@ Trong quá trình phát triển dự án, lập trình viên và AI thường ph
 
 ---
 
-## ⚙️ Cơ Chế Hoạt Động & Quy Trình Tư Duy
+## ⚙️ Cách Hoạt Động
 
 ```
 [Interaction History] ➔ 🧠 [Pha 1: Phân Tích & Brainstorm] ➔ 📐 [Pha 2: Thiết Kế Input/Output]
@@ -73,7 +73,7 @@ Nhúng các quy tắc này vào `.windsurfrules` để Cascade Agent tự độn
 
 ---
 
-## 🚀 Bộ Quy Tắc Chỉ Dẫn Cho Agent (Prompt Guidelines)
+## 🚀 Cách Sử Dụng
 
 ```markdown
 # WORKFLOW SKILL CREATOR INSTRUCTIONS & RULES
@@ -113,7 +113,7 @@ Bắt buộc phải báo cáo và chạy qua đầy đủ 4 pha, không được
 
 ---
 
-## ⚠️ Cảnh Báo Vận Hành & Mẹo Tối Ưu (Developer Gotchas)
+## ⚠️ Lưu Ý & Gotchas
 
 * **Bắt Buộc Phải Có Lịch Sử**: Kỹ năng này không hoạt động nếu bạn yêu cầu tạo một kỹ năng hoàn toàn mới mà hai bên chưa từng chạy thử thành công trong phiên chat. AI cần dữ liệu thực nghiệm để đúc rút quy tắc.
 * **Xác Thực Là Chìa Khóa**: Đừng bao giờ bàn giao một Kỹ năng mới mà không chạy qua Pha 4 (Validation). Một Kỹ năng không được chạy thử là một Kỹ năng có thể bị lỗi cú pháp hoặc thiếu dependency ngầm.

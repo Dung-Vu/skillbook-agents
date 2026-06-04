@@ -1,9 +1,13 @@
 ---
-title: "GTEx Gene Expression"
-description: "Analyze quantitative gene expression and expression quantitative trait loci (eQTL) across 54 healthy human tissues."
-oneLiner: "Retrieve RNA expression and eQTL data from the GTEx project."
-seoTitle: "GTEx Gene Expression — Skillbook Agents"
-seoDescription: "Guide for Agents to retrieve RNA-seq expression and eQTL data from GTEx across 54 tissues."
+title: GTEx Gene Expression
+description: >-
+  Analyze quantitative gene expression and expression quantitative trait loci
+  (eQTL) across 54 healthy human tissues.
+oneLiner: Retrieve RNA expression and eQTL data from the GTEx project.
+seoTitle: GTEx Gene Expression — Skillbook Agents
+seoDescription: >-
+  Guide for Agents to retrieve RNA-seq expression and eQTL data from GTEx across
+  54 tissues.
 ---
 
 

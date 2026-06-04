@@ -35,7 +35,7 @@ seoDescription: >-
 provider: antigravity
 ---
 
-## 📖 Tại Sao AI Agent Của Bạn Cần Kỹ Năng Này?
+## 📖 Tại Sao Cần Skill Này?
 
 Python là ngôn ngữ phổ biến nhất cho AI, phân tích dữ liệu và tự động hóa. Tuy nhiên, việc quản lý môi trường ảo (`venv`) và cài đặt thư viện bằng `pip` truyền thống gặp nhiều trở ngại lớn đối với AI:
 * **Thời gian chờ đợi**: Phân giải và tải dependencies bằng `pip` rất chậm, dễ gây timeout phiên chat.
@@ -48,7 +48,7 @@ Python là ngôn ngữ phổ biến nhất cho AI, phân tích dữ liệu và t
 
 ---
 
-## ⚙️ Cơ Chế Hoạt Động & Quy Trình Tư Duy
+## ⚙️ Cách Hoạt Động
 
 ```
 [Chạy Script Python] ➔ 📋 [Kiểm Tra UV Version]
@@ -73,7 +73,7 @@ Cài đặt quy tắc này vào `.windsurfrules` ở thư mục gốc của dự
 
 ---
 
-## 🚀 Bộ Quy Tắc Chỉ Dẫn Cho Agent (Prompt Guidelines)
+## 🚀 Cách Sử Dụng
 
 ````markdown
 # UV PACKAGE MANAGER INSTRUCTIONS & RULES
@@ -122,7 +122,7 @@ Cài đặt quy tắc này vào `.windsurfrules` ở thư mục gốc của dự
 
 ---
 
-## ⚠️ Cảnh Báo Vận Hành & Mẹo Tối Ưu (Developer Gotchas)
+## ⚠️ Lưu Ý & Gotchas
 
 * **Xử Lý Lỗi PATH Biến Môi Trường**: Sau khi cài đặt UV lần đầu, terminal hiện tại có thể chưa nhận diện được lệnh `uv`. Luôn thử tắt và mở lại terminal hoặc nạp lại biến môi trường (`$env:Path` trên Windows) thay vì cài đặt lại nhiều lần.
 * **Tận Dụng Global Cache**: UV chia sẻ một bộ nhớ cache toàn cục cực kỳ thông minh. Nếu nhiều dự án của bạn cùng sử dụng một thư viện, UV sẽ tạo các liên kết cứng (hard links) thay vì sao chép vật lý các file, giúp tiết kiệm bộ nhớ ổ đĩa và gia tốc tối đa.

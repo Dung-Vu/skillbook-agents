@@ -35,13 +35,13 @@ tags:
 title: Create Agent
 ---
 
-## 📖 Tại Sao AI Agent Của Bạn Cần Kỹ Năng Này?
+## 📖 Tại Sao Cần Skill Này?
 
 AI Agent cần kỹ năng này để tự động thiết lập và mở rộng đội ngũ Agent của chính nó. Khi một nhiệm vụ đòi hỏi kỹ năng chuyên biệt mới vượt quá khả năng của các Agent hiện tại, thay vì làm quá tải Agent hiện có, hệ thống có thể tạo ra một Agent mới có trách nhiệm cụ thể để chia sẻ công việc, giúp duy trì cấu trúc module và tối ưu hóa chi phí vận hành prompt.
 
 ---
 
-## ⚙️ Cơ Chế Hoạt Động & Quy Trình Tư Duy
+## ⚙️ Cách Hoạt Động
 
 Quy trình hoạt động tuân theo 5 bước rõ ràng:
 1. **Chọn tên**: Đặt tên dạng `kebab-case` mô tả chính xác trách nhiệm (ví dụ: `payments-expert`), kiểm tra tên đã tồn tại chưa qua `mavis agent info`.
@@ -58,7 +58,7 @@ Sơ đồ quy trình:
 
 ---
 
-## 🚀 Bộ Quy Tắc Chỉ Dẫn Cho Agent (Prompt Guidelines)
+## 🚀 Cách Sử Dụng
 
 ```markdown
 # QUY TẮC KHỞI TẠO AGENT CHUYÊN BIỆT
@@ -70,7 +70,18 @@ Sơ đồ quy trình:
 
 ---
 
-## ⚠️ Cảnh Báo Vận Hành & Mẹo Tối Ưu (Developer Gotchas)
+## 💡 Kịch Bản Lập Trình Thực Tế
+
+### Nhà phát triển:
+> "Hãy hướng dẫn tôi cách thiết lập và sử dụng kỹ năng Create Agent để Khởi tạo và cấu hình nhanh một Agent mới độc lập hoặc tích hợp trong dự án."
+
+### AI Agent (Đã được trang bị Kỹ năng):
+> "Tôi đã sẵn sàng. Dưới đây là kịch bản vận hành thực tế cho kỹ năng Create Agent:
+> 1. Thiết lập các thông số cấu hình và tham số đầu vào cần thiết cho hệ thống.
+> 2. Thực thi tuần tự các bước xử lý logic và tích hợp theo đúng chỉ dẫn của Create Agent.
+> 3. Kiểm thử đầu ra, tối ưu hóa hiệu năng và cung cấp kết quả hoàn chỉnh."
+
+## ⚠️ Lưu Ý & Gotchas
 
 * **Trùng lặp phạm vi**: Tránh tạo hai Agent có phạm vi công việc chồng chéo lên nhau, điều này làm bộ điều phối (orchestrator) phân vai ngẫu nhiên và mất kiểm soát.
 * **YAML lỗi cú pháp**: Lỗi phổ biến là thụt lề bằng phím tab hoặc thiếu ký tự đóng `---` ở frontmatter, khiến Agent không xuất hiện trong danh sách.

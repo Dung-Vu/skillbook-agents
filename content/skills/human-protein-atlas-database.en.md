@@ -1,9 +1,13 @@
 ---
-title: "Human Protein Atlas"
-description: "Retrieve protein expression profiles and subcellular localizations using antibody-based immunohistochemistry from the Human Protein Atlas (HPA)."
-oneLiner: "Query protein expression and subcellular spatial localization data."
-seoTitle: "Human Protein Atlas — Skillbook Agents"
-seoDescription: "Guide for Agents to retrieve protein expression and subcellular localization from the Human Protein Atlas."
+title: Human Protein Atlas
+description: >-
+  Retrieve protein expression profiles and subcellular localizations using
+  antibody-based immunohistochemistry from the Human Protein Atlas (HPA).
+oneLiner: Query protein expression and subcellular spatial localization data.
+seoTitle: Human Protein Atlas — Skillbook Agents
+seoDescription: >-
+  Guide for Agents to retrieve protein expression and subcellular localization
+  from the Human Protein Atlas.
 ---
 
 

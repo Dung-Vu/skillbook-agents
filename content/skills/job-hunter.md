@@ -35,11 +35,11 @@ seoDescription: >-
 provider: minimax
 ---
 
-## 📖 Tại Sao AI Agent Của Bạn Cần Kỹ Năng Này?
+## 📖 Tại Sao Cần Skill Này?
 
 Quy trình tìm việc thường rời rạc và tốn nhiều công sức để chỉnh sửa hồ sơ cho phù hợp với từng vị trí tuyển dụng. Kỹ năng này cung cấp một bộ công cụ khép kín giúp Agent đồng hành cùng ứng viên: từ thu thập hồ sơ năng lực, tìm kiếm vị trí phù hợp, tối ưu CV chống quét ATS, cho đến đóng vai nhà tuyển dụng để phỏng vấn thử.
 
-## ⚙️ Cơ Chế Hoạt Động & Quy Trình Tư Duy
+## ⚙️ Cách Hoạt Động
 
 Vòng đời hỗ trợ tìm việc:
 
@@ -51,13 +51,24 @@ Vòng đời hỗ trợ tìm việc:
 2. **Optimization**: Sửa CV để đưa các từ khóa (keywords) từ mô tả công việc vào một cách tự nhiên nhằm vượt qua bộ lọc ATS.
 3. **Interview**: Đóng vai nhà tuyển dụng đặt câu hỏi tình huống chuyên sâu và chấm điểm câu trả lời của ứng viên.
 
-## 🚀 Bộ Quy Tắc Chỉ Dẫn Cho Agent (Prompt Guidelines)
+## 🚀 Cách Sử Dụng
 
 1. Luôn chấm điểm mức độ phù hợp của tin tuyển dụng (`relevance score`) trước khi khuyên người dùng nộp hồ sơ.
 2. Khi tối ưu hóa CV, tuyệt đối không được bịa đặt kinh nghiệm; chỉ điều chỉnh cách dùng từ và nhấn mạnh các kỹ năng sẵn có sát với mô tả công việc.
 3. Cung cấp các câu trả lời phỏng vấn mẫu theo cấu trúc STAR (Situation, Task, Action, Result) chuẩn mực.
 
-## ⚠️ Cảnh Báo Vận Hành & Mẹo Tối Ưu (Developer Gotchas)
+## 💡 Kịch Bản Lập Trình Thực Tế
+
+### Nhà phát triển:
+> "Hãy hướng dẫn tôi cách thiết lập và sử dụng kỹ năng Job Hunter để Trợ lý tối ưu hóa hồ sơ và đồng hành suốt vòng đời tìm việc của ứng viên."
+
+### AI Agent (Đã được trang bị Kỹ năng):
+> "Tôi đã sẵn sàng. Dưới đây là kịch bản vận hành thực tế cho kỹ năng Job Hunter:
+> 1. Thiết lập các thông số cấu hình và tham số đầu vào cần thiết cho hệ thống.
+> 2. Thực thi tuần tự các bước xử lý logic và tích hợp theo đúng chỉ dẫn của Job Hunter.
+> 3. Kiểm thử đầu ra, tối ưu hóa hiệu năng và cung cấp kết quả hoàn chỉnh."
+
+## ⚠️ Lưu Ý & Gotchas
 
 - **ATS Spanning**: Tránh việc nhồi nhét từ khóa vô nghĩa (keyword stuffing) vào CV. Bộ lọc ATS hiện đại sẽ quét và loại bỏ các hồ sơ này.
 - **Thông tin tuyển dụng hết hạn**: Các tin tuyển dụng trên web có thể đã đóng. Cần kiểm tra kỹ thời gian đăng tuyển trước khi gửi cho người dùng.

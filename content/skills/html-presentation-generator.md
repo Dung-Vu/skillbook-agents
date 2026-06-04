@@ -33,11 +33,11 @@ seoDescription: >-
 provider: minimax
 ---
 
-## 📖 Tại Sao AI Agent Của Bạn Cần Kỹ Năng Này?
+## 📖 Tại Sao Cần Skill Này?
 
 Các slide PowerPoint thông thường thường tốn thời gian thiết kế thủ công và dễ bị lỗi định dạng khi chia sẻ. Bằng cách thiết kế slide dưới dạng các trang web HTML với kích thước chuẩn (960x540), Agent có thể tạo ra các bài trình chiếu tuyệt đẹp, dễ dàng tùy biến bằng code và xuất file PDF hoàn hảo.
 
-## ⚙️ Cơ Chế Hoạt Động & Quy Trình Tư Duy
+## ⚙️ Cách Hoạt Động
 
 Quy trình thiết kế slide HTML:
 
@@ -49,13 +49,24 @@ Quy trình thiết kế slide HTML:
 2. **Design Tokens**: Chọn bảng màu chủ đạo và đặt font Times New Roman (bắt buộc theo chuẩn thiết kế).
 3. **HTML Rendering**: Viết mã nguồn HTML/CSS cho từng slide đơn lẻ, chèn trang trí bằng các thẻ SVG trực quan.
 
-## 🚀 Bộ Quy Tắc Chỉ Dẫn Cho Agent (Prompt Guidelines)
+## 🚀 Cách Sử Dụng
 
 1. Mỗi slide phải là một file HTML độc lập có kích thước khung hình cố định là 960x540 pixels.
 2. Bắt buộc sử dụng font **Times New Roman** cho toàn bộ văn bản trong slide.
 3. Sử dụng các trang trí hình học dạng SVG tự vẽ thay vì chèn ảnh bitmap bên ngoài để slide sắc nét khi xuất PDF.
 
-## ⚠️ Cảnh Báo Vận Hành & Mẹo Tối Ưu (Developer Gotchas)
+## 💡 Kịch Bản Lập Trình Thực Tế
+
+### Nhà phát triển:
+> "Hãy hướng dẫn tôi cách thiết lập và sử dụng kỹ năng HTML Presentation Generator để Tạo bài thuyết trình dạng trang web HTML chuyên nghiệp và xuất PDF."
+
+### AI Agent (Đã được trang bị Kỹ năng):
+> "Tôi đã sẵn sàng. Dưới đây là kịch bản vận hành thực tế cho kỹ năng HTML Presentation Generator:
+> 1. Thiết lập các thông số cấu hình và tham số đầu vào cần thiết cho hệ thống.
+> 2. Thực thi tuần tự các bước xử lý logic và tích hợp theo đúng chỉ dẫn của HTML Presentation Generator.
+> 3. Kiểm thử đầu ra, tối ưu hóa hiệu năng và cung cấp kết quả hoàn chỉnh."
+
+## ⚠️ Lưu Ý & Gotchas
 
 - **Tràn nội dung**: Chữ quá nhiều sẽ bị tràn ra khỏi khung hình 960x540. Cần khống chế số lượng từ trên mỗi slide (dưới 60 từ) và sử dụng bullet points ngắn gọn.
 - **Lỗi căn chỉnh khi export**: Khi chuyển đổi sang PDF, một số CSS nâng cao có thể không được hỗ trợ. Hãy sử dụng flexbox và grid cơ bản để định vị phần tử.

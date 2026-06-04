@@ -1,9 +1,13 @@
 ---
-title: "Protein Multiple Sequence Alignment"
-description: "Align multiple protein sequences to evaluate genetic similarity, conserved domains, and critical residues."
-oneLiner: "Perform multiple sequence alignment (MSA) using Clustal Omega."
-seoTitle: "Protein Multiple Sequence Alignment — Skillbook Agents"
-seoDescription: "Guide for Agents to perform MSA using Clustal Omega to analyze protein conservation and key residues."
+title: Protein Multiple Sequence Alignment
+description: >-
+  Align multiple protein sequences to evaluate genetic similarity, conserved
+  domains, and critical residues.
+oneLiner: Perform multiple sequence alignment (MSA) using Clustal Omega.
+seoTitle: Protein Multiple Sequence Alignment — Skillbook Agents
+seoDescription: >-
+  Guide for Agents to perform MSA using Clustal Omega to analyze protein
+  conservation and key residues.
 ---
 
 

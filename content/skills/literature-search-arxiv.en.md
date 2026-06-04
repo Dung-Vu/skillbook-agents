@@ -1,9 +1,11 @@
 ---
-title: "arXiv Paper Search"
-description: "Search arXiv repository for mathematics, physics, computer science, and AI papers, extract abstracts, and download PDFs."
-oneLiner: "Search and download preprint scientific papers from arXiv."
-seoTitle: "arXiv Paper Search — Skillbook Agents"
-seoDescription: "Guide for Agents to search scientific papers and preprints on arXiv."
+title: arXiv Paper Search
+description: >-
+  Search arXiv repository for mathematics, physics, computer science, and AI
+  papers, extract abstracts, and download PDFs.
+oneLiner: Search and download preprint scientific papers from arXiv.
+seoTitle: arXiv Paper Search — Skillbook Agents
+seoDescription: Guide for Agents to search scientific papers and preprints on arXiv.
 ---
 
 

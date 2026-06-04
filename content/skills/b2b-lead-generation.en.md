@@ -1,9 +1,14 @@
 ---
-title: "B2B Lead Generation"
-description: "B2B Lead Generation Assistant. Automatically identifies competitors, discovers potential customers through connection mining, scores and enriches leads, and generates personalized BD materials."
-oneLiner: "Automate finding, scoring, and outreaching B2B prospective customers."
-seoTitle: "B2B Lead Generation - Minimax Skill for AI Agents"
-seoDescription: "Standardized B2B lead generation workflow: identify competitors, mine prospect contacts, score leads, and write personalized outreach emails."
+title: B2B Lead Generation
+description: >-
+  B2B Lead Generation Assistant. Automatically identifies competitors, discovers
+  potential customers through connection mining, scores and enriches leads, and
+  generates personalized BD materials.
+oneLiner: 'Automate finding, scoring, and outreaching B2B prospective customers.'
+seoTitle: B2B Lead Generation - Minimax Skill for AI Agents
+seoDescription: >-
+  Standardized B2B lead generation workflow: identify competitors, mine prospect
+  contacts, score leads, and write personalized outreach emails.
 ---
 
 ## 📖 Why Do We Need This Skill?
@@ -22,11 +27,22 @@ The automated lead generation flow follows these phases:
 2. **Scoring**: Scores leads (A/B/C/D) based on industry fit, size, and pain points.
 3. **Outreach**: Drafts highly personalized business development (BD) emails mapped to the target's specific business challenges.
 
-## 🚀 Agent Guidelines (Prompt Guidelines)
+## 🚀 How to use
 
 1. Verify email addresses and company status before exporting the lead list.
 2. Tailor lead scoring formulas according to the user's specific target buyer personas.
 3. Keep outreach materials concise, focusing on value propositions rather than product features.
+
+## 💡 Real-World Examples / Scenarios
+
+### Developer:
+> "Guide me on how to configure and deploy the B2B Lead Generation skill to Automate finding, scoring, and outreaching B2B prospective customers."
+
+### AI Agent (Equipped with Skill):
+> "I have initialized the configuration. Here is the execution flow for the B2B Lead Generation skill:
+> 1. Set up the environment variables and structure the inputs as specified.
+> 2. Execute the workflow steps and integrate core components.
+> 3. Verify results, optimize performance, and return the finalized assets."
 
 ## ⚠️ Gotchas and notes
 

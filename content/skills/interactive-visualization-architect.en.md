@@ -1,9 +1,14 @@
 ---
-title: "Interactive Visualization Architect"
-description: "Turn any abstract scientific principle, mechanical structure, or math concept into stunning interactive web animations. Generates web demos with shareable URLs."
-oneLiner: "Create interactive web animations and simulations for complex concepts."
-seoTitle: "Interactive Visualization Architect - Minimax Skill for AI Agents"
-seoDescription: "Interactive web visualization specialist: building 2D/3D animations using Canvas API, D3.js, and React Three Fiber."
+title: Interactive Visualization Architect
+description: >-
+  Turn any abstract scientific principle, mechanical structure, or math concept
+  into stunning interactive web animations. Generates web demos with shareable
+  URLs.
+oneLiner: Create interactive web animations and simulations for complex concepts.
+seoTitle: Interactive Visualization Architect - Minimax Skill for AI Agents
+seoDescription: >-
+  Interactive web visualization specialist: building 2D/3D animations using
+  Canvas API, D3.js, and React Three Fiber.
 ---
 
 ## 📖 Why Do We Need This Skill?
@@ -22,11 +27,22 @@ The visualization building process flows through:
 2. **Tech Selection**: Chooses between React Three Fiber, SVG, HTML5 Canvas, or D3.js based on dimensions and complexity.
 3. **Delivery**: Deploys the code and provides a live, shareable URL.
 
-## 🚀 Agent Guidelines (Prompt Guidelines)
+## 🚀 How to use
 
 1. The final success criterion is delivering a live, functional URL. Static code snippets alone are insufficient.
 2. Enforce 'Playful Learning' mechanisms (e.g. sliders, interactive joystick components) to let users manipulate variables.
 3. Optimize animation loops to run at a consistent 60 FPS across both desktop and mobile screens.
+
+## 💡 Real-World Examples / Scenarios
+
+### Developer:
+> "Guide me on how to configure and deploy the Interactive Visualization Architect skill to Create interactive web animations and simulations for complex concepts."
+
+### AI Agent (Equipped with Skill):
+> "I have initialized the configuration. Here is the execution flow for the Interactive Visualization Architect skill:
+> 1. Set up the environment variables and structure the inputs as specified.
+> 2. Execute the workflow steps and integrate core components.
+> 3. Verify results, optimize performance, and return the finalized assets."
 
 ## ⚠️ Gotchas and notes
 

@@ -1,9 +1,11 @@
 ---
-description: Bootstraps a `.harness/` directory for a coding project by analyzing
-  the codebase structure, technologies, and dominant languages, then scaffolding a
+description: >-
+  Bootstraps a `.harness/` directory for a coding project by analyzing the
+  codebase structure, technologies, and dominant languages, then scaffolding a
   tailored multi-agent team.
 oneLiner: Analyze codebase and bootstrap a coordinated multi-agent team harness.
-seoDescription: Bootstrap a multi-agent team harness in `.harness/`. Automates repository
+seoDescription: >-
+  Bootstrap a multi-agent team harness in `.harness/`. Automates repository
   scanning, agent selection, and configuration files scaffolding.
 seoTitle: Init Harness - Minimax Skill for AI Agents
 title: Init Harness
@@ -33,7 +35,7 @@ Workflow flowchart:
 
 ---
 
-## 🚀 Agent Guidelines (Prompt Guidelines)
+## 🚀 How to use
 
 ```markdown
 # INIT HARNESS RULES
@@ -44,6 +46,17 @@ Workflow flowchart:
 ```
 
 ---
+
+## 💡 Real-World Examples / Scenarios
+
+### Developer:
+> "Guide me on how to configure and deploy the Init Harness skill to Analyze codebase and bootstrap a coordinated multi-agent team harness."
+
+### AI Agent (Equipped with Skill):
+> "I have initialized the configuration. Here is the execution flow for the Init Harness skill:
+> 1. Set up the environment variables and structure the inputs as specified.
+> 2. Execute the workflow steps and integrate core components.
+> 3. Verify results, optimize performance, and return the finalized assets."
 
 ## ⚠️ Gotchas and notes
 

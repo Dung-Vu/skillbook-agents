@@ -32,11 +32,11 @@ seoDescription: >-
 provider: minimax
 ---
 
-## 📖 Tại Sao AI Agent Của Bạn Cần Kỹ Năng Này?
+## 📖 Tại Sao Cần Skill Này?
 
 Thư mục làm việc hoặc thư mục Tải xuống (Downloads) của người dùng thường tích tụ hàng trăm tệp tin lộn xộn, gây khó khăn cho việc tìm kiếm. Kỹ năng này cho phép Agent thực hiện dọn dẹp thư mục theo quy trình cực kỳ an toàn: tạo bản sao lưu (Backup) tạm thời trước khi di chuyển, phân loại tệp tin vào các thư mục con tương ứng (Documents, Images, Archives, v.v.), tránh xóa nhầm các tệp tin quan trọng hoặc tệp tin hệ thống.
 
-## ⚙️ Cơ Chế Hoạt Động & Quy Trình Tư Duy
+## ⚙️ Cách Hoạt Động
 
 Quy trình dọn dẹp thư mục an toàn:
 ```
@@ -47,13 +47,24 @@ Quet thu muc nguon --> Tao ban sao luu du phong --> Phan loai tep tin --> Di chu
 3. **Phân loại**: Sắp xếp tệp tin vào nhóm: Văn bản (Documents), Hình ảnh (Images), Lập trình (Code), Nén (Archives).
 4. **Di chuyển an toàn**: Di chuyển tệp tin vào thư mục phân loại, giữ lại các tệp tin hệ thống ẩn (`.gitignore`, `.env`) và xóa các thư mục rỗng.
 
-## 🚀 Bộ Quy Tắc Chỉ Dẫn Cho Agent (Prompt Guidelines)
+## 🚀 Cách Sử Dụng
 
 - **An toàn dữ liệu là số một**: Tuyệt đối không xóa trực tiếp bất kỳ tệp tin nào của người dùng. Mọi hành động dọn dẹp phải thông qua việc di chuyển vào thư mục Archive hoặc Trash tạm thời.
 - Giữ nguyên các tệp ẩn khởi đầu bằng dấu chấm (`.`) và các thư mục cấu hình hệ thống quan trọng.
 - Sau khi hoàn thành, xuất báo cáo danh sách các tệp tin đã di chuyển kèm sơ đồ cây thư mục mới trực quan.
 
-## ⚠️ Cảnh Báo Vận Hành & Mẹo Tối Ưu (Developer Gotchas)
+## 💡 Kịch Bản Lập Trình Thực Tế
+
+### Nhà phát triển:
+> "Hãy hướng dẫn tôi cách thiết lập và sử dụng kỹ năng Tidy Folder để Dọn dẹp và sắp xếp tệp tin trong thư mục một cách khoa học và an toàn."
+
+### AI Agent (Đã được trang bị Kỹ năng):
+> "Tôi đã sẵn sàng. Dưới đây là kịch bản vận hành thực tế cho kỹ năng Tidy Folder:
+> 1. Thiết lập các thông số cấu hình và tham số đầu vào cần thiết cho hệ thống.
+> 2. Thực thi tuần tự các bước xử lý logic và tích hợp theo đúng chỉ dẫn của Tidy Folder.
+> 3. Kiểm thử đầu ra, tối ưu hóa hiệu năng và cung cấp kết quả hoàn chỉnh."
+
+## ⚠️ Lưu Ý & Gotchas
 
 - **Xung đột tên tệp**: Đề xuất giải pháp ghi đè hoặc tự động đổi tên (thêm hậu tố ngày tháng) nếu xảy ra hiện tượng trùng tên tệp tin ở thư mục đích.
 - **Giới hạn quyền đọc ghi**: Cảnh báo người dùng nếu gặp lỗi phân quyền (Permission Denied) đối với các tệp tin hệ thống đang mở.

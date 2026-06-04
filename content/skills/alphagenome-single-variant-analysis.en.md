@@ -1,9 +1,13 @@
 ---
-title: "AlphaGenome Variant Analysis"
-description: "Analyze genetic variant effects on gene expression (RNA-seq), chromatin accessibility (DNASE), and regulatory elements."
-oneLiner: "Analyze genetic variant effects on gene expression using AlphaGenome."
-seoTitle: "AlphaGenome Variant Analysis — Skillbook Agents"
-seoDescription: "Guide for Agents to predict genetic variant effects on gene expression and chromatin using AlphaGenome."
+title: AlphaGenome Variant Analysis
+description: >-
+  Analyze genetic variant effects on gene expression (RNA-seq), chromatin
+  accessibility (DNASE), and regulatory elements.
+oneLiner: Analyze genetic variant effects on gene expression using AlphaGenome.
+seoTitle: AlphaGenome Variant Analysis — Skillbook Agents
+seoDescription: >-
+  Guide for Agents to predict genetic variant effects on gene expression and
+  chromatin using AlphaGenome.
 ---
 
 

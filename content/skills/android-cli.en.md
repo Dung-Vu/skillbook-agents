@@ -1,9 +1,16 @@
 ---
-title: "Android CLI Development"
-description: "Guide for Agents to command the Android development pipeline through CLI — from project setup and SDK management to ADB control and Gradle build automation."
-oneLiner: "Coordinate and automate the entire Android application development process via CLI."
-seoTitle: "Android CLI Development for AI Agents — Skillbook Agents"
-seoDescription: "Optimization guidelines helping AI Agents manage Android development via CLI — project creation, SDK, deployment, diagnostics."
+title: Android CLI Development
+description: >-
+  Guide for Agents to command the Android development pipeline through CLI —
+  from project setup and SDK management to ADB control and Gradle build
+  automation.
+oneLiner: >-
+  Coordinate and automate the entire Android application development process via
+  CLI.
+seoTitle: Android CLI Development for AI Agents — Skillbook Agents
+seoDescription: >-
+  Optimization guidelines helping AI Agents manage Android development via CLI —
+  project creation, SDK, deployment, diagnostics.
 ---
 
 
@@ -49,7 +56,7 @@ Declare the rules in a `claude_rules.md` file or paste the prompt rules directly
 
 ---
 
-## 🚀 Agent Guidelines (Prompt Guidelines)
+## 🚀 How to use
 
 ```markdown
 # ANDROID CLI INSTRUCTIONS & RULES

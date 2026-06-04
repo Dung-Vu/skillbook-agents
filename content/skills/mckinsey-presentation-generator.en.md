@@ -1,9 +1,14 @@
 ---
-title: "McKinsey Presentation Generator"
-description: "A professional McKinsey consulting-style multi-page HTML presentation generator. Creates data-rich, research-backed slide decks with SVG charts, market analysis, and industry insights."
-oneLiner: "Generate McKinsey-style data-rich multi-page HTML presentation decks."
-seoTitle: "McKinsey Presentation Generator - Minimax Skill for AI Agents"
-seoDescription: "Implement professional McKinsey slide presentation skills on AI Agents, utilizing structured HTML layouts and SVG charts."
+title: McKinsey Presentation Generator
+description: >-
+  A professional McKinsey consulting-style multi-page HTML presentation
+  generator. Creates data-rich, research-backed slide decks with SVG charts,
+  market analysis, and industry insights.
+oneLiner: Generate McKinsey-style data-rich multi-page HTML presentation decks.
+seoTitle: McKinsey Presentation Generator - Minimax Skill for AI Agents
+seoDescription: >-
+  Implement professional McKinsey slide presentation skills on AI Agents,
+  utilizing structured HTML layouts and SVG charts.
 ---
 
 ## 📖 Why Do We Need This Skill?
@@ -22,12 +27,23 @@ Market Research (Step 1) ──> Slide Decks Planning ──> Standalone HTML Co
 4. **SVG Visualizations**: Render bar, line, and comparison charts natively as inline SVG objects.
 5. **Live Deployment**: Publish using the designated HTML presentation deployer.
 
-## 🚀 Agent Guidelines (Prompt Guidelines)
+## 🚀 How to use
 
 - **Sharp Edges Only**: Set `border-radius: 0` globally on all cards, buttons, progress bars, and SVG chart shapes.
 - **Typography Scale**: Page titles at 24px, insights at 16px, labels at 10-12px, and citations/sources at 8px.
 - **Color Restrictions**: Deep Navy `#0B1F3A` for headers, Cobalt `#1B5AB5` as primary accent. Use a maximum of 2 accent colors per slide.
 - **Layout Specification**: Every content slide must have at least 4 distinct data zones and a footnote source line.
+
+## 💡 Real-World Examples / Scenarios
+
+### Developer:
+> "Guide me on how to configure and deploy the McKinsey Presentation Generator skill to Generate McKinsey-style data-rich multi-page HTML presentation decks."
+
+### AI Agent (Equipped with Skill):
+> "I have initialized the configuration. Here is the execution flow for the McKinsey Presentation Generator skill:
+> 1. Set up the environment variables and structure the inputs as specified.
+> 2. Execute the workflow steps and integrate core components.
+> 3. Verify results, optimize performance, and return the finalized assets."
 
 ## ⚠️ Gotchas and notes
 

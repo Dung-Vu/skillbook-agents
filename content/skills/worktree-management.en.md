@@ -1,9 +1,11 @@
 ---
-description: Manages Git Worktrees for parallel feature development on a single repository
-  without cluttering the main workspace. Handles default branch detection, branch
-  creation, and post-task cleanup.
+description: >-
+  Manages Git Worktrees for parallel feature development on a single repository
+  without cluttering the main workspace. Handles default branch detection,
+  branch creation, and post-task cleanup.
 oneLiner: Isolate and manage parallel Git branches using Git Worktrees.
-seoDescription: Git worktree workflow management. Create isolated development worktrees,
+seoDescription: >-
+  Git worktree workflow management. Create isolated development worktrees,
   detect default branches, and clean up post-merge.
 seoTitle: Worktree Management - Minimax Skill for AI Agents
 title: Worktree Management
@@ -32,7 +34,7 @@ Flowchart:
 
 ---
 
-## 🚀 Agent Guidelines (Prompt Guidelines)
+## 🚀 How to use
 
 ```markdown
 # WORKTREE MANAGEMENT CONSTRAINTS
@@ -43,6 +45,17 @@ Flowchart:
 ```
 
 ---
+
+## 💡 Real-World Examples / Scenarios
+
+### Developer:
+> "Guide me on how to configure and deploy the Worktree Management skill to Isolate and manage parallel Git branches using Git Worktrees."
+
+### AI Agent (Equipped with Skill):
+> "I have initialized the configuration. Here is the execution flow for the Worktree Management skill:
+> 1. Set up the environment variables and structure the inputs as specified.
+> 2. Execute the workflow steps and integrate core components.
+> 3. Verify results, optimize performance, and return the finalized assets."
 
 ## ⚠️ Gotchas and notes
 

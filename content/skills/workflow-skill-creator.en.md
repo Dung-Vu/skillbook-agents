@@ -1,9 +1,13 @@
 ---
-title: "Workflow Skill Creator"
-description: "Meta-skill enabling Agents to package, document, and standardize complex successful interactive workflows into reusable Antigravity skills."
-oneLiner: "Package complex workflows into reusable Antigravity skills automatically."
-seoTitle: "Workflow Skill Creator for AI Agents — Skillbook Agents"
-seoDescription: "Meta-skill instructions helping AI Agents distill chat conversations into reusable structured skills."
+title: Workflow Skill Creator
+description: >-
+  Meta-skill enabling Agents to package, document, and standardize complex
+  successful interactive workflows into reusable Antigravity skills.
+oneLiner: Package complex workflows into reusable Antigravity skills automatically.
+seoTitle: Workflow Skill Creator for AI Agents — Skillbook Agents
+seoDescription: >-
+  Meta-skill instructions helping AI Agents distill chat conversations into
+  reusable structured skills.
 ---
 
 
@@ -45,7 +49,7 @@ Add these rules to `.windsurfrules` at the project root to enable Cascade to pac
 
 ---
 
-## 🚀 Agent Guidelines (Prompt Guidelines)
+## 🚀 How to use
 
 ```markdown
 # WORKFLOW SKILL CREATOR INSTRUCTIONS & RULES

@@ -509,46 +509,22 @@ export function SkillDetailClient({
     });
   }, [htmlContent, platforms, t]);
 
-  // 2. Chuyển đổi trạng thái hiển thị nền tảng dựa trên activePlatform
+  // 2. Đảm bảo hiển thị tất cả các platform cùng lúc (loại bỏ lọc)
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
 
     const activeWrappers = container.querySelectorAll(".platform-wrapper-block");
-    
-    let hasMatchingBlock = false;
     activeWrappers.forEach((wrapper) => {
-      const dataPlatforms = wrapper.getAttribute("data-platforms") || "";
-      const supported = dataPlatforms.split(" ");
-      if (supported.includes(activePlatform)) {
-        hasMatchingBlock = true;
-      }
+      wrapper.classList.remove("hidden");
+      wrapper.classList.add("block");
     });
 
-    const filterPlatform = hasMatchingBlock ? activePlatform : "universal";
-
-    activeWrappers.forEach((wrapper) => {
-      const dataPlatforms = wrapper.getAttribute("data-platforms") || "";
-      const supported = dataPlatforms.split(" ");
-      if (supported.includes(filterPlatform)) {
-        wrapper.classList.remove("hidden");
-        wrapper.classList.add("block");
-      } else {
-        wrapper.classList.remove("block");
-        wrapper.classList.add("hidden");
-      }
-    });
-
-    // 2.3: Trích xuất danh sách các tiêu đề hiển thị trong Mục Lục (chỉ lấy các tiêu đề hiển thị thực tế)
+    // 2.3: Trích xuất danh sách các tiêu đề hiển thị trong Mục Lục
     const headingElements = container.querySelectorAll("h2, h3");
     const visibleHeadings: { id: string; text: string; level: number }[] = [];
 
     headingElements.forEach((el, index) => {
-      const parentWrapper = el.closest(".platform-wrapper-block");
-      if (parentWrapper && parentWrapper.classList.contains("hidden")) {
-        return;
-      }
-
       const rawText = el.textContent || "";
       const cleanedText = rawText
         .replace(/[\u{1F300}-\u{1F9FF}]|[\u{2600}-\u{26FF}]|[\u{2700}-\u{27BF}]|[\u{1F1E0}-\u{1F1FF}]/gu, "")
@@ -562,7 +538,7 @@ export function SkillDetailClient({
     });
 
     setHeadings(visibleHeadings);
-  }, [htmlContent, activePlatform]);
+  }, [htmlContent]);
 
   // R1: Tối ưu hoá TOC Active Link Tracking bằng IntersectionObserver (Không gây Layout Thrashing)
   useEffect(() => {
@@ -829,33 +805,7 @@ export function SkillDetailClient({
                 variants={contentVariants}
                 className="lg:col-span-9 w-full will-change-[transform,opacity] translate-z-0 transform-gpu"
               >
-                {/* Platform Switcher */}
-                {platforms.length > 0 && (
-                  <div className="flex items-center gap-2 mb-6 p-2 rounded-xl bg-slate-50 border border-slate-200/60 w-full overflow-x-auto select-none">
-                    {platforms.map((p) => {
-                      const isActive = selectedButtonPlatform === p;
-                      const config = PLATFORM_CONFIG[p as PlatformId] || { label: p, color: "#8b5cf6" };
-                      return (
-                        <button
-                          key={p}
-                          onClick={() => handlePlatformChange(p as PlatformId)}
-                          className={cn(
-                            "flex items-center gap-2 px-3 py-1.5 rounded-lg border text-xs font-mono transition-all cursor-pointer shrink-0 active:scale-95",
-                            isActive
-                              ? "bg-white border-slate-300 text-slate-900 font-bold shadow-sm"
-                              : "bg-transparent border-transparent text-slate-500 hover:text-slate-900"
-                          )}
-                        >
-                          <span
-                            className="inline-block w-2 h-2 rounded-full"
-                            style={{ backgroundColor: config.color }}
-                          />
-                          {config.label}
-                        </button>
-                      );
-                    })}
-                  </div>
-                )}
+
 
                 <MarkdownContent ref={containerRef} htmlContent={htmlContent} />
               </motion.div>

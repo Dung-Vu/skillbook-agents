@@ -37,11 +37,11 @@ seoDescription: >-
 provider: minimax
 ---
 
-## 📖 Tại Sao AI Agent Của Bạn Cần Kỹ Năng Này?
+## 📖 Tại Sao Cần Skill Này?
 
 Các báo cáo chiến lược doanh nghiệp cần cấu trúc tư duy chặt chẽ và các khuyến nghị có khả năng thực thi cao. Kỹ năng này cung cấp các mô hình phân tích kinh điển như MECE (Mutually Exclusive, Collectively Exhaustive), McKinsey 7S, SWOT, PESTEL để Agent phân tích tình huống kinh doanh phức tạp một cách khoa học.
 
-## ⚙️ Cơ Chế Hoạt Động & Quy Trình Tư Duy
+## ⚙️ Cách Hoạt Động
 
 Quy trình phân tích tư vấn chiến lược:
 
@@ -54,13 +54,24 @@ Quy trình phân tích tư vấn chiến lược:
 3. **Analysis**: Áp dụng các khung tư duy kinh doanh để mổ xẻ vấn đề.
 4. **Synthesize**: Đưa ra các khuyến nghị hành động thiết thực sắp xếp theo mức độ ưu tiên.
 
-## 🚀 Bộ Quy Tắc Chỉ Dẫn Cho Agent (Prompt Guidelines)
+## 🚀 Cách Sử Dụng
 
 1. Áp dụng nguyên tắc MECE trong mọi bài phân tích để đảm bảo không bỏ sót và không trùng lắp thông tin.
 2. Trình bày số liệu thực tế làm nền tảng cho mọi suy luận; tránh đưa ra các khuyến nghị mơ hồ, mang tính cảm tính.
 3. Sử dụng cấu trúc Kim tự tháp Minto (Minto Pyramid Principle) khi viết báo cáo: đưa kết luận lên đầu, sau đó mới đến các luận điểm chứng minh.
 
-## ⚠️ Cảnh Báo Vận Hành & Mẹo Tối Ưu (Developer Gotchas)
+## 💡 Kịch Bản Lập Trình Thực Tế
+
+### Nhà phát triển:
+> "Hãy hướng dẫn tôi cách thiết lập và sử dụng kỹ năng Deep Research Consultant để Nghiên cứu và viết báo cáo phân tích chiến lược chuẩn tư vấn quốc tế."
+
+### AI Agent (Đã được trang bị Kỹ năng):
+> "Tôi đã sẵn sàng. Dưới đây là kịch bản vận hành thực tế cho kỹ năng Deep Research Consultant:
+> 1. Thiết lập các thông số cấu hình và tham số đầu vào cần thiết cho hệ thống.
+> 2. Thực thi tuần tự các bước xử lý logic và tích hợp theo đúng chỉ dẫn của Deep Research Consultant.
+> 3. Kiểm thử đầu ra, tối ưu hóa hiệu năng và cung cấp kết quả hoàn chỉnh."
+
+## ⚠️ Lưu Ý & Gotchas
 
 - **Lạm dụng thuật ngữ (Buzzwords)**: Tránh viết các câu vô nghĩa chứa quá nhiều từ chuyên môn sáo rỗng. Hãy giữ ngôn từ rõ ràng, thực tế và hướng tới hành động.
 - **Thiếu tính khả thi**: Một chiến lược xuất sắc đến đâu cũng vô nghĩa nếu doanh nghiệp không có đủ nguồn lực thực thi. Luôn đánh giá tính khả thi và chi phí triển khai kèm theo.

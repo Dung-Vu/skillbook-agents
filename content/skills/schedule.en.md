@@ -1,9 +1,11 @@
 ---
-title: "Schedule Recurring Task"
-description: "Schedule automated background tasks or one-shot timers for AI Agents."
-oneLiner: "Schedule automated background tasks or timers."
-seoTitle: "/schedule - Scheduled & Recurring Automation Skill for AI"
-seoDescription: "Rules for configuring timers and recurring cron schedules using the `/schedule` tool for AI Agents."
+title: Schedule Recurring Task
+description: Schedule automated background tasks or one-shot timers for AI Agents.
+oneLiner: Schedule automated background tasks or timers.
+seoTitle: /schedule - Scheduled & Recurring Automation Skill for AI
+seoDescription: >-
+  Rules for configuring timers and recurring cron schedules using the
+  `/schedule` tool for AI Agents.
 ---
 ## 📖 Why Do We Need This Skill?
 
@@ -33,7 +35,7 @@ Agent thought process when scheduling:
 
 ---
 
-## 🚀 Agent Guidelines (Prompt Guidelines)
+## 🚀 How to use
 
 ````markdown
 # SCHEDULE COMMAND INSTRUCTIONS & RULES
@@ -50,6 +52,17 @@ Agent thought process when scheduling:
 ````
 
 ---
+
+## 💡 Real-World Examples / Scenarios
+
+### Developer:
+> "Guide me on how to configure and deploy the Schedule Recurring Task skill to Schedule automated background tasks or timers."
+
+### AI Agent (Equipped with Skill):
+> "I have initialized the configuration. Here is the execution flow for the Schedule Recurring Task skill:
+> 1. Set up the environment variables and structure the inputs as specified.
+> 2. Execute the workflow steps and integrate core components.
+> 3. Verify results, optimize performance, and return the finalized assets."
 
 ## ⚠️ Gotchas and notes
 

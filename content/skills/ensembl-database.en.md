@@ -1,9 +1,13 @@
 ---
-title: "Ensembl Genome Browser"
-description: "Query the Ensembl database to map gene/transcript IDs, download FASTA sequences, and run variant effect prediction (VEP)."
-oneLiner: "Retrieve genomic sequences, gene structures, and predict variant consequences."
-seoTitle: "Ensembl Genome Browser — Skillbook Agents"
-seoDescription: "Guide for Agents to query gene, transcript, protein IDs and run variant consequences predictions using Ensembl VEP."
+title: Ensembl Genome Browser
+description: >-
+  Query the Ensembl database to map gene/transcript IDs, download FASTA
+  sequences, and run variant effect prediction (VEP).
+oneLiner: 'Retrieve genomic sequences, gene structures, and predict variant consequences.'
+seoTitle: Ensembl Genome Browser — Skillbook Agents
+seoDescription: >-
+  Guide for Agents to query gene, transcript, protein IDs and run variant
+  consequences predictions using Ensembl VEP.
 ---
 
 

@@ -1,9 +1,13 @@
 ---
-title: "OpenAlex Scholarly Database"
-description: "Search and aggregate bibliographic data for papers, authors, research institutions, and citation metrics."
-oneLiner: "Query the global OpenAlex open scholarly knowledge graph."
-seoTitle: "OpenAlex Scholarly Database — Skillbook Agents"
-seoDescription: "Guide for Agents to query OpenAlex for papers, authors, bibliometrics, and open-access downloads."
+title: OpenAlex Scholarly Database
+description: >-
+  Search and aggregate bibliographic data for papers, authors, research
+  institutions, and citation metrics.
+oneLiner: Query the global OpenAlex open scholarly knowledge graph.
+seoTitle: OpenAlex Scholarly Database — Skillbook Agents
+seoDescription: >-
+  Guide for Agents to query OpenAlex for papers, authors, bibliometrics, and
+  open-access downloads.
 ---
 
 

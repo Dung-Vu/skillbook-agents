@@ -1,10 +1,12 @@
 ---
-description: Scaffolds new Antigravity skills complying with the Luminous Standard.
-  Directs agents through routing commands across platforms and creating directory
+description: >-
+  Scaffolds new Antigravity skills complying with the Luminous Standard. Directs
+  agents through routing commands across platforms and creating directory
   structures containing `SKILL.md` and `uv`-enabled scripts.
 oneLiner: Scaffold standardized Antigravity skills with CLI scripts and recipes.
-seoDescription: Scaffold custom Antigravity skills. Establish command routers, write
-  uv scripts, pass skill linter, and run parallel evaluations.
+seoDescription: >-
+  Scaffold custom Antigravity skills. Establish command routers, write uv
+  scripts, pass skill linter, and run parallel evaluations.
 seoTitle: Skill Creator - Minimax Skill for AI Agents
 title: Skill Creator
 ---
@@ -32,7 +34,7 @@ Flowchart:
 
 ---
 
-## 🚀 Agent Guidelines (Prompt Guidelines)
+## 🚀 How to use
 
 ```markdown
 # SKILL SCALFFOLDING RULES
@@ -43,6 +45,17 @@ Flowchart:
 ```
 
 ---
+
+## 💡 Real-World Examples / Scenarios
+
+### Developer:
+> "Guide me on how to configure and deploy the Skill Creator skill to Scaffold standardized Antigravity skills with CLI scripts and recipes."
+
+### AI Agent (Equipped with Skill):
+> "I have initialized the configuration. Here is the execution flow for the Skill Creator skill:
+> 1. Set up the environment variables and structure the inputs as specified.
+> 2. Execute the workflow steps and integrate core components.
+> 3. Verify results, optimize performance, and return the finalized assets."
 
 ## ⚠️ Gotchas and notes
 

@@ -1,9 +1,13 @@
 ---
-title: "PDB 3D Structure Database"
-description: "Search and download experimentally determined atomic 3D structures of proteins, nucleic acids, and bound ligands from the Protein Data Bank."
-oneLiner: "Query and download experimental 3D structures from PDB."
-seoTitle: "PDB 3D Structure Database — Skillbook Agents"
-seoDescription: "Guide for Agents to search and download experimental 3D structures from the RCSB Protein Data Bank."
+title: PDB 3D Structure Database
+description: >-
+  Search and download experimentally determined atomic 3D structures of
+  proteins, nucleic acids, and bound ligands from the Protein Data Bank.
+oneLiner: Query and download experimental 3D structures from PDB.
+seoTitle: PDB 3D Structure Database — Skillbook Agents
+seoDescription: >-
+  Guide for Agents to search and download experimental 3D structures from the
+  RCSB Protein Data Bank.
 ---
 
 

@@ -34,7 +34,7 @@ seoDescription: >-
 provider: antigravity
 ---
 
-## 📖 Tại Sao AI Agent Của Bạn Cần Kỹ Năng Này?
+## 📖 Tại Sao Cần Skill Này?
 
 Mặc dù các mô hình ngôn ngữ lớn (LLM) rất xuất sắc trong việc viết mã Kotlin, Java hoặc XML, chúng hoàn toàn không có khả năng nhận biết môi trường máy tính cục bộ của bạn. Nếu không có kỹ năng này:
 * **AI sẽ hướng dẫn thủ công**: AI sẽ yêu cầu bạn tự mở Android Studio, click chuột từng bước để tạo project hoặc chẩn đoán SDK.
@@ -47,7 +47,7 @@ Mặc dù các mô hình ngôn ngữ lớn (LLM) rất xuất sắc trong việc
 
 ---
 
-## ⚙️ Cơ Chế Hoạt Động & Quy Trình Tư Duy
+## ⚙️ Cách Hoạt Động
 
 ```
 [Yêu cầu từ Dev] ➔ 📋 [Tự Chẩn Đoán Environment] 
@@ -76,7 +76,7 @@ Khai báo các quy tắc trong file `claude_rules.md` hoặc dán trực tiếp 
 
 ---
 
-## 🚀 Bộ Quy Tắc Chỉ Dẫn Cho Agent (Prompt Guidelines)
+## 🚀 Cách Sử Dụng
 
 ```markdown
 # ANDROID CLI INSTRUCTIONS & RULES
@@ -121,7 +121,7 @@ Khai báo các quy tắc trong file `claude_rules.md` hoặc dán trực tiếp 
 
 ---
 
-## ⚠️ Cảnh Báo Vận Hành & Mẹo Tối Ưu (Developer Gotchas)
+## ⚠️ Lưu Ý & Gotchas
 
 * **Quản Lý Bộ Nhớ RAM**: Gradle Daemon thường chiếm dụng khoảng `500MB - 1GB` RAM và tiếp tục chạy ngầm. Hãy nhắc Agent tắt daemon bằng lệnh `./gradlew --stop` khi phiên làm việc kết thúc để giải phóng tài nguyên.
 * **Keystore Bảo Mật**: Tuyệt đối không để Agent tự ý sinh file Keystore Release hoặc commit các mật khẩu nhạy cảm (`local.properties`, keystore file) lên kho lưu trữ Git công khai.

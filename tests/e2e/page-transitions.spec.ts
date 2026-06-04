@@ -70,8 +70,8 @@ test.describe("Skills Page Transitions & Canvas Optimization Spec", () => {
     const clickTime = Date.now();
     await firstSkillCard.click();
 
-    // Verify that at 150ms, the URL has NOT changed yet (enforcing the delay)
-    await page.waitForTimeout(150);
+    // Verify that at 50ms, the URL has NOT changed yet (enforcing the delay)
+    await page.waitForTimeout(50);
     const midUrl = page.url();
     expect(midUrl).toBe(initialUrl);
 

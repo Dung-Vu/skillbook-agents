@@ -35,13 +35,13 @@ tags:
 title: Minimax Docx
 ---
 
-## 📖 Tại Sao AI Agent Của Bạn Cần Kỹ Năng Này?
+## 📖 Tại Sao Cần Skill Này?
 
 Lập trình viên và AI Agent cần kỹ năng này khi có nhiệm vụ tạo báo cáo doanh nghiệp, hợp đồng pháp lý hoặc các tài liệu chính thức theo định dạng Microsoft Word (`.docx`). Kỹ năng này cung cấp các tiêu chuẩn căn lề, ghép nối phong cách chữ (typography) CJK chuyên nghiệp và các chốt chặn môi trường để thao tác trực tiếp với XML của tệp DOCX mà không làm hỏng cấu trúc tệp tin.
 
 ---
 
-## ⚙️ Cơ Chế Hoạt Động & Quy Trình Tư Duy
+## ⚙️ Cách Hoạt Động
 
 Quy trình xử lý file DOCX:
 1. **Xác minh môi trường**: Chạy lệnh kiểm tra môi trường tương ứng (ví dụ: `env_check.ps1` trên Windows) ở các mức `read`, `render` hoặc `full` tùy thuộc vào tác vụ.
@@ -57,7 +57,7 @@ Sơ đồ quy trình:
 
 ---
 
-## 🚀 Bộ Quy Tắc Chỉ Dẫn Cho Agent (Prompt Guidelines)
+## 🚀 Cách Sử Dụng
 
 ```markdown
 # QUY TẮC XỬ LÝ ĐỊNH DẠNG DOCX
@@ -68,7 +68,18 @@ Sơ đồ quy trình:
 
 ---
 
-## ⚠️ Cảnh Báo Vận Hành & Mẹo Tối Ưu (Developer Gotchas)
+## 💡 Kịch Bản Lập Trình Thực Tế
+
+### Nhà phát triển:
+> "Hãy hướng dẫn tôi cách thiết lập và sử dụng kỹ năng Minimax Docx để Đọc và xử lý tài liệu Word (.docx) hiệu quả trên nhiều hệ điều hành."
+
+### AI Agent (Đã được trang bị Kỹ năng):
+> "Tôi đã sẵn sàng. Dưới đây là kịch bản vận hành thực tế cho kỹ năng Minimax Docx:
+> 1. Thiết lập các thông số cấu hình và tham số đầu vào cần thiết cho hệ thống.
+> 2. Thực thi tuần tự các bước xử lý logic và tích hợp theo đúng chỉ dẫn của Minimax Docx.
+> 3. Kiểm thử đầu ra, tối ưu hóa hiệu năng và cung cấp kết quả hoàn chỉnh."
+
+## ⚠️ Lưu Ý & Gotchas
 
 * **Lỗi CLI trên Windows**: Windows PowerShell yêu cầu chính sách bỏ qua thực thi (`-ExecutionPolicy Bypass`) khi gọi các script `.ps1`. Nếu không truyền cờ này, script kiểm tra môi trường sẽ bị chặn.
 * **Lỗi nạp thư viện ngoài**: Backend ghi `.NET` yêu cầu phiên bản dotnet sdk >= 9. Nếu môi trường thiếu SDK này, việc ghi sẽ thất bại ở bước biên dịch CLI.

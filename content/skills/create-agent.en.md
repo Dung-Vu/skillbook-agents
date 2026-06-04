@@ -1,10 +1,12 @@
 ---
-description: Scaffolds and configures a new agent on disk, setting up its directory
-  structure, system prompts (agent.md), and configuration files. Supports both standalone
-  agents and project-specific reins.
+description: >-
+  Scaffolds and configures a new agent on disk, setting up its directory
+  structure, system prompts (agent.md), and configuration files. Supports both
+  standalone agents and project-specific reins.
 oneLiner: Quickly scaffold and configure a new standalone or project-specific agent.
-seoDescription: Create Agent skill for AI Agents. Standard guide on scaffolding new
-  agents, setting up agent.md system prompts and directory structures.
+seoDescription: >-
+  Create Agent skill for AI Agents. Standard guide on scaffolding new agents,
+  setting up agent.md system prompts and directory structures.
 seoTitle: Create Agent - Minimax Skill for AI Agents
 title: Create Agent
 ---
@@ -32,7 +34,7 @@ Process flow:
 
 ---
 
-## 🚀 Agent Guidelines (Prompt Guidelines)
+## 🚀 How to use
 
 ```markdown
 # CREATE AGENT INSTRUCTIONS & RULES
@@ -43,6 +45,17 @@ Process flow:
 ```
 
 ---
+
+## 💡 Real-World Examples / Scenarios
+
+### Developer:
+> "Guide me on how to configure and deploy the Create Agent skill to Quickly scaffold and configure a new standalone or project-specific agent."
+
+### AI Agent (Equipped with Skill):
+> "I have initialized the configuration. Here is the execution flow for the Create Agent skill:
+> 1. Set up the environment variables and structure the inputs as specified.
+> 2. Execute the workflow steps and integrate core components.
+> 3. Verify results, optimize performance, and return the finalized assets."
 
 ## ⚠️ Gotchas and notes
 

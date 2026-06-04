@@ -33,11 +33,11 @@ seoDescription: >-
 provider: minimax
 ---
 
-## 📖 Tại Sao AI Agent Của Bạn Cần Kỹ Năng Này?
+## 📖 Tại Sao Cần Skill Này?
 
 Khi xây dựng sản phẩm công nghệ, việc bỏ qua các bước phân tích tính khả thi và luồng người dùng thường dẫn đến việc làm sai tính năng. Kỹ năng này cung cấp một quy trình thiết kế sản phẩm bài bản, giúp Agent kiểm tra tính khả thi, phân tích sản phẩm cạnh tranh, thiết lập yêu cầu chức năng (functional requirements), vẽ sơ đồ Mermaid và tạo mẫu thử HTML tương tác thực tế.
 
-## ⚙️ Cơ Chế Hoạt Động & Quy Trình Tư Duy
+## ⚙️ Cách Hoạt Động
 
 Luồng phát triển sản phẩm:
 ```
@@ -48,13 +48,24 @@ Luồng phát triển sản phẩm:
 3. **Biên soạn PRD**: Viết tài liệu PRD chuẩn (Markdown/PDF) bao gồm User Stories, Danh sách tính năng, Mô tả giao diện, Yêu cầu phi chức năng.
 4. **Tạo mẫu thử**: Sinh một trang HTML đơn lập chứa giao diện thử nghiệm tương tác với CSS hiện đại.
 
-## 🚀 Bộ Quy Tắc Chỉ Dẫn Cho Agent (Prompt Guidelines)
+## 🚀 Cách Sử Dụng
 
 - Sử dụng ngôn ngữ giao tiếp nhất quán với ngôn ngữ của người dùng (không sử dụng song ngữ khi hiển thị các lựa chọn).
 - Tài liệu PRD phải chi tiết, súc tích, tránh lan man; tập trung mô tả rõ ràng các điều kiện biên (edge cases) và xử lý lỗi.
 - Khi người dùng yêu cầu tạo mẫu thử prototype, phải viết mã HTML tự chứa (self-contained) bao gồm CSS và JavaScript tương tác thực tế.
 
-## ⚠️ Cảnh Báo Vận Hành & Mẹo Tối Ưu (Developer Gotchas)
+## 💡 Kịch Bản Lập Trình Thực Tế
+
+### Nhà phát triển:
+> "Hãy hướng dẫn tôi cách thiết lập và sử dụng kỹ năng PRD Assistant để Phân tích yêu cầu sản phẩm và viết tài liệu PRD chi tiết kèm prototype."
+
+### AI Agent (Đã được trang bị Kỹ năng):
+> "Tôi đã sẵn sàng. Dưới đây là kịch bản vận hành thực tế cho kỹ năng PRD Assistant:
+> 1. Thiết lập các thông số cấu hình và tham số đầu vào cần thiết cho hệ thống.
+> 2. Thực thi tuần tự các bước xử lý logic và tích hợp theo đúng chỉ dẫn của PRD Assistant.
+> 3. Kiểm thử đầu ra, tối ưu hóa hiệu năng và cung cấp kết quả hoàn chỉnh."
+
+## ⚠️ Lưu Ý & Gotchas
 
 - **Không bỏ qua phân tích khả thi**: Không nhảy thẳng vào viết PRD hay viết code mẫu thử khi chưa thực hiện phân tích luồng và đối thủ.
 - **Tránh thiết kế quá phức tạp**: Mẫu thử HTML chỉ nên tập trung kiểm chứng luồng tương tác chính, không nên cố gắng tạo ra toàn bộ hệ thống backend.

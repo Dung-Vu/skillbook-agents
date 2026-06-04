@@ -1,9 +1,13 @@
 ---
-title: "AlphaFold Structure Analysis"
-description: "Retrieve and analyze protein structures predicted by AlphaFold using UniProt IDs."
-oneLiner: "Retrieve and analyze protein structures predicted by AlphaFold."
-seoTitle: "AlphaFold Structure Analysis — Skillbook Agents"
-seoDescription: "Guide for Agents to retrieve AlphaFold protein structures, analyze pLDDT and domain boundaries automatically."
+title: AlphaFold Structure Analysis
+description: >-
+  Retrieve and analyze protein structures predicted by AlphaFold using UniProt
+  IDs.
+oneLiner: Retrieve and analyze protein structures predicted by AlphaFold.
+seoTitle: AlphaFold Structure Analysis — Skillbook Agents
+seoDescription: >-
+  Guide for Agents to retrieve AlphaFold protein structures, analyze pLDDT and
+  domain boundaries automatically.
 ---
 
 

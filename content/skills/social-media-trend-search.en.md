@@ -1,9 +1,16 @@
 ---
-title: "Social Media Trend Search"
-description: "Social media trend search and analysis tool for platforms like TikTok, Instagram, Pinterest, and X. Analyzes popular keywords and sends alerts via Feishu/Lark webhooks."
-oneLiner: "Search and analyze real-time social media trends, exporting alerts to Feishu/Lark webhooks."
-seoTitle: "Social Media Trend Search - Minimax Skill for AI Agents"
-seoDescription: "Implement social media trend monitoring, keyword analytics, and Feishu integration workflows on AI Agents."
+title: Social Media Trend Search
+description: >-
+  Social media trend search and analysis tool for platforms like TikTok,
+  Instagram, Pinterest, and X. Analyzes popular keywords and sends alerts via
+  Feishu/Lark webhooks.
+oneLiner: >-
+  Search and analyze real-time social media trends, exporting alerts to
+  Feishu/Lark webhooks.
+seoTitle: Social Media Trend Search - Minimax Skill for AI Agents
+seoDescription: >-
+  Implement social media trend monitoring, keyword analytics, and Feishu
+  integration workflows on AI Agents.
 ---
 
 ## 📖 Why Do We Need This Skill?
@@ -21,11 +28,22 @@ Keywords/Hashtags --> Social API Query --> Engagement Inflection Analysis --> Se
 3. **Triage**: Categorize trends (e.g., Rising, Breakout, Saturation) and capture example post URLs.
 4. **Outbound Push**: Format an interactive Lark message card JSON and POST it to the webhook.
 
-## 🚀 Agent Guidelines (Prompt Guidelines)
+## 🚀 How to use
 
 - Always use the structured Lark/Feishu Card format instead of raw text strings for alerts to ensure readability.
 - Classify trends clearly and link directly to 3-5 reference social media posts.
 - Protect webhooks: load URLs from configuration or environment variables, avoiding hardcoding in the codebase.
+
+## 💡 Real-World Examples / Scenarios
+
+### Developer:
+> "Guide me on how to configure and deploy the Social Media Trend Search skill to Search and analyze real-time social media trends, exporting alerts to Feishu/Lark webhooks."
+
+### AI Agent (Equipped with Skill):
+> "I have initialized the configuration. Here is the execution flow for the Social Media Trend Search skill:
+> 1. Set up the environment variables and structure the inputs as specified.
+> 2. Execute the workflow steps and integrate core components.
+> 3. Verify results, optimize performance, and return the finalized assets."
 
 ## ⚠️ Gotchas and notes
 

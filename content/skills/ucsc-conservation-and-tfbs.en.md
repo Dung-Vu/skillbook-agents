@@ -1,9 +1,14 @@
 ---
-title: "UCSC Conservation & TFBS"
-description: "Retrieve genomic evolutionary conservation scores (phyloP, phastCons) and experimental transcription factor binding sites (TFBS) from the UCSC Genome Browser."
-oneLiner: "Query evolutionary conservation and TF binding sites."
-seoTitle: "UCSC Conservation & TFBS — Skillbook Agents"
-seoDescription: "Guide for Agents to retrieve conservation scores and TFBS data from the UCSC Genome Browser."
+title: UCSC Conservation & TFBS
+description: >-
+  Retrieve genomic evolutionary conservation scores (phyloP, phastCons) and
+  experimental transcription factor binding sites (TFBS) from the UCSC Genome
+  Browser.
+oneLiner: Query evolutionary conservation and TF binding sites.
+seoTitle: UCSC Conservation & TFBS — Skillbook Agents
+seoDescription: >-
+  Guide for Agents to retrieve conservation scores and TFBS data from the UCSC
+  Genome Browser.
 ---
 
 

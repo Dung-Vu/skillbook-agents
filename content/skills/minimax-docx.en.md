@@ -1,10 +1,12 @@
 ---
-description: Reads, parses, and manipulates Microsoft Word (`.docx`) files. Navigates
-  platform-specific environment constraints (such as missing libraries or binaries)
-  using command reference recipes.
+description: >-
+  Reads, parses, and manipulates Microsoft Word (`.docx`) files. Navigates
+  platform-specific environment constraints (such as missing libraries or
+  binaries) using command reference recipes.
 oneLiner: Read and process Word (.docx) documents reliably across systems.
-seoDescription: Advanced Word (.docx) processing guide for AI Agents. Apply styles,
-  manage templates, repair layouts, and handle environments.
+seoDescription: >-
+  Advanced Word (.docx) processing guide for AI Agents. Apply styles, manage
+  templates, repair layouts, and handle environments.
 seoTitle: Minimax Docx - Minimax Skill for AI Agents
 title: Minimax Docx
 ---
@@ -31,7 +33,7 @@ Flowchart:
 
 ---
 
-## 🚀 Agent Guidelines (Prompt Guidelines)
+## 🚀 How to use
 
 ```markdown
 # MINIMAX DOCX RULES
@@ -42,6 +44,17 @@ Flowchart:
 ```
 
 ---
+
+## 💡 Real-World Examples / Scenarios
+
+### Developer:
+> "Guide me on how to configure and deploy the Minimax Docx skill to Read and process Word (.docx) documents reliably across systems."
+
+### AI Agent (Equipped with Skill):
+> "I have initialized the configuration. Here is the execution flow for the Minimax Docx skill:
+> 1. Set up the environment variables and structure the inputs as specified.
+> 2. Execute the workflow steps and integrate core components.
+> 3. Verify results, optimize performance, and return the finalized assets."
 
 ## ⚠️ Gotchas and notes
 

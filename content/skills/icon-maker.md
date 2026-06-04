@@ -34,11 +34,11 @@ seoDescription: >-
 provider: minimax
 ---
 
-## 📖 Tại Sao AI Agent Của Bạn Cần Kỹ Năng Này?
+## 📖 Tại Sao Cần Skill Này?
 
 Thiết kế biểu tượng đòi hỏi việc tối ưu hóa đường nét để hình ảnh hiển thị rõ ràng ở kích thước nhỏ. Kỹ năng này cung cấp một quy trình hướng dẫn người dùng chọn phong cách thiết kế phù hợp (như 3D, Minimalist, Textured, Retro), tự động sinh prompt vẽ ảnh tối ưu và xuất file ảnh vuông chất lượng cao.
 
-## ⚙️ Cơ Chế Hoạt Động & Quy Trình Tư Duy
+## ⚙️ Cách Hoạt Động
 
 Quy trình thiết kế icon:
 
@@ -50,13 +50,24 @@ Quy trình thiết kế icon:
 2. **Prompt Tuning**: Bổ sung các từ khóa kỹ thuật (ví dụ: 'flat design', 'vector art', 'white background') để tạo ra một icon tách nền sạch sẽ.
 3. **Export**: Xuất ảnh độ phân giải 2K định dạng PNG tỉ lệ 1:1.
 
-## 🚀 Bộ Quy Tắc Chỉ Dẫn Cho Agent (Prompt Guidelines)
+## 🚀 Cách Sử Dụng
 
 1. Luôn sử dụng giao diện chọn nhanh (UI form wizard) để người dùng chọn phong cách thiết kế thay vì bắt họ nhập văn bản.
 2. Thiết kế prompt hình ảnh có nền trắng đơn sắc hoặc nền trong suốt để dễ dàng tách nền làm icon.
 3. Phản hồi ngắn gọn, hiển thị ảnh trực tiếp trong khung trò chuyện sau khi tạo xong.
 
-## ⚠️ Cảnh Báo Vận Hành & Mẹo Tối Ưu (Developer Gotchas)
+## 💡 Kịch Bản Lập Trình Thực Tế
+
+### Nhà phát triển:
+> "Hãy hướng dẫn tôi cách thiết lập và sử dụng kỹ năng Icon Maker để Thiết kế biểu tượng và logo chuyên nghiệp từ mô tả văn bản."
+
+### AI Agent (Đã được trang bị Kỹ năng):
+> "Tôi đã sẵn sàng. Dưới đây là kịch bản vận hành thực tế cho kỹ năng Icon Maker:
+> 1. Thiết lập các thông số cấu hình và tham số đầu vào cần thiết cho hệ thống.
+> 2. Thực thi tuần tự các bước xử lý logic và tích hợp theo đúng chỉ dẫn của Icon Maker.
+> 3. Kiểm thử đầu ra, tối ưu hóa hiệu năng và cung cấp kết quả hoàn chỉnh."
+
+## ⚠️ Lưu Ý & Gotchas
 
 - **Chữ viết trong icon**: Các công cụ tạo ảnh AI thường viết sai chính tả. Tránh chèn các văn bản dài vào icon, chỉ nên dùng các biểu tượng hình học hoặc chữ cái đơn lẻ.
 - **Icon quá nhiều chi tiết**: Các chi tiết rườm rà sẽ bị nhòe khi thu nhỏ kích thước làm app icon. Hãy hướng người dùng đến phong cách tối giản.

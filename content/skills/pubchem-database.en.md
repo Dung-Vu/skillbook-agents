@@ -1,9 +1,13 @@
 ---
-title: "PubChem Chemical Database"
-description: "Search chemical molecules, structures, IUPAC names, physical properties, and safety/bioactivity details from PubChem."
-oneLiner: "Query chemicals and bioactivities from PubChem."
-seoTitle: "PubChem Chemical Database — Skillbook Agents"
-seoDescription: "Guide for Agents to query PubChem for chemical properties, safety, and bioactivity data."
+title: PubChem Chemical Database
+description: >-
+  Search chemical molecules, structures, IUPAC names, physical properties, and
+  safety/bioactivity details from PubChem.
+oneLiner: Query chemicals and bioactivities from PubChem.
+seoTitle: PubChem Chemical Database — Skillbook Agents
+seoDescription: >-
+  Guide for Agents to query PubChem for chemical properties, safety, and
+  bioactivity data.
 ---
 
 

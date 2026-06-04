@@ -32,13 +32,13 @@ tags:
 title: Skill Creator
 ---
 
-## 📖 Tại Sao AI Agent Của Bạn Cần Kỹ Năng Này?
+## 📖 Tại Sao Cần Skill Này?
 
 Để AI Agent hoạt động hiệu quả lâu dài trong một dự án, nó cần khả năng tự động hóa và đóng gói các quy trình làm việc lặp đi lặp lại thành các Kỹ năng (Skills) tiêu chuẩn. Kỹ năng này cung cấp cấu trúc Luminous Standard để Agent tạo ra các chỉ dẫn prompt chuyên nghiệp kèm theo script Python độc lập để mở rộng thư viện năng lực của Mavis.
 
 ---
 
-## ⚙️ Cơ Chế Hoạt Động & Quy Trình Tư Duy
+## ⚙️ Cách Hoạt Động
 
 Quy trình tạo kỹ năng mới:
 1. **Kiểm tra trùng lặp**: Liệt kê các kỹ năng hiện có qua `list-skills` để tránh tạo trùng lặp.
@@ -55,7 +55,7 @@ Sơ đồ quy trình:
 
 ---
 
-## 🚀 Bộ Quy Tắc Chỉ Dẫn Cho Agent (Prompt Guidelines)
+## 🚀 Cách Sử Dụng
 
 ```markdown
 # QUY TẮC TẠO KỸ NĂNG MỚI
@@ -67,7 +67,18 @@ Sơ đồ quy trình:
 
 ---
 
-## ⚠️ Cảnh Báo Vận Hành & Mẹo Tối Ưu (Developer Gotchas)
+## 💡 Kịch Bản Lập Trình Thực Tế
+
+### Nhà phát triển:
+> "Hãy hướng dẫn tôi cách thiết lập và sử dụng kỹ năng Skill Creator để Tạo mới kỹ năng Antigravity theo chuẩn Luminous với CLI và scripts hỗ trợ."
+
+### AI Agent (Đã được trang bị Kỹ năng):
+> "Tôi đã sẵn sàng. Dưới đây là kịch bản vận hành thực tế cho kỹ năng Skill Creator:
+> 1. Thiết lập các thông số cấu hình và tham số đầu vào cần thiết cho hệ thống.
+> 2. Thực thi tuần tự các bước xử lý logic và tích hợp theo đúng chỉ dẫn của Skill Creator.
+> 3. Kiểm thử đầu ra, tối ưu hóa hiệu năng và cung cấp kết quả hoàn chỉnh."
+
+## ⚠️ Lưu Ý & Gotchas
 
 * **Phình to Prompt (Prompt Bloat)**: Không đưa các phần giải thích lý thuyết dài dòng hoặc mã nguồn ví dụ khổng lồ vào tệp `SKILL.md`. Hãy chuyển các tài liệu này vào thư mục `references/`.
 * **Bỏ qua bước Eval**: Tạo kỹ năng mà không chạy thử nghiệm so sánh với baseline sẽ dễ dẫn đến việc sinh ra các chỉ dẫn prompt không thực tế hoặc làm suy giảm khả năng suy luận của mô hình.

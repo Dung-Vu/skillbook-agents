@@ -1,9 +1,13 @@
 ---
-title: "ClinVar Clinical Variants"
-description: "Query ClinVar to determine variant pathogenicity (Pathogenic, Benign, VUS) and fetch clinical evidence for human genomic variants."
-oneLiner: "Query clinical classifications and pathogenicity for genetic variants."
-seoTitle: "ClinVar Clinical Variants — Skillbook Agents"
-seoDescription: "Guide for Agents to query pathogenicity and clinical significance of genetic variants from ClinVar."
+title: ClinVar Clinical Variants
+description: >-
+  Query ClinVar to determine variant pathogenicity (Pathogenic, Benign, VUS) and
+  fetch clinical evidence for human genomic variants.
+oneLiner: Query clinical classifications and pathogenicity for genetic variants.
+seoTitle: ClinVar Clinical Variants — Skillbook Agents
+seoDescription: >-
+  Guide for Agents to query pathogenicity and clinical significance of genetic
+  variants from ClinVar.
 ---
 
 

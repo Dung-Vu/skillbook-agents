@@ -36,13 +36,13 @@ tags:
 title: Mavis Browser
 ---
 
-## 📖 Tại Sao AI Agent Của Bạn Cần Kỹ Năng Này?
+## 📖 Tại Sao Cần Skill Này?
 
 Agent cần kỹ năng này khi cần truy cập vào các trang web nội bộ, các bảng điều khiển SaaS hoặc các dịch vụ yêu cầu thông tin đăng nhập và cookie có sẵn của người dùng (như Gmail, Lark dashboard, hoặc mạng xã hội). Playwright thông thường không thể vượt qua các bước bảo mật đa yếu tố hoặc SSO của công ty, nhưng kỹ năng này cho phép Agent thao tác an toàn trên chính trình duyệt Chrome của nhà phát triển.
 
 ---
 
-## ⚙️ Cơ Chế Hoạt Động & Quy Trình Tư Duy
+## ⚙️ Cách Hoạt Động
 
 Quy trình hoạt động:
 1. **Kiểm tra kết nối**: Chạy `mavis browser status` để xác nhận daemon đang chạy và extension Chrome Mavis Browser Bridge đã được bật và kết nối (chấm xanh).
@@ -58,7 +58,7 @@ Sơ đồ hoạt động:
 
 ---
 
-## 🚀 Bộ Quy Tắc Chỉ Dẫn Cho Agent (Prompt Guidelines)
+## 🚀 Cách Sử Dụng
 
 ```markdown
 # QUY TẮC ĐIỀU KHIỂN TRÌNH DUYỆT CHROME
@@ -70,7 +70,18 @@ Sơ đồ hoạt động:
 
 ---
 
-## ⚠️ Cảnh Báo Vận Hành & Mẹo Tối Ưu (Developer Gotchas)
+## 💡 Kịch Bản Lập Trình Thực Tế
+
+### Nhà phát triển:
+> "Hãy hướng dẫn tôi cách thiết lập và sử dụng kỹ năng Mavis Browser để Tự động hóa trình duyệt Chrome thực tế của người dùng sử dụng session đăng nhập có sẵn."
+
+### AI Agent (Đã được trang bị Kỹ năng):
+> "Tôi đã sẵn sàng. Dưới đây là kịch bản vận hành thực tế cho kỹ năng Mavis Browser:
+> 1. Thiết lập các thông số cấu hình và tham số đầu vào cần thiết cho hệ thống.
+> 2. Thực thi tuần tự các bước xử lý logic và tích hợp theo đúng chỉ dẫn của Mavis Browser.
+> 3. Kiểm thử đầu ra, tối ưu hóa hiệu năng và cung cấp kết quả hoàn chỉnh."
+
+## ⚠️ Lưu Ý & Gotchas
 
 * **Lỗi Tab bị chiếm dụng**: Mỗi tab chỉ được điều khiển bởi một session tại một thời điểm. Nếu tab đã bị Agent khác khóa, bạn sẽ nhận được thông báo lỗi. Cần dùng `force: true` nếu muốn ghi đè.
 * **Chụp ảnh màn hình nền**: Lệnh `screenshot` thực tế chụp toàn bộ cửa sổ nhìn thấy hiện tại của Chrome. Nếu tab đích đang chạy ở chế độ background (không active), ảnh chụp sẽ hiển thị nội dung của tab đang active trên màn hình, chứ không phải tab đích.

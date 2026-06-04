@@ -33,7 +33,7 @@ seoDescription: >-
 provider: antigravity
 ---
 
-## 📖 Tại Sao AI Agent Của Bạn Cần Kỹ Năng Này?
+## 📖 Tại Sao Cần Skill Này?
 
 Trong các tác vụ quản lý dự án, kiểm tra chất lượng phần mềm, hoặc theo dõi thông tin học thuật, việc thực thi công việc một cách thụ động (chờ người dùng nhắn tin mới chạy) có nhiều hạn chế:
 * **Thiếu tính cập nhật**: Không thể tự động phát hiện thay đổi của dữ liệu theo thời gian thực.
@@ -46,7 +46,7 @@ Trong các tác vụ quản lý dự án, kiểm tra chất lượng phần mề
 
 ---
 
-## ⚙️ Cơ Chế Hoạt Động & Quy Trình Tư Duy
+## ⚙️ Cách Hoạt Động
 
 ```
 [Thiết lập Lịch Hẹn Giờ] ➔ 🕒 [Bộ Đếm Chạy Ngầm]
@@ -62,7 +62,7 @@ Quy trình suy nghĩ của Agent khi thực thi `/schedule`:
 
 ---
 
-## 🚀 Bộ Quy Tắc Chỉ Dẫn Cho Agent (Prompt Guidelines)
+## 🚀 Cách Sử Dụng
 
 ````markdown
 # SCHEDULE COMMAND INSTRUCTIONS & RULES
@@ -80,7 +80,18 @@ Quy trình suy nghĩ của Agent khi thực thi `/schedule`:
 
 ---
 
-## ⚠️ Cảnh Báo Vận Hành & Mẹo Tối Ưu (Developer Gotchas)
+## 💡 Kịch Bản Lập Trình Thực Tế
+
+### Nhà phát triển:
+> "Hãy hướng dẫn tôi cách thiết lập và sử dụng kỹ năng Schedule Recurring Task để Lên lịch chạy tác vụ tự động định kỳ hoặc hẹn giờ chạy một lần."
+
+### AI Agent (Đã được trang bị Kỹ năng):
+> "Tôi đã sẵn sàng. Dưới đây là kịch bản vận hành thực tế cho kỹ năng Schedule Recurring Task:
+> 1. Thiết lập các thông số cấu hình và tham số đầu vào cần thiết cho hệ thống.
+> 2. Thực thi tuần tự các bước xử lý logic và tích hợp theo đúng chỉ dẫn của Schedule Recurring Task.
+> 3. Kiểm thử đầu ra, tối ưu hóa hiệu năng và cung cấp kết quả hoàn chỉnh."
+
+## ⚠️ Lưu Ý & Gotchas
 
 * **Giới Hạn Lặp (Max Iterations)**: Đối với các tác vụ cron định kỳ, luôn cân nhắc thiết lập `MaxIterations` để tự động dừng tiến trình lập lịch sau một số lần chạy nhất định, tránh tiêu tốn tài nguyên vô ích khi người dùng không còn theo dõi.
 * **Xử Lý Trùng Lặp**: Đảm bảo rằng phiên chạy mới không bị xung đột tài nguyên hoặc ghi đè lên file kết quả của phiên chạy trước nếu phiên chạy trước chưa kết thúc.

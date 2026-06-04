@@ -1,9 +1,16 @@
 ---
-title: "PRD Assistant"
-description: "Product requirements analysis and PRD generation assistant. Transforms requirement ideas into complete product solutions with competitor research, Mermaid flows, and HTML prototypes."
-oneLiner: "Transform vague product concepts into structured PRDs and interactive HTML prototypes."
-seoTitle: "PRD Assistant - Minimax Skill for AI Agents"
-seoDescription: "Implement Product Requirement Document (PRD) writing, system mapping, and prototyping capabilities on AI Agents."
+title: PRD Assistant
+description: >-
+  Product requirements analysis and PRD generation assistant. Transforms
+  requirement ideas into complete product solutions with competitor research,
+  Mermaid flows, and HTML prototypes.
+oneLiner: >-
+  Transform vague product concepts into structured PRDs and interactive HTML
+  prototypes.
+seoTitle: PRD Assistant - Minimax Skill for AI Agents
+seoDescription: >-
+  Implement Product Requirement Document (PRD) writing, system mapping, and
+  prototyping capabilities on AI Agents.
 ---
 
 ## 📖 Why Do We Need This Skill?
@@ -21,11 +28,22 @@ Vague Concept ──> Feasibility & Competitor Report ──> Mermaid User Flow 
 3. **PRD Writing**: Compile requirements (Markdown/PDF) covering functional scopes, API specs, and non-functional requirements.
 4. **Prototyping**: Write single-file responsive HTML mockups using CSS to simulate real system interactions.
 
-## 🚀 Agent Guidelines (Prompt Guidelines)
+## 🚀 How to use
 
 - Always maintain strict language consistency: output all assets in the user's conversation language.
 - PRD functional requirements must include clear acceptance criteria and detailed error state definitions.
 - Visual wireframes and prototypes should prioritize functional layouts, clean grids, and modern UI tokens.
+
+## 💡 Real-World Examples / Scenarios
+
+### Developer:
+> "Guide me on how to configure and deploy the PRD Assistant skill to Transform vague product concepts into structured PRDs and interactive HTML prototypes."
+
+### AI Agent (Equipped with Skill):
+> "I have initialized the configuration. Here is the execution flow for the PRD Assistant skill:
+> 1. Set up the environment variables and structure the inputs as specified.
+> 2. Execute the workflow steps and integrate core components.
+> 3. Verify results, optimize performance, and return the finalized assets."
 
 ## ⚠️ Gotchas and notes
 

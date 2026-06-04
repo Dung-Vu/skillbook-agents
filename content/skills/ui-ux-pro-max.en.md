@@ -1,9 +1,13 @@
 ---
-title: "UI/UX Pro Max"
-description: "Advanced UI/UX design skill focused on modern digital aesthetics, color theory, typography pairings, and layout structures."
-oneLiner: "Elevate web interfaces with custom high-end aesthetics and clean CSS code."
-seoTitle: "UI/UX Pro Max - Minimax Skill for AI Agents"
-seoDescription: "Implement professional UI/UX design system architectures and CSS codebases on AI Agents."
+title: UI/UX Pro Max
+description: >-
+  Advanced UI/UX design skill focused on modern digital aesthetics, color
+  theory, typography pairings, and layout structures.
+oneLiner: Elevate web interfaces with custom high-end aesthetics and clean CSS code.
+seoTitle: UI/UX Pro Max - Minimax Skill for AI Agents
+seoDescription: >-
+  Implement professional UI/UX design system architectures and CSS codebases on
+  AI Agents.
 ---
 
 ## 📖 Why Do We Need This Skill?
@@ -21,11 +25,22 @@ Brand Concept Ingestion --> Color Palette & Font Pairing --> Modular CSS Archite
 3. **Coding**: Package variables and CSS tokens inside clean, semantic, and reusable CSS stylesheets.
 4. **Polish**: Tune micro-interactions, hover states, transitions, and loading states for a premium feel.
 
-## 🚀 Agent Guidelines (Prompt Guidelines)
+## 🚀 How to use
 
 - Define exact custom color palettes. Avoid standard framework defaults.
 - Always use highly contrastive typography pairings (e.g., serif headings with sans-serif body copy).
 - Provide clean, copy-pasteable CSS/HTML structures utilizing CSS Custom Properties for theme customizability.
+
+## 💡 Real-World Examples / Scenarios
+
+### Developer:
+> "Guide me on how to configure and deploy the UI/UX Pro Max skill to Elevate web interfaces with custom high-end aesthetics and clean CSS code."
+
+### AI Agent (Equipped with Skill):
+> "I have initialized the configuration. Here is the execution flow for the UI/UX Pro Max skill:
+> 1. Set up the environment variables and structure the inputs as specified.
+> 2. Execute the workflow steps and integrate core components.
+> 3. Verify results, optimize performance, and return the finalized assets."
 
 ## ⚠️ Gotchas and notes
 

@@ -33,11 +33,11 @@ seoDescription: >-
 provider: minimax
 ---
 
-## 📖 Tại Sao AI Agent Của Bạn Cần Kỹ Năng Này?
+## 📖 Tại Sao Cần Skill Này?
 
 Các giao diện web hiện đại đòi hỏi một tư duy thẩm mỹ đột phá, vượt ra ngoài các khung giao diện CSS thông thường để tạo dấu ấn thương hiệu. Kỹ năng này cung cấp các nguyên tắc phối màu nghệ thuật (như phối màu đơn sắc ấm, phối màu đất sâu), kỹ thuật chọn phông chữ cao cấp (sans-serif và serif tương phản) và tối ưu hóa mã CSS tương tác mượt mà.
 
-## ⚙️ Cơ Chế Hoạt Động & Quy Trình Tư Duy
+## ⚙️ Cách Hoạt Động
 
 Quy trình xây dựng giao diện nghệ thuật:
 ```
@@ -48,13 +48,24 @@ Nhan dien thuong hieu --> Chon phoi mau & Font dac trung --> Cau truc khung CSS 
 3. **Cấu trúc mã CSS**: Viết các đoạn mã CSS sạch sử dụng biến tùy chỉnh (CSS Custom Properties) để kiểm soát thống nhất.
 4. **Tối ưu**: Đảm bảo các hiệu ứng chuyển động (animations) nhẹ nhàng, tải trang nhanh và hiển thị sắc nét.
 
-## 🚀 Bộ Quy Tắc Chỉ Dẫn Cho Agent (Prompt Guidelines)
+## 🚀 Cách Sử Dụng
 
 - Tránh sử dụng các bảng màu mặc định của Tailwind CSS nếu không cần thiết; khuyên dùng các mã màu tự định nghĩa để tạo sự độc đáo.
 - Bắt buộc phải chọn các cặp phông chữ có sự tương phản mạnh mẽ (ví dụ: dùng phông Serif cho tiêu đề và Sans-serif cho nội dung chính).
 - Cung cấp các đoạn mã CSS mẫu có độ chi tiết cao, giải thích rõ ràng vai trò của từng thuộc tính thiết kế.
 
-## ⚠️ Cảnh Báo Vận Hành & Mẹo Tối Ưu (Developer Gotchas)
+## 💡 Kịch Bản Lập Trình Thực Tế
+
+### Nhà phát triển:
+> "Hãy hướng dẫn tôi cách thiết lập và sử dụng kỹ năng UI/UX Pro Max để Nâng cấp giao diện người dùng lên chuẩn thẩm mỹ cao cấp và hiện đại."
+
+### AI Agent (Đã được trang bị Kỹ năng):
+> "Tôi đã sẵn sàng. Dưới đây là kịch bản vận hành thực tế cho kỹ năng UI/UX Pro Max:
+> 1. Thiết lập các thông số cấu hình và tham số đầu vào cần thiết cho hệ thống.
+> 2. Thực thi tuần tự các bước xử lý logic và tích hợp theo đúng chỉ dẫn của UI/UX Pro Max.
+> 3. Kiểm thử đầu ra, tối ưu hóa hiệu năng và cung cấp kết quả hoàn chỉnh."
+
+## ⚠️ Lưu Ý & Gotchas
 
 - **Quá tải font chữ**: Không sử dụng quá 2 họ phông chữ (font family) khác nhau trong cùng một trang web để tránh làm mất đi sự nhất quán.
 - **Hiệu ứng nặng**: Hạn chế sử dụng các thư viện chuyển động nặng gây giật lag trên thiết bị di động.

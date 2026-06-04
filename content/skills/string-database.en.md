@@ -1,9 +1,13 @@
 ---
-title: "STRING Protein Interactions"
-description: "Explore physical and functional protein-protein interaction networks, calculate confidence scores, and run cluster enrichment analysis."
-oneLiner: "Query protein-protein interaction networks from STRING."
-seoTitle: "STRING Protein Interactions — Skillbook Agents"
-seoDescription: "Guide for Agents to query protein-protein interactions and functional enrichment from the STRING database."
+title: STRING Protein Interactions
+description: >-
+  Explore physical and functional protein-protein interaction networks,
+  calculate confidence scores, and run cluster enrichment analysis.
+oneLiner: Query protein-protein interaction networks from STRING.
+seoTitle: STRING Protein Interactions — Skillbook Agents
+seoDescription: >-
+  Guide for Agents to query protein-protein interactions and functional
+  enrichment from the STRING database.
 ---
 
 

@@ -101,16 +101,8 @@ function validateSkills() {
 
     const provider = valData.provider;
     
-    // Core Minimax Vietnamese H2 Headings
-    const minimaxH2s = [
-      "## 📖 Tại Sao AI Agent Của Bạn Cần Kỹ Năng Này?",
-      "## ⚙️ Cơ Chế Hoạt Động & Quy Trình Tư Duy",
-      "## 🚀 Bộ Quy Tắc Chỉ Dẫn Cho Agent (Prompt Guidelines)",
-      "## ⚠️ Cảnh Báo Vận Hành & Mẹo Tối Ưu (Developer Gotchas)"
-    ];
-
-    // Core Antigravity Vietnamese H2 Headings
-    const antigravityH2s = [
+    // Core H2 Headings (Unified for all providers)
+    const expectedH2s = [
       "## 📖 Tại Sao Cần Skill Này?",
       "## ⚙️ Cách Hoạt Động",
       "## 🚀 Cách Sử Dụng",
@@ -118,28 +110,14 @@ function validateSkills() {
       "## ⚠️ Lưu Ý & Gotchas"
     ];
 
-    if (provider === "minimax") {
-      minimaxH2s.forEach((expectedH2) => {
-        if (!h2Lines.includes(expectedH2)) {
-          errors.push({
-            file,
-            error: `Missing required Minimax heading: '${expectedH2}'`,
-          });
-        }
-      });
-    } else if (provider === "antigravity") {
-      // Check if it satisfies the 5-H2 Antigravity style
-      const hasAntigravityStyle = antigravityH2s.every((h) => h2Lines.includes(h));
-      // Check if it satisfies the 4-H2 Minimax style (for developer-centric tools)
-      const hasMinimaxStyle = minimaxH2s.every((h) => h2Lines.includes(h));
-
-      if (!hasAntigravityStyle && !hasMinimaxStyle) {
+    expectedH2s.forEach((expectedH2) => {
+      if (!h2Lines.includes(expectedH2)) {
         errors.push({
           file,
-          error: `Heading validation failed. Must have either the 5 standard Antigravity headings OR the 4 Minimax headings.`,
+          error: `Missing required heading: '${expectedH2}'`,
         });
       }
-    }
+    });
 
     // Validate English Translation file headings if it exists
     const enFile = `${slug}.en.md`;
@@ -151,14 +129,7 @@ function validateSkills() {
         .filter((line) => line.startsWith("## "))
         .map((line) => line.trim());
 
-      const minimaxEnH2s = [
-        "## 📖 Why Do We Need This Skill?",
-        "## ⚙️ How It Works",
-        "## 🚀 Agent Guidelines (Prompt Guidelines)",
-        "## ⚠️ Gotchas and notes"
-      ];
-
-      const antigravityEnH2s = [
+      const expectedEnH2s = [
         "## 📖 Why Do We Need This Skill?",
         "## ⚙️ How It Works",
         "## 🚀 How to use",
@@ -166,26 +137,14 @@ function validateSkills() {
         "## ⚠️ Gotchas and notes"
       ];
 
-      if (provider === "minimax") {
-        minimaxEnH2s.forEach((expectedH2) => {
-          if (!enH2Lines.includes(expectedH2)) {
-            errors.push({
-              file: enFile,
-              error: `Missing required English heading: '${expectedH2}'`,
-            });
-          }
-        });
-      } else if (provider === "antigravity") {
-        const hasAntigravityEnStyle = antigravityEnH2s.every((h) => enH2Lines.includes(h));
-        const hasMinimaxEnStyle = minimaxEnH2s.every((h) => enH2Lines.includes(h));
-
-        if (!hasAntigravityEnStyle && !hasMinimaxEnStyle) {
+      expectedEnH2s.forEach((expectedH2) => {
+        if (!enH2Lines.includes(expectedH2)) {
           errors.push({
             file: enFile,
-            error: `English heading validation failed. Must have either 5 Antigravity English H2s or 4 Minimax English H2s.`,
+            error: `Missing required English heading: '${expectedH2}'`,
           });
         }
-      }
+      });
     }
   });
 

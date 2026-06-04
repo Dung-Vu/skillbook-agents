@@ -1,9 +1,14 @@
 ---
-title: "Frontend Design"
-description: "Create distinctive, production-grade frontend interfaces with high design quality. Generates creative, polished code and UI design that avoids generic AI aesthetics."
-oneLiner: "Design and build stunning, production-ready frontend interfaces."
-seoTitle: "Frontend Design - Minimax Skill for AI Agents"
-seoDescription: "Develop exceptional frontend interfaces using Tailwind CSS, focusing on visual hierarchy, accessibility, and unique aesthetics."
+title: Frontend Design
+description: >-
+  Create distinctive, production-grade frontend interfaces with high design
+  quality. Generates creative, polished code and UI design that avoids generic
+  AI aesthetics.
+oneLiner: 'Design and build stunning, production-ready frontend interfaces.'
+seoTitle: Frontend Design - Minimax Skill for AI Agents
+seoDescription: >-
+  Develop exceptional frontend interfaces using Tailwind CSS, focusing on visual
+  hierarchy, accessibility, and unique aesthetics.
 ---
 
 ## 📖 Why Do We Need This Skill?
@@ -22,11 +27,22 @@ The frontend design process flows through:
 2. **Design Tokens**: Standardizes custom palettes, typography scale, and border radius variables.
 3. **Development**: Implements semantic markup and Tailwind classes with polished transition timings.
 
-## 🚀 Agent Guidelines (Prompt Guidelines)
+## 🚀 How to use
 
 1. Write mobile-first, responsive layouts utilizing Tailwind's breakpoint prefixes consistently.
 2. Manage dynamic Tailwind classes using a helper function like `cn(clsx + twMerge)`.
 3. Avoid arbitrary styling values (e.g., `w-[347px]`); stick to the spacing scale tokens provided by Tailwind.
+
+## 💡 Real-World Examples / Scenarios
+
+### Developer:
+> "Guide me on how to configure and deploy the Frontend Design skill to Design and build stunning, production-ready frontend interfaces."
+
+### AI Agent (Equipped with Skill):
+> "I have initialized the configuration. Here is the execution flow for the Frontend Design skill:
+> 1. Set up the environment variables and structure the inputs as specified.
+> 2. Execute the workflow steps and integrate core components.
+> 3. Verify results, optimize performance, and return the finalized assets."
 
 ## ⚠️ Gotchas and notes
 

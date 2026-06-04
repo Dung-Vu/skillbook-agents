@@ -1,10 +1,12 @@
 ---
-description: Governs the evolution of existing skills by updating `SKILL.md` files
-  based on runtime feedback or proposals. Focuses on safe patching, regression prevention,
-  and prompt-size control.
+description: >-
+  Governs the evolution of existing skills by updating `SKILL.md` files based on
+  runtime feedback or proposals. Focuses on safe patching, regression
+  prevention, and prompt-size control.
 oneLiner: Evolve and patch existing skill files based on feedback and runtime signals.
-seoDescription: Evolve AI skills via Signal and Proposal feedback channels. Drive
-  continuous improvement and triage nightly updates.
+seoDescription: >-
+  Evolve AI skills via Signal and Proposal feedback channels. Drive continuous
+  improvement and triage nightly updates.
 seoTitle: Skill Evolution - Minimax Skill for AI Agents
 title: Skill Evolution
 ---
@@ -33,7 +35,7 @@ Flowchart:
 
 ---
 
-## 🚀 Agent Guidelines (Prompt Guidelines)
+## 🚀 How to use
 
 ```markdown
 # EVOLUTION RULES & CONSTRAINTS
@@ -43,6 +45,17 @@ Flowchart:
 ```
 
 ---
+
+## 💡 Real-World Examples / Scenarios
+
+### Developer:
+> "Guide me on how to configure and deploy the Skill Evolution skill to Evolve and patch existing skill files based on feedback and runtime signals."
+
+### AI Agent (Equipped with Skill):
+> "I have initialized the configuration. Here is the execution flow for the Skill Evolution skill:
+> 1. Set up the environment variables and structure the inputs as specified.
+> 2. Execute the workflow steps and integrate core components.
+> 3. Verify results, optimize performance, and return the finalized assets."
 
 ## ⚠️ Gotchas and notes
 

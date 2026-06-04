@@ -1,9 +1,13 @@
 ---
-title: "QuickGO Gene Ontology"
-description: "Map genes to biological processes, molecular functions, and cellular compartments, and traverse Gene Ontology hierarchies."
-oneLiner: "Query Gene Ontology (GO) functional annotations."
-seoTitle: "QuickGO Gene Ontology — Skillbook Agents"
-seoDescription: "Guide for Agents to query Gene Ontology via QuickGO to map genes with biological processes and functions."
+title: QuickGO Gene Ontology
+description: >-
+  Map genes to biological processes, molecular functions, and cellular
+  compartments, and traverse Gene Ontology hierarchies.
+oneLiner: Query Gene Ontology (GO) functional annotations.
+seoTitle: QuickGO Gene Ontology — Skillbook Agents
+seoDescription: >-
+  Guide for Agents to query Gene Ontology via QuickGO to map genes with
+  biological processes and functions.
 ---
 
 

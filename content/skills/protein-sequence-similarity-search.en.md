@@ -1,9 +1,11 @@
 ---
-title: "Protein Sequence Similarity Search"
-description: "Align query protein sequences against reference databases to identify homologs and infer biological functions."
-oneLiner: "Search for homologous protein sequences using MMseqs2 or BLAST."
-seoTitle: "Protein Sequence Similarity Search — Skillbook Agents"
-seoDescription: "Guide for Agents to search for protein homologs using MMseqs2 and BLAST."
+title: Protein Sequence Similarity Search
+description: >-
+  Align query protein sequences against reference databases to identify homologs
+  and infer biological functions.
+oneLiner: Search for homologous protein sequences using MMseqs2 or BLAST.
+seoTitle: Protein Sequence Similarity Search — Skillbook Agents
+seoDescription: Guide for Agents to search for protein homologs using MMseqs2 and BLAST.
 ---
 
 

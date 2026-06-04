@@ -1,9 +1,14 @@
 ---
-title: "Hedge Fund Expert Team"
-description: "AI hedge fund expert team featuring 18 top investment personas. Coordinates famous masters and professional analysts to analyze stock queries and deliver comprehensive investment recommendations."
-oneLiner: "Analyze stock queries through a coordinated council of 18 investment experts."
-seoTitle: "Hedge Fund Expert Team - Minimax Skill for AI Agents"
-seoDescription: "Multi-agent investment analysis team: coordinating legendary investors and analysts to dissect stocks and manage portfolio risks."
+title: Hedge Fund Expert Team
+description: >-
+  AI hedge fund expert team featuring 18 top investment personas. Coordinates
+  famous masters and professional analysts to analyze stock queries and deliver
+  comprehensive investment recommendations.
+oneLiner: Analyze stock queries through a coordinated council of 18 investment experts.
+seoTitle: Hedge Fund Expert Team - Minimax Skill for AI Agents
+seoDescription: >-
+  Multi-agent investment analysis team: coordinating legendary investors and
+  analysts to dissect stocks and manage portfolio risks.
 ---
 
 ## 📖 Why Do We Need This Skill?
@@ -22,11 +27,22 @@ The expert panel coordination flow is mapped out below:
 2. **Deep Dive**: Analysts (fundamentals, technical, risk) submit quantitative reports.
 3. **Council Voting**: Legendary masters weigh in with qualitative critiques and cast buy/sell/hold votes.
 
-## 🚀 Agent Guidelines (Prompt Guidelines)
+## 🚀 How to use
 
 1. Append a visible financial disclaimer stating that recommendations are not official investment advice.
 2. Attribute views to specific expert personas clearly to show the distinct logic behind each strategy.
 3. Conclude with a clear action plan summarizing portfolio weightings and risk boundaries.
+
+## 💡 Real-World Examples / Scenarios
+
+### Developer:
+> "Guide me on how to configure and deploy the Hedge Fund Expert Team skill to Analyze stock queries through a coordinated council of 18 investment experts."
+
+### AI Agent (Equipped with Skill):
+> "I have initialized the configuration. Here is the execution flow for the Hedge Fund Expert Team skill:
+> 1. Set up the environment variables and structure the inputs as specified.
+> 2. Execute the workflow steps and integrate core components.
+> 3. Verify results, optimize performance, and return the finalized assets."
 
 ## ⚠️ Gotchas and notes
 

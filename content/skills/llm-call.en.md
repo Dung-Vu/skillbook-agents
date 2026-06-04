@@ -1,10 +1,12 @@
 ---
-description: Executes direct calls to configured LLMs via local Python scripts using
-  settings in config.yaml. Ideal for testing prompts or comparing model outputs across
-  OpenAI, Anthropic, and Gemini.
+description: >-
+  Executes direct calls to configured LLMs via local Python scripts using
+  settings in config.yaml. Ideal for testing prompts or comparing model outputs
+  across OpenAI, Anthropic, and Gemini.
 oneLiner: Make direct API calls to configured LLMs for testing and comparison.
-seoDescription: Call configured LLM models directly via local Python runner. Use for
-  prompt testing and model output comparison.
+seoDescription: >-
+  Call configured LLM models directly via local Python runner. Use for prompt
+  testing and model output comparison.
 seoTitle: LLM Call - Minimax Skill for AI Agents
 title: LLM Call
 ---
@@ -31,7 +33,7 @@ Flowchart:
 
 ---
 
-## 🚀 Agent Guidelines (Prompt Guidelines)
+## 🚀 How to use
 
 ```markdown
 # LLM CALL RULES
@@ -41,6 +43,17 @@ Flowchart:
 ```
 
 ---
+
+## 💡 Real-World Examples / Scenarios
+
+### Developer:
+> "Guide me on how to configure and deploy the LLM Call skill to Make direct API calls to configured LLMs for testing and comparison."
+
+### AI Agent (Equipped with Skill):
+> "I have initialized the configuration. Here is the execution flow for the LLM Call skill:
+> 1. Set up the environment variables and structure the inputs as specified.
+> 2. Execute the workflow steps and integrate core components.
+> 3. Verify results, optimize performance, and return the finalized assets."
 
 ## ⚠️ Gotchas and notes
 

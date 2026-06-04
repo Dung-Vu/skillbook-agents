@@ -1,9 +1,16 @@
 ---
-title: "Video Story Generator"
-description: "Automated video story generator. Sets story plots, designs storyboards, creates consistent audio/image assets, and compiles the final video using FFmpeg."
-oneLiner: "Generate cohesive video stories by compiling scripts, voiceovers, images, and FFmpeg layouts."
-seoTitle: "Video Story Generator - Minimax Skill for AI Agents"
-seoDescription: "Implement storyboard scripting, character-consistent image generation, and FFmpeg assembly workflows on AI Agents."
+title: Video Story Generator
+description: >-
+  Automated video story generator. Sets story plots, designs storyboards,
+  creates consistent audio/image assets, and compiles the final video using
+  FFmpeg.
+oneLiner: >-
+  Generate cohesive video stories by compiling scripts, voiceovers, images, and
+  FFmpeg layouts.
+seoTitle: Video Story Generator - Minimax Skill for AI Agents
+seoDescription: >-
+  Implement storyboard scripting, character-consistent image generation, and
+  FFmpeg assembly workflows on AI Agents.
 ---
 
 ## 📖 Why Do We Need This Skill?
@@ -22,11 +29,22 @@ Story Concept --> Scene Storyboarding --> Asset Generation (Image/TTS) --> FFmpe
 4. **FFmpeg Compilation**: Generate and execute shell scripts using FFmpeg filters to scale images, apply transitions, overlay subtitles, and sync audio tracks.
 5. **Delivery**: Save the resulting video file and present the local path to the user.
 
-## 🚀 Agent Guidelines (Prompt Guidelines)
+## 🚀 How to use
 
 - Maintain strict character consistency across scenes using explicit visual cues and seed controls.
 - Calculate audio durations dynamically to set matching video frame display times.
 - Ensure FFmpeg scripts handle variable image dimensions defensively by using `scale` and `pad` filters to standard 1920x1080 resolution.
+
+## 💡 Real-World Examples / Scenarios
+
+### Developer:
+> "Guide me on how to configure and deploy the Video Story Generator skill to Generate cohesive video stories by compiling scripts, voiceovers, images, and FFmpeg layouts."
+
+### AI Agent (Equipped with Skill):
+> "I have initialized the configuration. Here is the execution flow for the Video Story Generator skill:
+> 1. Set up the environment variables and structure the inputs as specified.
+> 2. Execute the workflow steps and integrate core components.
+> 3. Verify results, optimize performance, and return the finalized assets."
 
 ## ⚠️ Gotchas and notes
 

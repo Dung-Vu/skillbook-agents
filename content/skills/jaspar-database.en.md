@@ -1,9 +1,13 @@
 ---
-title: "JASPAR TF Binding Profiles"
-description: "Download Position Frequency/Weight Matrices (PFM/PWM) of Transcription Factors in multiple formats (MEME, JASPAR)."
-oneLiner: "Retrieve transcription factor binding profiles from JASPAR."
-seoTitle: "JASPAR TF Binding Profiles — Skillbook Agents"
-seoDescription: "Guide for Agents to query TF binding profiles, PFMs, and PWMs from the JASPAR database."
+title: JASPAR TF Binding Profiles
+description: >-
+  Download Position Frequency/Weight Matrices (PFM/PWM) of Transcription Factors
+  in multiple formats (MEME, JASPAR).
+oneLiner: Retrieve transcription factor binding profiles from JASPAR.
+seoTitle: JASPAR TF Binding Profiles — Skillbook Agents
+seoDescription: >-
+  Guide for Agents to query TF binding profiles, PFMs, and PWMs from the JASPAR
+  database.
 ---
 
 

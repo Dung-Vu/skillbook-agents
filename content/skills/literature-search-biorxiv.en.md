@@ -1,9 +1,13 @@
 ---
-title: "bioRxiv/medRxiv Preprints"
-description: "Browse and filter unreviewed biomedical preprints by scientific category and time interval."
-oneLiner: "Search life sciences preprints on bioRxiv and medRxiv."
-seoTitle: "bioRxiv/medRxiv Preprints — Skillbook Agents"
-seoDescription: "Guide for Agents to browse and download biology and medicine preprints from bioRxiv and medRxiv."
+title: bioRxiv/medRxiv Preprints
+description: >-
+  Browse and filter unreviewed biomedical preprints by scientific category and
+  time interval.
+oneLiner: Search life sciences preprints on bioRxiv and medRxiv.
+seoTitle: bioRxiv/medRxiv Preprints — Skillbook Agents
+seoDescription: >-
+  Guide for Agents to browse and download biology and medicine preprints from
+  bioRxiv and medRxiv.
 ---
 
 

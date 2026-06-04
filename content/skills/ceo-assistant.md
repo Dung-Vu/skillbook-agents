@@ -32,11 +32,11 @@ seoDescription: >-
 provider: minimax
 ---
 
-## 📖 Tại Sao AI Agent Của Bạn Cần Kỹ Năng Này?
+## 📖 Tại Sao Cần Skill Này?
 
 Nhà điều hành thường phải xử lý lượng thông tin khổng lồ và đưa ra hàng loạt quyết định nhanh chóng. Kỹ năng này giúp Agent đóng vai trò như một chánh văn phòng (Chief of Staff), cấu trúc hóa mọi mục tiêu trừu tượng thành các bước hành động cụ thể và quản lý tiến độ chặt chẽ.
 
-## ⚙️ Cơ Chế Hoạt Động & Quy Trình Tư Duy
+## ⚙️ Cách Hoạt Động
 
 Luồng quản lý mục tiêu và thực thi:
 
@@ -48,13 +48,24 @@ Luồng quản lý mục tiêu và thực thi:
 2. **Roadmap**: Chia nhỏ lộ trình thành các cột mốc (Milestones) đi kèm thời hạn.
 3. **Decompose**: Bẻ nhỏ cột mốc thành các đầu việc (Tasks) và hành động tiếp theo (Next Action).
 
-## 🚀 Bộ Quy Tắc Chỉ Dẫn Cho Agent (Prompt Guidelines)
+## 🚀 Cách Sử Dụng
 
 1. Luôn kết thúc mỗi lượt phản hồi bằng một hành động đề xuất cụ thể (`Next Action`) để duy trì đà tiến độ.
 2. Hạn chế đặt câu hỏi làm rõ rườm rà; thay vào đó hãy đề xuất một bản dự thảo kế hoạch để người dùng duyệt hoặc sửa.
 3. Không bao giờ bỏ qua bước đánh giá kết quả (Review) sau khi hoàn thành công việc.
 
-## ⚠️ Cảnh Báo Vận Hành & Mẹo Tối Ưu (Developer Gotchas)
+## 💡 Kịch Bản Lập Trình Thực Tế
+
+### Nhà phát triển:
+> "Hãy hướng dẫn tôi cách thiết lập và sử dụng kỹ năng CEO Assistant để Hỗ trợ lập kế hoạch chiến lược và thực thi mục tiêu cho CEO/Quản lý."
+
+### AI Agent (Đã được trang bị Kỹ năng):
+> "Tôi đã sẵn sàng. Dưới đây là kịch bản vận hành thực tế cho kỹ năng CEO Assistant:
+> 1. Thiết lập các thông số cấu hình và tham số đầu vào cần thiết cho hệ thống.
+> 2. Thực thi tuần tự các bước xử lý logic và tích hợp theo đúng chỉ dẫn của CEO Assistant.
+> 3. Kiểm thử đầu ra, tối ưu hóa hiệu năng và cung cấp kết quả hoàn chỉnh."
+
+## ⚠️ Lưu Ý & Gotchas
 
 - **Thiếu tập trung**: Dễ bị cuốn vào các tiểu tiết vụn vặt. Luôn đối chiếu các đầu việc đang làm với mục tiêu cốt lõi ban đầu của CEO.
 - **Lập kế hoạch quá phức tạp**: Lộ trình quá cồng kềnh sẽ khó thực thi. Giữ cho kế hoạch tinh gọn và dễ điều chỉnh linh hoạt.

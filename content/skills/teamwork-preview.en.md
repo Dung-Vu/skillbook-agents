@@ -1,9 +1,13 @@
 ---
-title: "Teamwork Multi-Agent Preview"
-description: "Initialize collaborative multi-agent networks (Dev, QA, PM, Architect) to solve large-scale engineering tasks."
-oneLiner: "Coordinate collaborative multi-agent networks for large projects."
-seoTitle: "/teamwork-preview - Multi-Agent Collaboration Skill for Complex Projects"
-seoDescription: "Detailed instructions on operating the `/teamwork-preview` skill to coordinate Dev, QA, PM, and Architect roles."
+title: Teamwork Multi-Agent Preview
+description: >-
+  Initialize collaborative multi-agent networks (Dev, QA, PM, Architect) to
+  solve large-scale engineering tasks.
+oneLiner: Coordinate collaborative multi-agent networks for large projects.
+seoTitle: /teamwork-preview - Multi-Agent Collaboration Skill for Complex Projects
+seoDescription: >-
+  Detailed instructions on operating the `/teamwork-preview` skill to coordinate
+  Dev, QA, PM, and Architect roles.
 ---
 
 
@@ -38,7 +42,7 @@ Agent thought process when executing teamwork-preview:
 
 ---
 
-## 🚀 Agent Guidelines (Prompt Guidelines)
+## 🚀 How to use
 
 ````markdown
 # TEAMWORK MULTI-AGENT INSTRUCTIONS & RULES
@@ -57,6 +61,17 @@ Agent thought process when executing teamwork-preview:
 ````
 
 ---
+
+## 💡 Real-World Examples / Scenarios
+
+### Developer:
+> "Guide me on how to configure and deploy the Teamwork Multi-Agent Preview skill to Coordinate collaborative multi-agent networks for large projects."
+
+### AI Agent (Equipped with Skill):
+> "I have initialized the configuration. Here is the execution flow for the Teamwork Multi-Agent Preview skill:
+> 1. Set up the environment variables and structure the inputs as specified.
+> 2. Execute the workflow steps and integrate core components.
+> 3. Verify results, optimize performance, and return the finalized assets."
 
 ## ⚠️ Gotchas and notes
 

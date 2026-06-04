@@ -34,11 +34,11 @@ seoDescription: >-
 provider: minimax
 ---
 
-## 📖 Tại Sao AI Agent Của Bạn Cần Kỹ Năng Này?
+## 📖 Tại Sao Cần Skill Này?
 
 Trong môi trường doanh nghiệp và tư vấn chiến lược, các slide trang trí sặc sỡ và thiếu dữ liệu sẽ bị từ chối ngay lập tức. Kỹ năng này cung cấp các slide có thiết kế phẳng, vuông vức, mật độ thông tin cao, bảo chứng bằng dữ liệu xác thực cùng nguồn trích dẫn rõ ràng theo đúng tiêu chuẩn khắt khe của các hãng tư vấn hàng đầu như McKinsey.
 
-## ⚙️ Cơ Chế Hoạt Động & Quy Trình Tư Duy
+## ⚙️ Cách Hoạt Động
 
 Luồng công việc bao gồm:
 ```
@@ -50,14 +50,25 @@ Nghiên cứu thị trường (Step 1) ──> Thiết kế bố cục (Step 2) 
 4. **Vẽ Biểu đồ**: Sử dụng thẻ SVG để vẽ biểu đồ trực tiếp (cột, đường) không dùng góc tròn.
 5. **Triển khai**: Đưa các trang HTML lên trực tuyến qua công cụ deploy.
 
-## 🚀 Bộ Quy Tắc Chỉ Dẫn Cho Agent (Prompt Guidelines)
+## 🚀 Cách Sử Dụng
 
 - **Thiết kế phẳng và vuông vức**: Tuyệt đối không dùng bo góc (`border-radius: 0`), không tạo hiệu ứng đổ bóng, không dùng dải màu (gradient) trên các phần tử nội dung.
 - **Giới hạn màu sắc**: Tối đa 2 màu nhấn (accent color) trên mỗi trang (mặc định là Xanh Cobalt `#1B5AB5` và một màu phụ tự chọn).
 - Mỗi slide nội dung phải có cấu trúc: Header Bar (Nền Navy đậm `#0B1F3A`, cao 32px), Insight Zone (Chữ đậm xanh Cobalt thể hiện phát hiện mấu chốt), Content Area (4 vùng thông tin) và Footer Zone (Trích dẫn nguồn).
 - Cung cấp tính năng co giãn thích ứng (Responsive Scaling) để bài thuyết trình hiển thị tốt trên mọi độ phân giải màn hình.
 
-## ⚠️ Cảnh Báo Vận Hành & Mẹo Tối Ưu (Developer Gotchas)
+## 💡 Kịch Bản Lập Trình Thực Tế
+
+### Nhà phát triển:
+> "Hãy hướng dẫn tôi cách thiết lập và sử dụng kỹ năng McKinsey Presentation Generator để Tạo slide thuyết trình HTML giàu dữ liệu chuẩn McKinsey."
+
+### AI Agent (Đã được trang bị Kỹ năng):
+> "Tôi đã sẵn sàng. Dưới đây là kịch bản vận hành thực tế cho kỹ năng McKinsey Presentation Generator:
+> 1. Thiết lập các thông số cấu hình và tham số đầu vào cần thiết cho hệ thống.
+> 2. Thực thi tuần tự các bước xử lý logic và tích hợp theo đúng chỉ dẫn của McKinsey Presentation Generator.
+> 3. Kiểm thử đầu ra, tối ưu hóa hiệu năng và cung cấp kết quả hoàn chỉnh."
+
+## ⚠️ Lưu Ý & Gotchas
 
 - **Cấm ảnh do AI tạo ra**: Không sử dụng hình ảnh trang trí do AI vẽ (gen_images) để đưa vào slide tư vấn chính thức.
 - **Lỗi thiếu thông tin**: Đảm bảo mật độ phủ thông tin tối thiểu 70% bề mặt slide, không để khoảng trống lớn hơn 52px.

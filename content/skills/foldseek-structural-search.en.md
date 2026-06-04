@@ -1,9 +1,13 @@
 ---
-title: "Foldseek 3D Structural Search"
-description: "Perform high-speed 3D protein structure searches from coordinate files (.pdb, .cif) against structural databases."
-oneLiner: "Search homologous 3D protein structures using Foldseek."
-seoTitle: "Foldseek 3D Structural Search — Skillbook Agents"
-seoDescription: "Guide for Agents to search structurally similar proteins using the Foldseek API."
+title: Foldseek 3D Structural Search
+description: >-
+  Perform high-speed 3D protein structure searches from coordinate files (.pdb,
+  .cif) against structural databases.
+oneLiner: Search homologous 3D protein structures using Foldseek.
+seoTitle: Foldseek 3D Structural Search — Skillbook Agents
+seoDescription: >-
+  Guide for Agents to search structurally similar proteins using the Foldseek
+  API.
 ---
 
 

@@ -35,11 +35,11 @@ seoDescription: >-
 provider: minimax
 ---
 
-## 📖 Tại Sao AI Agent Của Bạn Cần Kỹ Năng Này?
+## 📖 Tại Sao Cần Skill Này?
 
 Thị trường dự đoán (Prediction Markets) như Polymarket phản ánh thông tin thực tế rất nhanh nhưng thường bị nhiễu do tâm lý và cảm xúc của đám đông. Kỹ năng này giúp Agent nhận diện các sai lệch giá (inefficiency) bằng toán học thuần túy, tính toán quy mô vị thế tối ưu qua tiêu chuẩn Kelly và viết mã tích hợp với CLOB (Central Limit Order Book) thông qua Polygon network.
 
-## ⚙️ Cơ Chế Hoạt Động & Quy Trình Tư Duy
+## ⚙️ Cách Hoạt Động
 
 Luồng xử lý định lượng Polymarket:
 ```
@@ -50,13 +50,24 @@ Quét thị trường & Tin tức ──> Tính Xác suất biên (Implied Prob)
 3. **Quản lý vốn**: Áp dụng công thức Kelly để xác định phần trăm vốn tối ưu cần giải ngân.
 4. **Tích hợp hệ thống**: Hướng dẫn tích hợp mã python (`py-clob-client`) để đặt lệnh tự động trên mạng Polygon.
 
-## 🚀 Bộ Quy Tắc Chỉ Dẫn Cho Agent (Prompt Guidelines)
+## 🚀 Cách Sử Dụng
 
 - Chỉ hành động theo tính toán logic cơ học, loại bỏ hoàn toàn trực giác. Nếu một giao dịch không có EV dương sau khi trừ phí, bắt buộc phải loại bỏ.
 - Sử dụng công thức Kelly để quản lý vốn: `f* = (p*(b+1) - 1) / b` trong đó `p` là xác suất thắng thực tế, `b` là tỷ lệ cược.
 - Đảm bảo hướng dẫn cấu hình chi tiết private key và API key của Polymarket một cách an toàn, tránh để lộ trên mã nguồn hoặc log chat.
 
-## ⚠️ Cảnh Báo Vận Hành & Mẹo Tối Ưu (Developer Gotchas)
+## 💡 Kịch Bản Lập Trình Thực Tế
+
+### Nhà phát triển:
+> "Hãy hướng dẫn tôi cách thiết lập và sử dụng kỹ năng Polymarket Expert để Chuyên gia phân tích thị trường dự đoán Polymarket và tài chính thông tin."
+
+### AI Agent (Đã được trang bị Kỹ năng):
+> "Tôi đã sẵn sàng. Dưới đây là kịch bản vận hành thực tế cho kỹ năng Polymarket Expert:
+> 1. Thiết lập các thông số cấu hình và tham số đầu vào cần thiết cho hệ thống.
+> 2. Thực thi tuần tự các bước xử lý logic và tích hợp theo đúng chỉ dẫn của Polymarket Expert.
+> 3. Kiểm thử đầu ra, tối ưu hóa hiệu năng và cung cấp kết quả hoàn chỉnh."
+
+## ⚠️ Lưu Ý & Gotchas
 
 - **Thanh khoản mỏng**: Cảnh báo người dùng về trượt giá (slippage) khi giao dịch quy mô lớn ở các thị trường ngách.
 - **Rủi ro giải quyết tranh chấp**: Lưu ý về các tranh chấp kết quả (resolution disputes) từ UMA Oracle đối với các thị trường có mô tả mập mờ.

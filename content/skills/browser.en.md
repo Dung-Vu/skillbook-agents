@@ -1,9 +1,15 @@
 ---
-title: "Browser Automation"
-description: "Enable AI Agents to interact directly with web applications via automated browsers to perform data scraping and UI testing."
-oneLiner: "Interact directly and scrape data from web applications via automated browsers."
-seoTitle: "/browser - Web Browser Automation Skill for AI Agents"
-seoDescription: "Detailed instructions on operating the `/browser` automation tool to scrape websites and test UI/UX."
+title: Browser Automation
+description: >-
+  Enable AI Agents to interact directly with web applications via automated
+  browsers to perform data scraping and UI testing.
+oneLiner: >-
+  Interact directly and scrape data from web applications via automated
+  browsers.
+seoTitle: /browser - Web Browser Automation Skill for AI Agents
+seoDescription: >-
+  Detailed instructions on operating the `/browser` automation tool to scrape
+  websites and test UI/UX.
 ---
 
 
@@ -37,7 +43,7 @@ Agent's thought process when executing `/browser`:
 
 ---
 
-## 🚀 Agent Guidelines (Prompt Guidelines)
+## 🚀 How to use
 
 ````markdown
 # BROWSER AUTOMATION INSTRUCTIONS & RULES
@@ -56,6 +62,17 @@ Agent's thought process when executing `/browser`:
 ````
 
 ---
+
+## 💡 Real-World Examples / Scenarios
+
+### Developer:
+> "Guide me on how to configure and deploy the Browser Automation skill to Interact directly and scrape data from web applications via automated browsers."
+
+### AI Agent (Equipped with Skill):
+> "I have initialized the configuration. Here is the execution flow for the Browser Automation skill:
+> 1. Set up the environment variables and structure the inputs as specified.
+> 2. Execute the workflow steps and integrate core components.
+> 3. Verify results, optimize performance, and return the finalized assets."
 
 ## ⚠️ Gotchas and notes
 
