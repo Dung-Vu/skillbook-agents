@@ -32,7 +32,9 @@ export const ALLOWED_PLATFORMS = [
 export const SkillFrontmatterSchema = z.object({
   slug: z.string().min(1, "Slug cannot be empty"),
   title: z.string().min(1, "Title cannot be empty"),
-  command: z.string(),
+  command: z.string().regex(/^\/[a-z0-9]+(-[a-z0-9]+)*$/, {
+    message: "Command must start with '/' followed by kebab-case alphanumeric characters (e.g., /my-command-name)",
+  }),
   category: z.enum(ALLOWED_CATEGORIES, {
     message: `Category must be one of: ${ALLOWED_CATEGORIES.join(", ")}`,
   }),

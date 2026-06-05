@@ -1,7 +1,7 @@
 ---
 slug: video-story-generator
 title: Video Story Generator
-command: ''
+command: "/video-story-generator"
 category: creative-design
 tags:
   - story-generation

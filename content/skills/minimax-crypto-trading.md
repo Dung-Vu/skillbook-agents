@@ -1,7 +1,7 @@
 ---
 slug: minimax-crypto-trading
 title: Minimax Crypto Trading
-command: ''
+command: "/minimax-crypto-trading"
 category: reasoning-planning
 tags:
   - crypto

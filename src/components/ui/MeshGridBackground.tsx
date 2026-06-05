@@ -20,10 +20,6 @@ interface Ripple {
   alpha: number;
 }
 
-interface CustomWindow extends Window {
-  __canvasPaused?: boolean;
-}
-
 export function MeshGridBackground(): React.ReactElement {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -410,7 +406,10 @@ export function MeshGridBackground(): React.ReactElement {
       animationFrameId = requestAnimationFrame(draw);
     };
 
+    let isMountedDelayDone = false;
+
     const startLoop = (): void => {
+      if (!isMountedDelayDone) return;
       if (!isLoopRunning && isVisible && !isPaused) {
         isLoopRunning = true;
         animationFrameId = requestAnimationFrame(draw);
@@ -461,7 +460,7 @@ export function MeshGridBackground(): React.ReactElement {
     const handlePause = (): void => {
       isPaused = true;
       if (typeof window !== "undefined") {
-        (window as unknown as CustomWindow).__canvasPaused = true;
+        window.__canvasPaused = true;
       }
       stopLoop();
     };
@@ -469,7 +468,7 @@ export function MeshGridBackground(): React.ReactElement {
     const handleResume = (): void => {
       isPaused = false;
       if (typeof window !== "undefined") {
-        (window as unknown as CustomWindow).__canvasPaused = false;
+        window.__canvasPaused = false;
       }
       startLoop();
     };
@@ -477,10 +476,15 @@ export function MeshGridBackground(): React.ReactElement {
     window.addEventListener("canvas-pause", handlePause);
     window.addEventListener("canvas-resume", handleResume);
 
-    isLoopRunning = true;
-    draw();
+    const startTimeout = setTimeout(() => {
+      isMountedDelayDone = true;
+      if (isVisible && !isPaused) {
+        startLoop();
+      }
+    }, 500);
 
     return () => {
+      if (startTimeout) clearTimeout(startTimeout);
       if (resizeTimeout) clearTimeout(resizeTimeout);
       if (scrollTimeout) clearTimeout(scrollTimeout);
       window.removeEventListener("resize", debouncedResize);

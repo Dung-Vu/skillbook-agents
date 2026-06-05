@@ -1,7 +1,7 @@
 ---
 slug: seo-geo-optimization-expert
 title: SEO & GEO Optimization Expert
-command: ''
+command: "/seo-geo-optimization-expert"
 category: research-analysis
 tags:
   - seo

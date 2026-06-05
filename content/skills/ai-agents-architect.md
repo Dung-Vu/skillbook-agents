@@ -1,7 +1,7 @@
 ---
 slug: ai-agents-architect
 title: AI Agents Architect
-command: ''
+command: "/ai-agents-architect"
 category: workflow-orchestration
 tags:
   - agent-architecture

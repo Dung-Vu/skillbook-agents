@@ -1,7 +1,7 @@
 ---
 slug: web-scraper
 title: Web Scraper
-command: ''
+command: "/web-scraper"
 category: tool-integration
 tags:
   - web-scraping

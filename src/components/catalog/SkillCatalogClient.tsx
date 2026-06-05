@@ -16,10 +16,6 @@ import { useTransitionNavigator } from "@/hooks/useTransitionNavigator";
 import { useLanguage } from "@/context/LanguageContext";
 import { TranslationKey } from "@/lib/translations";
 
-interface CustomWindow extends Window {
-  __canvasPaused?: boolean;
-  __paperCrumpleOverlayRegistered?: boolean;
-}
 
 interface SkillCatalogClientProps {
   skills: Skill[];
@@ -98,10 +94,20 @@ const SkillRow = React.memo(function SkillRow({ skill, navigateTo }: SkillRowPro
       className="skill-card flex flex-col sm:flex-row sm:items-center justify-between py-3 px-4 border-b border-slate-100 hover:bg-slate-50/50 transition-all duration-300 group font-mono text-xs cursor-pointer block"
       id={`skill-${skill.slug}`}
     >
-      <div className="flex items-center gap-2 sm:w-[35%] shrink-0">
+      <div className="flex items-center gap-2 sm:w-[35%] shrink-0 min-w-0">
         <span className="font-bold font-mono text-[11px] sm:text-xs bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 bg-clip-text text-transparent group-hover:brightness-110 transition-all duration-200 truncate">
           {formatCommand(skill.command, skill.slug)}
         </span>
+        {skill.provider && (
+          <span className={cn(
+            "text-[8px] sm:text-[9px] font-mono font-bold px-1.5 py-0.2 rounded border uppercase shrink-0 tracking-wider scale-90 sm:scale-100 origin-left",
+            skill.provider === "antigravity" 
+              ? "bg-indigo-50 border-indigo-200/50 text-indigo-600"
+              : "bg-rose-50 border-rose-200/50 text-rose-600"
+          )}>
+            {skill.provider}
+          </span>
+        )}
         <button
           onClick={handleCopy}
           className="p-1 rounded bg-slate-100 border border-slate-200/60 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50/80 opacity-0 group-hover:opacity-100 focus:opacity-100 transition-all duration-200 shrink-0 ml-1 flex items-center justify-center cursor-pointer"
@@ -302,9 +308,8 @@ export function SkillCatalogClient({
   useEffect(() => {
     if (typeof window !== "undefined") {
       setTimeout(() => {
-        const customWindow = window as unknown as CustomWindow;
-        if (!customWindow.__paperCrumpleOverlayRegistered) {
-          customWindow.__canvasPaused = false;
+        if (!window.__paperCrumpleOverlayRegistered) {
+          window.__canvasPaused = false;
           window.dispatchEvent(new CustomEvent("canvas-resume"));
         }
       }, 0);

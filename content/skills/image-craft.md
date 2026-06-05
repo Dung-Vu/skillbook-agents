@@ -1,7 +1,7 @@
 ---
 slug: image-craft
 title: Image Craft
-command: ''
+command: "/image-craft"
 category: creative-design
 tags:
   - image-generation

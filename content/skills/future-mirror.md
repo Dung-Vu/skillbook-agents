@@ -1,7 +1,7 @@
 ---
 slug: future-mirror
 title: Future Mirror
-command: ''
+command: "/future-mirror"
 category: persona-behavior
 tags:
   - html-report

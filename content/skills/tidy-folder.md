@@ -1,7 +1,7 @@
 ---
 slug: tidy-folder
 title: Tidy Folder
-command: ''
+command: "/tidy-folder"
 category: tool-integration
 tags:
   - folder-cleanup

@@ -1,7 +1,7 @@
 ---
 slug: industry-research-report-writer
 title: Industry Research Report Writer
-command: ''
+command: "/industry-research-report-writer"
 category: research-analysis
 tags:
   - docx-report

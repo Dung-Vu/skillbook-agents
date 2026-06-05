@@ -1,8 +1,6 @@
----
 > **Lưu ý**: File này là log raw của các lần follow-up optimize qua các ngày 30-31/05/2026 (Initial Request + 7 follow-up phases).
 > Để hiểu tổng quan, đọc [History](history.md) trước.
 > File này giữ lại để trace nguồn gốc yêu cầu từ phía người dùng.
----
 
 # Original User Request
 
@@ -59,7 +57,7 @@ Integrity mode: development
 - **Cấu trúc lại layout**: Thay thế grid 3 cột thưa thớt bằng hệ thống grid 4 cột cân đối: `grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8`.
 - **Phân chia chuyên mục khoa học**:
   - **Cột 1: Brand & Status**: Tên thương hiệu "Skillbook Agents" kèm biểu tượng Sparkles xoay nhẹ khi hover, đoạn mô tả cực ngắn (dưới 15 từ) và bộ chỉ báo trạng thái hệ thống.
-  - **Cột 2: Explore**: Các liên kết điều hướng tĩnh (`/`, `/skills`, `/about`, `/changelog`).
+  - **Cột 2: Explore**: Các liên kết điều hướng tĩnh (`/`, `/skills`, `/about`, `/compare`).
   - **Cột 3: Resources**: Danh sách liên kết trực tiếp tới các hệ thống cơ sở dữ liệu khoa học nền tảng: NCBI, ClinVar, PubChem, Reactome.
   - **Cột 4: Community**: Liên kết trực tiếp tới repository Github chính thức (`Dung-Vu/skillbook-agents`) và liên kết gửi lỗi đóng góp (`Report Issue`).
 - **Typography tối giản**: Sử dụng font chữ monospace siêu nhỏ (`text-[10px] font-mono tracking-[0.2em] font-bold`) cho toàn bộ tiêu đề cột.
@@ -84,7 +82,7 @@ Integrity mode: development
 ### Functional Links & Integrity
 - [ ] Liên kết GitHub trỏ chính xác về repo `https://github.com/Dung-Vu/skillbook-agents`.
 - [ ] Liên kết Report Issue trỏ tới `https://github.com/Dung-Vu/skillbook-agents/issues`.
-- [ ] Các liên kết điều hướng nội bộ (`/`, `/skills`, `/about`, `/changelog`) hoạt động trơn tru, không có liên kết nào bị lỗi 404 hoặc bị hỏng.
+- [ ] Các liên kết điều hướng nội bộ (`/`, `/skills`, `/about`, `/compare`) hoạt động trơn tru, không có liên kết nào bị lỗi 404 hoặc bị hỏng.
 - [ ] Toàn bộ trang web biên dịch thành công (`npm run build` hoàn thành không lỗi).
 
 ## Follow-up — 2026-05-31T05:30:24Z
@@ -271,7 +269,7 @@ Integrity mode: development
 
 # Teamwork Project Prompt
 
-Dự án phân tích, điều chỉnh và tối ưu hóa toàn diện thiết kế thích ứng (Responsive Design) trên toàn bộ các route chính của website `Skillbook Agents` (Trang chủ `/`, Trang danh mục kỹ năng `/skills`, Trang chi tiết kỹ năng `/skills/[slug]`, Trang giới thiệu `/about` và Trang cập nhật `/changelog`) để đảm bảo hiển thị hoàn hảo, không bị tràn viền, bẻ dòng lỗi hay che khuất phần tử trên mọi viewport di động (mobile, tablet, desktop).
+Dự án phân tích, điều chỉnh và tối ưu hóa toàn diện thiết kế thích ứng (Responsive Design) trên toàn bộ các route chính của website `Skillbook Agents` (Trang chủ `/`, Trang danh mục kỹ năng `/skills`, Trang chi tiết kỹ năng `/skills/[slug]`, Trang giới thiệu `/about` và Trang so sánh `/compare`) để đảm bảo hiển thị hoàn hảo, không bị tràn viền, bẻ dòng lỗi hay che khuất phần tử trên mọi viewport di động (mobile, tablet, desktop).
 
 Working directory: d:\skillbook-agents
 Integrity mode: development
@@ -290,10 +288,10 @@ Integrity mode: development
   * Tối ưu hóa thanh mục lục floating TOC bên trái trên thiết bị di động (tự động chuyển thành menu nổi mỏng ở góc màn hình hoặc ẩn đi thông minh để tăng diện tích đọc bài).
   * Tinh chỉnh padding các khối code pre block và pre code block để văn bản code co giãn vừa vặn với chiều ngang mobile, không phát sinh scroll ngang thô kệch ngoài ý muốn.
 
-### R3. Tối ưu hóa Responsive cho các Trang Khác (`/`, `/about`, `/changelog`)
+### R3. Tối ưu hóa Responsive cho các Trang Khác (`/`, `/about`, `/compare`)
 - **Trang chủ (`/`)**: Điều chỉnh lưới layout Sandbox IDE và phần Evolution Section để các khối hoạt ảnh SVG, node mạng lưới neuron hạt động không bị bẻ cong lệch lạc hay chồng chéo chữ trên mobile.
 - **Trang Giới thiệu (`/about`)**: Đảm bảo sơ đồ khối 3D Glassmorphism "AI Agent Paradigm Graph" tự động xếp dọc (flex-col) cân đối trên màn hình hẹp, căn chỉnh z-index mượt mà không che khuất Header.
-- **Trang Lịch sử cập nhật (`/changelog`)**: Cân đối các Milestone Cards và chấm neon trên mobile, bảo đảm card phẳng dynamic update ở cột phải luôn hiển thị gọn gàng, ngày tháng không bị bẻ dòng lệch lạc.
+- **Trang so sánh (`/compare`)**: Cân đối các Milestone Cards và chấm neon trên mobile, bảo đảm card phẳng dynamic update ở cột phải luôn hiển thị gọn gàng, ngày tháng không bị bẻ dòng lệch lạc.
 
 ## Acceptance Criteria
 
@@ -324,7 +322,7 @@ Integrity mode: development
 - Chuyển đổi Footer từ bố cục xếp chồng 1 cột dọc dài lê thê sang lưới 2 cột nhỏ (`grid-cols-2 gap-6`) cho các nhóm liên kết Explore, Resources, Community, giúp Footer ngắn gọn và cân đối hơn.
 
 ### R4. Tối ưu hóa các Trang khác trên Mobile
-- Trang Giới thiệu `/about` và Lịch sử `/changelog` được căn chỉnh tỉ lệ, padding, và font chữ mượt mà, không bị Layout Shift hay lệch neon dots.
+- Trang Giới thiệu `/about` và So sánh `/compare` được căn chỉnh tỉ lệ, padding, và font chữ mượt mà, không bị Layout Shift hay lệch neon dots.
 
 ## Acceptance Criteria
 
@@ -377,7 +375,7 @@ Integrity mode: development
 ### Thẩm mỹ & Trải nghiệm di động (Mobile Visual Slim Guardrails)
 - [ ] Đầu trang Catalog `/skills` được tinh giản diện tích dọc tối đa, Platforms và Complexity được gộp gọn gàng vào nút "Bộ lọc nâng cao" Accordion đóng/mở.
 - [ ] Danh sách kỹ năng trên mobile hiển thị dưới dạng lưới thẻ card 2 cột (`grid-cols-2 gap-3`) nhỏ nhắn, White Glassmorphism sáng màu, màu sắc, tên lệnh gradient và chữ mô tả rõ nét.
-- [ ] Font size của tiêu đề H1 và các thẻ card trên toàn bộ các route (Trang chủ, Chi tiết, Giới thiệu, Changelog) được thu nhỏ tinh tế, không còn cảm giác chữ bị quá to hay thô.
+- [ ] Font size của tiêu đề H1 và các thẻ card trên toàn bộ các route (Trang chủ, Chi tiết, Giới thiệu, So sánh) được thu nhỏ tinh tế, không còn cảm giác chữ bị quá to hay thô.
 - [ ] Footer di động hiển thị cực kỳ ngắn gọn, chiếm ít không gian chiều dọc và có các liên kết chữ monospace siêu nhỏ.
 - [ ] Tuyệt đối không xảy ra hiện tượng tràn khung ngang (horizontal overflow) ở bất kỳ viewport nào từ 320px trở lên.
 

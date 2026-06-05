@@ -12,6 +12,7 @@ function generateNewSkill() {
   const args = process.argv.slice(2);
   let slug = "";
   let provider = "";
+  let tags: string[] = [];
 
   for (let i = 0; i < args.length; i++) {
     if (args[i] === "--slug" && i + 1 < args.length) {
@@ -20,10 +21,13 @@ function generateNewSkill() {
     if (args[i] === "--provider" && i + 1 < args.length) {
       provider = args[i + 1].trim().toLowerCase();
     }
+    if (args[i] === "--tags" && i + 1 < args.length) {
+      tags = args[i + 1].split(",").map((t) => t.trim()).filter((t) => t.length > 0);
+    }
   }
 
   if (!slug) {
-    console.error("Error: --slug is required. Usage: npm run new:skill -- --slug <slug> --provider <minimax|antigravity>");
+    console.error("Error: --slug is required. Usage: npm run new:skill -- --slug <slug> --provider <minimax|antigravity> [--tags <tags-separated-by-comma>]");
     process.exit(1);
   }
 
@@ -35,6 +39,22 @@ function generateNewSkill() {
   if (provider !== "minimax" && provider !== "antigravity") {
     console.error("Error: --provider must be 'minimax' or 'antigravity'.");
     process.exit(1);
+  }
+
+  const tagsWhitelistPath = path.join(process.cwd(), "src", "lib", "tags-whitelist.json");
+  let tagsWhitelist: string[] = [];
+  try {
+    tagsWhitelist = JSON.parse(fs.readFileSync(tagsWhitelistPath, "utf-8"));
+  } catch (err) {
+    console.error("Error: Could not load tags whitelist from src/lib/tags-whitelist.json", err);
+    process.exit(1);
+  }
+
+  for (const tag of tags) {
+    if (!tagsWhitelist.includes(tag)) {
+      console.error(`Error: Tag '${tag}' is not in the allowed whitelist (src/lib/tags-whitelist.json).`);
+      process.exit(1);
+    }
   }
 
   const SKILLS_DIR = path.join(process.cwd(), "content", "skills");
@@ -52,14 +72,15 @@ function generateNewSkill() {
 
   const title = toTitleCase(slug);
   const currentDate = new Date().toISOString().split("T")[0];
+  const tagsFormatted = tags.length === 0 ? "[]" : "\n" + tags.map((t) => `  - "${t}"`).join("\n") + "\n";
 
   // Vietnamese Frontmatter and Content Template
-  let viContent = `---
+  const viContent = `---
 slug: "${slug}"
 title: "${title}"
 command: "/${slug}"
 category: "reasoning-planning"
-tags: []
+tags: ${tagsFormatted}
 complexity: "starter"
 platforms:
   - "universal"
@@ -75,19 +96,7 @@ seoDescription: "Mô tả SEO bằng tiếng Việt."
 provider: "${provider}"
 ---
 
-`;
-
-  if (provider === "minimax") {
-    viContent += `## 📖 Tại Sao AI Agent Của Bạn Cần Kỹ Năng Này?
-
-## ⚙️ Cơ Chế Hoạt Động & Quy Trình Tư Duy
-
-## 🚀 Bộ Quy Tắc Chỉ Dẫn Cho Agent (Prompt Guidelines)
-
-## ⚠️ Cảnh Báo Vận Hành & Mẹo Tối Ưu (Developer Gotchas)
-`;
-  } else {
-    viContent += `## 📖 Tại Sao Cần Skill Này?
+## 📖 Tại Sao Cần Skill Này?
 
 ## ⚙️ Cách Hoạt Động
 
@@ -97,10 +106,9 @@ provider: "${provider}"
 
 ## ⚠️ Lưu Ý & Gotchas
 `;
-  }
 
   // English Frontmatter and Content Template
-  let enContent = `---
+  const enContent = `---
 title: "${title}"
 description: "English translation of description."
 oneLiner: "One-liner description in English."
@@ -108,19 +116,7 @@ seoTitle: "${title} - ${provider === "minimax" ? "Minimax " : ""}Skill for AI Ag
 seoDescription: "English SEO description."
 ---
 
-`;
-
-  if (provider === "minimax") {
-    enContent += `## 📖 Why Do We Need This Skill?
-
-## ⚙️ How It Works
-
-## 🚀 Agent Guidelines (Prompt Guidelines)
-
-## ⚠️ Gotchas and notes
-`;
-  } else {
-    enContent += `## 📖 Why Do We Need This Skill?
+## 📖 Why Do We Need This Skill?
 
 ## ⚙️ How It Works
 
@@ -130,7 +126,6 @@ seoDescription: "English SEO description."
 
 ## ⚠️ Gotchas and notes
 `;
-  }
 
   fs.writeFileSync(viFilePath, viContent, "utf-8");
   fs.writeFileSync(enFilePath, enContent, "utf-8");

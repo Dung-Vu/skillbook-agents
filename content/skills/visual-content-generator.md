@@ -1,7 +1,7 @@
 ---
 slug: visual-content-generator
 title: Visual Content Generator
-command: ''
+command: "/visual-content-generator"
 category: creative-design
 tags:
   - infographics

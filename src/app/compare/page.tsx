@@ -6,8 +6,8 @@ import { getAllSkills } from "@/lib/skills";
 import { SkillCompareClient } from "@/components/compare/SkillCompareClient";
 
 export const metadata: Metadata = {
-  title: "So sánh Kỹ năng | Skillbook Agents",
-  description: "So sánh song song các kỹ năng của Antigravity và Minimax để thấy điểm khác biệt và tối ưu hóa agent của bạn.",
+  title: "So sánh Nhà cung cấp | Skillbook Agents",
+  description: "So sánh trực quan các tính năng, hiệu năng và cấu trúc lệnh giữa hai nhà cung cấp Antigravity và Minimax.",
 };
 
 export default function ComparePage(): React.ReactElement {

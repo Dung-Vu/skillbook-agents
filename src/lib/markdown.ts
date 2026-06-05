@@ -57,9 +57,23 @@ export function parseInlineMarkdown(text: string): string {
   html = html.replace(/`([^`]+)`/g, "<code>$1</code>");
 
   // Links: [text](url)
+  // WARNING: To prevent XSS (Cross-Site Scripting) attacks, we validate the URL protocol.
+  // We explicitly block dangerous protocols such as javascript:, data:, and vbscript:.
+  // If a dangerous protocol is detected, we render the text as a span to block the link.
   html = html.replace(
     /\[([^\]]+)\]\(([^)]+)\)/g,
-    '<a href="$2" target="_blank" rel="noopener noreferrer" class="text-[var(--color-accent-primary)] hover:underline font-medium">$1</a>'
+    (match, text, url) => {
+      const cleanUrl = url.trim().toLowerCase();
+      if (
+        cleanUrl.startsWith("javascript:") ||
+        cleanUrl.startsWith("data:") ||
+        cleanUrl.startsWith("vbscript:")
+      ) {
+        console.warn(`[XSS Prevention] Blocked potentially dangerous URL protocol in markdown link: ${url}`);
+        return `<span>${text}</span>`;
+      }
+      return `<a href="${url}" target="_blank" rel="noopener noreferrer" class="text-[var(--color-accent-primary)] hover:underline font-medium break-words">${text}</a>`;
+    }
   );
 
   return html;

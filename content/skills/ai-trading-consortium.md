@@ -1,7 +1,7 @@
 ---
 slug: ai-trading-consortium
 title: AI Trading Consortium
-command: ''
+command: "/ai-trading-consortium"
 category: workflow-orchestration
 tags:
   - stock-analysis

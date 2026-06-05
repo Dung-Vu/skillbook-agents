@@ -1,7 +1,7 @@
 ---
 slug: clickhouse-best-practices
 title: ClickHouse Best Practices
-command: ''
+command: "/clickhouse-best-practices"
 category: data-knowledge
 tags:
   - schema-design

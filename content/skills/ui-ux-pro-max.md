@@ -1,7 +1,7 @@
 ---
 slug: ui-ux-pro-max
 title: UI/UX Pro Max
-command: ''
+command: "/ui-ux-pro-max"
 category: creative-design
 tags:
   - ui-ux

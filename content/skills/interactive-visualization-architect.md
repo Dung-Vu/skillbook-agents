@@ -1,7 +1,7 @@
 ---
 slug: interactive-visualization-architect
 title: Interactive Visualization Architect
-command: ''
+command: "/interactive-visualization-architect"
 category: creative-design
 tags:
   - education

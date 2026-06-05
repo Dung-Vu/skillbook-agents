@@ -1,7 +1,7 @@
 ---
 slug: b2b-lead-generation
 title: B2B Lead Generation
-command: ''
+command: "/b2b-lead-generation"
 category: research-analysis
 tags:
   - b2b

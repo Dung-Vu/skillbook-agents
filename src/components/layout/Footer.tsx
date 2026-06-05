@@ -58,6 +58,15 @@ export function Footer({ isLight = false }: FooterProps): React.ReactElement {
             <p className={cn("hidden md:block text-[10px] sm:text-xs leading-relaxed max-w-xs font-sans", isLight ? "text-slate-500" : "text-[var(--color-text-muted)]")}>
               {t("footer.desc")}
             </p>
+            <div className="flex items-center gap-2 mt-1 select-none">
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500 shadow-[0_0_8px_#10b981]"></span>
+              </span>
+              <span className="text-[9px] font-mono font-bold tracking-wider text-emerald-500/80 uppercase">
+                STATUS: ALL SYSTEMS OPERATIONAL
+              </span>
+            </div>
           </div>
 
           {/* Cột 2: Explore */}
@@ -83,7 +92,18 @@ export function Footer({ isLight = false }: FooterProps): React.ReactElement {
             >
               {t("footer.about")}
             </Link>
-
+            <Link
+              href="/compare"
+              className={cn("text-[10px] sm:text-xs no-underline transition-all duration-300 w-fit inline-block", isLight ? "text-slate-500 hover:text-indigo-600 hover:translate-x-1" : "text-[var(--color-text-secondary)] hover:text-[var(--color-cyber-violet)] hover:translate-x-1")}
+            >
+              {t("footer.compare")}
+            </Link>
+            <Link
+              href="/providers/antigravity"
+              className={cn("text-[10px] sm:text-xs no-underline transition-all duration-300 w-fit inline-block", isLight ? "text-slate-500 hover:text-indigo-600 hover:translate-x-1" : "text-[var(--color-text-secondary)] hover:text-[var(--color-cyber-violet)] hover:translate-x-1")}
+            >
+              {t("footer.antigravity")}
+            </Link>
           </div>
 
           {/* Cột 3: Resources */}
@@ -155,7 +175,7 @@ export function Footer({ isLight = false }: FooterProps): React.ReactElement {
           <p className={cn("text-[10px] flex items-center gap-1 font-mono", isLight ? "text-slate-400" : "text-[var(--color-text-muted)]")}>
             {t("footer.builtWith")} <Heart size={10} className="text-red-400 animate-pulse" /> {t("footer.forCommunity")}
           </p>
-          <p className={cn("text-[10px] font-mono", isLight ? "text-slate-400" : "text-[var(--color-text-muted)]")}>
+          <p className={cn("text-[10px] font-mono", isLight ? "text-slate-400" : "text-[var(--color-text-muted)]")} suppressHydrationWarning>
             © {new Date().getFullYear()} Skillbook Agents
           </p>
         </div>

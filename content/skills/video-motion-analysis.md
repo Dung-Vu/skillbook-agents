@@ -1,7 +1,7 @@
 ---
 slug: video-motion-analysis
 title: Video Motion Analysis
-command: ''
+command: "/video-motion-analysis"
 category: research-analysis
 tags:
   - motion-analysis

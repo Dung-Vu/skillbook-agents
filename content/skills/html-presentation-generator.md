@@ -1,7 +1,7 @@
 ---
 slug: html-presentation-generator
 title: HTML Presentation Generator
-command: ''
+command: "/html-presentation-generator"
 category: content-communication
 tags:
   - html-presentation

@@ -4,6 +4,8 @@ export const translations = {
     "nav.skills": "Thư viện Kỹ năng",
     "nav.about": "Giới thiệu",
     "nav.search": "Tìm kiếm",
+    "nav.compare": "So sánh",
+    "nav.antigravity": "Antigravity",
     
     // Footer
     "footer.desc": "Lưu trữ và phân loại kỹ năng tối ưu cho AI Agents.",
@@ -15,6 +17,8 @@ export const translations = {
     "footer.home": "Trang chủ",
     "footer.skills": "Thư viện Kỹ năng",
     "footer.about": "Giới thiệu",
+    "footer.compare": "So sánh",
+    "footer.antigravity": "Antigravity",
     "footer.report": "Báo lỗi",
 
     // Catalog & Sidebar
@@ -137,6 +141,8 @@ export const translations = {
     "nav.skills": "Skills Catalog",
     "nav.about": "About",
     "nav.search": "Search",
+    "nav.compare": "Compare",
+    "nav.antigravity": "Antigravity",
 
     // Footer
     "footer.desc": "Optimal storage and classification of skills for AI Agents.",
@@ -148,6 +154,8 @@ export const translations = {
     "footer.home": "Home",
     "footer.skills": "Skills Catalog",
     "footer.about": "About",
+    "footer.compare": "Compare",
+    "footer.antigravity": "Antigravity",
     "footer.report": "Report Issue",
 
     // Catalog & Sidebar

@@ -1,7 +1,7 @@
 ---
 slug: nano-banana-pro
 title: Nano Banana Pro
-command: ''
+command: "/nano-banana-pro"
 category: creative-design
 tags:
   - image-generation

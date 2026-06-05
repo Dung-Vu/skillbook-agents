@@ -42,3 +42,11 @@ artifacts/
 *.log
 baseline-report.md
 deliverable.md
+
+# Next.js environment declaration
+next-env.d.ts
+
+# Agent worker directories
+*worker_*/
+**/worker_*/
+

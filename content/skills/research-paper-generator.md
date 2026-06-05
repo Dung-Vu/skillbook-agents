@@ -1,7 +1,7 @@
 ---
 slug: research-paper-generator
 title: Research Paper Generator
-command: ''
+command: "/research-paper-generator"
 category: research-analysis
 tags:
   - academic-writing

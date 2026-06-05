@@ -85,12 +85,12 @@ provider: "antigravity"
 ---
 ```
 
-> **Về `provider`** — Hệ thống hỗ trợ **2 trường phái schema H2** (xem `scripts/validate-skills.ts`):
+> **Về `provider`** — Hệ thống hỗ trợ **2 nhà cung cấp** (xem `scripts/validate-skills.ts`):
 >
-> - **Antigravity** (5 H2): `## 📖 Tại Sao Cần Skill Này?` → `## ⚙️ Cách Hoạt Động` → `## 🚀 Cách Sử Dụng` → `## 💡 Kịch Bản Lập Trình Thực Tế` → `## ⚠️ Lưu Ý & Gotchas`
-> - **Minimax** (4 H2, dành cho developer-centric tool): `## 📖 Tại Sao AI Agent Của Bạn Cần Kỹ Năng Này?` → `## ⚙️ Cơ Chế Hoạt Động & Quy Trình Tư Duy` → `## 🚀 Bộ Quy Tắc Chỉ Dẫn Cho Agent (Prompt Guidelines)` → `## ⚠️ Cảnh Báo Vận Hành & Mẹo Tối Ưu (Developer Gotchas)`
+> - **Antigravity & Minimax**: Cả hai nhà cung cấp đều yêu cầu chính xác **5 H2 headings**:
+>   `## 📖 Tại Sao Cần Skill Này?` → `## ⚙️ Cách Hoạt Động` → `## 🚀 Cách Sử Dụng` → `## 💡 Kịch Bản Lập Trình Thực Tế` → `## ⚠️ Lưu Ý & Gotchas`
 >
-> Một kỹ năng `provider: "antigravity"` được phép dùng cấu trúc 5-H2 hoặc 4-H2 (validator chấp nhận cả hai). Một kỹ năng `provider: "minimax"` **chỉ** được dùng cấu trúc 4-H2.
+> Toàn bộ các kỹ năng trong hệ thống bắt buộc phải tuân theo cấu trúc 5-H2 này để đảm bảo tính nhất quán.
 
 ---
 
@@ -110,7 +110,7 @@ Nội dung Markdown bên dưới Frontmatter phải tuân thủ nghiêm ngặt c
         *   `### Cursor (.cursorrules)`
         *   `### Claude Code`
         *   `### Windsurf`
-4.  **`## 💡 Ví Dụ Thực Tế`**
+4.  **`## 💡 Kịch Bản Lập Trình Thực Tế`**
     *   Chứa hai phần so sánh trực quan và rõ ràng:
         *   `### ❌ Không có skill` (Minh họa kết quả AI làm sai, sơ sài hoặc ngây thơ).
         *   `### ✅ Có skill` (Minh họa kết quả AI xử lý thông minh, chuyên nghiệp, chính xác).
@@ -146,7 +146,7 @@ Nội dung Markdown bên dưới Frontmatter phải tuân thủ nghiêm ngặt c
     ```bash
     pnpm run build
     ```
-    *Script `build` sẽ tự động chạy `validate:skills` trước rồi mới `next build`. Next.js sẽ kết xuất tĩnh toàn bộ các trang bao gồm `/changelog`, `/sitemap.xml` và `/robots.txt`. Đảm bảo quá trình compile tĩnh diễn ra thành công không gặp lỗi Hydration.*
+    *Script `build` sẽ tự động chạy `validate:skills` trước rồi mới `next build`. Next.js sẽ kết xuất tĩnh toàn bộ các trang bao gồm `/compare`, `/sitemap.xml` và `/robots.txt`. Đảm bảo quá trình compile tĩnh diễn ra thành công không gặp lỗi Hydration.*
 
 5.  **Chạy Playwright End-to-End Tests:**
     ```bash

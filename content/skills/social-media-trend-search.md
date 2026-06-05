@@ -1,7 +1,7 @@
 ---
 slug: social-media-trend-search
 title: Social Media Trend Search
-command: ''
+command: "/social-media-trend-search"
 category: research-analysis
 tags:
   - social-media

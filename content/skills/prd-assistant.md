@@ -1,7 +1,7 @@
 ---
 slug: prd-assistant
 title: PRD Assistant
-command: ''
+command: "/prd-assistant"
 category: reasoning-planning
 tags:
   - prd

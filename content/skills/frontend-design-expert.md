@@ -1,7 +1,7 @@
 ---
 slug: frontend-design-expert
 title: Frontend Design Expert
-command: ''
+command: "/frontend-design-expert"
 category: creative-design
 tags:
   - usability

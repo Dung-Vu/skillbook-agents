@@ -1,7 +1,7 @@
 ---
 slug: ai-video-creator
 title: AI Video Creator
-command: ''
+command: "/ai-video-creator"
 category: creative-design
 tags:
   - animation

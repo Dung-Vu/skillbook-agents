@@ -1,7 +1,7 @@
 ---
 slug: ceo-assistant
 title: CEO Assistant
-command: ''
+command: "/ceo-assistant"
 category: reasoning-planning
 tags:
   - executive-assistant

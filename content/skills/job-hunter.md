@@ -1,7 +1,7 @@
 ---
 slug: job-hunter
 title: Job Hunter
-command: ''
+command: "/job-hunter"
 category: persona-behavior
 tags:
   - resume-optimization

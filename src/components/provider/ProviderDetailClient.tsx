@@ -7,7 +7,7 @@ import { PLATFORM_CONFIG } from "@/types/skill";
 import { motion } from "framer-motion";
 import { useLanguage } from "@/context/LanguageContext";
 import { cn, formatCommand } from "@/lib/utils";
-import { Cpu, Terminal, Shield, Sparkles, BookOpen, Layers, CheckCircle2, ArrowRight } from "lucide-react";
+import { Cpu, Sparkles, Layers, ArrowRight } from "lucide-react";
 import Link from "next/link";
 
 interface ProviderDetailClientProps {
@@ -62,17 +62,41 @@ export function ProviderDetailClient({ providerId, skills }: ProviderDetailClien
     textColor: isAntigravity ? "text-indigo-600" : "text-rose-500",
   };
 
-  const changelog = isAntigravity 
-    ? [
-        { date: "2026-05-30", version: "v2.1.0", desc: language === "en" ? "Added AlphaFold structure analysis & dbSNP variant mapping tools." : "Thêm bộ công cụ phân tích cấu trúc AlphaFold & ánh xạ biến thể dbSNP." },
-        { date: "2026-05-15", version: "v2.0.0", desc: language === "en" ? "Released Multi-Agent Project Coordination framework." : "Phát hành framework Điều phối dự án đa Agent." },
-        { date: "2026-04-10", version: "v1.5.0", desc: language === "en" ? "Improved terminal theme integration in Sandbox IDE." : "Cải tiến tích hợp theme terminal trong Sandbox IDE." },
-      ]
-    : [
-        { date: "2026-06-02", version: "v1.8.0", desc: language === "en" ? "Released Minimax Docx & PDF builtin handlers." : "Phát hành các bộ xử lý builtin cho Minimax Docx & PDF." },
-        { date: "2026-05-20", version: "v1.6.0", desc: language === "en" ? "Added Lark / Feishu webhook connector templates." : "Thêm mẫu kết nối webhook Lark / Thư điện tử Feishu." },
-        { date: "2026-04-25", version: "v1.2.0", desc: language === "en" ? "First release of business automation custom skills." : "Phát hành bản đầu tiên các kỹ năng tùy biến tự động hóa doanh nghiệp." },
-      ];
+  const changelog = useMemo(() => {
+    const entries: Array<{ date: string; version: string; desc: string }> = [];
+    skills.forEach(skill => {
+      if (skill.changelog) {
+        skill.changelog.forEach(entry => {
+          const match = entry.match(/^(\d{4}-\d{2}-\d{2}):\s*(.+)$/);
+          if (match) {
+            entries.push({
+              date: match[1],
+              version: formatCommand(skill.command, skill.slug),
+              desc: match[2],
+            });
+          }
+        });
+      }
+    });
+
+    if (entries.length > 0) {
+      // Sort descending by date
+      return entries.sort((a, b) => b.date.localeCompare(a.date));
+    }
+
+    // Fallback static milestones if no changelog is available in parsed markdown frontmatter
+    return isAntigravity 
+      ? [
+          { date: "2026-05-30", version: "v2.1.0", desc: language === "en" ? "Added AlphaFold structure analysis & dbSNP variant mapping tools." : "Thêm bộ công cụ phân tích cấu trúc AlphaFold & ánh xạ biến thể dbSNP." },
+          { date: "2026-05-15", version: "v2.0.0", desc: language === "en" ? "Released Multi-Agent Project Coordination framework." : "Phát hành framework Điều phối dự án đa Agent." },
+          { date: "2026-04-10", version: "v1.5.0", desc: language === "en" ? "Improved terminal theme integration in Sandbox IDE." : "Cải tiến tích hợp theme terminal trong Sandbox IDE." },
+        ]
+      : [
+          { date: "2026-06-02", version: "v1.8.0", desc: language === "en" ? "Released Minimax Docx & PDF builtin handlers." : "Phát hành các bộ xử lý builtin cho Minimax Docx & PDF." },
+          { date: "2026-05-20", version: "v1.6.0", desc: language === "en" ? "Added Lark / Feishu webhook connector templates." : "Thêm mẫu kết nối webhook Lark / Thư điện tử Feishu." },
+          { date: "2026-04-25", version: "v1.2.0", desc: language === "en" ? "First release of business automation custom skills." : "Phát hành bản đầu tiên các kỹ năng tùy biến tự động hóa doanh nghiệp." },
+        ];
+  }, [skills, isAntigravity, language]);
 
   return (
     <div className="min-h-screen pt-24 bg-[#f4f6fc] text-slate-800 pb-16 flex flex-col font-sans relative overflow-clip">

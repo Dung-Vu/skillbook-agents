@@ -1,7 +1,7 @@
 ---
 slug: brainstorming
 title: Brainstorming
-command: ''
+command: "/brainstorming"
 category: reasoning-planning
 tags:
   - brainstorming

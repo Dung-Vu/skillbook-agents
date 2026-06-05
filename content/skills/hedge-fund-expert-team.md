@@ -1,7 +1,7 @@
 ---
 slug: hedge-fund-expert-team
 title: Hedge Fund Expert Team
-command: ''
+command: "/hedge-fund-expert-team"
 category: workflow-orchestration
 tags:
   - hedge-fund

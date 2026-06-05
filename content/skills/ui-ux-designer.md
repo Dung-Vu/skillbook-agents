@@ -1,7 +1,7 @@
 ---
 slug: ui-ux-designer
 title: UI/UX Designer
-command: ''
+command: "/ui-ux-designer"
 category: creative-design
 tags:
   - ui

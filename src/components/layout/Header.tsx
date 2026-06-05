@@ -35,9 +35,19 @@ export function Header(): React.ReactElement {
       label: t("nav.about"),
       activeCheck: (path: string): boolean => path === "/about",
     },
+    {
+      href: "/compare",
+      label: t("nav.compare"),
+      activeCheck: (path: string): boolean => path === "/compare",
+    },
+    {
+      href: "/providers/antigravity",
+      label: t("nav.antigravity"),
+      activeCheck: (path: string): boolean => path === "/providers/antigravity",
+    },
   ];
 
-  const isLightThemePage = pathname === "/skills" || pathname === "/about";
+  const isLightThemePage = pathname === "/skills" || pathname === "/about" || pathname === "/compare" || pathname.startsWith("/providers");
 
   return (
     <header
@@ -209,6 +219,8 @@ export function Header(): React.ReactElement {
               // Select appropriate icon
               let IconComponent = Terminal;
               if (link.href === "/about") IconComponent = Info;
+              else if (link.href === "/compare") IconComponent = History;
+              else if (link.href === "/providers/antigravity") IconComponent = Sparkles;
 
               return (
                 <Link

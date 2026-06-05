@@ -1,7 +1,7 @@
 ---
 slug: web-app-builder
 title: Web App Builder
-command: ''
+command: "/web-app-builder"
 category: code-engineering
 tags:
   - react

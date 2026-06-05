@@ -1,7 +1,7 @@
 ---
 slug: mini-coder-max
 title: Mini Coder Max
-command: ''
+command: "/mini-coder-max"
 category: code-engineering
 tags:
   - coding

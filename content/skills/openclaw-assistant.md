@@ -1,7 +1,7 @@
 ---
 slug: openclaw-assistant
 title: Openclaw Assistant
-command: ''
+command: "/openclaw-assistant"
 category: tool-integration
 tags:
   - openclaw

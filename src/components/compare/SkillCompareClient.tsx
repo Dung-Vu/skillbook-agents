@@ -2,12 +2,11 @@
 
 import React, { useState, useEffect, useRef, useMemo } from "react";
 import { useSearchParams } from "next/navigation";
-import { Skill, PlatformId } from "@/types/skill";
-import { PLATFORM_CONFIG, COMPLEXITY_CONFIG } from "@/types/skill";
+import { Skill, PlatformId, PLATFORM_CONFIG, COMPLEXITY_CONFIG } from "@/types/skill";
 import { parseMarkdownToHtml } from "@/lib/markdown";
 import { useLanguage } from "@/context/LanguageContext";
 import { cn, formatCommand } from "@/lib/utils";
-import { GitCompare, Sparkles, Cpu, BookOpen, AlertTriangle } from "lucide-react";
+import { GitCompare, AlertTriangle } from "lucide-react";
 import Link from "next/link";
 
 interface SkillCompareClientProps {
@@ -16,7 +15,7 @@ interface SkillCompareClientProps {
 
 export function SkillCompareClient({ skills }: SkillCompareClientProps): React.ReactElement {
   const searchParams = useSearchParams();
-  const { language, t } = useLanguage();
+  const { language } = useLanguage();
 
   const [slugA, setSlugA] = useState<string>("");
   const [slugB, setSlugB] = useState<string>("");

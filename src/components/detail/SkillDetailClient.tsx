@@ -2,8 +2,6 @@
 
 import { useMemo, useState, useEffect, useRef, memo, forwardRef } from "react";
 import {
-  PLATFORM_CONFIG,
-  PlatformId,
   Skill,
   CategoryConfig,
 } from "@/types/skill";
@@ -17,11 +15,6 @@ import {
   Variants,
   MotionStyle,
 } from "framer-motion";
-
-interface CustomWindow extends Window {
-  __canvasPaused?: boolean;
-  __paperCrumpleOverlayRegistered?: boolean;
-}
 import { cn, formatDate, formatCommand } from "@/lib/utils";
 import { parseMarkdownToHtml } from "@/lib/markdown";
 import {
@@ -219,40 +212,14 @@ export function SkillDetailClient({
   const containerRef = useRef<HTMLDivElement>(null);
   const [headings, setHeadings] = useState<{ id: string; text: string; level: number }[]>([]);
   const [activeId, setActiveId] = useState<string>( "");
-  const [activePlatform, setActivePlatform] = useState<PlatformId>("universal");
-
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      const saved = localStorage.getItem("selectedPlatform") as PlatformId;
-      if (saved) {
-        setTimeout(() => setActivePlatform(saved), 0);
-      } else if (platforms.length > 0) {
-        setTimeout(() => setActivePlatform(platforms[0] as PlatformId), 0);
-      }
-    }
-  }, [platforms]);
-
-  const handlePlatformChange = (platform: PlatformId) => {
-    setActivePlatform(platform);
-    if (typeof window !== "undefined") {
-      localStorage.setItem("selectedPlatform", platform);
-    }
-  };
-
-  const selectedButtonPlatform = useMemo(() => {
-    if (platforms.includes(activePlatform)) return activePlatform;
-    if (platforms.includes("universal")) return "universal";
-    return (platforms[0] as PlatformId) || "universal";
-  }, [platforms, activePlatform]);
 
   const { isExiting, navigateTo } = useTransitionNavigator();
 
   useEffect(() => {
     if (typeof window !== "undefined") {
       setTimeout(() => {
-        const customWindow = window as unknown as CustomWindow;
-        if (!customWindow.__paperCrumpleOverlayRegistered) {
-          customWindow.__canvasPaused = false;
+        if (!window.__paperCrumpleOverlayRegistered) {
+          window.__canvasPaused = false;
           window.dispatchEvent(new CustomEvent("canvas-resume"));
         }
       }, 0);
@@ -617,11 +584,22 @@ export function SkillDetailClient({
   const [showScrollTop, setShowScrollTop] = useState(false);
 
   useEffect(() => {
+    let scrollTimeout: number | null = null;
     const checkScroll = () => {
-      setShowScrollTop(window.scrollY > 500);
+      if (scrollTimeout === null) {
+        scrollTimeout = window.setTimeout(() => {
+          setShowScrollTop(window.scrollY > 500);
+          scrollTimeout = null;
+        }, 100);
+      }
     };
     window.addEventListener("scroll", checkScroll, { passive: true });
-    return () => window.removeEventListener("scroll", checkScroll);
+    return () => {
+      window.removeEventListener("scroll", checkScroll);
+      if (scrollTimeout !== null) {
+        window.clearTimeout(scrollTimeout);
+      }
+    };
   }, []);
 
   // Smooth scroll to with precise offset for sticky header prevention
@@ -710,7 +688,7 @@ export function SkillDetailClient({
                 <div className="flex items-start justify-between flex-wrap gap-3 mb-3 sm:mb-4">
                   <div className="space-y-2">
                     <h1
-                      className="text-2xl sm:text-4xl md:text-5xl font-extrabold tracking-tight break-all"
+                      className="text-2xl sm:text-4xl md:text-5xl font-extrabold tracking-tight break-all flex items-center gap-3 flex-wrap"
                       style={{ fontFamily: "var(--font-mono)" }}
                     >
                       <span 
@@ -721,6 +699,16 @@ export function SkillDetailClient({
                       >
                         {formatCommand(skill.command, skill.slug)}
                       </span>
+                      {skill.provider && (
+                        <span className={cn(
+                          "text-xs font-mono font-bold px-2 py-0.5 rounded border uppercase shrink-0 tracking-wider",
+                          skill.provider === "antigravity" 
+                            ? "bg-indigo-500/10 border-indigo-500/30 text-indigo-400"
+                            : "bg-rose-500/10 border-rose-500/30 text-rose-400"
+                        )}>
+                          {skill.provider}
+                        </span>
+                      )}
                     </h1>
                   </div>
 
@@ -781,8 +769,9 @@ export function SkillDetailClient({
                         <a
                           href={`#${h.id}`}
                           onClick={(e) => handleScrollTo(e, h.id)}
+                          title={h.text}
                           className={cn(
-                            "flex items-center gap-2 text-xs py-1 transition-all duration-300 relative z-10 no-underline pl-3",
+                            "flex items-center gap-2 text-xs py-1 transition-all duration-300 relative z-10 no-underline pl-3 w-full",
                             activeId === h.id
                               ? "text-[var(--color-accent-primary)] font-semibold"
                               : "text-[var(--color-text-muted)] hover:text-[var(--color-text-primary)]"
@@ -793,7 +782,7 @@ export function SkillDetailClient({
                           ) : (
                             getHeadingIcon(h.text)
                           )}
-                          <span>{h.text}</span>
+                          <span className="truncate block flex-1 pr-1 line-clamp-1">{h.text}</span>
                         </a>
                         {activeId === h.id && (
                           <motion.div
@@ -1043,6 +1032,9 @@ function ElasticPaginationLink({ href, isNext, skill, onClick }: { href: string;
 
 const MarkdownContent = memo(
   forwardRef<HTMLDivElement, { htmlContent: string }>(({ htmlContent }, ref) => {
+    {/* SECURITY NOTE: htmlContent is generated by parseMarkdownToHtml in src/lib/markdown.ts
+        which explicitly escapes HTML characters (<, >, &) and blocks dangerous protocols
+        (javascript:, data:, vbscript:) in links to prevent Cross-Site Scripting (XSS). */}
     return <div ref={ref} className="skill-content" dangerouslySetInnerHTML={{ __html: htmlContent }} />;
   })
 );

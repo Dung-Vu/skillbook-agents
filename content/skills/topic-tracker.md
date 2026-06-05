@@ -1,7 +1,7 @@
 ---
 slug: topic-tracker
 title: Topic Tracker
-command: ''
+command: "/topic-tracker"
 category: research-analysis
 tags:
   - trend-tracking

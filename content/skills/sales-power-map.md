@@ -1,7 +1,7 @@
 ---
 slug: sales-power-map
 title: Sales Power Map
-command: ''
+command: "/sales-power-map"
 category: workflow-orchestration
 tags:
   - b2b-sales

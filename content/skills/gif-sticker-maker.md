@@ -1,7 +1,7 @@
 ---
 slug: gif-sticker-maker
 title: GIF Sticker Maker
-command: ''
+command: "/gif-sticker-maker"
 category: creative-design
 tags:
   - gif

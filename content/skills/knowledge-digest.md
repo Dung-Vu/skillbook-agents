@@ -1,7 +1,7 @@
 ---
 slug: knowledge-digest
 title: Knowledge Digest
-command: ''
+command: "/knowledge-digest"
 category: data-knowledge
 tags:
   - learning

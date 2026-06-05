@@ -30,7 +30,7 @@ Skillbook Agents là website bách khoa toàn thư về các **AI Agent Skills**
 - `src/app/skills/`: Catalog grid, filter, pagination, search via `?search=...`.
 - `src/app/skills/[slug]/`: Skill detail page (TOC, related, prev/next nav).
 - `src/app/about/`: About page với timeline tương tác (Framer Motion).
-- `src/app/changelog/`: Changelog timeline (stagger reveal).
+- `src/app/compare/`: Provider compare page.
 - `src/app/providers/[name]/`: Provider landing pages (antigravity, minimax).
 - `src/components/ui/SmoothScroll.tsx`: Lenis + GSAP integration wrapper.
 - `src/components/ui/EvolutionDynamicBackground.tsx`: Evolution canvas background.

@@ -22,7 +22,7 @@
 ### Phase 3: Hiện đại hóa các Sub-pages & 404 🌟 [COMPLETED]
 - **Catalog View**: Thay thế ảnh nền bằng Next.js `<Image>`, thêm bộ đếm số hoạt họa `AnimatedCounter` (`requestAnimationFrame`), hiển thị tooltip phím tắt tìm kiếm, và đọc URL query `?search=...`.
 - **Trang Giới thiệu (`AboutClient.tsx`)**: Tách client component, tạo timeline AI Agent workflow 4 bước tương tác trực quan bằng Framer Motion, cập nhật mô tả thành 12 categories.
-- **Trang Changelog (`ChangelogClient.tsx`)**: Tạo timeline cuộn stagger reveal (`whileInView`) và pulse neon cyberpunk cho các chấm tròn mốc lịch sử.
+- **Trang So sánh (`SkillCompareClient.tsx`)**: Giao diện so sánh trực quan các tính năng, hiệu năng và cấu trúc lệnh giữa hai nhà cung cấp Antigravity và Minimax.
 - **Trang 404 (`not-found.tsx`)**: Thiết kế chữ glitch cyberpunk, Matrix particle background bằng HTML5 Canvas, nhúng ô tìm kiếm hoạt động trực tiếp hướng về Catalog.
 
 ### Phase 4: Tối ưu Hiệu năng & PWA 🚀 [COMPLETED]
@@ -37,7 +37,7 @@
 
 ### Phase 6: Responsive Design Pass 📱 [COMPLETED — 2026-05-31]
 - **Nguồn:** Follow-up `2026-05-31T12:46:15Z`.
-- **Scope:** Audit và sửa responsive overflow trên toàn bộ 5 route chính (`/`, `/skills`, `/skills/[slug]`, `/about`, `/changelog`) ở mọi viewport (mobile/tablet/desktop) — triệt tiêu tràn viền, bẻ dòng lỗi, che khuất phần tử.
+- **Scope:** Audit và sửa responsive overflow trên toàn bộ 5 route chính (`/`, `/skills`, `/skills/[slug]`, `/about`, `/compare`) ở mọi viewport (mobile/tablet/desktop) — triệt tiêu tràn viền, bẻ dòng lỗi, che khuất phần tử.
 
 ### Phase 7: Mobile Slim & Luminous Light Theme ✨ [COMPLETED — 2026-05-31]
 - **Nguồn:** Follow-up `2026-05-31T14:39:41Z` (Mobile redesign + Luminous theme) và `2026-05-31T15:20:33Z` (Slim typography/card).

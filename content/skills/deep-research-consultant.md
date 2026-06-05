@@ -1,7 +1,7 @@
 ---
 slug: deep-research-consultant
 title: Deep Research Consultant
-command: ''
+command: "/deep-research-consultant"
 category: research-analysis
 tags:
   - consulting

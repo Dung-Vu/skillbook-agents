@@ -1,7 +1,7 @@
 ---
 slug: deep-research-agent
 title: Deep Research Agent
-command: ''
+command: "/deep-research-agent"
 category: research-analysis
 tags:
   - analysis

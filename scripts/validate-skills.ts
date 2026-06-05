@@ -7,6 +7,21 @@ import { SkillFrontmatterSchema } from "../src/lib/schema.ts";
 const SKILLS_DIR = path.join(process.cwd(), "content", "skills");
 
 function validateSkills() {
+  const args = process.argv.slice(2);
+  const help = args.includes("-h") || args.includes("--help");
+  const strictGraphEnabled = args.includes("--strict-graph") || process.env.STRICT_GRAPH === "true";
+
+  if (help) {
+    console.log(`
+Usage: node scripts/validate-skills.ts [options]
+
+Options:
+  -h, --help      Show this help menu
+  --strict-graph  Enable strict graph checking (prevent cross-provider dependencies)
+    `);
+    process.exit(0);
+  }
+
   if (!fs.existsSync(SKILLS_DIR)) {
     console.error(`Skills directory not found at: ${SKILLS_DIR}`);
     process.exit(1);
@@ -19,6 +34,7 @@ function validateSkills() {
   const allSlugs = new Set(files.map((file) => file.replace(/\.md$/, "")));
   const errors: { file: string; error: string }[] = [];
   const relatedSkillsGraph = new Map<string, string[]>();
+  const skillProviders = new Map<string, string>();
 
   console.log(`Analyzing ${files.length} base skill files...`);
 
@@ -72,6 +88,7 @@ function validateSkills() {
 
     const valData = result.data;
     relatedSkillsGraph.set(slug, valData.relatedSkills);
+    skillProviders.set(slug, valData.provider);
 
     // Validate tags against whitelist
     valData.tags.forEach((tag) => {
@@ -145,6 +162,22 @@ function validateSkills() {
       });
     }
   });
+
+  // Phase 1.5: Validate cross-provider relationships (Strict Graph Constraint)
+  if (strictGraphEnabled) {
+    for (const [slug, related] of relatedSkillsGraph.entries()) {
+      const provider = skillProviders.get(slug);
+      for (const rel of related) {
+        const relProvider = skillProviders.get(rel);
+        if (relProvider && provider !== relProvider) {
+          errors.push({
+            file: `${slug}.md`,
+            error: `Strict Graph Violation: Skill '${slug}' [${provider}] has a cross-provider dependency on '${rel}' [${relProvider}]`,
+          });
+        }
+      }
+    }
+  }
 
   // Phase 2: Validate relatedSkills Graph for cycles & depth (warning-only or error based on config)
   const isStrictGraph = true; // Set to true to fail build. Note: Current content contains many cycles!

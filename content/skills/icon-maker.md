@@ -1,7 +1,7 @@
 ---
 slug: icon-maker
 title: Icon Maker
-command: ''
+command: "/icon-maker"
 category: creative-design
 tags:
   - image-generation

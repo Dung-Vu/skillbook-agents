@@ -1,7 +1,7 @@
 ---
 slug: pptx-generator
 title: PPTX Generator
-command: ''
+command: "/pptx-generator"
 category: content-communication
 tags:
   - powerpoint

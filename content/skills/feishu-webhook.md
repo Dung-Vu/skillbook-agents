@@ -1,7 +1,7 @@
 ---
 slug: feishu-webhook
 title: Feishu Webhook
-command: ''
+command: "/feishu-webhook"
 category: tool-integration
 tags:
   - webhook

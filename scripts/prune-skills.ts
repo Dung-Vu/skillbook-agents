@@ -22,7 +22,7 @@ function pruneSkills() {
     [key: string]: unknown;
   }
 
-  const skillDataMap = new Map<string, { filePath: string; data: SkillData; content: string }>();
+  const skillDataMap = new Map<string, { filePath: string; originalContent: string; fileChanged: boolean; data: SkillData; content: string }>();
 
   // Read all frontmatters and default missing provider / slug fields
   files.forEach((file) => {
@@ -31,18 +31,23 @@ function pruneSkills() {
     const slug = file.replace(/\.md$/, "");
     const parsed = matter(fileContent);
     
+    let fileChanged = false;
     // Auto-fill missing provider
     if (!parsed.data.provider) {
       parsed.data.provider = "antigravity";
+      fileChanged = true;
     }
     
     // Auto-fill missing slug
     if (!parsed.data.slug) {
       parsed.data.slug = slug;
+      fileChanged = true;
     }
 
     skillDataMap.set(slug, {
       filePath,
+      originalContent: fileContent,
+      fileChanged,
       data: parsed.data,
       content: parsed.content,
     });
@@ -113,15 +118,26 @@ function pruneSkills() {
       const info = skillDataMap.get(from)!;
       const originalRelated = info.data.relatedSkills || [];
       info.data.relatedSkills = originalRelated.filter((s: string) => s !== to);
+      info.fileChanged = true;
       prunedEdges.push({ from, to, reason });
       changed = true;
     }
   }
 
+  const dryRun = process.argv.includes("--dry-run");
+
   // Write changes back to disk
+  let filesWritten = 0;
   for (const [, info] of skillDataMap.entries()) {
-    const updatedContent = matter.stringify(info.content, info.data);
-    fs.writeFileSync(info.filePath, updatedContent, "utf-8");
+    if (info.fileChanged) {
+      const updatedContent = matter.stringify(info.content, info.data);
+      if (updatedContent !== info.originalContent) {
+        if (!dryRun) {
+          fs.writeFileSync(info.filePath, updatedContent, "utf-8");
+        }
+        filesWritten++;
+      }
+    }
   }
 
   const logLines = [
@@ -129,8 +145,15 @@ function pruneSkills() {
     ...prunedEdges.map(edge => `Pruned edge: ${edge.from} -> ${edge.to} (${edge.reason})`)
   ];
 
-  fs.writeFileSync("pruned_list_clean.txt", logLines.join("\n"), "utf-8");
-  console.log(`Pruning completed. Log written to pruned_list_clean.txt. Total pruned edges: ${prunedEdges.length}`);
+  if (!dryRun) {
+    if (prunedEdges.length > 0 || filesWritten > 0) {
+      fs.writeFileSync("pruned_list_clean.txt", logLines.join("\n"), "utf-8");
+    }
+    console.log(`Pruning completed. Log written to pruned_list_clean.txt. Total pruned edges: ${prunedEdges.length}. Modified ${filesWritten} files.`);
+  } else {
+    console.log(`[Dry Run] Pruning completed simulation. Total pruned edges: ${prunedEdges.length}. Would modify ${filesWritten} files.`);
+    console.log(logLines.join("\n"));
+  }
 }
 
 pruneSkills();

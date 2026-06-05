@@ -1,7 +1,7 @@
 ---
 slug: code-review
 title: Code Review
-command: ''
+command: "/code-review"
 category: safety-guardrails
 tags:
   - code-review

@@ -1,7 +1,7 @@
 ---
 slug: fullstack-dev
 title: Fullstack Dev
-command: ''
+command: "/fullstack-dev"
 category: code-engineering
 tags:
   - api-design

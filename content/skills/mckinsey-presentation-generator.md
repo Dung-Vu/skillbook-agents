@@ -1,7 +1,7 @@
 ---
 slug: mckinsey-presentation-generator
 title: McKinsey Presentation Generator
-command: ''
+command: "/mckinsey-presentation-generator"
 category: content-communication
 tags:
   - presentation

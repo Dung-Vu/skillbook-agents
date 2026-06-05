@@ -1,7 +1,7 @@
 ---
 slug: app-builder
 title: App Builder
-command: ''
+command: "/app-builder"
 category: code-engineering
 tags:
   - fullstack

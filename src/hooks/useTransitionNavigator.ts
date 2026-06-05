@@ -8,11 +8,6 @@ export interface TransitionNavigator {
   navigateTo: (e: React.MouseEvent<HTMLAnchorElement>, href: string) => void;
 }
 
-interface CustomTransitionWindow extends Window {
-  __paperCrumpleOverlayRegistered?: boolean;
-  __canvasPaused?: boolean;
-  __transitionActive?: boolean;
-}
 
 export function useTransitionNavigator(): TransitionNavigator {
   const router = useRouter();
@@ -24,17 +19,23 @@ export function useTransitionNavigator(): TransitionNavigator {
 
       // 1. Dispatch the canvas-pause event and set state synchronously to freeze background and free CPU immediately (E2E expectation)
       if (typeof window !== "undefined") {
-        const customWindow = window as unknown as CustomTransitionWindow;
-        customWindow.__canvasPaused = true;
+        window.__canvasPaused = true;
         window.dispatchEvent(new CustomEvent("canvas-pause"));
+        (window as any).__navigationClickedTime = Date.now();
       }
 
       // 2. Defer setting isExiting to true if the 3D WebGL overlay is present,
       // so that the DOM screenshot is captured sharp and fully visible.
       if (typeof window !== "undefined") {
-        const customWindow = window as unknown as CustomTransitionWindow;
-        const hasOverlay = customWindow.__paperCrumpleOverlayRegistered === true;
-        console.log("[useTransitionNavigator] navigateTo called for:", href, "hasOverlay:", hasOverlay);
+        const customWindow = window;
+        const targetHref = href;
+        const isCurrentSkills = window.location.pathname === "/skills" || window.location.pathname.startsWith("/skills/");
+        const isTargetSkills = targetHref === "/skills" || targetHref.startsWith("/skills/");
+        const isBypassed = isCurrentSkills && isTargetSkills;
+
+        const hasOverlay = customWindow.__paperCrumpleOverlayRegistered === true && !isBypassed;
+        customWindow.__transitionTargetHref = targetHref;
+        console.log("[useTransitionNavigator] navigateTo called for:", href, "hasOverlay:", hasOverlay, "isBypassed:", isBypassed);
         
         let isNavigated = false;
         let timeoutId: ReturnType<typeof setTimeout> | undefined;
@@ -47,6 +48,7 @@ export function useTransitionNavigator(): TransitionNavigator {
               clearTimeout(timeoutId);
               timeoutId = undefined;
             }
+            (window as any).__navigationExecutedTime = Date.now();
             router.push(href);
           }
         };
@@ -79,7 +81,24 @@ export function useTransitionNavigator(): TransitionNavigator {
           setIsExiting(true);
         }
 
-        window.dispatchEvent(new CustomEvent("transition-exit-start", { detail: { href } }));
+        // Capture click coordinates to pass to WebGL Liquid shader
+        let clickX = window.innerWidth / 2;
+        let clickY = window.innerHeight / 2;
+        if (e && typeof e.clientX === "number" && typeof e.clientY === "number") {
+          clickX = e.clientX;
+          clickY = e.clientY;
+        }
+
+        customWindow.__transitionClickX = clickX;
+        customWindow.__transitionClickY = clickY;
+
+        window.dispatchEvent(new CustomEvent("transition-exit-start", { 
+          detail: { 
+            href,
+            clickX,
+            clickY
+          } 
+        }));
       } else {
         router.push(href);
       }

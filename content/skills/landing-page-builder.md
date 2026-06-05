@@ -1,7 +1,7 @@
 ---
 slug: landing-page-builder
 title: Landing Page Builder
-command: ''
+command: "/landing-page-builder"
 category: creative-design
 tags:
   - web

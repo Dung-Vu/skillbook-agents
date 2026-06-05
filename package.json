@@ -8,10 +8,13 @@
     "validate:skills": "node --experimental-strip-types scripts/validate-skills.ts",
     "fix:skills": "node --experimental-strip-types scripts/autofix-skills.ts",
     "new:skill": "node --experimental-strip-types scripts/new-skill.ts",
-    "build": "npm run validate:skills && next build",
+    "build": "pnpm run validate:skills && next build",
     "start": "next start",
     "lint": "eslint",
     "test:e2e": "playwright test"
+  },
+  "engines": {
+    "node": ">=22.6.0"
   },
   "dependencies": {
     "@gsap/react": "^2.1.2",

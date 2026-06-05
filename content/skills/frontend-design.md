@@ -1,7 +1,7 @@
 ---
 slug: frontend-design
 title: Frontend Design
-command: ''
+command: "/frontend-design"
 category: creative-design
 tags:
   - web-components

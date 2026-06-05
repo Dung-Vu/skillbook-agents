@@ -1,7 +1,7 @@
 ---
 slug: polymarket-expert
 title: Polymarket Expert
-command: ''
+command: "/polymarket-expert"
 category: reasoning-planning
 tags:
   - prediction-market
