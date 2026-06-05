@@ -269,6 +269,7 @@ const captureScreenshot = async (): Promise<HTMLCanvasElement> => {
       useCORS: true,
       allowTaint: true,
       backgroundColor: "#f4f6fc",
+      scale: 1, // Optimize capture speed & memory footprint
       ignoreElements: (element) => element.hasAttribute("data-html2canvas-ignore"),
     });
     return canvasResult;
@@ -464,6 +465,7 @@ export function PaperCrumpleOverlay(): React.ReactElement | null {
           animationFrameIdRef.current = requestAnimationFrame(animate);
         } else {
           customWindow.__transitionActive = true;
+          document.body.classList.remove("transition-active-exiting");
           window.dispatchEvent(new CustomEvent("transition-exit-complete"));
         }
       };
@@ -505,6 +507,7 @@ export function PaperCrumpleOverlay(): React.ReactElement | null {
         } else {
           setPhase("idle");
           disposeThree();
+          document.body.classList.remove("transition-active-entering");
           customWindow.__canvasPaused = false;
           window.dispatchEvent(new CustomEvent("canvas-resume"));
         }
@@ -568,6 +571,7 @@ export function PaperCrumpleOverlay(): React.ReactElement | null {
         }
 
         if (!isEffectActive) return;
+        document.body.classList.add("transition-active-entering");
         runEnterAnimation();
       };
 
@@ -584,6 +588,8 @@ export function PaperCrumpleOverlay(): React.ReactElement | null {
         initThree(textureCanvas, 0.0, false);
 
         if (!isEffectActive) return;
+        document.body.classList.add("transition-active-exiting");
+        window.dispatchEvent(new CustomEvent("transition-exit-animating"));
         runExitAnimation();
       };
 
@@ -593,6 +599,7 @@ export function PaperCrumpleOverlay(): React.ReactElement | null {
     return () => {
       isEffectActive = false;
       window.removeEventListener("resize", handleResize);
+      document.body.classList.remove("transition-active-exiting", "transition-active-entering");
       disposeThree();
     };
   }, [phase]);
@@ -611,6 +618,13 @@ export function PaperCrumpleOverlay(): React.ReactElement | null {
         backdropFilter: phase === "exiting" ? "blur(0px)" : "blur(8px)",
       }}
     >
+      <style dangerouslySetInnerHTML={{ __html: `
+        body.transition-active-exiting > *:not([data-html2canvas-ignore="true"]),
+        body.transition-active-entering > *:not([data-html2canvas-ignore="true"]) {
+          opacity: 0 !important;
+          pointer-events: none !important;
+        }
+      `}} />
       <canvas ref={canvasRef} className="w-full h-full block bg-transparent" />
     </div>
   );

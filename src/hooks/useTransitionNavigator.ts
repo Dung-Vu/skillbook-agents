@@ -29,16 +29,19 @@ export function useTransitionNavigator(): TransitionNavigator {
         window.dispatchEvent(new CustomEvent("canvas-pause"));
       }
 
-      // 2. Set isExiting state to true immediately for content fade/blur animations
-      setIsExiting(true);
-
-      // 3. Coordinate transition with WebGL overlay
+      // 2. Defer setting isExiting to true if the 3D WebGL overlay is present,
+      // so that the DOM screenshot is captured sharp and fully visible.
       if (typeof window !== "undefined") {
+        const customWindow = window as unknown as CustomTransitionWindow;
+        const hasOverlay = customWindow.__paperCrumpleOverlayRegistered === true;
+        console.log("[useTransitionNavigator] navigateTo called for:", href, "hasOverlay:", hasOverlay);
+        
         let isNavigated = false;
         let timeoutId: ReturnType<typeof setTimeout> | undefined;
 
         const performNavigation = (): void => {
           if (!isNavigated) {
+            console.log("[useTransitionNavigator] performNavigation called");
             isNavigated = true;
             if (timeoutId) {
               clearTimeout(timeoutId);
@@ -48,29 +51,34 @@ export function useTransitionNavigator(): TransitionNavigator {
           }
         };
 
-        // Listen for completion of the crumple animation from PaperCrumpleOverlay
         const handleTransitionComplete = (): void => {
+          console.log("[useTransitionNavigator] transition-exit-complete event received");
           window.removeEventListener("transition-exit-complete", handleTransitionComplete);
           performNavigation();
         };
         window.addEventListener("transition-exit-complete", handleTransitionComplete);
 
-        // Check if the overlay is registered on the window object
-        const customWindow = window as unknown as CustomTransitionWindow;
-        const hasOverlay = customWindow.__paperCrumpleOverlayRegistered === true;
-        
-        // Fallback delay is a safety mechanism:
-        // - If overlay is registered, 800ms safety timeout (since WebGL exit transition takes 500ms).
-        // - If overlay is missing, 300ms fallback delay to support basic visual delays or E2E tests.
-        const fallbackDelay = hasOverlay ? 800 : 300;
+        const fallbackDelay = hasOverlay ? 1500 : 300;
+        console.log("[useTransitionNavigator] setting safety timeout with delay:", fallbackDelay);
 
         timeoutId = setTimeout(() => {
+          console.log("[useTransitionNavigator] safety timeout triggered");
           window.removeEventListener("transition-exit-complete", handleTransitionComplete);
           customWindow.__transitionActive = true;
           performNavigation();
         }, fallbackDelay);
 
-        // Dispatch transition-exit-start to signal the overlay to take a snapshot & begin the crumple animation
+        if (hasOverlay) {
+          const handleExitAnimating = (): void => {
+            console.log("[useTransitionNavigator] transition-exit-animating event received");
+            window.removeEventListener("transition-exit-animating", handleExitAnimating);
+            setIsExiting(true);
+          };
+          window.addEventListener("transition-exit-animating", handleExitAnimating);
+        } else {
+          setIsExiting(true);
+        }
+
         window.dispatchEvent(new CustomEvent("transition-exit-start", { detail: { href } }));
       } else {
         router.push(href);
