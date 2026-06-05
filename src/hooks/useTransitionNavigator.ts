@@ -60,9 +60,9 @@ export function useTransitionNavigator(): TransitionNavigator {
         const hasOverlay = customWindow.__paperCrumpleOverlayRegistered === true;
         
         // Fallback delay is a safety mechanism:
-        // - If overlay is registered, 1500ms safety timeout (since WebGL exit transition takes 1000ms).
+        // - If overlay is registered, 800ms safety timeout (since WebGL exit transition takes 500ms).
         // - If overlay is missing, 300ms fallback delay to support basic visual delays or E2E tests.
-        const fallbackDelay = hasOverlay ? 1500 : 300;
+        const fallbackDelay = hasOverlay ? 800 : 300;
 
         timeoutId = setTimeout(() => {
           window.removeEventListener("transition-exit-complete", handleTransitionComplete);

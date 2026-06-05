@@ -1,5 +1,4 @@
 "use client";
-
 import React, { useEffect, useRef, useState } from "react";
 import * as THREE from "three";
 
@@ -9,10 +8,22 @@ interface CustomTransitionWindow extends Window {
   __transitionActive?: boolean;
 }
 
-// Vertex Shader source (3D Simplex Noise + Sphericalization + Gravity)
+// Easing functions
+const easeInQuad = (x: number): number => {
+  return x * x;
+};
+
+const easeOutBack = (x: number): number => {
+  const c1 = 1.2; // Moderated elastic bounce factor to keep text readable/contained
+  const c3 = c1 + 1;
+  return 1 + c3 * Math.pow(x - 1, 3) + c1 * Math.pow(x - 1, 2);
+};
+
+// Vertex Shader source (3D Simplex Noise + Crease/Turbulence + Twist Z + Gravity Y + Fall Rotation)
 const vertexShader = `
   uniform float uProgress;
   uniform float uTime;
+  uniform bool uIsEntering;
   varying vec2 vUv;
   varying vec3 vPosition;
 
@@ -85,13 +96,37 @@ const vertexShader = `
     vUv = uv;
     vec3 pos = position;
 
-    // 1. Wrinkling/Creasing Noise (Multi-frequency)
-    float noiseVal = snoise(vec3(pos.xy * 8.0, uTime * 0.1)) * 0.5
-                   + snoise(vec3(pos.xy * 16.0, uTime * 0.2)) * 0.25
-                   + snoise(vec3(pos.xy * 32.0, uTime * 0.4)) * 0.125;
+    // Determine how crumpled the paper is based on phase
+    float crumpleProgress = 0.0;
+    if (uIsEntering) {
+      crumpleProgress = uProgress; // 1.0 (crumpled) -> 0.0 (flat)
+    } else {
+      crumpleProgress = smoothstep(0.0, 0.8, uProgress); // 0.0 (flat) -> 1.0 (crumpled)
+    }
 
-    // 2. Sphericalization coordinates
-    float radius = 0.16;
+    // 1. Twist Effect (asymmetrical rotation based on distance from center)
+    float dist = length(pos.xy);
+    float twistAngle = crumpleProgress * 3.2 * (1.3 - dist);
+    float cosA = cos(twistAngle);
+    float sinA = sin(twistAngle);
+    vec3 twistedPos = vec3(
+      pos.x * cosA - pos.y * sinA,
+      pos.x * sinA + pos.y * cosA,
+      pos.z
+    );
+
+    // 2. Crease/Turbulence Noise (High frequency sharp folds mimicking real paper)
+    float noiseVal1 = abs(snoise(vec3(pos.xy * 6.5, uTime * 0.06)));
+    float noiseVal2 = abs(snoise(vec3(pos.xy * 13.0, uTime * 0.12)));
+    float noiseVal3 = abs(snoise(vec3(pos.xy * 26.0, uTime * 0.25)));
+    
+    float noiseVal = 1.0 - (noiseVal1 * 0.5 + noiseVal2 * 0.3 + noiseVal3 * 0.2);
+    noiseVal = pow(noiseVal, 2.5); // Sharp creases
+
+    // 3. Sphericalization (crunching into an asymmetric crumpled ball)
+    // Add low-frequency noise to the radius to make the final shape look organic
+    float radiusNoise = snoise(vec3(pos.xy * 2.5, 0.0)) * 0.035;
+    float radius = 0.15 + radiusNoise;
     float theta = uv.x * 2.0 * 3.14159265;
     float phi = uv.y * 3.14159265;
     
@@ -100,32 +135,78 @@ const vertexShader = `
       radius * sin(phi) * sin(theta),
       radius * cos(phi)
     );
-
-    // Crumpling phase takes place in progress 0.0 -> 0.8
-    float crumpleProgress = smoothstep(0.0, 0.8, uProgress);
     
-    // Noise amplitude peaks during crumple and stays rough at 1.0
-    float noiseAmp = 0.15 * sin(crumpleProgress * 3.14159265) + 0.05 * crumpleProgress;
+    // Noise amplitude peaks during crumple transition
+    float noiseAmp = 0.18 * sin(crumpleProgress * 3.14159265) + 0.07 * crumpleProgress;
 
-    vec3 displace = vec3(0.0, 0.0, noiseVal * noiseAmp);
-    vec3 sphereDisplace = normalize(spherePos) * noiseVal * 0.05;
+    vec3 displace = vec3(0.0, 0.0, (noiseVal - 0.2) * noiseAmp);
+    vec3 sphereDisplace = normalize(spherePos) * (noiseVal - 0.2) * 0.07;
 
-    vec3 crumpledPos = mix(pos, spherePos, crumpleProgress) 
+    vec3 crumpledPos = mix(twistedPos, spherePos, crumpleProgress) 
                      + mix(displace, sphereDisplace, crumpleProgress);
 
-    // 3. Gravity Drop (progress 0.4 -> 1.0)
-    float fallProgress = max(0.0, uProgress - 0.4) / 0.6;
-    float gravity = pow(fallProgress, 2.5) * -1.6;
-    crumpledPos.y += gravity;
+    // 4. Motion Mechanics (Gravity, wind, throw)
+    vec3 finalPos = crumpledPos;
 
-    vec4 modelViewPosition = modelViewMatrix * vec4(crumpledPos, 1.0);
+    if (uIsEntering) {
+      // ENTERING: starts at uProgress = 1.0 (crumpled) and finishes at 0.0 (unfolded flat at center)
+      // Follows uProgress driven by easeOutBack, giving it an automatic elastic landing bounce
+      float fallT = uProgress;
+      
+      float rotAngleX = fallT * 2.5;
+      float rotAngleY = fallT * 3.5;
+      float rotAngleZ = fallT * 1.5;
+      
+      float cx = cos(rotAngleX), sx = sin(rotAngleX);
+      float cy = cos(rotAngleY), sy = sin(rotAngleY);
+      float cz = cos(rotAngleZ), sz = sin(rotAngleZ);
+      
+      mat3 rot = mat3(
+        cy*cz, -cy*sz, sy,
+        cx*sz + sx*sy*cz, cx*cz - sx*sy*sz, -sx*cy,
+        sx*sz - cx*sy*cz, sx*cz + cx*sy*sz, cx*cy
+      );
+      
+      finalPos = rot * crumpledPos;
+      
+      // Translate from top-left to center
+      finalPos.x -= fallT * 0.4;
+      finalPos.y += fallT * 1.5;
+      finalPos.z -= fallT * 0.3;
+    } else {
+      // EXITING: starts at uProgress = 0.0 (flat) and finishes at 1.0 (crumpled & thrown away)
+      // Paper begins rotating and flying immediately, accelerating outwards
+      float throwT = uProgress;
+      
+      float rotAngleX = throwT * 3.0;
+      float rotAngleY = throwT * 4.2;
+      float rotAngleZ = throwT * 2.0;
+      
+      float cx = cos(rotAngleX), sx = sin(rotAngleX);
+      float cy = cos(rotAngleY), sy = sin(rotAngleY);
+      float cz = cos(rotAngleZ), sz = sin(rotAngleZ);
+      
+      mat3 rot = mat3(
+        cy*cz, -cy*sz, sy,
+        cx*sz + sx*sy*cz, cx*cz - sx*sy*sz, -sx*cy,
+        sx*sz - cx*sy*cz, sx*cz + cx*sy*sz, cx*cy
+      );
+      
+      finalPos = rot * crumpledPos;
+      
+      // Translate: rise slightly at first, then fall rapidly to bottom-right
+      finalPos.x += throwT * 0.5;
+      finalPos.y += throwT * 0.25 - pow(throwT, 2.5) * 2.05;
+      finalPos.z -= throwT * 0.5;
+    }
+
+    vec4 modelViewPosition = modelViewMatrix * vec4(finalPos, 1.0);
     vPosition = modelViewPosition.xyz;
     gl_Position = projectionMatrix * modelViewPosition;
   }
 `;
 
-// Fragment Shader source (Screen Space Derivatives for sharp-edged crease normals)
-// Note: We removed "#extension GL_OES_standard_derivatives : enable" because it is prepended by Three.js automatically or enabled via material config.
+// Fragment Shader source (Screen Space Derivatives for sharp crease rendering)
 const fragmentShader = `
   varying vec2 vUv;
   varying vec3 vPosition;
@@ -133,7 +214,7 @@ const fragmentShader = `
   uniform float uProgress;
 
   void main() {
-    // Re-calculate normals dynamically in screen space
+    // Re-calculate normals dynamically in screen space for detailed lighting
     vec3 fdx = dFdx(vPosition);
     vec3 fdy = dFdy(vPosition);
     vec3 normal = normalize(cross(fdx, fdy));
@@ -143,26 +224,31 @@ const fragmentShader = `
     }
 
     // Diffuse & Ambient Lighting
-    vec3 lightDir = normalize(vec3(0.3, 0.5, 0.8));
+    vec3 lightDir = normalize(vec3(0.4, 0.6, 0.7));
     float diffuse = max(dot(normal, lightDir), 0.0);
-    float ambient = 0.4;
-    float lighting = ambient + 0.6 * diffuse;
+    
+    // Ambient light reduces as paper crumples to make shadows deeper and high contrast
+    float ambient = mix(0.48, 0.22, uProgress);
+    float lighting = ambient + 0.78 * diffuse;
 
-    // Specular highlight for paper sheen
+    // Specular highlight for paper sheen (increase highlight for crumpled paper)
     vec3 viewDir = normalize(-vPosition);
     vec3 halfDir = normalize(lightDir + viewDir);
-    float spec = pow(max(dot(normal, halfDir), 0.0), 16.0);
-    float specular = spec * 0.12 * uProgress;
+    float spec = pow(max(dot(normal, halfDir), 0.0), 32.0); // sharp highlights
+    float specular = spec * mix(0.0, 0.28, uProgress);
 
     vec4 texColor = texture2D(uTexture, vUv);
     vec3 shadedColor = texColor.rgb * lighting + vec3(specular);
 
     // Mix texture between flat (uProgress = 0.0) and shaded (uProgress = 1.0)
-    gl_FragColor = vec4(mix(texColor.rgb, shadedColor, uProgress), texColor.a);
+    // Non-linear mixing to make shadows emerge more naturally
+    float shadowMix = smoothstep(0.05, 0.95, uProgress);
+    gl_FragColor = vec4(mix(texColor.rgb, shadedColor, shadowMix), texColor.a);
   }
 `;
 
-// Helper to capture current viewport screenshot using html2canvas
+// Helper to capture current viewport screenshot using html2canvas-pro
+// html2canvas-pro natively supports oklch, oklab, lab, and lch CSS color functions, completely avoiding crashes.
 const captureScreenshot = async (): Promise<HTMLCanvasElement> => {
   const createFallbackCanvas = (): HTMLCanvasElement => {
     const fallback = document.createElement("canvas");
@@ -176,41 +262,27 @@ const captureScreenshot = async (): Promise<HTMLCanvasElement> => {
     return fallback;
   };
 
-  const screenshotPromise = (async () => {
-    const html2canvas = (await import("html2canvas")).default;
-    return await html2canvas(document.body, {
+  try {
+    const html2canvasPro = (await import("html2canvas-pro")).default;
+    const canvasResult = await html2canvasPro(document.body, {
       logging: false,
       useCORS: true,
       allowTaint: true,
       backgroundColor: "#f4f6fc",
       ignoreElements: (element) => element.hasAttribute("data-html2canvas-ignore"),
     });
-  })();
-
-  let timer: ReturnType<typeof setTimeout> | undefined;
-  const timeoutPromise = new Promise<HTMLCanvasElement>((resolve) => {
-    timer = setTimeout(() => {
-      resolve(createFallbackCanvas());
-    }, 1000);
-  });
-
-  try {
-    const result = await Promise.race([screenshotPromise, timeoutPromise]);
-    if (timer) clearTimeout(timer);
-    return result;
+    return canvasResult;
   } catch (err) {
-    if (timer) clearTimeout(timer);
-    console.error("[PaperCrumpleOverlay] html2canvas screenshot capture failed:", err);
+    console.warn("[PaperCrumpleOverlay] html2canvas-pro screenshot capture failed (falling back):", err);
     return createFallbackCanvas();
   }
 };
-
 
 export function PaperCrumpleOverlay(): React.ReactElement | null {
   const containerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
-  // Phase state: "entering" (on mount, unfolds page), "idle" (no canvas rendered), "exiting" (crumples page)
+  // Phase state: "entering", "idle", "exiting"
   const [phase, setPhase] = useState<"entering" | "idle" | "exiting">("idle");
 
   // Three.js instances
@@ -235,14 +307,12 @@ export function PaperCrumpleOverlay(): React.ReactElement | null {
 
     window.addEventListener("transition-exit-start", handleExitStart);
 
-    // If we've just transitioned via client navigation, run the enter animation
     if (customWindow.__transitionActive) {
       customWindow.__transitionActive = false; // consume
       setTimeout(() => {
         setPhase("entering");
       }, 0);
     } else {
-      // Direct load - dispatch resume to satisfy tests expecting it
       setTimeout(() => {
         customWindow.__canvasPaused = false;
         window.dispatchEvent(new CustomEvent("canvas-resume"));
@@ -261,12 +331,12 @@ export function PaperCrumpleOverlay(): React.ReactElement | null {
     if (phase === "idle") return;
 
     const canvas = canvasRef.current;
-    if (!canvas) return; // Wait until canvas is mounted in the DOM
+    if (!canvas) return;
 
     let isEffectActive = true;
     const customWindow = window as unknown as CustomTransitionWindow;
 
-    // Helper to dispose Three.js instances and avoid memory leaks
+    // Helper to dispose Three.js instances
     const disposeThree = () => {
       if (animationFrameIdRef.current) {
         cancelAnimationFrame(animationFrameIdRef.current);
@@ -294,15 +364,14 @@ export function PaperCrumpleOverlay(): React.ReactElement | null {
       cameraRef.current = null;
     };
 
-    // Initialize Three.js scene
-    const initThree = (textureCanvas: HTMLCanvasElement, initialProgress: number) => {
+    // Initialize Three.js scene with a higher grid resolution (256x256) for sharp creases
+    const initThree = (textureCanvas: HTMLCanvasElement, initialProgress: number, isEntering: boolean) => {
       disposeThree();
 
       const width = window.innerWidth;
       const height = window.innerHeight;
       const aspect = width / height;
 
-      // 1. Renderer
       const renderer = new THREE.WebGLRenderer({
         canvas,
         alpha: true,
@@ -313,11 +382,9 @@ export function PaperCrumpleOverlay(): React.ReactElement | null {
       renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
       rendererRef.current = renderer;
 
-      // 2. Scene
       const scene = new THREE.Scene();
       sceneRef.current = scene;
 
-      // 3. Camera
       const camera = new THREE.OrthographicCamera(
         -aspect / 2,
         aspect / 2,
@@ -329,17 +396,15 @@ export function PaperCrumpleOverlay(): React.ReactElement | null {
       camera.position.z = 2;
       cameraRef.current = camera;
 
-      // 4. Texture
       const texture = new THREE.CanvasTexture(textureCanvas);
       texture.minFilter = THREE.LinearFilter;
       texture.magFilter = THREE.LinearFilter;
       texture.generateMipmaps = false;
       textureRef.current = texture;
 
-      // 5. Geometry (highly detailed grid for folds)
-      const geometry = new THREE.PlaneGeometry(aspect, 1.0, 128, 128);
+      // Segments increased from 128 to 256 for ultra-fine crumple textures
+      const geometry = new THREE.PlaneGeometry(aspect, 1.0, 256, 256);
 
-      // 6. Material
       const material = new THREE.ShaderMaterial({
         vertexShader,
         fragmentShader,
@@ -347,50 +412,57 @@ export function PaperCrumpleOverlay(): React.ReactElement | null {
           uTexture: { value: texture },
           uProgress: { value: initialProgress },
           uTime: { value: 0 },
+          uIsEntering: { value: isEntering },
         },
         side: THREE.DoubleSide,
         transparent: true,
         depthWrite: false,
         depthTest: false,
         extensions: {
-          derivatives: true, // Enable standard derivatives in fragment shader
+          derivatives: true,
         } as unknown as { clipCullDistance?: boolean; multiDraw?: boolean; },
       });
       materialRef.current = material;
 
-      // 7. Mesh
       const mesh = new THREE.Mesh(geometry, material);
       scene.add(mesh);
       meshRef.current = mesh;
 
-      // Initial render
       renderer.render(scene, camera);
     };
 
-    // Run Exit Animation (0.0 -> 1.0)
+    // Run Exit Animation (0.0 -> 1.0) with easeInQuad easing and backdrop filter transition
     const runExitAnimation = () => {
       let startTimestamp: number | null = null;
-      const duration = 1000; // 1s exit crumple
+      const duration = 500;
 
       const animate = (time: number) => {
         if (!isEffectActive) return;
         if (startTimestamp === null) startTimestamp = time;
         const elapsed = time - startTimestamp;
-        const progress = Math.min(elapsed / duration, 1.0);
+        const rawProgress = Math.min(elapsed / duration, 1.0);
+        
+        // Apply easeInQuad Easing for exit transition (crumple faster & drop)
+        const progress = easeInQuad(rawProgress);
 
         if (materialRef.current) {
           materialRef.current.uniforms.uProgress.value = progress;
           materialRef.current.uniforms.uTime.value = time * 0.001;
         }
 
+        // Apply backdrop darkening & blur
+        if (containerRef.current) {
+          containerRef.current.style.backgroundColor = `rgba(9, 9, 11, ${rawProgress * 0.40})`;
+          containerRef.current.style.backdropFilter = `blur(${rawProgress * 8}px)`;
+        }
+
         if (rendererRef.current && sceneRef.current && cameraRef.current) {
           rendererRef.current.render(sceneRef.current, cameraRef.current);
         }
 
-        if (progress < 1.0) {
+        if (rawProgress < 1.0) {
           animationFrameIdRef.current = requestAnimationFrame(animate);
         } else {
-          // Exit transition finished - dispatch exit-complete
           customWindow.__transitionActive = true;
           window.dispatchEvent(new CustomEvent("transition-exit-complete"));
         }
@@ -398,34 +470,41 @@ export function PaperCrumpleOverlay(): React.ReactElement | null {
       animationFrameIdRef.current = requestAnimationFrame(animate);
     };
 
-    // Run Enter Animation (1.0 -> 0.0)
+    // Run Enter Animation (1.0 -> 0.0) with easeOutBack easing and backdrop filter fade out
     const runEnterAnimation = () => {
       let startTimestamp: number | null = null;
-      const duration = 1000; // 1s enter unfold
+      const duration = 1000;
 
       const animate = (time: number) => {
         if (!isEffectActive) return;
         if (startTimestamp === null) startTimestamp = time;
         const elapsed = time - startTimestamp;
-        const progress = Math.max(1.0 - elapsed / duration, 0.0);
+        const rawProgress = Math.min(elapsed / duration, 1.0);
+        
+        // Apply easeOutBack Easing for smooth unfolding elastic expansion
+        const factor = easeOutBack(rawProgress);
+        const progress = Math.max(1.0 - factor, 0.0);
 
         if (materialRef.current) {
           materialRef.current.uniforms.uProgress.value = progress;
           materialRef.current.uniforms.uTime.value = time * 0.001;
         }
 
+        // Fade out backdrop overlay & blur
+        if (containerRef.current) {
+          containerRef.current.style.backgroundColor = `rgba(9, 9, 11, ${(1.0 - rawProgress) * 0.40})`;
+          containerRef.current.style.backdropFilter = `blur(${(1.0 - rawProgress) * 8}px)`;
+        }
+
         if (rendererRef.current && sceneRef.current && cameraRef.current) {
           rendererRef.current.render(sceneRef.current, cameraRef.current);
         }
 
-        if (progress > 0.0) {
+        if (rawProgress < 1.0) {
           animationFrameIdRef.current = requestAnimationFrame(animate);
         } else {
-          // Unfold finished - clean up and hide
           setPhase("idle");
           disposeThree();
-          
-          // Notify other background canvas components to resume
           customWindow.__canvasPaused = false;
           window.dispatchEvent(new CustomEvent("canvas-resume"));
         }
@@ -433,7 +512,6 @@ export function PaperCrumpleOverlay(): React.ReactElement | null {
       animationFrameIdRef.current = requestAnimationFrame(animate);
     };
 
-    // Resize handler
     const handleResize = () => {
       if (!isEffectActive) return;
       if (!rendererRef.current || !sceneRef.current || !cameraRef.current || !meshRef.current) return;
@@ -442,12 +520,11 @@ export function PaperCrumpleOverlay(): React.ReactElement | null {
       const aspect = width / height;
 
       rendererRef.current.setSize(width, height);
-      
       cameraRef.current.left = -aspect / 2;
       cameraRef.current.right = aspect / 2;
       cameraRef.current.updateProjectionMatrix();
 
-      const newGeometry = new THREE.PlaneGeometry(aspect, 1.0, 128, 128);
+      const newGeometry = new THREE.PlaneGeometry(aspect, 1.0, 256, 256);
       const oldGeometry = meshRef.current.geometry;
       meshRef.current.geometry = newGeometry;
       oldGeometry.dispose();
@@ -457,14 +534,12 @@ export function PaperCrumpleOverlay(): React.ReactElement | null {
 
     window.addEventListener("resize", handleResize);
 
-    // Run phase-specific initialization
     if (phase === "entering") {
       customWindow.__canvasPaused = true;
       window.dispatchEvent(new CustomEvent("canvas-pause"));
 
       const runEnter = async () => {
         if (!isEffectActive) return;
-        // Render crumpled placeholder (white paper) until screenshot is ready
         const dummyCanvas = document.createElement("canvas");
         dummyCanvas.width = 512;
         dummyCanvas.height = 512;
@@ -473,20 +548,18 @@ export function PaperCrumpleOverlay(): React.ReactElement | null {
           ctx.fillStyle = "#f4f6fc";
           ctx.fillRect(0, 0, 512, 512);
         }
-        initThree(dummyCanvas, 1.0);
+        initThree(dummyCanvas, 1.0, true);
 
-        // Capture screenshot of new page in background
         const realCanvas = await captureScreenshot();
         if (!isEffectActive) return;
 
-        // Update texture with the new page screenshot
         if (textureRef.current && rendererRef.current && sceneRef.current && cameraRef.current) {
           textureRef.current.dispose();
           const realTexture = new THREE.CanvasTexture(realCanvas);
           realTexture.minFilter = THREE.LinearFilter;
           realTexture.magFilter = THREE.LinearFilter;
           realTexture.generateMipmaps = false;
-          
+
           textureRef.current = realTexture;
           if (materialRef.current) {
             materialRef.current.uniforms.uTexture.value = realTexture;
@@ -494,7 +567,6 @@ export function PaperCrumpleOverlay(): React.ReactElement | null {
           rendererRef.current.render(sceneRef.current, cameraRef.current);
         }
 
-        // Run unfold
         if (!isEffectActive) return;
         runEnterAnimation();
       };
@@ -506,14 +578,11 @@ export function PaperCrumpleOverlay(): React.ReactElement | null {
 
       const runExit = async () => {
         if (!isEffectActive) return;
-        // Capture snapshot
         const textureCanvas = await captureScreenshot();
         if (!isEffectActive) return;
 
-        // Initialize WebGL
-        initThree(textureCanvas, 0.0);
+        initThree(textureCanvas, 0.0, false);
 
-        // Start crumpling
         if (!isEffectActive) return;
         runExitAnimation();
       };
@@ -528,8 +597,6 @@ export function PaperCrumpleOverlay(): React.ReactElement | null {
     };
   }, [phase]);
 
-
-  // When phase is idle, do not render any canvas to prevent Playwright conflicts
   if (phase === "idle") {
     return null;
   }
@@ -538,12 +605,13 @@ export function PaperCrumpleOverlay(): React.ReactElement | null {
     <div
       ref={containerRef}
       data-html2canvas-ignore="true"
-      className="fixed inset-0 z-[9999] pointer-events-auto"
+      className="fixed inset-0 z-[9999] pointer-events-auto transition-all duration-300"
+      style={{
+        backgroundColor: phase === "exiting" ? "rgba(9, 9, 11, 0)" : "rgba(9, 9, 11, 0.40)",
+        backdropFilter: phase === "exiting" ? "blur(0px)" : "blur(8px)",
+      }}
     >
-      <canvas
-        ref={canvasRef}
-        className="w-full h-full block bg-transparent"
-      />
+      <canvas ref={canvasRef} className="w-full h-full block bg-transparent" />
     </div>
   );
 }
