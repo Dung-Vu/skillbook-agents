@@ -31,8 +31,8 @@ function validateSkills() {
     let parsedMatter;
     try {
       parsedMatter = matter(fileContent);
-    } catch (err: any) {
-      errors.push({ file, error: `YAML parse error: ${err.message}` });
+    } catch (err) {
+      errors.push({ file, error: `YAML parse error: ${(err as Error).message}` });
       return;
     }
 
@@ -98,8 +98,6 @@ function validateSkills() {
       .split("\n")
       .filter((line) => line.startsWith("## "))
       .map((line) => line.trim());
-
-    const provider = valData.provider;
     
     // Core H2 Headings (Unified for all providers)
     const expectedH2s = [
@@ -154,14 +152,14 @@ function validateSkills() {
   for (const startSlug of relatedSkillsGraph.keys()) {
     try {
       checkGraphFromNode(startSlug, relatedSkillsGraph);
-    } catch (err: any) {
+    } catch (err) {
       if (isStrictGraph) {
         errors.push({
           file: `${startSlug}.md`,
-          error: `Graph validation error: ${err.message}`,
+          error: `Graph validation error: ${(err as Error).message}`,
         });
       } else {
-        console.warn(`[WARNING] relatedSkills graph anomaly on ${startSlug}: ${err.message}`);
+        console.warn(`[WARNING] relatedSkills graph anomaly on ${startSlug}: ${(err as Error).message}`);
       }
     }
   }

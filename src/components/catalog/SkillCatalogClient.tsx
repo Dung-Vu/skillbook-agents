@@ -18,6 +18,7 @@ import { TranslationKey } from "@/lib/translations";
 
 interface CustomWindow extends Window {
   __canvasPaused?: boolean;
+  __paperCrumpleOverlayRegistered?: boolean;
 }
 
 interface SkillCatalogClientProps {
@@ -147,15 +148,17 @@ export function SkillCatalogClient({
       const providerParam = params.get("provider");
       const categoryParam = params.get("category");
 
-      if (providerParam === "antigravity" || providerParam === "minimax") {
-        setActiveProvider(providerParam);
-      }
-      if (categoryParam) {
-        const isValidCategory = Object.values(CATEGORIES).some((cat) => cat.id === categoryParam);
-        if (isValidCategory) {
-          setActiveCategory(categoryParam as CategoryId);
+      setTimeout(() => {
+        if (providerParam === "antigravity" || providerParam === "minimax") {
+          setActiveProvider(providerParam);
         }
-      }
+        if (categoryParam) {
+          const isValidCategory = Object.values(CATEGORIES).some((cat) => cat.id === categoryParam);
+          if (isValidCategory) {
+            setActiveCategory(categoryParam as CategoryId);
+          }
+        }
+      }, 0);
     }
   }, []);
 
@@ -298,8 +301,13 @@ export function SkillCatalogClient({
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      (window as unknown as CustomWindow).__canvasPaused = false;
-      window.dispatchEvent(new CustomEvent("canvas-resume"));
+      setTimeout(() => {
+        const customWindow = window as unknown as CustomWindow;
+        if (!customWindow.__paperCrumpleOverlayRegistered) {
+          customWindow.__canvasPaused = false;
+          window.dispatchEvent(new CustomEvent("canvas-resume"));
+        }
+      }, 0);
     }
   }, []);
 

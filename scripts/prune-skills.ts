@@ -15,7 +15,14 @@ function pruneSkills() {
     (file) => file.endsWith(".md") && !file.endsWith(".en.md")
   );
 
-  const skillDataMap = new Map<string, { filePath: string; data: any; content: string }>();
+  interface SkillData {
+    provider?: string;
+    slug?: string;
+    relatedSkills?: string[];
+    [key: string]: unknown;
+  }
+
+  const skillDataMap = new Map<string, { filePath: string; data: SkillData; content: string }>();
 
   // Read all frontmatters and default missing provider / slug fields
   files.forEach((file) => {
@@ -112,7 +119,7 @@ function pruneSkills() {
   }
 
   // Write changes back to disk
-  for (const [slug, info] of skillDataMap.entries()) {
+  for (const [, info] of skillDataMap.entries()) {
     const updatedContent = matter.stringify(info.content, info.data);
     fs.writeFileSync(info.filePath, updatedContent, "utf-8");
   }

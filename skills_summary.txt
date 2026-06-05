@@ -1,0 +1,3655 @@
+=== create-agent ===
+---
+name: create-agent
+description: "Create one agent on disk. Load when you need to add a new role to the team — typically called by `mavis-team` (when planning analysis says no existing agent fits and the user has consented), by `init-harness` (when bootstrapping `.harness/reins/`), or directly when the user says 'add an agent for X' / 'new an agent' / '加一个 agent' / '建一个 rein'. Two output paths: `~/.mavis/agents/<name>/` (default — cross-project helper) or `<repo>/.harness/reins/<name>/` (when caller specifies project target — coding project rein). Do NOT load to decide WHETHER to create (that lives in `mavis-team` router) or to create a skill (use `skill-creator`)."
+---
+
+# Create Agent
+
+You're here because someone — `mavis-team` after consent, `init-harness` during bootstrap, or the user directly — decided to add a new agent. Your job: write the files so it boots correctly. **No design debate at this layer** — that already happened upstream.
+
+## Mandatory platform command router
+
+This skill keeps shell recipes OUT of the body of `SKILL.md`. Before you run any command, select exactly one platform command reference and use only that file's recipes.
+
+Router:
+
+1. Read `<agent-context>.platform`.
+2. If `platform` is `win32`:
+   - REQUIRED: read `references/commands-windows-powershell.md`.
+   - Use PowerShell recipes from that file only.
+   - Do NOT use bash snippets, `mkdir -p`, `$(pwd)`, or `rm -rf`.
+3. If `platform` is `darwin` or `linux`:
+   - REQUIRED: read `references/commands-macos-linux.md`.
+   - Use bash/zsh recipes from that file only.
+4. If `platform` is missing or unknown:
+   - Do a tiny preflight to identify the shell/platform before running anything.
+   - If still unclear, ask the user which environment is running the command.
+
+Never translate shell commands across platforms from memory. The platform reference files own the recipes for every step that touches the filesystem (`scaffold-project-rein`, `cwd`, `verify-project-rein`, `delete-project-rein`).
+
+## Pick the path before you touch the disk
+
+| Caller / situation | Where it goes | How to scaffold |
+|---|---|---|
+| Default. Reusable across the user's projects (`coder`, `verifier`, custom helper). | `~/.mavis/agents/<name>/` | `mavis agent new <name>` then edit `agent.md` |
+| Project rein. Caller passed `target=project` (init-harness, or user said "add a rein to this project"). | `<repo>/.harness/reins/<name>/` | Use the `scaffold-project-rein` recipe from the platform command reference, then write `agent.md` directly |
+
+If you're not sure which, ask the upstream caller — don't guess.
+
+## Five steps
+
+### 1. Pick the name
+
+- **kebab-case**, maps 1:1 to the directory name.
+- Name by **responsibility**, not seniority: `payments-expert` ✓ / `senior-dev` ✗.
+- Check it's free: `mavis agent info <name>` returning details = name taken, pick another.
+
+### 2. Scaffold
+
+**Standalone agent**:
+```bash
+mavis agent new <name> \
+  --description "<one line — what role this agent plays>" \
+  --display-name "<friendly name>"
+```
+The CLI writes a generic `agent.md` you'll replace in step 3.
+
+**Project rein**:
+
+Use the `scaffold-project-rein` recipe from the selected platform command reference (it creates `.harness/reins/<name>/` for the current platform). No CLI for this path — write `agent.md` directly in step 3.
+
+### 3. Write `agent.md` (this IS the system prompt)
+
+The body must answer four questions in order. Skipping any leaves the agent vague.
+
+```markdown
+---
+name: <name>                   # MUST match the folder name
+description: <one concrete sentence — shown to the orchestrator when picking who to delegate to>
+---
+
+# <Display Name>
+
+You are the <role> for <project / scope>.
+
+## Scope
+- Own: <paths / systems / responsibilities>
+- Don't own: <what you hand off, to whom>
+
+## How you work
+- <key convention>
+- <link to project docs instead of inlining rules>
+
+## Stop when
+- <concrete checklist — "build passes, tests pass, MR opened">
+```
+
+**Bad body** (it gets ignored):
+> "You are a senior developer who writes high-quality, maintainable code."
+
+**Good body** (drives behavior):
+> "You own `packages/api`. You hand off UI work to `ui-expert` and infra changes to `daemon-expert`. You're done when the change builds, the affected package's tests pass, and you've posted a one-line summary to the orchestrator."
+
+### 4. Add the optional pieces — only what you need
+
+| File | Add when | How |
+|---|---|---|
+| `config.yaml` | The default model is wrong for this role | `model: <provider>/<model>` (and `thinking:` block for reasoning models — check `~/.mavis/config.yaml` for the exact shape per model) |
+| `PERSONA.md` | Tone / voice / brevity matters (frontend chat agent vs backend grunt) | Body shapes voice, NOT operational rules — those go in `agent.md` |
+| `skills/<name>/` | Agent needs a private skill | Use the `skill-creator` skill, don't hand-roll |
+| `hooks/<name>.md` | Need a tool gate | Use `mavis hook create ...` (load `mavis` skill → `references/hook.md` for the schema) |
+| `crons/<name>.md` | Recurring task this agent owns | Use `mavis cron create ...` (load `mavis` skill → `references/cron.md`) |
+
+Skip what you don't need. Empty folders just create noise.
+
+### 5. Verify it boots
+
+```bash
+mavis agent info <name>      # prints prompt + config — proves the file parsed
+mavis agent list --human     # standalone agent shows up here
+mavis skill list <name>      # what skills the agent can see
+```
+
+To list project reins, use the `verify-project-rein` recipe from the selected platform command reference (it passes the current working directory to `mavis agent list --project ...`).
+
+If the agent is missing from the list:
+
+| Symptom | Fix |
+|---|---|
+| `mavis agent info` works but list doesn't show it | YAML frontmatter probably broken — check `name:` matches folder, frontmatter closed with second `---` |
+| Project rein not visible | Folder is `.harness/reins/<name>/` (plural `reins`, NOT `rein`) and contains `agent.md` |
+| Frontmatter parse error in logs | No tab indent. `name:` and `description:` are plain strings on their own lines |
+
+## After creation: report up
+
+- If `mavis-team` called you: write the new agent's name into the plan / continue routing.
+- If `init-harness` called you: continue the bootstrap procedure.
+- If the user called you: confirm the agent was created (give the path), then ask what to do with it (start a session, plug it into a plan, etc.).
+
+## Pitfalls that bite later
+
+| Pitfall | Why it bites | Avoid by |
+|---|---|---|
+| `description:` is one of "helpful assistant" / "general-purpose agent" / vague | Orchestrator can't pick this agent for delegation — every task looks equally relevant | One concrete sentence about the role's actual scope |
+| Two agents with overlapping ownership | Routing becomes random; you can't predict who picks up the task | Tighten both `agent.md` bodies — make scope unambiguous before adding the second |
+| Stop condition is "task is complete" | Agent reports done without verifying anything | Replace with measurable: "build passes, tests pass, MR opened, summary posted" |
+| Inline whole project conventions in `agent.md` body | Body bloats; updates require editing each agent | Link to a single project doc instead (`see .harness/docs/code-standards.md`) |
+| Listing reins inside the orchestrator's `agent.md` | The daemon already injects the team roster at runtime — manual lists drift | Don't list. Each rein's `description:` field is what the orchestrator reads |
+
+## What this skill is NOT for
+
+- Deciding **whether** to add an agent or what roles to add → that analysis lives in `mavis-team` (its router/team-design section)
+- Bootstrapping a brand new project's `.harness/` from scratch → use `init-harness` (it calls back here for each rein)
+- Creating a new skill → use `skill-creator`
+- Editing an existing agent's prompt → just open `<dataDir>/agents/<name>/agent.md` (or the `.harness/reins/<name>/agent.md`) and edit it
+- Deleting an agent → `mavis agent delete <name>` (standalone) or use the `delete-project-rein` recipe from the selected platform command reference, then commit (project rein)
+
+
+========================================
+
+=== init-harness ===
+---
+name: init-harness
+description: Bootstrap a `.harness/` directory — analyze the project codebase and scaffold a multi-agent team for a coding project. Auto-loaded when the system prompt contains `<bootstrap_check>` (cold-start in a git workspace with no `.harness/`); users can also invoke via "init harness" / "bootstrap project team" / "set up agents for this repo". Coding-specific. For non-coding teams or for adding agents to an existing project, use `mavis-team` (router) and `create-agent` (writes the files).
+---
+
+# Init Harness
+
+You're here because a coding project has no `.harness/` yet and someone wants you to bootstrap one. Your job: read enough of the codebase to know what team it needs, then write the `.harness/` files.
+
+This skill handles the cold-start path only. **Team-design rules** (how many agents, which roles, stop conditions) live in the `mavis-team` skill — section "Team-design checklist". **Single-agent file schemas** (agent.md / config.yaml / hooks / crons) live in the `create-agent` skill. Load both before writing files.
+
+## Execution Context
+
+You are most likely invoked from a **dedicated worker session** that the orchestrator spawned just for this bootstrap (the orchestrator must not run init itself — that would pollute its conversation context with file scanning + writing). Run the procedure end-to-end inside this session, write the `.harness/` files, then emit a concise deliverable summary for the orchestrator to review with the user.
+
+If you find yourself in an orchestrator session anyway (the user explicitly asked), still finish the work — but be aware the context will be heavier afterwards.
+
+## When to use
+
+- The system prompt contains `<bootstrap_check>`.
+- The user explicitly asks to bootstrap, init, or set up a project team.
+
+If the workspace is not a meaningful git repo or has no real code, **do not bootstrap**. Explain why.
+
+## Bootstrap procedure
+
+### 1. Identify the workspace shape
+Single repo, monorepo, or parent dir with multiple repos. (See "Multi-repo exception" below if it's the third.)
+
+### 2. Inspect the codebase — evidence over guesses
+- Manifests: `package.json`, `go.mod`, `Cargo.toml`, `pyproject.toml`
+- Top-level directories and dominant languages / frameworks
+- CI/CD configuration
+- Recently active areas (last few weeks of commits)
+
+### 3. Decide the team
+Load the `mavis-team` skill and apply its **Team-design checklist** (section 2). The default for a coding project:
+- Orchestrator (the Harness itself) + `developer` + `tester` always.
+- `code-reviewer` if the project has quality gates / external delivery / security surface.
+- 1–4 domain specialists named by responsibility (e.g. `daemon-expert`, `ui-expert`).
+- 3–7 agents total. Resist padding.
+
+You don't need user consent here — `<bootstrap_check>` is the consent. But the deliverable summary at the end should let the user veto specific reins.
+
+### 4. Write the files
+For each rein, load the `create-agent` skill and follow it with `target=project --project <repo-path>`. This puts the file in `<repo>/.harness/reins/<name>/agent.md` instead of `~/.mavis/agents/`.
+
+Then write the orchestrator (Harness) file at `<repo>/.harness/agent.md` — same `agent.md` schema as a rein, just at the Harness level. Its body is the orchestrator's routing brain (when it handles directly vs delegates, what acceptance looks like). **Do NOT list reins inside the orchestrator's body** — the daemon injects the team roster at runtime, and a hand-maintained list will drift.
+
+### 5. Add coding-specific extras (only what the project actually needs)
+
+These are coding-project fixtures that don't make sense for a generic agent — keep them in `.harness/`:
+
+| File / dir | Add when |
+|---|---|
+| `.harness/docs/<topic>.md` | Project standards (code style, git workflow, test policy) — link from `agent.md` bodies instead of inlining |
+| `.harness/changelogs/YYYY-MM-DD.md` | Project tracks per-day commit changelogs |
+| `.harness/hooks/<name>.md` | Project-wide tool gate (use `mavis hook create` so the daemon validates as it writes) |
+| `.harness/crons/<name>.md` | Project-wide scheduled task |
+| `.harness/memory/MEMORY.md` | Shared team memory across reins |
+
+Skip empty directories.
+
+### 6. Tell the user
+Print:
+1. Path of the created `.harness/` directory.
+2. Roster summary (orchestrator + each rein with one-line description).
+3. Reminder: commit `.harness/` to git — the directory IS the team definition.
+4. How to grow it later: load `create-agent` to add a rein; load `mavis-team` to use the team for tasks.
+
+## Multi-repo exception
+
+If the workspace is a parent directory containing multiple independent git repos:
+
+- Create a root `.harness/` that explains what each repo is for and how they relate.
+- Bootstrap each real sub-repo separately with its own local `.harness/`.
+- Keep the root Harness focused on cross-repo navigation and coordination.
+
+## Guardrails
+
+- Base the team on what the repo actually needs, not on a generic template.
+- Keep `agent.md` bodies short and operational — link to `docs/` instead of inlining rules.
+- Prefer fewer specialists with clear ownership over many overlapping agents.
+- If you're unsure whether a specialist is needed, leave it out.
+- Do NOT hardcode a `git commit` step into the bootstrap itself — let the user commit when they're ready.
+
+
+========================================
+
+=== lark-tools ===
+---
+name: lark-tools
+description: >-
+  Feishu/Lark full-capability access via the official `lark-cli` (terminal) plus minimal daemon
+  endpoints for onboard and bot status. Use this skill whenever the user mentions anything
+  related to Feishu or Lark, including but not limited to: checking today's schedule or a
+  specific date's agenda, creating calendar events, querying free/busy status, viewing or
+  creating tasks, searching group chats, reading chat history, sending or replying to messages,
+  looking up contacts or user details, querying or writing Bitable (multi-dimensional table)
+  records, searching documents, or running any lark-cli subcommand. Even if the user simply
+  says "check my schedule", "send a message to someone", "find a doc about X", or "look up who
+  Zhang San is", this skill applies. Also use it when encountering 401 / LARK_USER_AUTH_REQUIRED
+  errors — this skill handles the auth flow.
+---
+
+# Feishu / Lark Tools
+
+Run Feishu (Lark) operations by invoking the official `lark-cli` binary directly from the
+terminal. Credentials live in the global `~/.lark-cli/` store, shared with the bound daemon
+bot — no daemon proxy or per-bot HOME is needed.
+
+The daemon still owns two responsibilities:
+1. **App registration / bot binding** — minting a brand-new Feishu app and persisting its
+   `appId` / `appSecret` into the global lark-cli store (optionally binding it to an agent).
+2. **Bot status** — surfacing whether a bot is bound and whose user token is active.
+
+User OAuth (UAT) is **not** a long-running daemon responsibility — but the daemon does
+**auto-trigger one initial `lark-cli auth login --recommend`** at the end of onboard so the
+fresh app immediately gets a UAT covering the recommended scope set (no manual second step).
+Subsequent runtime increments (a high-sensitivity scope outside `--recommend`) are handled
+by `lark-cli auth login --scope "..."` directly when an agent first hits a missing-scope
+error.
+
+Everything else (calendar, IM, base, docs, tasks, …) is a plain `lark-cli` invocation.
+
+## Mandatory platform command router
+
+`lark-cli` itself is cross-platform, but the **setup glue** in this skill (resolving the daemon URL from `daemon.port`, polling onboard status with `curl`, parsing JSON) is shell-specific. Before running any setup command, select exactly one platform command reference and use only that file's recipes.
+
+Router:
+
+1. Read `<agent-context>.platform`.
+2. If `platform` is `win32`:
+   - REQUIRED: read `references/commands-windows-powershell.md`.
+   - Use PowerShell recipes from that file only (`ConvertFrom-Json`, `Invoke-RestMethod`, `Join-Path`, etc.).
+   - Do NOT use bash snippets, `command -v`, `cat`, `sed`, or `jq` pipelines.
+3. If `platform` is `darwin` or `linux`:
+   - REQUIRED: read `references/commands-macos-linux.md`.
+   - Use bash/zsh recipes from that file only.
+4. If `platform` is missing or unknown:
+   - Do a tiny preflight to identify the shell/platform before running anything.
+   - If still unclear, ask the user which environment is running the command.
+
+Never translate shell commands across platforms from memory. The platform reference files own every recipe for `install-lark-cli`, `resolve-daemon-url`, `bot-status`, `auth-status`, `onboard-start`, `onboard-poll`, and `onboard-cancel`. The body of this skill keeps the high-level flow; the reference files keep the platform-specific glue.
+
+## Quick Start
+
+0. **Ensure `lark-cli` is installed** — see [Install lark-cli](#install-lark-cli)
+1. **Resolve the daemon URL** (once per session) — see [Resolve Daemon URL](#resolve-daemon-url)
+2. **Check bot binding** — ensure a Feishu bot is connected to the agent
+3. **Check user auth** — ensure the user has authorized via OAuth
+4. **Run lark-cli** — see [Calling lark-cli](#calling-lark-cli) and the per-domain sub-skills
+
+## Install lark-cli
+
+`lark-cli` is the official Feishu/Lark CLI binary that this skill drives. It is **not** bundled
+with mavis and is not installed by default — every later command in this skill assumes
+`lark-cli` is on `$PATH`. **Always run the `install-lark-cli` recipe from the selected platform command reference first**; if missing, install it for the user before doing anything else.
+
+The npm package is **`@larksuite/cli`** (provides the `lark-cli` binary). Do not guess other package names.
+
+Notes:
+
+- If the global install fails with a permission error, tell the user and offer either an elevated install (e.g. `sudo npm install -g @larksuite/cli` on macOS/Linux, or running PowerShell as Administrator on Windows) or a per-user prefix. **Never run `sudo` without telling the user first.**
+- After install, do **not** run `lark-cli config init` — the daemon onboard flow
+  (see [Bot Binding](#bot-binding)) populates the global lark-cli store directly.
+- For upgrades after first install, see the update notice handling in
+  `cli-skills/lark-shared/SKILL.md` (`npm update -g @larksuite/cli`).
+
+## Resolve Daemon URL
+
+Run this first in every session. The daemon port is dynamic, so hardcoding `localhost:5321`
+will break when the port changes.
+
+Use the `resolve-daemon-url` recipe from the selected platform command reference. It produces a single variable (`DAEMON_BASE` on bash; `$DaemonBase` on PowerShell) the rest of this skill can interpolate. The recipe reads `<dataDir>/daemon.port` first and falls back to `mavis status` parsing if the file is missing.
+
+Always use the resolved base URL for the **onboard endpoints** below — `lark-cli` cannot drive
+app-registration, so the daemon owns that one flow. Everything else (auth status, bot
+binding check, calendar / IM / mail / …) goes through `lark-cli` directly, no HTTP call to
+the daemon needed.
+
+Note: all daemon API routes live under the `/mavis` base path, e.g.
+`<DAEMON_BASE>/mavis/api/lark/onboard/start`. Calling `<DAEMON_BASE>/api/...` (without
+the `/mavis` prefix) falls through to the SPA HTML and returns garbage HTML to your JSON
+parser — do not strip the prefix.
+
+## Bot Binding
+
+Before any Feishu operation, verify that a Feishu bot is connected. Without a bot, the global
+lark-cli store has no Feishu app credentials and `lark-cli api ...` cannot make API calls.
+
+### Check connection status
+
+Use the `bot-status` recipe from the selected platform command reference. It runs `lark-cli auth status` and parses the JSON result with the platform-native parser (`jq` on macOS/Linux, `ConvertFrom-Json` on PowerShell).
+
+- **No output / no `appId`** — no app is bound, proceed to register a new bot below.
+- **`appId` present, `identity: "bot"`** — bot is bound but the user has not authorized
+  (or the UAT expired). Jump to [User Authentication](#user-authentication).
+- **`appId` present, `identity: "user"`, `tokenStatus: "valid"`** — fully ready, proceed
+  with the user's request. Check the `scope` field to confirm the requested operation's
+  permission is included.
+
+### Register a new bot — recommended one-click flow
+
+The `/api/lark/onboard/*` endpoints drive **two** device flows back-to-back: first
+**app-registration** (mints a brand-new PersonalAgent app + writes its `appId` / `appSecret`
+into the global lark-cli store), then **user OAuth** with `lark-cli auth login --recommend`
+(grabs the recommended scope set in one shot). The status field reports each phase so the
+UI can show two separate QRs.
+
+Use the `onboard-start` recipe from the selected platform command reference (it POSTs to
+`<DAEMON_BASE>/mavis/api/lark/onboard/start` with `{"name":"main"}` and captures `sessionId`,
+`verificationUriComplete`, `userCode`, `expiresIn`, `intervalSec`).
+
+Present `verificationUriComplete` (and the `userCode`) to the user and ask them to scan with
+the Feishu app to approve the new PersonalAgent app.
+
+Use the `onboard-poll` recipe from the same reference to poll
+`<DAEMON_BASE>/mavis/api/lark/onboard/status?sessionId=<id>` every `intervalSec` seconds.
+
+The status field walks through:
+
+1. `app_pending` — first QR (app-registration consent). Show
+   `verificationUriComplete` + `userCode`.
+2. `user_pending` — second QR (user OAuth with `--recommend`). Show
+   `userVerificationUriComplete` + `userCode` (different from the app phase).
+3. `done` — bot is bound, runner is live, and the user has a UAT covering the
+   recommended scope set. No further action needed.
+
+If the user only needs the bot identity (no user-side calls), `user_pending` can be skipped
+by passing `{"skipUserAuth": true}` to `/api/lark/onboard/start`.
+
+If the user closes the dialog or you want to abort, use the `onboard-cancel` recipe (POSTs
+to `<DAEMON_BASE>/mavis/api/lark/onboard/cancel` with the captured `sessionId`).
+
+When `status` becomes `done`, the daemon has written the global lark-cli config and the
+encrypted appsecret + UAT under the OS-specific lark-cli storage directory (see
+`references/storage-paths.md` for the per-OS table). Both app-level **and** user-level
+`lark-cli` calls work immediately. **Only when an operation later requires a high-sensitivity
+scope outside the recommended set** does an agent need to run `lark-cli auth login --scope "..."`
+— see [User Authentication](#user-authentication) below.
+
+If the request body includes `agentName`, the daemon also binds the freshly-minted
+`(appId, appSecret)` to that agent's IM config and starts the channel-bridge plugin runner
+in-process — the bot is live without restarting the daemon.
+
+## User Authentication
+
+User credentials live in the global lark-cli store, keyed by `(appId, userOpenId)` and
+shared with the terminal `lark-cli`. The actual on-disk paths differ per platform — see
+`references/storage-paths.md` for the per-OS table; this skill never assumes any specific
+host OS path.
+
+In mavis, the daemon onboard flow already runs `lark-cli auth login --recommend` once at
+the end (see [Bot Binding](#bot-binding)) — the bound app starts with a UAT covering
+the recommended scope set, no manual second step needed.
+
+**Increments** happen lazily: when a specific call requires a scope the current UAT does
+not have (a high-sensitivity scope outside `--recommend`), `lark-cli` prints the exact
+`lark-cli auth login --scope "..."` invocation needed; rerun with that suggestion and the
+new UAT is written into the same global store on success. Do **not** re-run `--recommend`
+to "refresh" — it will pop another auth window for the user without adding any scope.
+
+### Check auth status
+
+Use the `auth-status` recipe from the selected platform command reference. It runs
+`lark-cli auth status` and parses the JSON with `jq` (macOS/Linux) or `ConvertFrom-Json`
+(PowerShell), returning the same `{appId, identity, userOpenId, userName, tokenStatus, scope, expiresAt}` shape.
+
+If `identity == "user"` and `tokenStatus == "valid"` and the requested operation's scope
+is in the `scope` field, auth is valid — proceed with the user's request. Otherwise run
+`lark-cli auth login` (see [User Authentication](#user-authentication)).
+
+To actually call the server (catches stale-but-not-yet-expired tokens), use
+`lark-cli auth status --verify`. It returns the same JSON plus `verified: true|false`.
+
+### Interop with the terminal `lark-cli`
+
+Because the daemon writes and reads the same store as the official `lark-cli`:
+
+- After daemon onboarding finishes, **both** the appsecret and a recommended-scope UAT are
+  populated — the user can use the bot immediately, no terminal step required.
+- After the user runs `lark-cli auth login --scope "..."` in the terminal to add an extra
+  scope, the next daemon API call sees the freshly-issued UAT (and refreshes pick up new
+  tokens written by `lark-cli`).
+- `lark-cli config init` is **not** required — the daemon's app-registration flow already
+  populates `apps[0]`.
+
+## Calling lark-cli
+
+**MANDATORY: Before running any `lark-cli` shortcut (`+messages-send`, `+chat-search`,
+`+agenda`, etc.), you MUST Read the corresponding sub-skill reference file first.** The
+examples below are just a starting point — they do NOT cover formatting caveats, content
+flags (`--text` vs `--markdown` vs `--content`), or identity requirements. The reference
+files contain critical details that, if missed, cause silent data loss (e.g. empty
+messages, wrong format).
+
+Use the Sub-Skills Index below to find the right reference file for each shortcut.
+
+Once auth is in place, invoke `lark-cli` directly. Use `--as user` for personal resources
+(calendar / drive / tasks) and `--as bot` for application-level operations (inbound IM /
+event subscribe). The per-domain sub-skills under `cli-skills/` document concrete command
+syntax; the cheat sheet below is just a starting point.
+
+```bash
+# Generic OpenAPI passthrough (works for any documented Feishu endpoint)
+lark-cli api GET  /open-apis/contact/v3/users/<user_id> --as user
+lark-cli api POST /open-apis/im/v1/messages --as bot --params '{"receive_id_type":"chat_id"}' --data '{...}'
+
+# Calendar — today's agenda + create event
+lark-cli calendar +agenda --as user --format json
+lark-cli calendar +create --as user --summary "Team Sync" --start 2026-04-01T14:00 --end 2026-04-01T15:00
+
+# IM — search chats, list messages, send / reply
+lark-cli im +chat-search          --as user --query "周报" --format json
+lark-cli im +chat-messages-list   --as user --chat-id oc_xxx --format json
+lark-cli im +messages-send        --as bot  --chat-id oc_xxx --markdown "Hello"
+lark-cli im +messages-reply       --as bot  --message-id om_xxx --markdown "Reply"
+
+# Task / Base / Contact — same pattern
+lark-cli task    +get-my-tasks    --as user --format json
+lark-cli base    +record-list     --app-token bascnXXX --table-id tblXXX --format json
+lark-cli contact +search-user     --as user --query "张三" --format json
+```
+
+Most subcommands print JSON when you pass `--format json`; pipe to `jq` to extract
+fields. A few commands print JSON unconditionally (e.g. `lark-cli auth status`,
+`lark-cli auth list`) — no `--format` flag needed for those.
+
+**Multi-bot environments** — when multiple bots are bound, pass `--as user --app-id <appId>`
+(or use `lark-cli auth use <appId>` to switch the default) to disambiguate. With a single
+bot, the only entry in `apps[]` is auto-selected.
+
+## Sub-Skills Index (Load on Demand)
+
+Each entry maps to `cli-skills/<name>/SKILL.md`. **Before using any sub-skill, you MUST first
+Read `cli-skills/lark-shared/SKILL.md`** — it covers the cross-cutting basics (identity
+selection, scope concepts, permission-denied handling, security rules) and now aligns with
+the mavis flow described above (daemon owns app-registration **and** auto-runs
+`lark-cli auth login --recommend` at the end of onboard; runtime increments use
+`--scope`, never `--domain`).
+
+**Then Read the specific sub-skill's reference file** for the shortcut you're about to use
+(e.g. `cli-skills/lark-im/references/lark-im-messages-send.md` before calling `+messages-send`).
+Do NOT rely on the quick examples above — they omit critical formatting and content-flag details.
+
+| Scenario keywords | Sub-skill | Path |
+|-------------------|-----------|------|
+| Calendar / agenda / meeting room / free-busy / RSVP | lark-calendar | `cli-skills/lark-calendar/SKILL.md` |
+| Tasks / todos / lists / assignments | lark-task | `cli-skills/lark-task/SKILL.md` |
+| Send/receive messages / group chats / chat history / upload-download images & files | lark-im | `cli-skills/lark-im/SKILL.md` |
+| Contacts / find people / lookup open_id / departments | lark-contact | `cli-skills/lark-contact/SKILL.md` |
+| Create / edit / read Feishu cloud documents | lark-doc | `cli-skills/lark-doc/SKILL.md` |
+| Drive file management / upload-download / import docs / comments | lark-drive | `cli-skills/lark-drive/SKILL.md` |
+| Spreadsheet read/write / export | lark-sheets | `cli-skills/lark-sheets/SKILL.md` |
+| Bitable / Base / fields / records / views | lark-base | `cli-skills/lark-base/SKILL.md` |
+| Wiki / knowledge base / space members / nodes | lark-wiki | `cli-skills/lark-wiki/SKILL.md` |
+| Slides / PPT create and read | lark-slides | `cli-skills/lark-slides/SKILL.md` |
+| Whiteboard | lark-whiteboard | `cli-skills/lark-whiteboard/SKILL.md` |
+| Whiteboard CLI advanced ops | lark-whiteboard-cli | `cli-skills/lark-whiteboard-cli/SKILL.md` |
+| Email send/receive / drafts / rules / attachments | lark-mail | `cli-skills/lark-mail/SKILL.md` |
+| Video conference history / recordings | lark-vc | `cli-skills/lark-vc/SKILL.md` |
+| Minutes list / download / AI artifacts | lark-minutes | `cli-skills/lark-minutes/SKILL.md` |
+| Approval instances / tasks | lark-approval | `cli-skills/lark-approval/SKILL.md` |
+| Attendance / clock-in records | lark-attendance | `cli-skills/lark-attendance/SKILL.md` |
+| Real-time event subscription (WebSocket) | lark-event | `cli-skills/lark-event/SKILL.md` |
+| Find native un-wrapped OpenAPI | lark-openapi-explorer | `cli-skills/lark-openapi-explorer/SKILL.md` |
+| Custom Skill authoring | lark-skill-maker | `cli-skills/lark-skill-maker/SKILL.md` |
+| Bulk meeting minutes processing | lark-workflow-meeting-summary | `cli-skills/lark-workflow-meeting-summary/SKILL.md` |
+| Agenda + todo standup digest | lark-workflow-standup-report | `cli-skills/lark-workflow-standup-report/SKILL.md` |
+| Shared base (identity / scope / safety rules) | lark-shared | `cli-skills/lark-shared/SKILL.md` |
+
+**Loading examples**:
+- User: "Show me today's schedule" → Read `cli-skills/lark-shared/SKILL.md` + `cli-skills/lark-calendar/SKILL.md`
+- User: "Add a row to the Bitable" → Read `cli-skills/lark-shared/SKILL.md` + `cli-skills/lark-base/SKILL.md`
+
+---
+
+## Tips
+
+- **Multi-bot environments** — when multiple bots are bound, disambiguate with
+  `--app-id <appId>` (or `lark-cli auth use <appId>`). With one bot, it is auto-selected.
+- **401 / LARK_USER_AUTH_REQUIRED** — the user's OAuth token is missing or expired. If the
+  daemon onboard flow ran `--recommend` already, the UAT should be present; if it expired,
+  re-run `lark-cli auth login --recommend` (one-shot, recommended scope set). If a specific
+  call needs an **extra** scope outside `--recommend`, `lark-cli` itself prints the exact
+  `lark-cli auth login --scope "..."` invocation to use; rerun with that suggestion. **Do
+  not use `--domain`** — it is per-domain and forces the user through a separate auth
+  window for each module they touch.
+- **Bitable requires tokens from the URL** — you need the `appToken` (from the table URL)
+  and `tableId` (from `lark-cli base +table-list`).
+
+
+========================================
+
+=== llm-call ===
+---
+name: llm-call
+description: Call a configured LLM model directly through the local script using provider settings from config.yaml. Use this skill when the user wants a raw model call, prompt test, provider/model comparison, or asks to send text to a specific GPT/Claude/Gemini model. Do not use it for normal Mavis agent execution.
+---
+
+# LLM Call
+
+Replace `<skill_dir>` with the actual skill path shown by the loader.
+
+## Procedure
+
+1. Read the user's target model and prompt.
+2. **Always pass `--model provider/model`**. If the user didn't name a specific model, pick a sensible default or run `--list` first to check available models.
+3. Pass `--system`, `--max-tokens`, `--temperature`, `--stream`, or `--config` only when the task clearly requires them.
+4. The script auto-detects config.yaml from the parent data dir hint when available, falling back to `~/.mavis/config.yaml`. Use `--config` when calling a non-default profile explicitly.
+5. Return the model output directly. If the call fails, summarize the provider or config error without inventing a fallback.
+
+## Protocol mapping
+
+- `@ai-sdk/anthropic` -> `messages`
+- `@ai-sdk/openai` -> `chat/completions`
+- `@ai-sdk/google` -> `models/{model}:generateContent`
+
+## Examples
+
+The script is a plain `.py` file — pick the Python launcher that exists on the host:
+
+| Platform | Launcher |
+|---|---|
+| macOS / Linux | `python3` (preferred) or `python` if it points at Python 3 |
+| Windows | `py -3` (preferred) or `python` |
+
+Example invocations (substitute the launcher above for `<py>`):
+
+```bash
+<py> <skill_dir>/scripts/llm_call.py --model anthropic/claude-sonnet-4-6 --prompt "Explain this in one sentence"
+<py> <skill_dir>/scripts/llm_call.py --model gemini/gemini-2.5-pro --system "Be brief" --prompt "Summarize this"
+<py> <skill_dir>/scripts/llm_call.py --list
+```
+
+Do not assume `python3` exists on Windows — it is not part of a default install. Use `py -3` or
+the launcher resolved at runtime.
+
+## Failure handling
+
+- If config.yaml is missing or incomplete, say which provider or credential is missing.
+- If the requested model is not configured, ask the user to choose from configured models.
+- If the HTTP request fails, surface the provider error; do not silently retry with another model.
+
+
+========================================
+
+=== mavis ===
+---
+name: mavis
+description: "Mavis runtime entry point. Use this skill for any task about Mavis itself. Trigger when: user asks how to configure or use Mavis, list/inspect/create/update agents, inter-session messaging (use `mavis communication`, not `mavis session`; `finished` means idle/routable, not closed), rotate a session, choose between user/agent/project memory (session memory is removed), schedule a self-reminder while waiting on CI/jobs/batch/human reply, manage hooks (inspect/create/test/delete), control how Feishu or Telegram routes to agents, install or inspect skills, or hot-edit a built-in skill. Also trigger on keywords: mavis agent, mavis session, mavis memory, mavis cron, mavis hook, mavis im, mavis skill, rotate session, report back to parent, set a reminder, wait for CI. Sub-references to read for each subproblem: user-guide, agent, session-and-communication, memory, cron, hook, im, skill-management, skill-evolution."
+---
+
+# Mavis
+
+Mavis is Mavis itself: the agent runtime, coordination layer, and operating surface behind agents,
+sessions, memory, scheduled work, inbound chat routing, and skill maintenance. This skill is the
+entry point for operating that system.
+
+## Capability Map
+
+| Area | What it covers | Read when you need |
+| --- | --- | --- |
+| `user-guide` | User-facing Mavis usage / configuration questions, daemon basics, config entry points, delegation map | answer “怎么配置 Mavis / Mavis 支持什么 / xxx 怎么用” |
+| `agent` | Agent inventory, config, identity, logs, status, visible skills | inspect or update an agent; discover what an agent can use |
+| `session-and-communication` | Session lifecycle, message history, main-session rotation, inter-session messaging, peer discovery, report-back patterns | inspect sessions; send results to parent/main; track delegated work |
+| `memory` | User / agent / project memory, topic files, cleanup model, what belongs where; session memory is removed | write memory correctly; read or structure long-term memory |
+| `cron` | Scheduled tasks, self-reminders, active-hours gating, IM delivery, polling slow operations | wait for CI/jobs/human replies without blocking; run recurring checks |
+| `hook` | Hook registry inspection, creation, update, deletion, dry-run testing, event payloads, gating semantics | inspect or modify Mavis hooks; test tool/session gates; explain where hook files live |
+| `im` | Feishu / Telegram bridge status, route rules, defaults, session strategy selection | control how inbound chats map to agents and sessions |
+| `skill-management` | Skill inventory, visibility, installation, file-level create/update/delete/copy, source/runtime locations | list, inspect, install, or manage skill files |
+| `skill-evolution` | Built-in skill editing rules, attribution, conservative patching, diff checklist, push-failure handling | update a built-in Mavis skill from runtime signals |
+
+## Read Map
+
+- Need user-facing “怎么用 / 怎么配置 Mavis” questions, daemon basics, or delegation to a more specialized skill -> `references/user-guide.md`
+- Need agent inspection, status, logs, identity, or skill discovery -> `references/agent.md`
+- Need session lifecycle, inter-session messaging, parent report-back, or peer discovery -> `references/session-and-communication.md`
+- Need to decide whether something belongs in session / agent / user memory -> `references/memory.md`
+- Need recurring checks, delayed follow-up, or a self-reminder for async work -> `references/cron.md`
+- Need hook registry CLI commands, hook file shape, event payloads, matchers, or dry-run testing -> `references/hook.md`
+- Need to route Feishu or Telegram inbound traffic to the right agent/session strategy -> `references/im.md`
+- Need to list, inspect, install, create/update/delete/copy skill files -> `references/skill-management.md`
+- Need to edit a built-in skill from evolution signals without bloating or damaging it -> `references/skill-evolution.md`
+
+## Mandatory platform command router
+
+`mavis` itself is cross-platform, but the worked examples in this skill (multi-line `--content` arguments, environment-variable interpolation, command substitution) are shell-specific. Before running any of the example commands, select exactly one platform command reference:
+
+1. Read `<agent-context>.platform`.
+2. If `platform` is `win32`:
+   - REQUIRED: read `references/commands-windows-powershell.md`.
+   - Use PowerShell recipes from that file only (here-strings with `@'…'@`, `$env:VAR`, `Select-String`, etc.).
+   - Do NOT use bash snippets, single-quoted multi-line strings with `$VAR` interpolation, `cat`, or `2>/dev/null`.
+3. If `platform` is `darwin` or `linux`:
+   - REQUIRED: read `references/commands-macos-linux.md`.
+   - Use bash/zsh recipes from that file only.
+4. If `platform` is missing or unknown:
+   - Do a tiny preflight to identify the shell/platform before running anything.
+   - If still unclear, ask the user which environment is running the command.
+
+The body of this skill stays neutral. Concrete shell recipes (`agent-inspect`, `report-back-to-parent`, `cron-poll-ci`, `cron-reminder`, `hook-list`, `hook-test`, `memory-append`) live in the platform reference files and pick up environment variables (`PARENT_SESSION_ID`, `agentName`, `CURRENT_SESSION_ID`) the right way for that platform.
+
+## Minimal Examples
+
+For each example below, copy the matching recipe from the selected platform command reference (`commands-macos-linux.md` or `commands-windows-powershell.md`):
+
+- `agent-inspect` — inspect an agent and its visible skills (`mavis agent info <name>` and `mavis skill list <name>`)
+- `report-back-to-parent` — send a completion or progress note to your parent session via `mavis communication send`
+- `cron-poll-ci` — schedule a self-reminder to poll CI (`mavis cron self`)
+- `cron-reminder` — schedule a user-requested reminder (default `new` mode, no session context needed)
+- `hook-list` — list hooks for an agent
+- `hook-test` — dry-run a hook with a sample tool input/output payload
+- `memory-append` — append knowledge to an agent's memory file
+
+Do not paste raw bash strings into PowerShell or vice versa. Both reference files emit the same `mavis …` invocations; only the surrounding shell glue differs.
+
+## Rule
+
+Do not treat Mavis as an external business system. If the task is about operating or using Mavis
+itself, start here, then read only the reference doc matching the current subproblem.
+
+Do not create a second routing skill for Mavis usage/configuration questions. Add or adjust a
+`mavis` reference instead, so this skill remains the single routing entry point for Mavis itself.
+
+
+========================================
+
+=== mavis-browser ===
+---
+name: mavis-browser
+description: >-
+  Drive the user's real Chrome browser (login state, cookies, extensions) via `mavis browser tool` CLI.
+  Load when the task needs an existing browser session — logged-in sites (小红书/微博/Gmail/company SSO/SaaS dashboards), saved passwords, or persistent cookies.
+  Do NOT load for public/anonymous pages (use playwright MCP).
+---
+
+# Mavis Browser
+
+Operate a real Chrome browser instance — the user's actual profile with their cookies, logins,
+extensions, and bookmarks — via the `mavis browser tool` CLI.
+
+This skill is the **agent-facing** entry. Implementation/architecture details for daemon
+maintainers live in the `browser-broker-guide` developer skill.
+
+## When to load this skill
+
+| Use this skill | Use playwright MCP instead |
+| --- | --- |
+| Page requires the user to be logged in | Public, anonymous pages |
+| Need cookies / OAuth / SSO state | Anonymous scraping |
+| Acting on user's email / dashboard / SaaS | Render SSR / static HTML |
+| Triggering installed extension features | Headless screenshot / PDF |
+| Persistent browser state matters | One-shot stateless automation |
+
+If the user mentioned their browser, account, "my Chrome", "登录态", or named a specific SaaS
+they're already logged into — you want this skill.
+
+## Prerequisites the user has set up
+
+Verify with `mavis browser status` before invoking tools (one-time per session is enough):
+
+1. The Mavis daemon is running (it owns the broker socket)
+2. The Chrome extension `Mavis Browser Bridge` is loaded (chrome://extensions, `Load unpacked`)
+3. Native messaging manifest is installed for the current profile (`mavis browser install` did this)
+4. The Chrome extension is connected to the daemon broker (popup shows green dot)
+
+If `status` shows broker not connected → tell the user `mavis browser install` is needed first.
+If extension shows red dot in popup → user must reload the extension.
+
+Do NOT try to install or guide the user through install steps interactively unless they ask.
+
+## Calling pattern — always single-tool, JSON-in JSON-out
+
+```bash
+mavis browser tool <tool_name> '<json-args>'
+```
+
+- stdout: response JSON on success (exit 0)
+- stderr: error JSON on failure (exit 1)
+- Timeout: 30s per call (broker default)
+- Most tools run against the user's currently focused tab unless `tabId` is passed. Screenshot is
+  special: it is backed by Chrome `captureVisibleTab` and captures the currently visible active
+  tab/window; activate the target tab before screenshots.
+- First successful call auto-claims a tab to your session
+
+**Tool names are bare** (no `browser_` prefix) — they map 1-to-1 to the Chrome extension's
+internal dispatch table. **Always parse stdout as JSON.** Do not eyeball the output or assume
+shape — read fields.
+
+## The 21 tools
+
+> Tab management ops `status`, `list_claims`, `claim_tab`, `release_tab` are not "tools" — they
+> live as separate broker ops, used via `mavis browser status` etc. The list below is the set
+> the Chrome extension actually executes.
+
+### Tab management (no tab needed)
+
+| Tool | Args | Purpose |
+| --- | --- | --- |
+| `get_active_tab` | `{}` | Returns the currently-active tab's `{tabId, url, title}` |
+| `get_tabs` | `{}` | List every open tab across all browser windows |
+| `open_tab` | `{url?, active?}` | Open new tab in the background by default (`active:false`); pass `active:true` only when the user explicitly wants focus |
+
+### Tab management (needs a claimed tab)
+
+| Tool | Args | Purpose |
+| --- | --- | --- |
+| `close_tab` | `{tabId}` | Close the tab and release the claim |
+| `navigate` | `{tabId?, url}` | Navigate the (default or explicit) tab to a URL |
+
+### Page interaction
+
+| Tool | Args | Purpose |
+| --- | --- | --- |
+| `click` | `{tabId?, selector, index?, timeoutMs?, pollMs?}` | Click an element by selector |
+| `type` | `{tabId?, selector, text, clear?, index?, timeoutMs?, pollMs?}` | Type into an input/textarea/contenteditable |
+| `select` | `{tabId?, selector, value? \| label? \| optionIndex?}` | Pick a `<select>` option |
+| `scroll` | `{tabId?, selector?, x?, y?, timeoutMs?, pollMs?}` | Scroll the page or an element by an offset |
+| `wait` | `{ms, tabId?}` | Sleep for `ms` (does nothing else; use `query` with `timeoutMs` for element-wait) |
+| `press_key` | `{tabId?, key, modifiers?, selector?, timeoutMs?, pollMs?}` | Dispatch a single keyboard `key` (e.g. `Enter`, `Backspace`, `Escape`, `ArrowDown`, single chars like `X`) optionally with `modifiers: ["Ctrl"\|"Shift"\|"Cmd"\|"Alt"\|"Meta"]`; if `selector` is given, focuses that element first. For text-mutating keys (single chars / `Backspace` / `Enter` in textareas) the value is mutated via React-safe native setter so controlled inputs stay in sync |
+
+### Reading
+
+| Tool | Args | Purpose |
+| --- | --- | --- |
+| `query` | `{tabId?, selector?, mode: "text"\|"value"\|"attribute"\|"property"\|"html"\|"list"\|"exists"\|"page_text", attribute?, property?, limit?, timeoutMs?, pollMs?, pattern?, flags?}` | Extract data from the page |
+| `screenshot` | `{tabId?}` | Returns screenshot content for the currently visible active tab/window (often a `data:image/png;base64,...` data URL, not raw base64); **prefer this for "show me" requests after activating the target tab** |
+| `snapshot` | `{tabId?}` | Accessibility-tree snapshot (structured DOM); **prefer this for "find element to click" before issuing clicks** |
+
+### Files / downloads
+
+| Tool | Args | Purpose |
+| --- | --- | --- |
+| `download` | `{url? \| selector?, filename?, conflictAction?, saveAs?, wait?, downloadTimeoutMs?, tabId?}` | Trigger a download via Chrome downloads API; returns `{downloadId, item}` |
+| `list_downloads` | `{limit?, state?}` | List recent downloads with state and local paths |
+| `set_file_input` | `{tabId?, selector, files: [{name, mimeType, base64}, …]}` | Set value of `<input type=file>` |
+
+### Debug / introspection
+
+| Tool | Args | Purpose |
+| --- | --- | --- |
+| `highlight` | `{tabId?, selector, duration?, color?, showInfo?}` | Visually outline an element (debugging aid) |
+| `console` | `{tabId?, clear?, filter?}` | Recent console log entries (requires debugger permission) |
+| `errors` | `{tabId?, clear?}` | Page error / exception messages (requires debugger permission) |
+
+### Network observation
+
+| Tool | Args | Purpose |
+| --- | --- | --- |
+| `network_requests` | `{tabId?, method?, statusCodeRegex?, urlRegex?, clear?}` | List recent HTTP requests captured for the tab. Per-tab ring buffer (max 200; older entries dropped, response includes `truncated:true` and `bufferSize`). Each entry: `{id, url, method, statusCode, type, timestamp, completedAt, durationMs, error}`. `statusCode: 0` indicates a network error before any HTTP response (see the `error` field for the cause, e.g. `net::ERR_NAME_NOT_RESOLVED`). Filters: exact `method`, RegExp on `statusCodeRegex` (e.g. `^2\\d\\d$`), RegExp on `urlRegex`. `clear:true` returns the current snapshot **then** empties the buffer. Returns `{error}` (no throw) on bad regex / tab gone. Passive — uses `chrome.webRequest`, **no response body**; if you need bodies, intercept yourself with a real DevTools session |
+
+## Common patterns
+
+### Pattern: open page → wait → read → activate → screenshot
+
+```bash
+TAB=$(mavis browser tool open_tab '{"url":"https://gmail.com","active":true}' | jq -r '.tabId')
+mavis browser tool query '{"tabId":'$TAB',"selector":"div[role=main]","mode":"exists","timeoutMs":10000}'
+mavis browser tool query '{"tabId":'$TAB',"selector":".unread-count","mode":"text"}'
+mavis browser tool screenshot '{"tabId":'$TAB'}' \
+  | jq -r '.content | sub("^data:image/png;base64,"; "")' \
+  | base64 -d > inbox.png
+```
+
+If you opened the page with `active:false`, activate or focus it before calling `screenshot`; the
+screenshot result is whatever Chrome currently shows, not necessarily the background tab you pass.
+
+### Pattern: snapshot → click via accessibility role
+
+`snapshot` returns a structured DOM tree with roles/names. Use it to find the right
+selector before clicking — much more reliable than guessing CSS:
+
+```bash
+mavis browser tool snapshot '{}' | jq '.content | fromjson | .nodes[] | select(.role=="button" and (.name|contains("Compose")))'
+# → returns a `selector` you can hand to `click`
+```
+
+### Pattern: form fill with saved password manager
+
+Real Chrome will autofill — just focus + click submit:
+
+```bash
+mavis browser tool navigate '{"url":"https://app.example.com/login"}'
+mavis browser tool click '{"selector":"input[name=email]"}'    # triggers autofill prompt
+mavis browser tool wait  '{"ms":500}'
+mavis browser tool click '{"selector":"button[type=submit]"}'
+```
+
+### Pattern: handle multi-profile
+
+Each Mavis daemon profile (e.g. `default`, `dev` worktree) has its own broker socket and its own
+native host name (`com.mavis.browser_<profile>`). The Chrome extension can connect to multiple
+profiles simultaneously — popup shows the list. Tools you call from a worktree daemon route to
+that worktree's broker; main daemon's tabs are isolated. No cross-profile leakage.
+
+To check which profile you're operating in: `mavis browser status` shows current profile.
+
+## Tab claim semantics — important
+
+- Calling any tool on an unclaimed tab auto-claims it for the current session
+- Claim survives tab activity but releases on:
+  - Explicit `release_tab` op (`mavis browser release …`) or `close_tab` tool
+  - Worker session ending (auto-release)
+  - **Root session ending → claim moves to "detached"** (NOT released; next root session can adopt)
+- Two agents/sessions can NOT operate the same tab simultaneously — pass `force: true` when claiming
+- Use `mavis browser status` to see what's claimed by whom
+
+## Troubleshooting
+
+| Symptom | Cause | Fix |
+| --- | --- | --- |
+| `Broker socket not found` | Daemon not running | `mavis start` |
+| `Chrome extension is not connected` | Extension not loaded or disconnected | Open chrome://extensions, ensure `Mavis Browser Bridge` is enabled; popup → Reconnect |
+| `Tab N is owned by another session` | Another agent owns the tab | Claim with `force: true`, or use a different tab |
+| `Tab not found` | Tab was closed or `tabId` is stale | Use `get_tabs` to refresh, then re-claim |
+| Screenshot shows the wrong page | Screenshot captures Chrome's currently active visible tab/window (`captureVisibleTab`) | Open/activate the target tab before screenshot; do not rely on a background `tabId` |
+| `base64 -d` fails on screenshot output | Screenshot content may be a data URL | Strip the `data:image/png;base64,` prefix before decoding |
+| Tool times out (30s) | Page navigation slow / element never appears | Add `wait` before, or pass `timeoutMs` to `query` |
+| Auto-fill doesn't trigger | Chrome only autofills after user interaction in real Chrome | Use `click` on the field instead of `type` |
+| `Permission denied` from native host | Extension manifest mismatched native host name | `mavis browser uninstall` then `mavis browser install` |
+
+## Shortcut commands
+
+```bash
+mavis browser status         # broker state + connected hosts + claims
+mavis browser tools          # list all 21 tools (also fallback when broker down)
+mavis browser install        # one-time setup per profile (writes native messaging manifest)
+mavis browser uninstall      # remove native messaging manifest for current profile
+```
+
+## What NOT to do
+
+- ❌ Do not prefix tool names with `browser_` — that's the CLI command, not the tool name
+- ❌ Do not assume the browser is ready — always `mavis browser status` first if you haven't checked this session
+- ❌ Do not loop-poll without `wait` or `query` `timeoutMs` — wastes broker calls
+- ❌ Do not call `release_tab` aggressively in root sessions — `detached` semantics keep state for the next root session
+- ❌ Do not open foreground tabs unless the user explicitly asks — default to `open_tab {"active":false}` so you do not steal the user's current browser focus
+- ❌ Do not try to install the extension yourself — it's a one-time user action via `mavis browser install` + chrome://extensions
+
+
+========================================
+
+=== mcp-cli ===
+---
+name: mcp-cli
+description: "MCP management — add/configure servers, authenticate, sync skills, browse and call tools."
+---
+
+# MCP Commands
+
+MCP server tools are translated into Agent skills. Agents consume the generated skills and invoke tools via CLI.
+
+## Server Management
+
+### List all servers
+
+```bash
+mavis mcp list
+```
+
+Shows server name, transport type, auth status, skill status, configured/enabled state.
+
+### Add or update a server
+
+```bash
+mavis mcp add <name> '{"url": "https://...", "auth": {"type": "bearer", "token": "..."}}'
+```
+
+Accepts a JSON config. Sets `configured: true` automatically.
+
+### Get a server's raw config
+
+```bash
+mavis mcp get <name>
+```
+
+### Disable a server
+
+```bash
+mavis mcp remove <name>
+```
+
+For builtin servers: resets to unconfigured template. For user-added servers: disables.
+
+## Authentication
+
+Use genUI for collecting credentials. Do not ask the user to paste tokens in terminal output.
+
+### OAuth2 flow
+
+```bash
+mavis mcp auth login <server>
+```
+
+Returns an `authUrl` for the user to visit. Tokens are stored automatically after browser callback.
+
+### Bearer / API key setup
+
+Use `mavis mcp add` with the auth config:
+
+```bash
+mavis mcp add my-server '{"url": "https://...", "auth": {"type": "bearer", "token": "..."}}'
+```
+
+Or use genUI to collect the token, then call `mavis mcp add` via the API.
+
+### Check auth status
+
+```bash
+mavis mcp auth status [server]
+```
+
+## Sync
+
+```bash
+mavis mcp sync
+```
+
+Connects to each configured+enabled server, lists tools, generates skill files. Only regenerates when tools change. Skills take effect in the next session.
+
+```bash
+mavis mcp sync --status
+```
+
+## Tool Discovery
+
+```bash
+mavis mcp tools <server>          # list tools
+mavis mcp tools <server> <tool>   # tool schema details
+```
+
+## Tool Invocation
+
+```bash
+mavis mcp call <server> <tool> '{"param": "value"}'
+```
+
+Use `--timeout <ms>` for long-running operations.
+
+## Typical Workflow
+
+```bash
+# 1. See available servers (including unconfigured builtins)
+mavis mcp list
+
+# 2. Configure a server
+mavis mcp add my-server '{"url": "https://...", "headers": {"api-key": "..."}}'
+
+# 3. Authenticate if needed (OAuth2)
+mavis mcp auth login my-server
+
+# 4. Sync to generate skills
+mavis mcp sync
+
+# 5. Browse tools
+mavis mcp tools my-server
+
+# 6. Call a tool
+mavis mcp call my-server search_docs '{"query": "how to deploy"}'
+```
+
+## Troubleshooting
+
+### Matrix MCP 401 (auth failed)
+
+The built-in `matrix` server uses the access token from the daemon's in-memory **parent
+context** (pushed in by the Mavis desktop app at spawn time and hot-rotated via
+`POST /mavis/internal/auth-context` on login / token refresh). The token is injected into the
+`matrix-mcp-cli` process at **spawn time**. If the daemon had no token when the MCP process
+first started, the process caches an empty token and all subsequent calls fail with 401 — even
+after the daemon receives a fresh token via the hot-update endpoint.
+
+**Symptoms:** `[matrix-mcp-cli:auth] POST /mavis/api/v1/mcp/tools → 401 401: auth failed`,
+while `mavis mcp auth status matrix` shows `authenticated`.
+
+**Fix — force reconnect (re-spawn the MCP process with fresh token):**
+
+```bash
+mavis mcp sync
+```
+
+This tears down the existing connection, re-spawns `matrix-mcp-cli` with the current token
+from the daemon's in-memory parent context, and re-discovers tools.
+
+**If sync still fails with 401:**
+
+1. The token now lives in daemon memory only (no `~/.mavis/auth-{region}.json` file).
+   Confirm the daemon has a token by checking the user-name surface (which travels through the
+   same parent context):
+   ```bash
+   curl -s http://127.0.0.1:$(cat ~/.mavis/daemon.port)/api/agent/mavis | jq .userName
+   ```
+   If `userName` is null/empty, the daemon never received credentials — most likely because
+   Electron pushed them after the initial spawn but the hot-update endpoint failed; check the
+   Electron log for `[Storage] daemon auth-context push` warnings.
+2. If a token is present, it may be expired or revoked — ask the user to **re-login in the
+   Mavis desktop app** (Electron pushes a fresh token to the running daemon via the
+   `/internal/auth-context` HTTP endpoint, no restart required).
+3. After re-login, run `mavis mcp sync` again.
+
+**Root cause:** The MCP connection pool keeps long-lived stdio processes. Updating the
+daemon's in-memory token does NOT propagate to an already-running matrix-mcp-cli process.
+`mavis mcp sync` is the only way to force a re-spawn with the latest token.
+
+## Rules
+
+- Agents use generated skills, not raw MCP tool catalogs.
+- Use genUI for OAuth links and credential input.
+- Use `mavis mcp add` to configure servers — do not edit files directly.
+- `sync` generates skill files — they take effect in the next session.
+
+
+========================================
+
+=== mcp-onboarding ===
+---
+name: mcp-onboarding
+description: "Onboard a new MCP integration — collect config, handle auth, and sync skills without asking the user to run manual setup commands."
+---
+
+# MCP Onboarding
+
+Use this skill when the user says things like:
+
+- “帮我接入 Figma”
+- “把这个 MCP 接进来”
+- “配置一个新的 MCP 服务”
+- “我想让 agent 能用这个外部服务”
+
+## Goal
+
+Hide the raw setup sequence from the user.
+
+The user should only:
+1. provide the service URL / command if needed
+2. click an OAuth link **or** fill one inline auth card
+
+The agent does the rest:
+- `mavis mcp add <name> '<config>'`
+- run auth
+- verify auth
+- run sync
+- confirm the generated skill is ready (takes effect next session)
+
+## Core Product Rule
+
+**Do not ask the user to run `mavis mcp ...` commands manually unless they explicitly insist.**
+
+This skill is the user-facing onboarding flow.
+`mcp-cli` is the low-level management layer used by the agent behind the scenes.
+
+## Single User-Facing Flow
+
+### 1. Collect only missing information
+
+Prefer presets when obvious:
+
+| Service type | Default server id | Default config |
+|---|---|---|
+| Figma | `figma` | `{ "url": "https://mcp.figma.com/mcp" }` |
+| Generic HTTP OAuth MCP | sanitized service name | `{ "url": "<url>" }` |
+| Generic HTTP Bearer MCP | sanitized service name | `{ "url": "<url>", "auth": { "type": "bearer", "token": "<token>" } }` |
+| Local stdio + env token | sanitized service name | `{ "command": "<cmd>", "args": [...], "env": { "<KEY>": "<token>" } }` |
+
+Ask concise follow-up questions only for the fields you truly need:
+- `server id`
+- `url` or `command + args`
+- auth mode when not inferable
+- env key name for stdio token mode
+
+Do **not** dump raw JSON to the user unless they explicitly ask.
+
+### 2. Configure the server via CLI
+
+Use `mavis mcp add` to write the config. The daemon validates and stores it.
+
+Examples:
+
+#### HTTP OAuth (Figma-style)
+
+```bash
+mavis mcp add figma '{"url": "https://mcp.figma.com/mcp"}'
+```
+
+#### HTTP Bearer token
+
+```bash
+mavis mcp add acme-api '{"url": "https://api.example.com/mcp", "auth": {"type": "bearer", "token": "<token>"}}'
+```
+
+#### stdio + env token
+
+```bash
+mavis mcp add gitlab-local '{"command": "npx", "args": ["-y", "@vendor/mcp-gitlab"], "env": {"GITLAB_TOKEN": "<token>", "GITLAB_URL": "https://gitlab.example.com"}}'
+```
+
+## Authentication Flows
+
+### A. OAuth2 servers
+
+Examples: Figma, generic HTTP MCP servers that expose OAuth metadata.
+
+#### Agent behavior
+
+1. Write the server config.
+2. Run:
+
+```bash
+mavis mcp auth login <server>
+```
+
+3. Extract the returned `authUrl`.
+4. Send the user a short message with a clickable markdown link:
+
+```markdown
+请点击这里完成授权： [打开授权页](<authUrl>)
+```
+
+5. After sending the link, continue to handle the rest yourself:
+   - poll `mavis mcp auth status <server>`
+   - when status becomes `authenticated`, immediately run `mavis mcp sync`
+
+#### User-facing rule
+
+The user should not need to know the command sequence. They only click the auth link.
+
+### B. Bearer / PAT / single-token env auth
+
+Reuse the same inline GenUI auth card pattern already used by the Figma and GitLab skills.
+
+Output this tag when a single secret token is needed:
+
+```xml
+<genui-mcp-auth server-id="<server-id>" label="<human label>" placeholder="<token example>" help-url="<docs or settings url>" permissions="<required scopes or permissions>" />
+```
+
+If the service also needs a host field, include `default-host="..."`.
+
+Example:
+
+```xml
+<genui-mcp-auth server-id="gitlab-local" label="GitLab Personal Access Token" placeholder="glpat-xxxxxxxxxxxxxxxxxxxx" default-host="gitlab.example.com" help-url="https://gitlab.example.com/-/user_settings/personal_access_tokens" permissions="api, read_api, read_user, read_repository, write_repository" />
+```
+
+After the user submits, you will receive a message containing a tag like:
+
+```xml
+<genui-mcp-auth server-id="gitlab-local" status="submitted" host="gitlab.example.com" token="glpat-..." />
+```
+
+Extract the values and call `mavis mcp add` with the config.
+
+#### Important
+
+- Never echo the token back to the user.
+- Never ask the user to paste the token into terminal commands.
+- Reuse the existing `genui-mcp-auth` flow; do not invent a new frontend tag.
+
+### C. Multi-field auth beyond `host + token`
+
+Current reusable GenUI support is only `genui-mcp-auth`.
+
+If the integration needs extra **non-secret** fields:
+- collect those fields in normal chat first
+- still use `genui-mcp-auth` only for the secret token
+
+If the integration needs multiple secrets, ask the user one concise follow-up at a time and prefer evolving the UI later rather than leaking secrets in plain text.
+
+## Automatic Completion Sequence
+
+After auth is ready, always complete the rest yourself:
+
+```bash
+mavis mcp auth status <server>
+mavis mcp sync
+mavis mcp list
+```
+
+Expected success state:
+- auth status: `authenticated` or `not_required`
+- generated skill: `active`
+- server enabled: `enabled`
+
+Skills take effect in the next session — no daemon restart needed.
+
+Then tell the user:
+
+```text
+<service> 已接入完成，生成的 skill 为 mcp-<server-id>，下个 session 即可使用。
+```
+
+## Figma Preset
+
+When the user says “接入 Figma”, use this default:
+
+- server id: `figma`
+- URL: `https://mcp.figma.com/mcp`
+- auth mode: OAuth2
+
+Flow:
+1. `mavis mcp add figma '{"url": "https://mcp.figma.com/mcp"}'`
+2. `mavis mcp auth login figma`
+3. send the returned `authUrl`
+4. wait for callback-auth success
+5. `mavis mcp sync`
+6. confirm `mcp-figma` skill is ready
+
+## What Not To Do
+
+- Do not ask the user to hand-edit `mcp.json` or any config files.
+- Do not expose raw command sequences as the primary user workflow.
+- Do not ask the user to run `sync` manually in the normal case.
+- Do not expose raw MCP tool lists to the user as the product surface.
+- Do not invent new GenUI tags when `genui-mcp-auth` is sufficient.
+
+## Completion Message Template
+
+Use a short completion message like:
+
+```text
+已完成接入：<service>
+- server: <server-id>
+- auth: <status>
+- skill: mcp-<server-id>
+- state: ready
+```
+
+
+========================================
+
+=== minimax-docx ===
+---
+name: minimax-docx
+metadata:
+  version: "4.0.0"
+  category: document-processing
+  status: stable
+  author: MiniMaxAI
+  sources:
+    - "ECMA-376 Office Open XML File Formats"
+    - "GB/T 9704-2012 Layout Standard for Official Documents"
+    - "IEEE / ACM / APA / MLA / Chicago / Turabian Style Guides"
+    - "Springer LNCS / Nature / HBR Document Templates"
+description: >
+  Unified DOCX skill — create, template-apply, edit/fill, read, repair, and compare Word documents.
+  Use for formal Word deliverables and DOCX diagnosis. Not for PDF/PPT or casual plain-text drafting.
+triggers:
+  - Word
+  - docx
+  - document
+  - 文档
+  - Word文档
+  - 报告
+  - 合同
+  - 公文
+  - 套模板
+  - 排版
+  - 修目录
+  - 修页眉页脚
+---
+
+# minimax-docx
+
+Replace `<skill_dir>` with the actual skill path shown by the loader.
+
+Unified DOCX skill. `SKILL.md` is the dispatch layer. Pick the route that matches the user’s intent,
+read that route guide, then go straight into execution. Do not front-load every task with the full
+evidence/backend/acceptance waterfall.
+
+## Environment gates
+
+The env gate ships in two equivalent dialects so the skill works on macOS, Linux/WSL, and
+Windows without any cygwin/git-bash hack:
+
+| Platform | Setup | Env check |
+|---|---|---|
+| macOS / Linux / WSL | `bash <skill_dir>/scripts/setup.sh` | `bash <skill_dir>/scripts/env_check.sh --level <lvl>` |
+| Windows (PowerShell 5.1+) | `powershell -ExecutionPolicy Bypass -File <skill_dir>\scripts\setup.ps1` | `powershell -ExecutionPolicy Bypass -File <skill_dir>\scripts\env_check.ps1 -Level <lvl>` |
+
+Both dialects accept the same three levels (`read | render | full`, default `full`) and produce
+the same `[OK] / [FAIL] / Status: READY|NOT READY` lines, so a route may be gated on either one.
+
+The skill loader runs **only the read gate** at load time, so missing dotnet/soffice does not
+block read-only routes.
+
+### Read gate
+
+Checked at skill load time (automatic). Applies to: `READ_CONTENT`, `READ_STRUCTURE`, `COMPARE_TWO_DOCX`.
+
+```bash
+# macOS / Linux / WSL
+bash <skill_dir>/scripts/env_check.sh --level read
+
+# Windows
+powershell -ExecutionPolicy Bypass -File <skill_dir>\scripts\env_check.ps1 -Level Read
+```
+
+Requires: `python3` (or `python` launcher on Windows), `unzip` (or `tar.exe` on Windows 10+), UTF-8 console.
+
+If the read gate fails, the skill cannot load at all.
+
+### Render gate
+
+Run before `READ_RENDERED` routes. Includes all read-level checks plus:
+
+```bash
+bash <skill_dir>/scripts/env_check.sh --level render                                # *nix
+powershell -ExecutionPolicy Bypass -File <skill_dir>\scripts\env_check.ps1 -Level Render   # Windows
+```
+
+Requires (in addition to read): `soffice` / `soffice.exe`, `pdftoppm` (or `pdftocairo`).
+
+If the render gate fails, stop and report. Do not silently fall back to structure-only reads.
+
+### Full gate
+
+Run before `CREATE_DOCX`, `APPLY_TEMPLATE`, `EDIT_FILL_DOCX`, `REPAIR_LAYOUT` routes.
+
+```bash
+bash <skill_dir>/scripts/env_check.sh --level full                                  # *nix
+powershell -ExecutionPolicy Bypass -File <skill_dir>\scripts\env_check.ps1 -Level Full     # Windows
+```
+
+Requires (in addition to render): `dotnet` >= 9, `pandoc`, `zip` (or `Compress-Archive` on Windows),
+dotnet project built.
+
+If the full gate fails, stop and report. Do not attempt generation with missing dependencies.
+
+### Cross-platform path & temp-dir convention
+
+Examples in `docs/` and `references/` are written for *nix shells. When you execute on Windows,
+do these substitutions consistently:
+
+| In the example | Windows substitute |
+|---|---|
+| `<skill_dir>/scripts/foo.sh` | `<skill_dir>\scripts\foo.ps1` (every `.sh` has a `.ps1` peer) |
+| `python3 <skill_dir>/scripts/foo.py` | `python <skill_dir>\scripts\foo.py` (the `.py` files are cross-platform) |
+| `/tmp/minimax-docx-<thing>` | `$env:TEMP\minimax-docx-<thing>` |
+| `bash <skill_dir>/scripts/setup.sh` | `powershell -ExecutionPolicy Bypass -File <skill_dir>\scripts\setup.ps1` |
+| `forward slashes in paths` | backslashes; quote any path containing spaces |
+
+Never invoke a `.sh` script through git-bash on Windows — `setup.sh` will refuse to install
+anything on `MINGW*/MSYS*/CYGWIN*` and tell you to switch to `powershell.exe` / `pwsh.exe`.
+
+## Operational rules — read before doing anything
+
+> **1. Dispatch by user intent, not by backend.**
+>
+> Start with the shortest route choice:
+>
+> - creating a new formal Word deliverable -> `CREATE_DOCX`
+> - preserving content but changing template / institutional style -> `APPLY_TEMPLATE`
+> - editing an existing DOCX in place -> `EDIT_FILL_DOCX`
+> - reading text / structure / rendered pages -> matching read route
+> - fixing visible defects -> `REPAIR_LAYOUT`
+> - comparing two DOCX files -> `COMPARE_TWO_DOCX`
+>
+> Read `docs/router.md` only to settle the route. Do not read `docs/evidence.md`, `docs/backends.md`,
+> and `docs/acceptance.md` before route selection.
+
+> **2. For generation routes, choose style family / recipe before backend.**
+>
+> The old benchmarked generation core stays in this skill. For `CREATE_DOCX` and `APPLY_TEMPLATE`,
+> the first substantive decision is the visual system, not the backend. Reuse these files as the
+> generation core:
+>
+> - `references/typography_guide.md`
+> - `references/design_principles.md`
+> - `references/cjk_typography.md`
+> - `scripts/dotnet/MiniMaxAIDocx.Core/Samples/AestheticRecipeSamples*.cs`
+>
+> These are not optional decoration. They are the quality-preserving recipe layer.
+
+> **3. Backend comes after route + recipe.**
+>
+> - `D` is the default write backend for formal DOCX creation, template application, and most edits.
+> - `S` is only for OpenXML graph work beyond the builtin CLI surface.
+> - `X` is only for deterministic local XML patch / inspection work.
+> - Formal `CREATE_DOCX` is never routed to pandoc as a generation backend.
+> - If a chosen backend gate fails, stop and report it. Do not silently switch.
+
+> **4. Rendered acceptance is a post-write gate, not a pre-dispatch hop.**
+>
+> For template, layout, TOC, multi-section, header/footer, and page-number work, finish the write
+> first, then run rendered acceptance from `docs/acceptance.md` / `docs/rendered-delivery.md`.
+
+> **5. Keep DOCX execution inside this skill.**
+>
+> Do not bounce rendered diagnosis to another skill. Do not treat raw XML string replace as a valid
+> editing strategy. Do not use `readlink`, `$0`, or shell path tricks in skill docs; use `<skill_dir>` only.
+
+> **6. DOCX→PDF is native to this skill.**
+> If the user asks to convert an existing Word/DOCX document to PDF while
+> preserving layout, do it here via `python3 <skill_dir>/scripts/docx_to_pdf.py`
+> (or `soffice --headless --convert-to pdf` as fallback), then verify the PDF.
+> Do not route DOCX→Markdown/HTML→PDF for a preservation task: DOCX already
+> carries page geometry, sections, headers/footers, fields, numbering, and table
+> layout. HTML/PDF belongs to redesign/recomposition after native render fails
+> or when explicitly requested.
+
+## Routes — pick one, then read that guide
+
+### WRITE / GENERATE a DOCX
+
+| Intent | Guide | What happens next |
+|---|---|---|
+| **CREATE_DOCX** — author a new report / proposal / contract / memo / thesis / 公文 | `docs/task-create.md` | normalize source -> choose recipe family -> choose `D`/`S` -> write -> acceptance |
+| **APPLY_TEMPLATE** — preserve content but move into a template / institutional visual system | `docs/task-apply-template.md` | choose template mode -> align recipe family -> read only the needed structure -> choose `D`/`S` -> write -> strict rendered acceptance |
+| **EDIT_FILL_DOCX** — mutate content in an existing DOCX while keeping it the same document | `docs/task-edit-fill.md` | choose edit mode -> choose `X`/`D`/`S` -> mutate -> acceptance |
+
+### READ / DIAGNOSE / REPAIR a DOCX
+
+| Intent | Guide | Primary truth |
+|---|---|---|
+| **READ_CONTENT** — summarize / quote / retrieve text | `docs/task-read-content.md` | content |
+| **READ_STRUCTURE** — inspect styles / sections / numbering / TOC / comments / revisions | `docs/task-read-structure.md` | structure |
+| **READ_RENDERED** — inspect what the pages actually look like | `docs/task-read-rendered.md` | rendered + structure |
+| **REPAIR_LAYOUT** — fix page-level defects | `docs/task-repair-layout.md` | rendered -> structure -> rendered |
+| **COMPARE_TWO_DOCX** — explain before/after or source/template differences | `docs/task-compare-two-docx.md` | content + structure + rendered |
+
+## Deep docs — only after the route is clear
+
+| File | Use when |
+|---|---|
+| `docs/router.md` | settle route choice |
+| `docs/evidence.md` | the selected route needs truth-source clarification |
+| `docs/backends.md` | the selected route needs backend arbitration |
+| `docs/acceptance.md` | you are ready to validate deliverables |
+| `docs/rendered-delivery.md` | rendered issue report shape is required |
+
+## Generation core references
+
+Use these after `CREATE_DOCX` / `APPLY_TEMPLATE` is selected:
+
+| File | Role |
+|---|---|
+| `references/scenario_a_create.md` | create-from-scratch mechanics |
+| `references/scenario_c_apply_template.md` | template transfer and multi-section rules |
+| `references/typography_guide.md` | font pairings, sizes, spacing, page layout, table rules |
+| `references/design_principles.md` | visual judgment rules when exact specs are missing |
+| `references/cjk_typography.md` | CJK fonts, 字号, mixed-script rules, 公文 defaults |
+| `scripts/dotnet/MiniMaxAIDocx.Core/Samples/AestheticRecipeSamples*.cs` | benchmarked recipe families; choose one instead of inventing values |
+
+## Runtime shorthands
+
+```bash
+# macOS / Linux / WSL
+CLI="dotnet run --project <skill_dir>/scripts/dotnet/MiniMaxAIDocx.Cli --"
+TMPDIR_DOCX="${TMPDIR:-/tmp}"
+```
+
+```powershell
+# Windows PowerShell
+$CLI = "dotnet run --project <skill_dir>\scripts\dotnet\MiniMaxAIDocx.Cli --"
+$TmpDocx = $env:TEMP
+```
+
+Common commands (substitute `$TMPDIR_DOCX` / `$TmpDocx` for the literal `/tmp` examples elsewhere
+in `docs/`):
+
+```bash
+$CLI analyze --input in.docx --json
+$CLI diff --before before.docx --after after.docx
+$CLI merge-runs --input out.docx
+$CLI validate --input out.docx --xsd <skill_dir>/assets/xsd/wml-subset.xsd
+$CLI validate --input out.docx --business
+$CLI validate --input out.docx --gate-check <skill_dir>/assets/xsd/business-rules.xsd
+python3 <skill_dir>/scripts/docx_to_pdf.py --input in.docx --output "$TMPDIR_DOCX/docx-render.pdf"
+python3 <skill_dir>/scripts/render_docx_pages.py in.docx --output-dir "$TMPDIR_DOCX/docx-pages"
+```
+
+On Windows substitute `python3` -> `python`, `/` -> `\`, and `$TMPDIR_DOCX` -> `$env:TEMP`. The
+underlying `.py` scripts use `tempfile.TemporaryDirectory` and `Path(...).expanduser().resolve()`
+so they do not care which slash style you pass in.
+
+## Structural non-negotiables
+
+- `w:p` = `pPr` -> runs
+- `w:r` = `rPr` -> text-like children
+- `w:tbl` = `tblPr` -> `tblGrid` -> rows
+- `w:body` ends with `sectPr`
+- heading styles need `OutlineLevel`
+- direct formatting contamination must be stripped unless explicitly preserved
+- template and multi-section work must preserve section graph, `titlePg`, and per-section headers/footers
+
+## Out of scope
+
+- PDF / PPT deliverables -> use `minimax-pdf` / `minimax-pptx`
+- casual plain-text drafting with no DOCX output
+- pretending a Word-authored DOCX can be safely round-tripped through pandoc for formal output
+
+
+========================================
+
+=== minimax-pdf ===
+---
+name: minimax-pdf
+description: >
+  Unified PDF skill — generate, reformat, fill, and read PDFs. Covers: text-to-PDF (reports, resumes, proposals, 可视化报告), LaTeX thesis, Markdown→PDF conversion, PDF form filling, and PDF reading/extraction/OCR.
+  Trigger on any task with PDF as primary input or output. Not for DOCX or PPT.
+metadata:
+  version: '3.0'
+  category: document-pdf
+---
+
+# minimax-pdf
+
+Unified PDF skill. The model chooses the route based on user intent; this SKILL.md is an index. Each
+route has its own guide in `docs/`. Read the guide before authoring or running anything.
+
+## Operational rules — read before doing anything
+
+> **1. Match user query against [`docs/pitfalls-index.md`](docs/pitfalls-index.md) FIRST.** It
+> contains 10 production-ready **canonical query templates** (P1–P10), each with a
+> `Match signatures` block (sample queries) and a complete executable prompt that already encodes
+> every known pitfall, verification gate, and fall-back path. Workflow:
+>
+> 1. Scan the Quick lookup table — match user's query keywords to a row.
+> 2. **Copy the matching canonical query verbatim**, substitute the `Slots` (e.g. `{PDF_PATH}`,
+>    `{OUTPUT_PATH}`) with the user's actual values, and execute step-by-step.
+> 3. Multiple partial matches → fuse: take the strictest verification from each, never relax a
+>    constraint.
+> 4. No match → fall back to the Routes / route guides below.
+>
+> Do NOT skip verification steps in the canonical queries — they exist because past evaluation runs
+> shipped wrong outputs without them.
+
+> **2. Locate before bulk-extracting any non-trivial PDF.** Three independent thresholds, all
+> enforced together:
+>
+> | Threshold                                                              | Rule                                                                                                                                            |
+> | ---------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
+> | **>20 pages** AND user wants a specific datum (not the whole document) | locate-first is **mandatory** — do not run pdfplumber over every page; build a heading index first (pypdf outline → printed TOC → keyword grep) |
+> | **2 blind grep passes** without landing on the target                  | stop and build the heading index, regardless of page count — a 3rd / 4th / 5th keyword search is the most common time sink                      |
+> | **>200 pages**                                                         | always build a heading index up-front, even before the first grep — at this size 6-8 blind greps balloon into 30+ shell calls                   |
+>
+> See [`docs/read-guide.md`](docs/read-guide.md) §3 for the actual outline / TOC / grep recipes.
+
+> **3. Chart pages and complex financial tables — vision, ONE PAGE PER CALL, mandatory.** Any page
+> with a chart / diagram / info-graphic whose values matter, **or** any page with a complex
+> financial / regulatory table (balance sheet, income statement, cash-flow, debt schedule —
+> multi-level headers, merged cells, footnoted sub-totals), MUST go through `read_pdf_vision.py` AND
+> be invoked with `--pages N` (a single page, never a range). pdfplumber returns scrambled fragments
+> on these layouts even when the PDF is text-native; the stitch-and-grow chunker would otherwise
+> pack neighbour pages together and the model will mis-attribute values to the wrong page.
+
+> **4. Verify HTML→PDF page size and chart presence after every render.** Always pass `--format A4`
+> or `--format Letter` explicitly to `make.sh render` — Chromium overrides CSS `@page { size }` when
+> the CLI flag is missing. After render:
+>
+> ```bash
+> pdfinfo out.pdf | grep "Page size"        # must match user intent
+> pdfimages -list out.pdf | tail -n +3 | wc -l   # ≥ 1 per chart / logo
+> ```
+>
+> `pdftotext` cannot see images and will silently pass a chart-less deck. Both checks are mandatory.
+
+> **5. Don't suppress stderr.** `2>/dev/null` is **never** the right choice in this skill
+> (`make.sh render`/`reformat`/`fill`, `read_pdf_vision.py`, `pdfinfo`, `pdftotext`, `pdfimages`,
+> `qpdf`). On failure you lose the only signal that explains why and have to rerun blind. If output
+> is too noisy, redirect to a log file and grep on demand:
+>
+> ```bash
+> python3 -m scripts.read_pdf_vision --input report.pdf --pages 5 \
+>   2>/tmp/vision.log
+> # If the result looks wrong, only then:
+> #   grep -in "error\|trace\|fail\|502\|413" /tmp/vision.log | head -20
+> ```
+
+> **6. Always serialise JSON with `ensure_ascii=False`.** When this skill writes a JSON config /
+> manifest that a downstream step parses (chart data, content manifests, form values), use
+> `json.dumps`, never hand-concatenate strings. CJK / smart quotes / em-dashes in data are the most
+> common reason a "looks fine" JSON file fails to `json.load()`:
+>
+> ```python
+> Path("content.json").write_text(
+>     json.dumps(payload, ensure_ascii=False, indent=2),
+>     encoding="utf-8",
+> )
+> ```
+
+> **7. AcroForm fill — copy the one canonical pypdf snippet.** In pypdf ≥ 4 the only working pattern
+> is `PdfWriter(clone_from=src)` + `update_page_form_field_values(...)`
+>
+> - `set_need_appearances_writer(True)`. `clone_reader_document_root`, direct `/Annots` patching,
+>   and `append_pages_from_reader` all _silently_ produce a PDF with no values written — there is no
+>   error to debug. See [`docs/forms-guide.md`](docs/forms-guide.md) §B.
+
+> **8. Header/footer discipline for generated PDFs.** For any formal or multi-page PDF (contracts,
+> reports, proposals, forms, manuals, translated documents), decide the header/footer strategy
+> before rendering: preserve source headers/footers when present; otherwise add a conservative
+> running header/footer or explicitly justify why none is appropriate (e.g. cover-only one-pager).
+> Reserve print-space so running elements do not collide with body content, tables, signatures, or
+> charts. Verification must include a visual check of at least one body page and the
+> final/signature/table-heavy page, not only `pdftotext`. Implementation details live in
+> [`docs/html-pdf-spec.md`](docs/html-pdf-spec.md) §3.3.
+
+> **9. DOCX→PDF is a DOCX-native render/export task, not an HTML task.** When the user asks to
+> convert a Word/DOCX file to PDF while preserving the Word document, route to `minimax-docx` / the
+> DOCX renderer first (e.g. `scripts/docx_to_pdf.py` or LibreOffice/soffice export). DOCX already
+> has native page geometry, styles, sections, headers/footers, fields, numbering, and table layout;
+> converting DOCX → Markdown/HTML → PDF just to make a PDF is a fidelity bug. Verify the native PDF
+> with `pdfinfo`, `pdftotext`, and visual spot checks. Use HTML→PDF only for explicit
+> redesign/recomposition, when the native render is visibly unacceptable, or when the requested
+> deliverable is a newly authored web/print design. If HTML is used, say it is a recomposition
+> route, not the default DOCX→PDF conversion path.
+
+> **10. Every PDF output needs clickable TOC/index navigation, regardless of route.** This is a
+> global delivery contract for CREATE, REFORMAT, LATEX_THESIS, FILL/overlay, MUTATE/merge/split,
+> DOCX-native export handoff, and any read→write chain. Any multi-page PDF produced, transformed,
+> merged, or substantially reformatted by this skill must include a visible TOC / index that maps
+> major sections to their destination pages and is clickable in the final PDF. For HTML→PDF,
+> implement TOC rows as internal anchors (`<a href="#section-id">`) and give every target section a
+> stable, unique `id`. For LaTeX, `hyperref` is mandatory and `\tableofcontents` plus any manual
+> `\addcontentsline` targets must resolve to live links. For markdown/text reformatting, generate or
+> preserve a TOC before rendering; do not ship a flat prose PDF without navigable section links. For
+> filled forms, official one-page forms may omit TOC, but multi-page filled packets must preserve
+> existing bookmarks/links or add an index/outline without altering the form semantics. For
+> merged/split/watermarked/pypdf/reportlab-built outputs, preserve existing links where possible and
+> add/update PDF outline/bookmarks plus `/Link` annotations when the visible TOC cannot be generated
+> by the renderer alone. Exceptions are only single-page forms/posters/certificates or
+> source-faithful official forms where adding pages/visual TOC would invalidate the document; the
+> delivery note must explicitly say why and what navigation was preserved instead. Verification must
+> include checking link or outline annotations and spot-clicking several TOC/index entries to
+> confirm they land on the intended pages.
+
+## Routes — pick by user intent, then read the guide
+
+### WRITE a PDF
+
+| Intent                                                                                                                                                              | Guide                                                                                                                                                               | Entry                                                        |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------ |
+| **CREATE** — author a polished PDF from scratch (cover, charts, KPI grids, branded report)                                                                          | [`docs/create-guide.md`](docs/create-guide.md) + [`docs/design-guide.md`](docs/design-guide.md) + [`templates/INDEX.md`](templates/INDEX.md)                        | `bash scripts/make.sh render --in page.html --out out.pdf`   |
+| **REFORMAT** — restyle markdown / text / pdf as a clean PDF (no charts, no design recomposition)                                                                    | [`docs/reformat-guide.md`](docs/reformat-guide.md)                                                                                                                  | `bash scripts/make.sh reformat --input src.md --out out.pdf` |
+| **FILL** — write values into a PDF form (AcroForm or visual overlay)                                                                                                | [`docs/forms-guide.md`](docs/forms-guide.md)                                                                                                                        | `bash scripts/make.sh fill probe form.pdf`                   |
+| **LATEX_THESIS** — typeset an academic thesis/dissertation with LaTeX (Chinese university template, GB/T 7714 bibliography, cover merge)                            | [`docs/latex-academic-thesis-guide.md`](docs/latex-academic-thesis-guide.md)                                                                                        | tectonic / xelatex + qpdf merge                              |
+| **LATEX_TECHNICAL_BOOK** — typeset a Chinese technical book / engineering monograph / source-code reading book with LaTeX (B5, O'Reilly-like cover, code, diagrams) | [`docs/latex-technical-book-guide.md`](docs/latex-technical-book-guide.md) + [`templates/latex-technical-book/README.md`](templates/latex-technical-book/README.md) | latexmk -xelatex                                             |
+| **MUTATE** — merge / split / rotate / crop / watermark / encrypt / annotate / sign / replace text                                                                   | [`docs/advanced-reference.md`](docs/advanced-reference.md)                                                                                                          | qpdf / pypdf / reportlab cookbook (no in-skill route)        |
+
+> Mechanical contract for any HTML→PDF authoring (page geometry, page-break rules, Chart.js settle,
+> CJK cascade, color fidelity) lives in [`docs/html-pdf-spec.md`](docs/html-pdf-spec.md). Read it
+> before writing any new HTML.
+
+### READ a PDF
+
+| Intent                                                                                | Guide                                            | Entry                                                                |
+| ------------------------------------------------------------------------------------- | ------------------------------------------------ | -------------------------------------------------------------------- |
+| **Default** — text + tables from any text-native PDF                                  | [`docs/read-guide.md`](docs/read-guide.md) §3.1  | `pdfplumber` (5–10 line inline recipe)                               |
+| **Vision escalation** — scanned / image-only PDFs, chart values, broken reading order | [`docs/vision-guide.md`](docs/vision-guide.md)   | `python3 -m scripts.read_pdf_vision --input report.pdf --pages 1-30` |
+| Coordinate-aware extraction, page count, decryption, rasterise pages                  | [`docs/read-guide.md`](docs/read-guide.md) §3–§4 | inline cookbook recipes                                              |
+
+> Default to **pdfplumber**. Only escalate to vision when the text path is insufficient (`(cid:NNN)`
+> glyphs, empty strings, charts that matter, magazine-style layout). Vision needs the daemon +
+> matrix MCP and costs upstream LLM calls.
+
+### Combined chains — read then write
+
+When the source is an existing PDF, run the read route first, then feed the extracted text/markdown
+into REFORMAT or CREATE. Common patterns:
+
+| User intent                           | Read step                                                                                                                     | Write step                                                                                                                                                                                                                |
+| ------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Restyle an existing PDF               | pdfplumber recipe ([`docs/read-guide.md`](docs/read-guide.md) §3.1) for text-native, or `read_pdf_vision.py` for layout-heavy | REFORMAT — pass extracted markdown as `--input`                                                                                                                                                                           |
+| Fill an unfamiliar form               | `read_pdf_vision.py` to describe field layout/labels                                                                          | `bash scripts/make.sh fill probe`, then [`docs/forms-guide.md`](docs/forms-guide.md)                                                                                                                                      |
+| Author a PDF inspired by a reference  | `read_pdf_vision.py` on the reference (palette, cover, sections)                                                              | CREATE — encode cues in HTML (CSS variables + cover archetype)                                                                                                                                                            |
+| Translate a PDF/EML preserving layout | EML: parse text/html + cid assets; PDF: pdfplumber per page (or vision if scanned / broken layout)                            | REFORMAT + [`templates/translate-preserve-layout/`](templates/translate-preserve-layout/); for rich EML load [`docs/email-translation-goldman-two-sessions-case.md`](docs/email-translation-goldman-two-sessions-case.md) |
+| Verify a generated PDF (sanity loop)  | pdfplumber on the freshly written file                                                                                        | n/a — write → read                                                                                                                                                                                                        |
+
+## Out of scope
+
+- OCR a single image with no PDF involved → call any vision tool directly.
+- Desktop-grade PDF editing (paragraph reflow, font substitution) → not an automation job.
+- `.docx` or `.pptx` → use `minimax-docx` / `minimax-pptx`.
+- Authoring long-form thesis **content** from scratch → the skill provides the compilation toolchain
+  and format scaffold only; do not generate full thesis body text without user-provided source
+  material.
+
+## Reference index
+
+| File                                                                                                                               | Purpose                                                                                                                                                                               |
+| ---------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [`docs/pitfalls-index.md`](docs/pitfalls-index.md)                                                                                 | **Read first when the task matches a known case.** 10 evaluation cases keyed by task signature → past failure → recommended trace                                                     |
+| [`docs/create-guide.md`](docs/create-guide.md)                                                                                     | CREATE route: 4-step flow, component primitive cookbook, cover archetype re-skinning, verification checklist                                                                          |
+| [`docs/latex-academic-thesis-guide.md`](docs/latex-academic-thesis-guide.md)                                                       | LATEX_THESIS route: trigger signatures, input checklist, tectonic/xelatex compile chain, qpdf merge, verification gates, common pitfalls                                              |
+| [`docs/latex-technical-book-guide.md`](docs/latex-technical-book-guide.md)                                                         | LATEX_TECHNICAL_BOOK route: Chinese technical book / engineering monograph scaffold, HTML style mapping, B5 book compile and verification                                             |
+| [`docs/markdown-static-academic-data-viz-case.md`](docs/markdown-static-academic-data-viz-case.md)                                 | P3 progressive case: Markdown report → A4 print-academic PDF, preserve source hierarchy, generate Matplotlib static charts for source tables, verify images/text/no Markdown remnants |
+| [`docs/email-translation-goldman-two-sessions-case.md`](docs/email-translation-goldman-two-sessions-case.md)                       | P5 progressive case: rich EML research report → Chinese A4 PDF, optimized translation prompt, cid image preservation, link/image verification evidence                                |
+| [`docs/ai-voice-cloning-regulatory-report-case.md`](docs/ai-voice-cloning-regulatory-report-case.md)                               | P4 progressive case: AI voice cloning multi-jurisdiction regulatory survey → Chinese A4 PDF, bilingual research prompts, fact-check report, optimized print-academic HTML source      |
+| [`docs/reformat-guide.md`](docs/reformat-guide.md)                                                                                 | REFORMAT route: input formats, title-lift, accent re-skinning, "when NOT to REFORMAT"                                                                                                 |
+| [`docs/forms-guide.md`](docs/forms-guide.md)                                                                                       | FILL route: probe → AcroForm or visual overlay, JSON schemas, geometry lint                                                                                                           |
+| [`docs/read-guide.md`](docs/read-guide.md)                                                                                         | READ route: pdfplumber default, library + CLI cookbook, troubleshooting                                                                                                               |
+| [`docs/vision-guide.md`](docs/vision-guide.md)                                                                                     | `read_pdf_vision.py` reference — flags, JSON schema, internal chunking, time budget, error matrix                                                                                     |
+| [`docs/html-pdf-spec.md`](docs/html-pdf-spec.md)                                                                                   | HTML→PDF mechanical contract — page geometry, page-break, Chart.js settle, CJK, color fidelity, quality gate                                                                          |
+| [`../minimax-xlsx/docs/superstore-multiformat-conversion-case.md`](../minimax-xlsx/docs/superstore-multiformat-conversion-case.md) | Cross-skill X8/P9 case: 10k-row Superstore Excel → CSV/JSON/HTML→PDF + XML-template CSV→XLSX                                                                                          |
+| [`docs/design-guide.md`](docs/design-guide.md)                                                                                     | Aesthetic layer — palette mood table, typography pairs, cover archetypes, anti-patterns                                                                                               |
+| [`docs/advanced-reference.md`](docs/advanced-reference.md)                                                                         | Mutation / annotation / signature / text replacement cookbook (qpdf, pypdf, reportlab)                                                                                                |
+| [`docs/troubleshooting.md`](docs/troubleshooting.md)                                                                               | Environment / CJK / merge / verification / stale-script / read-side issues                                                                                                            |
+| [`templates/INDEX.md`](templates/INDEX.md)                                                                                         | Templates index — eight skeletons + LaTeX thesis scaffold                                                                                                                             |
+| [`templates/latex-academic-thesis/source.tex`](templates/latex-academic-thesis/source.tex)                                         | Compact LaTeX thesis scaffold — cover, abstract, TOC, body, refs, appendix, headers/footers, page-number breaks                                                                       |
+| [`templates/latex-technical-book/source.tex`](templates/latex-technical-book/source.tex)                                           | Technical book scaffold — O'Reilly-like cover, red-number TOC, code highlighting, callouts, diagrams, B5 geometry                                                                     |
+| [`templates/latex-academic-thesis/README.md`](templates/latex-academic-thesis/README.md)                                           | Template fill-in guide — structural invariants, compile commands, common patterns                                                                                                     |
+
+## Environment
+
+> **First run on a new machine?** Always start with `bash scripts/make.sh check`. If anything prints
+> `WARN`, run `bash scripts/make.sh fix` immediately and re-run `check` until the output is all
+> green. Generation routes assume a green environment — proceeding with `WARN` will fail
+> mid-pipeline.
+
+```bash
+bash scripts/make.sh check        # verify CREATE / REFORMAT / FILL / READ deps
+bash scripts/make.sh fix          # auto-install missing deps (idempotent)
+```
+
+`check` enforces minimum versions (Python ≥ 3.9, Node ≥ 18, pypdf ≥ 3.0, markdown-it-py ≥ 3.0) and
+prints the actual installed version for each. `fix` propagates real `pip` failures (no longer
+silently green) — read the last 20 lines of pip output it dumps on failure rather than re-running
+blindly.
+
+| Tool                                          | Used by                        | Install                                                        |
+| --------------------------------------------- | ------------------------------ | -------------------------------------------------------------- |
+| Python 3.9+                                   | all `.py` scripts              | system                                                         |
+| `markdown-it-py`                              | REFORMAT (`reformat_parse.py`) | `pip install markdown-it-py`                                   |
+| `pypdf`                                       | FILL, MUTATE                   | `pip install pypdf`                                            |
+| `pdfplumber`                                  | READ (default)                 | `pip install pdfplumber`                                       |
+| `pdf2image`, `pillow`, `pypdfium2`            | READ vision + page rasterise   | `pip install pdf2image pillow pypdfium2`                       |
+| Node.js 18+                                   | `render_html.cjs`              | system                                                         |
+| `playwright` + Chromium                       | `render_html.cjs`              | `npm install -g playwright && npx playwright install chromium` |
+| `pdfinfo`, `pdftotext`, `pdfimages` (poppler) | READ + verification            | `brew install poppler`                                         |
+| `qpdf`                                        | MUTATE / decryption            | `brew install qpdf` (optional)                                 |
+
+`read_pdf_vision.py` additionally requires the local mavis daemon to be running with the matrix MCP
+authenticated (set `MAVIS_ACCESS_TOKEN` and `MATRIX_BASE_URL` in `~/.zshrc`, then restart daemon).
+Details: [`docs/vision-guide.md`](docs/vision-guide.md).
+
+
+========================================
+
+=== minimax-pptx ===
+---
+name: minimax-pptx
+description: >-
+  Read, create, and edit PowerPoint PPTX/PPT presentations.
+  Covers: parsing, summarizing, extracting content, inspecting themes/layouts, creating new decks with PptxGenJS, and editing existing PPTX while preserving formatting.
+---
+
+## Scope
+
+Use this skill for PowerPoint `.pptx` work.
+
+- Read slide text, tables, speaker notes, or comments
+- Search existing deck content
+- Extract embedded images
+- Render slide screenshots
+- Audit theme, layout, font, color, hyperlink, embedded object, and security metadata
+- Create a new deck from scratch with PptxGenJS
+- Imitate an existing deck's visual style with new content
+- Edit an existing PPTX or template while preserving layout
+
+Replace `<skill_dir>` with the actual skill path shown by the loader.
+
+## Router
+
+| Need | Workflow |
+| --- | --- |
+| Existing PPTX inspection, extraction, search, preview, or audit | Use the inspection commands below |
+| Existing PPTX provided and layout/style must be preserved | Follow `references/editing.md` |
+| Reference PPTX provided for style imitation, but content is new | Run the Template Imitation Workflow |
+| No source deck, or a fresh deck is acceptable | Run the From-Scratch Workflow |
+
+If the request says "edit" but no source deck is available, assume from-scratch generation and state that assumption.
+
+## Inspection Commands
+
+Default to `uv run --with python-pptx` for all Python workflows except comments, which has no extra dependency.
+
+```bash
+# Text, tables, notes, search
+uv run --with python-pptx <skill_dir>/scripts/extract_pptx.py file.pptx
+
+# Embedded images
+uv run --with python-pptx <skill_dir>/scripts/extract_images.py file.pptx
+
+# Review comments
+uv run <skill_dir>/scripts/extract_comments.py file.pptx
+
+# Format / metadata audit
+uv run --with python-pptx <skill_dir>/scripts/audit_pptx.py file.pptx
+
+# Screenshots (macOS only)
+bash <skill_dir>/scripts/pptx-screenshot.sh file.pptx
+```
+
+High-value inspection flags:
+
+- Slide subset: `--slides 1,3,5` or `--range 2-4`
+- Text filtering: `--search "term"`, `--regex`, `--ignore-case`
+- Speaker notes: `extract_pptx.py --notes`
+- Image dry run: `extract_images.py --list-only`
+- Comment output: `extract_comments.py --format json`
+- Audit scope: `audit_pptx.py --sections metadata,themes,...`
+- Screenshot subset: `pptx-screenshot.sh --pages "1,3,5" --outdir ./previews`
+
+`audit_pptx.py` supports these sections:
+
+- `metadata`: document properties
+- `masters`: slide masters, layouts, usage counts
+- `themes`: theme colors and font schemes
+- `shapes`: per-slide shape inventory with position and text preview
+- `hyperlinks`: URLs, actions, tooltips
+- `embedded`: embedded files and OLE objects
+- `security`: MSIP labels and custom XML parts
+
+Use `--format text` only for human inspection. Prefer JSON when downstream processing is likely.
+
+## Generation Defaults
+
+Use these defaults unless the user specifies otherwise **and no template PPTX is provided for imitation**:
+
+- audience: business / professional
+- tone: clear, restrained, presentation-ready
+- layout: `LAYOUT_16x9`
+- Chinese font: `Microsoft YaHei`
+- English font: `Arial` unless a better option is justified
+- palette and typography: choose from `references/design-system.md`
+- page numbers: required on all non-cover slides
+
+When a template PPTX is provided for imitation, the template's actual colors and fonts override these defaults.
+
+## Hard Constraints
+
+These are mandatory unless the user explicitly overrides them:
+
+1. Use `LAYOUT_16x9`.
+2. **Canvas boundary rule**: `LAYOUT_16x9` is **10" wide x 5.625" tall**. Every element must satisfy `x + w <= 10.0` and `y + h <= 5.625`. Coordinates that exceed these bounds will be clipped or overflow the slide edge. Do NOT assume the canvas is 13.3" wide — that is `LAYOUT_WIDE`, a different layout.
+3. Create one file per slide: `slides/slide-01.js`, `slides/slide-02.js`, ...
+4. Each slide file must export synchronous `createSlide(pres, theme)`.
+5. Never use `async` / `await` in `createSlide()`.
+6. Theme keys must be exactly `primary`, `secondary`, `accent`, `light`, `bg`.
+7. Colors must be 6-character hex strings without `#`.
+8. Do not encode opacity into hex strings.
+9. All non-cover slides must include a page number badge near x `9.3`, y `5.1`.
+10. Chinese text should use `Microsoft YaHei`.
+11. No gradients or animation-style gimmicks.
+12. Do not reuse mutable PptxGenJS option objects across calls.
+13. Output filename must be descriptive; never use `presentation.pptx`.
+14. Run QA before returning the deck — this is a **blocking gate**, not optional. Do NOT return the deck to the user until QA is complete. See `references/pitfalls.md` for the QA process.
+15. When imitating a template, use the template's actual fonts. Only fall back to `references/design-system.md` font pairings when no template is provided.
+
+## From-Scratch Workflow
+
+Use this when no source PPTX must be preserved.
+
+1. Derive a concise outline from topic, audience, purpose, and expected depth.
+2. Pick one palette, font pairing, and style recipe from `references/design-system.md`.
+3. Assign each slide one page type from `references/slide-types.md`.
+4. Create `slides/slide-XX.js` modules and keep layout variety where the outline calls for it.
+5. Run the pre-compile lint in `references/pitfalls.md#pre-compile-lint` before compiling.
+6. Create `slides/compile.js`, load slide modules in final order, and write `slides/output/<descriptive-name>.pptx`.
+7. Run the QA process in `references/pitfalls.md#qa-process`, fix issues, and re-verify.
+
+Minimal compile shape:
+
+```javascript
+const pptxgen = require('pptxgenjs');
+const pres = new pptxgen();
+pres.layout = 'LAYOUT_16x9';
+
+const theme = {
+  primary: '22223b',
+  secondary: '4a4e69',
+  accent: '9a8c98',
+  light: 'c9ada7',
+  bg: 'f2e9e4'
+};
+
+require('./slide-01.js').createSlide(pres, theme);
+pres.writeFile({ fileName: './output/my-deck-name.pptx' });
+```
+
+## Template Imitation Workflow
+
+Use this when the user provides a reference PPTX for visual style, but all content is new.
+
+### Step 1: Analyze Template Visual Identity
+
+1. Take screenshots of 3-5 representative slides: cover, a content-heavy slide, and a data slide.
+2. Run `audit_pptx.py --sections themes,masters,shapes` to extract theme colors, fonts, and layout usage.
+3. Determine dark-mode vs light-mode:
+   - Check the most-used slide layouts. If their backgrounds use `dk1`/`dk2` colors with dark values such as `1A1A1A` or `0D0D0D`, the template is dark-mode.
+   - Look at screenshots: dark backgrounds with light text indicate dark-mode.
+4. Record the template's visual identity:
+   - Slide background color
+   - Primary text color
+   - Accent color(s)
+   - Card/panel background color
+   - Font families for title and body
+
+### Step 2: Map to Theme Keys Faithfully
+
+Map the template's actual colors to the 5-key theme, respecting the template's color roles:
+
+```text
+bg        = actual slide background color (may be dark)
+primary   = actual body text color (may be light)
+accent    = primary accent/highlight color
+secondary = secondary/muted text color
+light     = card/panel background color
+```
+
+Do not pick from `references/design-system.md` palettes. Use the template's actual colors.
+
+Do not assume `bg` is light and `primary` is dark. Dark-mode templates flip this.
+
+### Step 3: Use Template Fonts
+
+Use the font families from the template audit, not `references/design-system.md` recommendations. Only fall back to recommended pairings if the template fonts are unavailable on the target system.
+
+### Step 4: Generate
+
+Do all of the following (these are the From-Scratch Workflow steps, adapted — do NOT skip any):
+
+1. Derive a concise outline from topic, audience, purpose, and expected depth.
+2. Assign each slide one page type from `references/slide-types.md`.
+3. Create `slides/slide-XX.js` modules and keep layout variety where the outline calls for it.
+4. Run the pre-compile lint in `references/pitfalls.md#pre-compile-lint` before compiling.
+5. Create `slides/compile.js`, load slide modules in final order, and write `slides/output/<descriptive-name>.pptx`.
+6. Run the QA process in `references/pitfalls.md#qa-process`, fix issues, and re-verify. **Do NOT return the deck until QA passes.**
+
+Skip palette/font selection (step 2 of From-Scratch) because palette and fonts come from the template.
+
+## Template Editing Workflow
+
+Use this when the user provides a source PPTX and expects structure or layout to survive.
+
+- Prefer preserving slide masters, theme relationships, and layout semantics.
+- Complete structural edits first, then content edits.
+- Follow `references/editing.md` for XML-level workflow and pitfalls.
+- Only switch to from-scratch generation if it does not violate the user's intent.
+
+## Delivery Checklist
+
+- slides render without runtime errors
+- layout is `LAYOUT_16x9`
+- no `#` in colors
+- all slide modules are synchronous
+- all non-cover slides include page numbers
+- no placeholder/demo text remains
+- titles do not wrap awkwardly
+- repeated elements align consistently
+- final file is written successfully
+- inspection/editing tasks preserve the source file unless explicitly replacing it
+- template imitation background color matches the template's dark/light mode
+- template imitation fonts match the template's font families
+
+## Operational Notes
+
+- Screenshots are macOS-only and require `soffice` plus `swiftc`.
+- `extract_comments.py` supports classic comments only, not modern Office 365 collaborative comments.
+- If targeted `python-pptx` editing is needed, read `references/python-pptx-recipes.md` on demand instead of keeping those patterns in main context.
+
+## References
+
+### Mandatory for Generation Tasks
+
+Read these **before writing any slide code**. Do not skip them even if you think you already know the API:
+
+- `references/pitfalls.md`: pre-compile lint, QA process, common PptxGenJS failures — **must run lint and QA**
+- `references/pptxgenjs.md`: PptxGenJS API, layout dimensions, text/shape/table options — **must verify canvas dimensions**
+- `references/slide-types.md`: page type classification and layout patterns — **must assign a type to each slide**
+
+### Load On Demand
+
+- `references/design-system.md`: palette, typography, style recipes (skip when imitating a template)
+- `references/editing.md`: template-preserving editing workflow
+- `references/python-pptx-recipes.md`: targeted python-pptx inspection or editing patterns
+
+
+========================================
+
+=== minimax-xlsx ===
+---
+name: minimax-xlsx
+description: >-
+  Spreadsheet skill — read, edit, create, and convert .xlsx/.xlsm/.csv/.tsv files.
+  Trigger when a spreadsheet file is the primary input or output: editing columns, formulas, formatting, charting, cleaning messy data, or creating new spreadsheets.
+  Not for Word/HTML/PDF deliverables even if tabular data is involved.
+license: MIT
+---
+
+# minimax-xlsx
+
+A pragmatic, recipe-first guide for reading, editing, creating, and
+recalculating `.xlsx` / `.xlsm` / `.csv` / `.tsv` files. The default
+pairing is **pandas for tabular data + openpyxl for formulas, styles,
+named ranges, and charts**. Recalculation through
+[`scripts/recalc.py`](scripts/recalc.py) (LibreOffice headless) is
+mandatory before delivery — openpyxl writes formulas as strings and
+never evaluates them.
+
+> **Formula-first.** A spreadsheet without live formulas is just a
+> CSV with a fancier extension. **Every computed value** — totals,
+> averages, growth rates, ratios, cross-sheet references, percent
+> changes, anything derivable from other cells — **must be written as
+> a live `=…` formula**, not as the pre-computed number. Hard-coded
+> numbers belong only in the **Assumptions** block (inputs the user
+> can flip to re-run the model). When in doubt, write the formula.
+> Full convention in §5 and
+> [`docs/conventions-guide.md`](docs/conventions-guide.md) §4.
+>
+> **❌ The most common anti-pattern.** Loading a workbook with pandas,
+> computing derived columns in Python (`df["total"] = df["a"] + df["b"]`,
+> `df.groupby(...).sum()`, etc.), then writing the result back with
+> `df.to_excel(...)` ships **static numbers** — the workbook becomes a
+> dead snapshot the moment any input changes. Use pandas/polars only
+> to load and clean **raw inputs**; emit every derived value as a live
+> `=` formula via openpyxl (§3.2). This rule applies regardless of how
+> easy it would be to compute the value in Python first.
+
+> **Spreadsheet output only.** For Word documents, PowerPoint slides,
+> HTML reports, standalone Python scripts, database pipelines, or the
+> Google Sheets API, switch to the matching skill.
+
+## Operational rules — read before doing anything
+
+> **1. Match user query against [`docs/pitfalls-index.md`](docs/pitfalls-index.md)
+> FIRST.** It contains 8 production-ready **canonical query templates**
+> (X1–X8), each with a `Match signatures` block (sample queries) and a
+> complete executable prompt that already encodes Formula-first, recalc
+> verification, formula-count gate, sample-data-integrity, slicer
+> handling, and every other rule below. Workflow:
+>
+> 1. Scan the Quick lookup table — match user's query keywords to a row.
+> 2. **Copy the matching canonical query verbatim**, substitute the
+>    `Slots` (e.g. `{INPUT}`, `{COMPANY}`, `{OUTPUT_XLSX}`) with the
+>    user's actual values, and execute step-by-step.
+> 3. Multiple partial matches → fuse: take the strictest verification
+>    from each, never relax a constraint.
+> 4. No match → fall back to the Decision Tree / per-section guides below.
+>
+> Do NOT skip verification steps in the canonical queries — every
+> "ship a wrong workbook" failure traces back to skipping recalc,
+> total_formulas check, or row-count canary.
+
+> **2. Formula-first is non-negotiable.** A delivery that ships static
+> numbers where formulas were possible is a **failed delivery** — even
+> if every number is numerically correct the moment you saved it. The
+> user's first edit will expose the lie. Hardcode only the Assumptions
+> block; everything derivable from other cells goes in as `=…`. Full
+> regime in §5.
+
+> **3. `total_formulas == 0` is a red flag, not a green light.** A
+> "success" recalc with zero formulas means the workbook is a static
+> dump — the user can't audit, can't re-run scenarios, can't
+> introspect derivations. Treat it as a delivery failure and rewrite
+> via §3.2 / openpyxl `=` formulas. The only legitimate exception is
+> a workbook the user explicitly asked to be a static snapshot
+> (in which case `pandas.to_excel` is the right tool, not this skill).
+
+> **4. Source-data-integrity rule — never `df.sample(N)` / `df.head(N)`
+> on the raw sheet.** Down-sampling 400k rows to 100k "because openpyxl
+> writes are slow" silently destroys every aggregation built on top —
+> the pivot or `=SUMIF` summary will be off by ~75% and look entirely
+> plausible. **Write the full row count, even if it takes minutes.**
+> If write throughput is the real bottleneck, switch the writer
+> (xlsxwriter §3.3, or `Workbook(write_only=True)` streaming pattern
+> in [`docs/advanced-reference.md`](docs/advanced-reference.md) §6),
+> never the sample size.
+
+> **5. Summaries must be Excel-native — pivot tables or `=SUMIFS` /
+> `=COUNTIFS` over the Raw sheet, never Python `groupby` written back
+> as values.** This is the same rule as §3 phrased for the most
+> common offender. The user expects: edit a Raw row, hit recalc, see
+> the totals move. Static summaries break that contract silently.
+
+> **6. Slicers cannot be authored from scratch by openpyxl.** The
+> `xl/slicers/*.xml` part requires GUID-bound pivot cache references
+> that openpyxl has no API for. Two production paths:
+> (a) template-inheritance — author a `template.xlsx` once in Excel
+> or LibreOffice with the slicer wired to a named range, then
+> `load_workbook(template) → write into named range → save as new`;
+> (b) raw-XML transplant from a known-good template via
+> `scripts/office/{unpack,pack}.py`. **If the user asks for a slicer
+> and you have no template, say so before silently downgrading to a
+> static dropdown.**
+
+> **7. Don't suppress stderr.** `2>/dev/null` is **never** the right
+> choice in this skill (`recalc.py`, `soffice`, `pdfinfo`, `unpack.py`,
+> `pack.py`). On failure you lose the only signal that explains why
+> and have to rerun blind. If output is too noisy, redirect to a log
+> file and grep on demand:
+> ```bash
+> python scripts/recalc.py file.xlsx 60 2>/tmp/recalc.log
+> # If JSON shows status != "success" or exit != 0, then:
+> #   grep -in "error\|trace\|fail" /tmp/recalc.log | head -20
+> ```
+
+> **8. When the user states a numeric range for a derived value,
+> enforce it in the formula.** "Composite score 0–100" → wrap the
+> formula with `=ROUND(MIN(MAX(raw, 0), 100), 1)`. Don't ship a
+> 0–1804 column and blame "data anomaly". Spot-check `MIN()` /
+> `MAX()` of the output column after recalc.
+
+> **9. 500k+ rows: pandas/polars first, not openpyxl row walking.**
+> For large tabular inputs (roughly **500,000+ rows**, or hundreds of MB),
+> default to `pandas`/`polars` for reading, filtering, type normalization,
+> joins, and QA spot-checks. Do **not** iterate cell-by-cell with openpyxl to
+> inspect or transform the source workbook — it is too slow and encourages
+> accidental sampling. Use openpyxl only at the output boundary for formulas,
+> styles, charts, templates, and final `.xlsx` assembly. If the output is a
+> static raw-data dump, `DataFrame.to_excel`/`xlsxwriter` is acceptable; if it
+> contains derived values, write full raw rows and Excel-native `=` formulas.
+
+
+> **10. Non-standard XLSX packages: trust recalc raw-XML fallback.**
+> Workbooks with heavy merged cells, charts/drawings, or vendor-generated XML
+> can make openpyxl crash even after LibreOffice recalculated successfully.
+> `scripts/recalc.py` now catches openpyxl parse failures and falls back to a
+> raw worksheet XML scanner. If JSON returns `scanner: "raw_xml_fallback"` with
+> `status: success` / `errors_found`, treat it as authoritative and do not
+> retry blindly. Use the `compatibility_hint` field to decide whether to avoid
+> downstream openpyxl rewrites. Details in [`docs/recalc-guide.md`](docs/recalc-guide.md) §10.
+
+For deeper material — creation and edit recipes, recalc internals,
+financial-model conventions, large-file alternatives — see
+[`docs/`](docs/).
+
+---
+
+## 1. Scope and When to Use
+
+This skill covers the everyday spreadsheet chores an LLM agent is most
+often asked to perform end-to-end:
+
+- inspecting an existing workbook (sheet names, merged regions, headers)
+- reading tabular data into pandas / polars for analysis or QA
+- creating a new workbook with formulas, styles, named ranges, and charts
+- editing an existing workbook in place (insert / delete / restyle / replace)
+- recalculating every formula via [`scripts/recalc.py`](scripts/recalc.py)
+  and verifying `total_errors == 0` in the JSON
+- enforcing the financial-model conventions in §5 on every delivery
+- converting between tabular formats (`csv` ↔ `xlsx` ↔ `ods` ↔ `tsv`)
+
+Use a different approach when:
+
+- the deliverable is a Word document, slide deck, standalone script, or
+  database pipeline — switch to the matching skill (`docx`, `pptx`, etc.)
+- the workflow is read-only and the user just wants the cell values
+  printed — `extract-text` (`docs/advanced-reference.md` §5) is enough
+- the workbook lives behind the Google Sheets API rather than on disk
+
+---
+
+## 2. Decision Tree
+
+```
+What does the user want from / for this workbook?
+|
++-- Read tabular data only ───────────────> pandas / polars     -> §3.1, §3.4
++-- Inspect quickly without code ─────────> extract-text CLI    -> docs/advanced-reference.md §5
++-- Create a new workbook ────────────────> openpyxl            -> §3.2
++-- Edit an existing workbook in place ───> openpyxl            -> §3.2
++-- Output has any derived/computed cells > openpyxl + `=` formulas -> §3.2, §5
++-- Very large workbook (500k+ rows) ─────> pandas/polars read + openpyxl/xlsxwriter output -> §3.1, §3.4, docs/advanced-reference.md §6
++-- Recalculate formulas (mandatory) ─────> scripts/recalc.py   -> §4.1
++-- Convert format (csv ↔ xlsx ↔ ods) ────> pyexcel             -> §3.5
++-- Sandboxed env (no AF_UNIX) ───────────> office.soffice shim -> §4.1
+```
+
+**Default rule.** Read with pandas, write and edit with openpyxl,
+recalculate with `scripts/recalc.py`. Drop to xlsxwriter when the
+workload is write-only and throughput-bound; drop to polars when the
+input file is too big for pandas to hold in memory. **Never use
+`pandas.to_excel` / `polars.write_excel` for derived/computed values
+— those write static numbers, not live formulas. See §3.1's ⚠️ box.**
+
+---
+
+## 3. Library Cookbook
+
+Five subsections, one per library. Each entry is a minimum viable
+example plus a short note. Deeper recipes — full styling, conditional
+formatting, charts, edit gotchas — live in
+[`docs/create-edit-guide.md`](docs/create-edit-guide.md).
+
+### 3.1 pandas — tabular read / write (default)
+
+```python
+import pandas as pd
+
+frame = pd.read_excel("mau_forecast.xlsx", engine="openpyxl")           # first sheet
+sheets = pd.read_excel("mau_forecast.xlsx", sheet_name=None)            # {sheet: DataFrame}
+frame.to_excel("clean_mau.xlsx", sheet_name="clean", index=False)
+```
+
+> ⚠️ **`to_excel()` writes static numbers only — no formulas survive.**
+> Use it strictly for **raw data dumps**: cleaned input data, exported
+> query results, anything where every cell is itself a primary value.
+> The moment the deliverable contains a derived value — totals,
+> averages, ratios, growth rates, anything computable from other cells
+> — switch to §3.2 and write it as a live `=` formula. **Never** do
+> `df["total"] = df["a"] + df["b"]; df.to_excel(...)`: the workbook
+> will look fine until the user edits an input and discovers the
+> "totals" don't move. For aggregations across rows/sheets, write the
+> raw rows here and emit `=SUM(...)` / `=SUMIF(...)` on the openpyxl
+> side (`docs/advanced-reference.md` §6 has the worked large-file
+> example).
+
+Default for any "read tabular data" job. For 500k+ rows, prefer pandas/polars
+for source inspection, filtering, joins, and QA; avoid openpyxl cell-by-cell
+source traversal. Pair with openpyxl only on the write side when you need
+formulas or formatting.
+
+### 3.2 openpyxl — create and edit (default for write + edit)
+
+```python
+from openpyxl import Workbook, load_workbook
+from openpyxl.styles import Font
+
+book  = Workbook()                                                       # create
+sheet = book.active
+sheet["A1"], sheet["B1"], sheet["C1"], sheet["D1"], sheet["E1"] = (
+    "Quarter", "MAU (mm)", "Tokens/MAU", "Take-rate", "ARR (¥mm)"
+)
+# Inputs (Assumptions) — hardcoded primary values; §5.2 requires blue.
+input_font = Font(color="0000FF")
+sheet["A2"], sheet["B2"], sheet["C2"], sheet["D2"] = "2025Q3", 148, 27, 0.85
+for ref in ("B2", "C2", "D2"):
+    sheet[ref].font = input_font
+# Derived ARR — references inputs, not literal numbers; §5.2 requires black.
+sheet["E2"] = "=B2*C2*D2"
+sheet["E2"].font = Font(color="000000")
+book.save("mau_forecast.xlsx")
+
+book = load_workbook("mau_forecast.xlsx")                               # edit
+book["Sheet"]["D2"] = 0.90                                              # flip take-rate
+# E2 still says "=B2*C2*D2" — recalc.py will refresh the cached value
+book.save("mau_forecast.xlsx")
+```
+
+The edit example flips the **input** (`D2`), not the result — that is
+the whole point of formula-first. If `E2` had been written as the
+literal `=148*27*0.85`, this edit would have left ARR stale.
+`data_only=True` is **read-only safe only** — saving such a workbook
+permanently replaces every formula with its cached value. See
+[`docs/create-edit-guide.md`](docs/create-edit-guide.md) §7.
+
+### 3.3 xlsxwriter — write-only throughput
+
+```python
+import xlsxwriter
+
+book  = xlsxwriter.Workbook("big_table.xlsx")
+sheet = book.add_worksheet("Tokens")
+for r, row in enumerate(rows):
+    sheet.write_row(r, 0, row)
+sheet.write_formula(0, 5, "=SUM(F2:F100001)")
+book.close()
+```
+
+Faster than openpyxl on six-figure-row writes; cannot reopen what it
+wrote. Reach for it when the workbook is the terminal output.
+
+### 3.4 polars — fast read for huge files
+
+```python
+import polars as pl
+
+frame    = pl.read_excel("big.xlsx")
+as_pandas = frame.to_pandas()                                            # interop
+```
+
+> ⚠️ **`polars.write_excel()` writes static numbers — same trap as
+> `pandas.to_excel`.** No formulas, no charts, no styles. Polars is a
+> read-side accelerator for files above ~500k rows; for the write side,
+> always pair with openpyxl and emit derived values as `=` formulas
+> (`docs/advanced-reference.md` §6 has the worked large-file pattern).
+
+### 3.5 pyexcel — format-agnostic conversion
+
+```python
+import pyexcel as pe
+
+records = pe.get_records(file_name="upload.xlsx")                       # also csv / ods / tsv
+pe.save_book_as(file_name="raw.csv", dest_file_name="clean.xlsx")
+```
+
+Use it when the input format is unknown ahead of time, or when the
+pipeline accepts several formats.
+
+---
+
+## 4. Recalculation Routes
+
+openpyxl writes formulas as strings and never evaluates them.
+Recalculation is mandatory before delivery; it refreshes the cached
+values and surfaces the seven Excel error markers.
+
+### 4.1 `scripts/recalc.py` — LibreOffice headless (default)
+
+```bash
+python scripts/recalc.py mau_forecast.xlsx 30
+```
+
+Sample success output on stdout:
+
+```json
+{
+  "status": "success",
+  "total_errors": 0,
+  "total_formulas": 42
+}
+```
+
+If `status == "errors_found"`, the JSON includes an `error_summary`
+keyed by error marker with up to 20 locations per marker. For the full
+JSON schema, the seven error markers, the macro install path, the
+cross-platform timeout wrapper, and the AF_UNIX sandbox shim, see
+[`docs/recalc-guide.md`](docs/recalc-guide.md).
+
+### 4.2 `xlcalculator` / `formulas` — pure-Python fallback
+
+In CI containers or serverless runtimes without LibreOffice, fall back
+to [`xlcalculator`](https://github.com/bradbase/xlcalculator) or
+[`formulas`](https://github.com/vinci1it2000/formulas). Neither
+supports array formulas, pivot tables, or custom functions — for
+delivery, always rerun `recalc.py` on a host with LibreOffice. Limits
+in [`docs/recalc-guide.md`](docs/recalc-guide.md) §8.
+
+---
+
+## 5. Conventions for Excel Outputs
+
+**Formula-first as the unifying rule.** All four sub-sections below
+exist to enforce one principle: a delivered workbook is a *live model*
+the user can adjust by editing inputs and watching every dependent
+cell recompute. The colour code (§5.2 — black for formulas, blue for
+hardcoded inputs) makes it obvious at a glance whether a number is
+derived or assumed; the recalc gate (§5.1) makes sure every formula
+actually evaluates; the number formats (§5.3) make sure the recomputed
+values stay readable. **Whenever you can express a value as a formula
+referencing other cells, do so** — never paste a pre-computed total /
+average / ratio / growth rate as a literal number. Hard-coded numbers
+belong only in the leading Assumptions block (full rationale in
+[`docs/conventions-guide.md`](docs/conventions-guide.md) §4).
+
+### 5.1 Professional font and zero formula errors
+
+Default body font is one of Calibri / Arial / Times New Roman, used
+consistently throughout the workbook. Every workbook with formulas
+must pass `scripts/recalc.py` with `total_errors == 0` before delivery.
+
+### 5.2 Color coding
+
+| Color | Hex | RGB | Meaning | Anti-pattern |
+|---|---|---|---|---|
+| Black | `000000` | `0,0,0` | Every formula and computed result | Setting `=A1+B1` to blue makes it look like a manual input |
+| Blue | `0000FF` | `0,0,255` | Hard-coded inputs and scenario assumptions | Setting `=Sheet2!A1` to blue hides the cross-sheet link |
+| Green | `008000` | `0,128,0` | Same-workbook cross-sheet links | Coloring a cross-file link green hides the external dependency |
+| Red | `FF0000` | `255,0,0` | Cross-file external links | Coloring same-sheet `=A1` red implies a fake external dependency |
+| Yellow (fill) | `FFFF00` | `255,255,0` background | Critical assumptions awaiting review | Coloring every cell yellow drowns out the cells that need review |
+
+Black-first ordering matches the reviewer's scan order — see
+[`docs/conventions-guide.md`](docs/conventions-guide.md) §1 for the
+rationale. Three- and six-digit hex are equivalent (`#000` ≡ `#000000`);
+both `openpyxl` and `xlsxwriter` accept either form.
+
+### 5.3 Number formatting
+
+| Type | Format | Rationale |
+|---|---|---|
+| Year | text (`"FY2025"`) | Numeric `2025` gets thousands-separated to `2,025` |
+| Currency | `$#,##0` or `¥#,##0` with the unit (`mm` / `bn` / `k`) in the header | The unit lives once per column, not per cell |
+| Zero | `"$#,##0;($#,##0);-"` | Em-dash separates "zero by intent" from "missing value" |
+| Percentage | `0.0%` | One decimal is enough for a scan; two is false precision |
+| Multiple | `0.0x` | Used for valuation multiples (EV/EBITDA, P/S, P/E) |
+| Negative | `(123)` (parentheses) | Accounting convention; minus signs blend into table grids |
+| Hardcode | `Source: …` annotation in the next column or as a cell comment | Reviewer can audit every input back to its source |
+
+Sample headers: `ARR (¥mm)` / `Tokens (bn)` / `MAU (mm)` /
+`Token unit price 1.2x`. Full hardcode-source grammar and five worked
+examples in [`docs/conventions-guide.md`](docs/conventions-guide.md) §3.
+
+### 5.4 Preserve existing templates
+
+When updating someone else's template, observe before editing — colors,
+column widths, fonts, merged cells, number formats, and conditional
+formatting from the existing file all override this skill's defaults.
+Checklist in [`docs/conventions-guide.md`](docs/conventions-guide.md) §5.
+
+---
+
+## 6. Reference Index
+
+| File | Purpose |
+|---|---|
+| [`docs/pitfalls-index.md`](docs/pitfalls-index.md) | **Read first when the task matches a known case.** 8 evaluation cases keyed by task signature → past failure → recommended trace |
+| [`docs/superstore-multiformat-conversion-case.md`](docs/superstore-multiformat-conversion-case.md) | X8 progressive case: Superstore Excel → CSV/JSON/HTML→PDF + XML-template CSV→XLSX reverse validation |
+| [`docs/create-edit-guide.md`](docs/create-edit-guide.md) | openpyxl create / edit / chart recipes plus merged-cell and shared-strings gotchas |
+| [`docs/recalc-guide.md`](docs/recalc-guide.md) | `recalc.py` reference — macro path, JSON schema, AF_UNIX shim, timeouts, alternatives |
+| [`docs/conventions-guide.md`](docs/conventions-guide.md) | Color coding, number formats, formula construction, hardcode source documentation |
+| [`docs/raw-xml-escape-hatch.md`](docs/raw-xml-escape-hatch.md) | Surgical XML escape hatch via `scripts/office/{pack,unpack}.py` for the few files openpyxl can't safely round-trip (VBA, pivot caches, slicers, connections, externalLinks) |
+| [`docs/advanced-reference.md`](docs/advanced-reference.md) | polars / duckdb / xlcalculator / pyexcel / extract-text / large-file / CI workflows |
+| `scripts/recalc.py` | LibreOffice-driven recalculation entry point — mandatory final step |
+| `scripts/office/soffice.py` | Sandbox-friendly LibreOffice runner with AF_UNIX shim |
+| `scripts/office/{pack,unpack,validate}.py` | DOCX / PPTX / XLSX zip helpers + XSD validate (cross-format; schemas live under `office/schemas/`) |
+
+---
+
+## 7. Troubleshooting
+
+| Symptom | Likely cause | First thing to try |
+|---|---|---|
+| Recalc returns `#REF!` after row insertion | Old formulas point at the row that just shifted | Search the workbook for `#REF!`; replace with the new coordinate; rerun `recalc.py` |
+| Recalc returns `#DIV/0!` | Denominator evaluates to zero or empty | Wrap with `IFERROR(num/denom, 0)` or `IF(denom=0, "", num/denom)` |
+| Recalc returns `#N/A` | `VLOOKUP` / `MATCH` key not found in the lookup column | Check key whitespace, case, and type (`123` vs `"123"`); confirm the lookup column is contiguous |
+| `recalc.py` exits with `soffice timed out` | LibreOffice hung on a heavy workbook | Raise the second positional arg (`python scripts/recalc.py file.xlsx 180`); if it persists, see `docs/recalc-guide.md` §5 |
+| `recalc.py` errors with `Address already in use` / AF_UNIX denied | Sandbox blocks AF_UNIX (macOS App Sandbox / Linux seccomp) | Auto-handled by `office.soffice` shim; ensure `gcc` is on `PATH` so the shim can compile (see `docs/recalc-guide.md` §6) |
+| `iter_rows()` returns `None` for cells that visibly have a value | Cells live inside a merged region; only the anchor carries the value | `unmerge_cells()` first, broadcast the anchor value, then re-merge if layout matters (see `docs/create-edit-guide.md` §9) |
+| `save()` deletes every formula in the workbook | The file was opened with `data_only=True` | Reload with `load_workbook(path)` (default `data_only=False`); `data_only=True` is read-only safe only |
+| `load_workbook` raises `TypeError: expected <class 'int'>` after `recalc.py` ran | LibreOffice rewrote the workbook's `<mergeCell>` XML in a form openpyxl's default parser cannot read | The file itself is intact and openable in Excel — `recalc.py` already returned `status: success` via its raw-XML fallback (see `docs/recalc-guide.md` §9). For programmatic readback, retry with `load_workbook(path, read_only=True, data_only=True)` (streaming reader skips the merged-cell parser); when you also need formula strings, drop to the raw-XML pattern in `docs/create-edit-guide.md` §11 |
+| Polars `write_excel` output has no formulas, no charts, no styles | Expected — polars does not write formulas / charts / styles | Use openpyxl on the write side (see `docs/advanced-reference.md` §6) |
+| `load_workbook` strips VBA / pivot tables / slicers / connections | openpyxl can't round-trip these binary or strongly-coupled artefacts | Drop to `scripts/office/unpack.py` + manual XML edit + `scripts/office/pack.py`; see `docs/raw-xml-escape-hatch.md` §1 for the full no-go table |
+
+---
+
+## 8. Environment
+
+| Dependency | Purpose | Install |
+|---|---|---|
+| Python 3.9+ | All `.py` scripts | system |
+| `openpyxl` | Read / write `.xlsx` with formulas, styles, named ranges | `pip install openpyxl` |
+| `pandas` | Tabular read / write (default for §3.1) | `pip install pandas openpyxl` |
+| `polars` (optional) | Fast read for large files (§3.4) | `pip install polars` |
+| `xlsxwriter` (optional) | Write-only throughput (§3.3) | `pip install xlsxwriter` |
+| `pyexcel` (optional) | Format-agnostic conversion (§3.5) | `pip install pyexcel pyexcel-xlsx` |
+| LibreOffice (`soffice` on PATH) | `recalc.py` headless recalculation | macOS: `brew install --cask libreoffice`; Debian/Ubuntu: `apt install libreoffice` |
+| `coreutils` (macOS) | Provides `gtimeout` for the recalc timeout wrapper | `brew install coreutils` (optional; falls back to `subprocess` kwarg) |
+
+`scripts/office/soffice.py` auto-activates an `LD_PRELOAD` AF_UNIX shim
+when the host sandbox denies AF_UNIX (macOS App Sandbox, Linux seccomp);
+`recalc.py` already routes through `get_soffice_env()`, so it is transparent.
+
+For long-running batch jobs (hundreds of workbooks per hour), swap
+`soffice` per-call for [`unoserver`](https://github.com/unoconv/unoserver) —
+see [`docs/recalc-guide.md`](docs/recalc-guide.md) §7.
+
+
+========================================
+
+=== plan-mode ===
+---
+name: plan-mode
+description: >-
+  Plan before execution. Load when the task has meaningful ambiguity, multiple valid approaches, or the user explicitly wants to discuss first.
+  Trigger: '先规划一下', '讨论方案', '怎么做', 'what's the approach', 'help me think through', '先别写代码'.
+  Skip for trivial or fully-specified tasks.
+---
+
+# Plan Mode
+
+When this skill is loaded, you enter **plan mode**: first understand, then design, then hand off or implement. The goal is not to talk more — it is to reduce rework by locking in the right approach before execution.
+
+## When to Use
+
+Load this skill when **any** of the following is true:
+
+- The user explicitly wants to discuss, plan, or think through an approach first
+- The task has **multiple valid implementation paths** and the choice matters
+- The task will likely touch **multiple files / modules / packages** and needs shape before coding
+- Requirements are incomplete, ambiguous, or hidden in existing code / docs
+- The task is high-impact enough that coding first would risk obvious rework
+
+Typical user phrasing:
+
+- “先规划一下” / “先别写代码” / “讨论下方案”
+- “这个应该怎么做” / “你帮我想想”
+- “what's the approach” / “help me think through” / “let's plan”
+
+## When NOT to Use
+
+Do **not** load this skill when:
+
+- The task is trivial and the implementation path is obvious
+- The user already provided a concrete, low-ambiguity spec and wants execution now
+- It is a pure info lookup or small bugfix with a clear fix path
+- You can answer directly in 1-2 steps without creating meaningful design risk
+
+Rule of thumb:
+
+- **Need alignment first** → use `plan-mode`
+- **Need execution now** → do the work
+- **Need a large multi-agent produce/verify cycle** → use `mavis-team`
+
+## What This Skill Produces
+
+This skill should end with one of these outcomes:
+
+1. **Direct recommendation in chat** — for small planning questions
+2. **A concrete markdown plan / handoff doc** — for medium or complex work
+3. **A concrete execution brief** — when the next step should proceed from an explicit written plan
+
+Do not stop at vague advice. The output must make the next step obvious.
+
+## Communication Style
+
+What you're doing in plan mode is essentially "discussing an approach with a smart colleague." Communicate with that feel.
+
+**Core mindset: You're the trusted expert colleague — they're talking to you because you know your stuff, you're reliable, and you're easy to talk to.**
+
+How to do it:
+
+- Talk like a human. Use the tone you'd use discussing with a good colleague at a whiteboard, not writing a technical document.
+- Lead with your conclusion and judgment, then explain why — they want your professional opinion, not your analysis process.
+- Technical details (file paths, line numbers, interface definitions, migration steps) go in the plan doc. In chat, just say "what parts to change and why" — that's enough.
+- When you need them to decide, make the choices clear. "Do you prefer A or B?" beats "There are several approaches we could consider..." by a mile.
+- Don't be afraid to have an opinion. "I think this is better" is more convincing than "after comprehensive evaluation across multiple dimensions, I recommend..."
+
+### Feel the difference
+
+Say the user asks: "I want cron jobs to auto-retry on failure. How should we do it?"
+
+**Don't do this:**
+
+> I looked at the current implementation. When a cron fails, it just gets skipped — no retry.
+>
+> I suggest adding an optional `retry` config to each cron definition (attempts + backoff). If not configured, behavior stays the same. No need for a global default — different crons have different characteristics, so retry strategy should be up to each one.
+>
+> There's one key question for you to decide: if a cron is still retrying when the next scheduled tick arrives, should we skip or queue? I lean toward skipping to avoid pile-up.
+>
+> The changes touch three files, nothing complicated. I'll write it up in a plan doc. Should take half a day.
+>
+> **Next Step:** Once you confirm the "skip" strategy works for you, I'll start writing.
+
+This version has the right information, but it reads like filling out a template — "I looked at", "I suggest", "there's one key question for you to decide", "Next Step". Too neat, no personality.
+
+**Do this instead:**
+
+> Right now a failed cron just gets skipped — yeah, we should add retry.
+>
+> The idea is simple: let each cron decide whether it wants to retry, how many times, and how long to wait between attempts. If not configured, behavior stays exactly the same — won't break anything. A global default strategy doesn't make sense here — retrying a failed Slack notification 3 times? Sure. Blindly retrying a failed database cleanup job? Dangerous. Each cron should own that call.
+>
+> One thing I want to align on first: what if the cron is still retrying when the next scheduled tick comes around? I think just skip it — otherwise failed jobs pile up. What do you think?
+>
+> It's not a big change, three files. Once you decide on the retry policy I'll write up the plan — half a day to implement.
+
+What's the difference? It has judgment, reasons, situational awareness ("Slack notification vs database cleanup" makes it instantly clear why no global default), and then naturally passes the ball back. Not stiff, but every sentence carries weight.
+
+## Working Mode
+
+### 1. Clarify only what matters
+
+- Ask only for information you cannot infer from code, docs, or context
+- Batch related questions together
+- Prefer resolving ambiguity through evidence before asking the user
+
+### 2. Inspect reality first
+
+- Check existing code, docs, and prior patterns before proposing anything new
+- Reuse established abstractions where possible
+- Avoid “greenfield fantasy architecture” when the repo already has a path
+
+### 3. Recommend one path
+
+- Consider alternatives internally, but present a **recommended** approach
+- Explain trade-offs briefly: complexity, risk, speed, maintainability
+- Only surface multiple options when the user genuinely needs to choose
+
+### 4. Make the handoff executable
+
+Your final output should usually include:
+
+- Scope: what is in / out
+- Recommended approach
+- Key constraints or decisions
+- Critical files / systems / interfaces involved
+- Verification idea or acceptance bar
+- Clear next step
+
+## Handoff Rules
+
+**Small stuff**: Just say it in chat. A few sentences, done.
+
+**Needs to be documented**: Write a markdown plan doc. In chat, just say "here's the plan, here's the next step."
+
+What the plan doc should have:
+- Background / what's the problem
+- Which path you picked and why
+- Key trade-offs
+- Boundaries and assumptions
+- How to verify it works
+
+When should you write a doc? — When the person executing shouldn't have to scroll through chat history to get started.
+
+## Principles
+
+- Think about **why**, not just **how**
+- If a small change works, don't do a big one — architecture astronauts aren't welcome
+- Make the plan fit the existing system, not chase abstract elegance
+- When you're unsure, say so — don't pretend
+- Match the planning effort to the task complexity — don't make a big production out of small stuff
+
+## Output Conventions
+
+Pick the lightest format that gets the job done:
+
+- **Quick alignment** — reply in chat. A few sentences, done.
+- **Needs future reference** — write a markdown doc, share the path. The doc carries the details; the chat message just says what it is and what to do next.
+
+Whatever the format, always end with a clear **Next Step**.
+
+
+========================================
+
+=== skill-creator ===
+---
+name: skill-creator
+description: |
+  Create a new Mavis skill with a short eval-driven loop. Use when the user asks to
+  create a skill, turn a repeated workflow into a skill, or build a new reusable procedure.
+  Do not use for improving or fixing an existing skill (use skill-refiner instead),
+  or when the user only wants to run a skill or learn what skills exist.
+---
+
+# Skill Creator
+
+Turn a reusable workflow into a dense skill, then verify it against a real prompt.
+
+## Inputs to collect
+
+Collect only the missing information:
+
+1. **Goal**: What should the skill help the model do?
+2. **Triggers**: What user phrases should activate it?
+3. **Boundaries**: What nearby requests should not trigger it?
+4. **Success bar**: What does one good run look like?
+
+If the user only has a vague idea, load `plan-mode` to clarify the request. Do not invent a long interview flow inside this skill.
+
+## Mandatory platform command router
+
+This skill intentionally keeps executable shell recipes OUT of `SKILL.md`. Before you run any command for this skill, select exactly one platform command reference and use only that file's recipes.
+
+Router:
+
+1. Read `<agent-context>.platform`.
+2. If `platform` is `win32`:
+   - REQUIRED: read `references/commands-windows-powershell.md`.
+   - Use PowerShell recipes from that file only.
+   - Do NOT use bash snippets, `/tmp/...`, `mkdir -p`, `cat <<EOF`, or `python3` assumptions.
+3. If `platform` is `darwin` or `linux`:
+   - REQUIRED: read `references/commands-macos-linux.md`.
+   - Use bash/zsh recipes from that file only.
+4. If `platform` is missing or unknown:
+   - Do a tiny preflight to identify the shell/platform before running anything.
+   - If still unclear, ask the user which environment is running the command.
+
+Never translate shell commands across platforms from memory. The platform reference files own every recipe this skill needs (`list-skills`, `locate-skill-dir`, `run-lint`, `eval-scratch-dir`, `write-eval-yaml`, `run-eval`, `baseline-output-paths`).
+
+## Procedure
+
+1. Check whether a matching skill already exists.
+
+Use the `list-skills` recipe from the selected platform command reference.
+
+If a nearby skill already covers the use case, **do not create a duplicate**. Instead, tell
+the user to use `skill-refiner` to extend or improve the existing skill.
+
+2. Determine the skill scope.
+
+Use the three-question test to decide where the skill lives:
+
+- **Will the answer change for a different user?** → User skill (`~/.mavis/skills/`)
+- **Does it hold true across projects?** → Agent skill (`~/.mavis/agents/<name>/skills/`)
+- **Only relevant to the current project?** → Project skill (`.harness/skills/`)
+
+3. Capture the reusable workflow from the lightest source available.
+
+- Prefer the just-finished conversation or user-provided workflow doc.
+- Condense it into the minimum procedure another model needs.
+- If the idea is still vague, use `plan-mode`, then return here.
+
+4. Design the skill around progressive disclosure.
+
+- Put trigger/boundary information in frontmatter `description`, not in a `When to use` section.
+- Keep `SKILL.md` focused on execution rules: procedure, output contract, failure handling.
+- Move bulky background, schemas, or variants into `references/`.
+- Add `scripts/` only for deterministic local work; add `plans/` only for Team Engine orchestration.
+
+5. Draft `SKILL.md` with high information density.
+
+- Keep body sections short and imperative.
+- Remove README-style teaching, feature tours, redundant trigger lists, and API-overview prose.
+- Keep only one or two canonical examples.
+- Follow `references/skill-template.md`, `references/description-rubric.md`, and `references/anti-patterns.md`.
+
+Write the skill into the location determined in step 2:
+
+```
+~/.mavis/skills/<skill-name>/
+~/.mavis/agents/<agent-name>/skills/<skill-name>/
+.harness/skills/<skill-name>/
+```
+
+Use this structure only when needed:
+
+```
+<skill-root>/
+├── SKILL.md
+├── scripts/        # deterministic local work only
+├── plans/          # Team Engine orchestration only
+└── references/     # bulk material the main file should not inline
+```
+
+Do not create extra scaffolding by default: `README.md`, `CHANGELOG.md`, `install.sh`, `.env`, `.env.example`, `.gitignore`, `assets/`, or `evals/`.
+
+For script bundling rules, see `references/when-to-bundle-scripts.md`.
+
+6. Lint before eval.
+
+Use the `run-lint` recipe from the selected platform command reference (it locates the skill directory via `mavis skill show` and runs `node scripts/lint-skill.js` against the new skill path).
+
+Check for complete frontmatter, matching kebab-case names, a useful description, main-file size,
+forbidden files, and valid `references/` links.
+
+Do not move on until lint passes.
+
+7. Eval against a real user prompt.
+
+Eval compares "with-skill" vs "without-skill" on a real prompt. Two paths depending on
+whether Team Engine is available.
+
+**Pick a real eval prompt first**: a genuine user question that should trigger this skill.
+
+#### Path A -- Team Engine available
+
+Use the `write-eval-yaml` and `run-eval` recipes from the selected platform command reference.
+They cover:
+
+- copying `plans/eval-skill.template.yaml` to a platform-appropriate scratch path
+- substituting `<SKILL_NAME>`, `<SKILL_PATH>`, and `<EVAL_PROMPT>`
+- launching the plan via `mavis team plan run <yaml>`
+
+The plan runs producer and baseline **in parallel** (no `depends_on` between them),
+then a compare task synthesizes the verdict.
+
+#### Path B -- Degraded (no Team Engine)
+
+Use two **parallel** Task tool calls (subagents) in a single response. Use the
+`baseline-output-paths` recipe from the platform command reference for the writable
+scratch directory (do NOT hardcode `/tmp/`):
+
+1. **Producer**: "Load skill at `<SKILL_PATH>`, use it to handle: `<EVAL_PROMPT>`.
+   Write your process and output to `<scratch>/eval-<skill-name>/with-skill.md`."
+2. **Baseline**: "Handle this task without loading any skill: `<EVAL_PROMPT>`.
+   Write your process and output to `<scratch>/eval-<skill-name>/baseline.md`."
+
+Both use `subagent_type: general`. After both return, read the two files and do the
+comparison yourself -- same 5-point rubric as `plans/eval-skill.template.yaml`'s
+compare task.
+
+8. Iterate only if eval exposes a real weakness.
+
+Read the comparison output, improve the skill, then repeat lint and eval.
+
+Stop when any of these is true:
+- the user is satisfied
+- the skill clearly beats or matches baseline without major regressions
+- two rounds in a row produce no meaningful gain
+
+## Output contract
+
+Deliver:
+- a skill under the appropriate scope directory (user / agent / project)
+- a passing lint result
+- at least one evaluation round where the skill is not worse than baseline
+
+## Failure handling
+
+- If lint keeps failing, rewrite the skill more simply instead of padding it.
+- If eval says the skill is worse than baseline, check whether the problem is description quality, body bloat, over-strict procedure, or whether the skill should exist at all.
+- If the user cancels the idea, remove the unfinished skill directory instead of keeping a half-product.
+
+## Examples
+
+**Input**: "I just figured out how to check someone's availability in Feishu Calendar. Turn this into a skill."
+
+**Good path**:
+1. Run `mavis skill list` and find no existing availability-checking skill.
+2. Ask the scope question: this is user-agnostic and cross-project, so agent skill.
+3. Draft a concise `SKILL.md` with the procedure, lint it, run eval.
+
+**Bad path**: immediately create a brand-new skill without checking for overlap first, or try to
+extend an existing calendar skill in this creator instead of directing to skill-refiner.
+
+## Additional resources
+
+- `references/commands-macos-linux.md` - bash/zsh recipes (darwin/linux)
+- `references/commands-windows-powershell.md` - PowerShell recipes (win32)
+- `references/skill-template.md` - section skeleton
+- `references/description-rubric.md` - description guidance
+- `references/anti-patterns.md` - common failure modes
+- `references/when-to-bundle-scripts.md` - script vs plan vs direct procedure
+- `scripts/lint-skill.js` - deterministic validation
+- `plans/eval-skill.template.yaml` - evaluation plan template
+
+
+========================================
+
+=== skill-evolution ===
+---
+name: skill-evolution
+description: |
+  How to shape Mavis's skill set as you work — when and how to file a skill
+  signal (existing skill is wrong / missing) versus a skill creation proposal
+  (this session reveals a reusable new skill). Use when about to call
+  `mavis skill signal report` or `mavis skill proposal report`, when the
+  session-end fallback re-prompt asks you to reflect on signals/proposals,
+  or when you need to read the full schema, attribution rubric, scope
+  decision tree, or good/bad examples for either channel. Do not use for
+  authoring an actual SKILL.md (that's `skill-creator` / `skill-refiner`).
+---
+
+# Skill Evolution Channels
+
+Two ways to shape Mavis's skill set as you work:
+
+| Channel | When | What you submit |
+|---------|------|-----------------|
+| **Signal** | An existing skill is wrong / missing | Issue kind + evidence |
+| **Proposal** | This session reveals a reusable NEW skill pattern | Suggested name/scope/summary/rationale |
+
+The nightly `skill-evolve-nightly` cron consumes both. Signals get triaged
+into refine/create/dismiss. Proposals get triaged into create/dismiss
+(and may be acted on by spawning `skill-creator`).
+
+You don't author SKILL.md here — `skill-creator` / `skill-refiner` do that.
+
+---
+
+## When to use which channel
+
+### Signal — file when ANY of these are true
+
+- A loaded skill gave you wrong / outdated / contradictory / incomplete instructions
+- A loaded skill's trigger conditions are too broad (firing when it shouldn't) or too narrow (not firing when it should)
+- You wanted to do something but no skill covers the scenario (`issueKind=missing-skill`)
+- A real skill defect that doesn't fit the categories above (`issueKind=other`)
+
+### Proposal — file when ALL are true
+
+- A clearly reusable working **pattern** emerged in this session
+- No existing skill covers it
+- The pattern repeats / will repeat (not a one-off task)
+- You can summarize what the proposed skill would do in 1-2 sentences
+
+If only some of the proposal conditions hold (especially "will repeat"),
+**don't propose**. Submitting weak proposals wastes nightly review and
+pollutes the skill catalog.
+
+### When to use neither
+
+- You failed to follow correct skill instructions → that's an agent error, NOT a skill issue
+- The task was simply complex but no instruction was wrong → don't signal/propose
+- You felt uncertain but the skill ultimately worked → don't signal/propose
+
+---
+
+## How to read the references
+
+| Topic | Reference |
+|-------|-----------|
+| Full signal field rubric, issueKind/attribution decision table, examples of valid/invalid signals | [references/signal-rubric.md](references/signal-rubric.md) |
+| Full proposal schema, scope decision tree, good/bad proposal examples | [references/proposal-rubric.md](references/proposal-rubric.md) |
+| Exact CLI command templates with all flags | [references/cli-commands.md](references/cli-commands.md) |
+| What happens to your submission after you file it | [references/nightly-pipeline.md](references/nightly-pipeline.md) |
+
+Load the reference matching what you're about to do — don't read all of them at once.
+
+---
+
+## Hard rules
+
+1. **Don't include suggested fixes in signals.** Evidence + rationale only.
+   The fix is decided later by the skill-refiner workflow.
+2. **Don't include full SKILL.md drafts in proposals.** A `sketch` (high-level outline)
+   is OK and encouraged. Full drafting is `skill-creator`'s job.
+3. **One-off ≠ proposal.** "I did a complex task once" is not enough.
+   "This pattern will repeat" must be defensible.
+4. **Quote actual conversation in `evidence` / `evidenceExcerpts`.** Not summaries.
+   ≤ 200 chars per signal evidence; ≤ 300 chars per proposal evidence (max 3 entries).
+5. **`attribution=agent_error` is NEVER a valid signal channel.** If the issue
+   was your own mistake, don't file. Just adjust your behavior.
+
+
+========================================
+
+=== skill-refiner ===
+---
+name: skill-refiner
+description: |
+  Refine an existing Mavis skill with evidence-driven minimal patches.
+  Use when a skill has a concrete problem (wrong instructions, outdated steps,
+  missing edge case) backed by evidence. Do not use for creating new skills
+  (use skill-creator), or for stylistic preferences without evidence.
+---
+
+# Skill Refiner
+
+Apply the smallest evidence-backed patch to fix a real skill problem.
+
+## When NOT to use
+
+- Creating a brand-new skill -> use `skill-creator`
+- No concrete evidence of a problem -> do nothing
+- The agent failed to follow correct instructions -> agent error, not a skill issue
+
+## Procedure
+
+1. **Collect evidence**.
+
+Identify exactly what went wrong. Evidence sources:
+
+- A signal from `mavis skill signal list` with severity and issue-kind
+- User feedback in the current session ("this skill told me to X but the right step is Y")
+- A concrete failure trace where the skill's instructions caused wrong behavior
+
+If the only evidence is "the skill could be better" with no specifics, stop here.
+
+2. **Read the current skill**.
+
+```bash
+mavis skill show <name>
+```
+
+Capture the content and the `hash` field (needed for CAS protection in step 6).
+
+3. **Attribute the problem**.
+
+Before touching the skill, determine what actually went wrong:
+
+| Situation | Action |
+|-----------|--------|
+| Skill text is factually wrong or outdated | Fix the skill |
+| Agent didn't follow the skill's correct instructions | Do NOT change the skill -- agent error |
+| Environment changed (new API, renamed command, etc.) | Update the skill to reflect new reality |
+| Skill works for the common case but misses an edge case | Add the edge case |
+| Stylistic preference with no functional impact | Do NOT change |
+
+If the problem is not in the skill itself, dismiss the signal (if one exists) and explain why.
+
+4. **Generate patch**.
+
+Design the minimal change that fixes the problem. Document:
+
+```
+Problem:   <what is broken>
+Evidence:  <specific quote, error trace, or user statement>
+Rationale: <why this change fixes it without breaking other behavior>
+```
+
+Use `old_string` / `new_string` format for each edit point. Prefer surgical patches over
+section rewrites.
+
+5. **Self-check before applying**.
+
+Ask yourself:
+
+- Does this change actually address the evidence? (not a nearby symptom)
+- Could it break existing correct behavior?
+- Am I adding generic best practices instead of fixing a specific problem? (anti-pattern)
+- Is this a self-referential modification? (skill-refiner editing itself -- forbidden)
+
+If any check fails, revise the patch or abandon the change.
+
+6. **Apply the patch**.
+
+Two routes depending on skill type:
+
+#### User / Agent skills (mutable)
+
+```bash
+# Via API (preferred -- includes CAS + audit)
+curl -X POST http://127.0.0.1:$PORT/api/skill-evolve/apply \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "skillRef": "<scope:name>",
+    "newContent": "<full updated SKILL.md content>",
+    "action": "refine",
+    "signalIds": ["<signal-ids-if-applicable>"],
+    "expectedOldHash": "<hash-from-step-2>",
+    "rationale": "<Problem + Evidence + Rationale>"
+  }'
+```
+
+Or edit the file directly with the Edit tool, but always verify the hash hasn't changed first.
+
+#### Built-in / Project skills (immutable at runtime)
+
+These live in the repo (`packages/daemon/skills/` or `.harness/skills/`). Do NOT edit them
+via the API. Instead:
+1. Note the required change
+2. Advise the user to make the change in a worktree and submit via MR
+3. Dismiss the signal with reason "built-in skill, requires MR"
+
+7. **Verify**.
+
+After applying, re-read the skill and confirm:
+- The patch landed correctly
+- The frontmatter `name` and `description` are intact
+- The overall skill still reads coherently
+
+```bash
+mavis skill show <name>
+```
+
+## Hard constraints
+
+- **CAS required**: every apply must include `expectedOldHash`
+- **No secrets**: never write API keys, tokens, or credentials into skill files
+- **Size limit**: skill must stay under 100KB after patch
+- **Frontmatter sacred**: `name` and `description` fields must survive every edit
+- **No self-referential edits**: skill-refiner must not modify its own SKILL.md
+- **Evidence mandatory**: every patch must trace back to a specific problem
+- **Built-in skills are read-only**: changes go through MR, not runtime edits
+
+## Anti-patterns
+
+- Rewriting a skill from scratch when a one-line fix would work
+- Adding generic disclaimers ("always check...", "be careful to...")
+- Deleting a correct instruction because one signal reported a false positive
+- Changing style (wording, formatting) without functional justification
+- Applying multiple unrelated fixes in one patch (split them)
+- Acting on a signal without verifying the evidence first
+
+## Output contract
+
+Deliver:
+- The applied patch with problem/evidence/rationale documented
+- Verification that the skill reads correctly post-patch
+- Signal verdict updated (if triggered by a signal)
+
+## Failure handling
+
+- If the hash doesn't match (concurrent edit), re-read and re-plan the patch
+- If the patch makes the skill worse on re-read, revert and try a different approach
+- If evidence is ambiguous, dismiss the signal with explanation rather than guessing
+
+
+========================================
+
+=== visual-summary ===
+---
+name: visual-summary
+description: >-
+  Proactively create a visual summary HTML page when plain text cannot effectively convey the information.
+  Use this skill when: the content involves diagrams (flowcharts, architecture, sequence diagrams),
+  data comparisons (tables, charts), timelines, interactive demos, visual layouts, or any scenario
+  where a simple webpage would communicate more clearly than markdown text.
+  Also use when the user explicitly asks for a visual summary, a webpage, or says "show me" / "画个图" / "做个页面" / "可视化".
+  This skill should be used proactively by the model — do not wait for the user to ask.
+---
+
+# Visual Summary Skill
+
+## Workflow
+
+Create a self-contained local HTML webpage and send it to the user.
+
+1. Choose an output path:
+   - If the user specified an output path, use it.
+   - If the user provided an input file or directory and no output path, save the HTML next to the input when appropriate.
+   - Otherwise, create a descriptive `.html` file in the current workspace or approved temp workspace.
+2. Write one complete `index.html`-style document with all CSS and JavaScript inlined unless an external CDN is genuinely useful.
+3. Verify the page is valid enough to open directly in a browser: no missing local assets, no broken relative references, responsive layout.
+4. Send the created or modified `.html` file to the user with a `<media />` tag, for example:
+   `<media type="file" src="/absolute/path/to/visual-summary.html" caption="Visual summary HTML page" />`
+
+Do not upload the page to a hardcoded hosting service. If the user asks for a shareable URL, ask which hosting destination to use or use an explicitly configured project/user hosting flow.
+
+When the user asks to revise, update, or tweak a page, edit the existing HTML file when it is available so the deliverable remains continuity-friendly. If the previous file is unavailable, create a new HTML file and mention that it is a refreshed copy.
+
+CDN when needed: Tailwind (`cdn.tailwindcss.com`), Mermaid, Chart.js, D3.
+
+---
+
+## Design Philosophy
+
+**Aesthetics is the goal, not decoration.** A page that "works" but looks cheap is a failure. The reader's eyes judge in 2 seconds before reading a single word. Treat beauty as a non-negotiable requirement equal to data correctness.
+
+**Design for the reader.** You are guiding a human eye, not displaying your work. One H1, one core conclusion, F-pattern scanning. Empty space is a feature. Charts and inline SVG beat dense paragraphs for any structured comparison or hierarchy.
+
+**Less is more.** Every element earns its place. No filler sections, no data slop (pointless stats/badges). When unsure between "add another card" or "let it breathe" — let it breathe.
+
+---
+
+## Rules
+
+### 1. Pick the page mode FIRST
+
+| Mode | When | Background | Font |
+|---|---|---|---|
+| **Data UI** | Dashboards, charts, tables | `#fafafa` / white | Sans (Outfit) |
+| **Long-read / Report** | Research, design docs, architecture pages | Warm cream `#f7f5f0` | Sans body + **serif headlines** (DM Serif Display) |
+| **Terminal** | Code demos, log viewers | `#1a1a2e` (NEVER `#000`) | Mono-prominent |
+
+Wrong-mode = ugly page. Research report on dark slate → dashboard look. Dashboard with serif → poster look.
+
+### 2. Color
+
+**BANNED:** pure `#000`, purple/blue AI gradients, neon glows, oversaturated accents.
+
+**Accent — pick ONE per page:**
+- Data UI: `#10b981` / `#3b82f6` / `#f59e0b` / `#f43f5e` / `#6366f1`
+- Report: `#2f6f5e` / `#c97b3f` / `#b06367`
+
+Use at 5-10% opacity for backgrounds, 100% for headers/icons only.
+
+**Report palette:** cream `#f7f5f0`, cards white + border `#e9e3d6`, text `#14171e` / `#3a4256` / `#7c7a72`. Optional: two corner radial gradients at 5% opacity.
+
+### 3. Typography
+
+**BANNED fonts:** Inter, Roboto, Arial, Fraunces, system defaults.
+
+**Use:** `Outfit` (sans), `JetBrains Mono` (mono), `DM Serif Display` (Report headlines only).
+
+```html
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Outfit:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+```
+
+Report headlines: `font-serif text-3xl font-normal tracking-[-0.005em]`. Body always sans. Serif forbidden on Data UI.
+
+### 4. Layout
+
+**BANNED:** 3 equal cards in a row, centered-everything heroes, `border-l-4` accent cards, `h-screen`.
+
+**Use:** `max-w-5xl mx-auto px-6 md:px-8`, `space-y-16`, CSS Grid 12-column, `min-h-[100dvh]`. Mobile: single-column below 768px, no horizontal scroll.
+
+### 4.5 Density — CJK pages need tighter spacing
+
+Most CSS frameworks assume Latin typography. CJK characters are square blocks with built-in visual mass — copying Latin defaults (`line-height: 1.7+`, body `16-17px`, section gap `80px+`, card padding `28-32px`) makes Chinese pages feel sparse, with the first screen showing only a hero and one card.
+
+Calibrate: **does the first screen communicate the core idea, or is it just hero + breathing room?**
+
+Working ranges for CJK-heavy text (adjust by content, not hard rules):
+- Body: 14–15px, line-height 1.5–1.65
+- Headlines: H1 28–34px, H2 22–26px
+- Section gaps: 40–56px
+- Paragraph margin-bottom: 8–12px
+- Card padding: 16–22px
+
+Latin-only pages can be more generous. Mixed CJK + Latin follows the CJK side.
+
+### 5. Surfaces
+
+`rounded-2xl`, `border border-zinc-200/50`. Diffusion shadows only: `shadow-[0_2px_8px_rgba(0,0,0,0.04)]` / `shadow-[0_4px_16px_-2px_rgba(0,0,0,0.06)]`. Hover: `hover:-translate-y-0.5 hover:shadow-md transition-all duration-200`.
+
+### 6. Icons & diagrams — inline SVG only
+
+**No emoji as icons, no ASCII art (`┌─┐ │ ├─`) for diagrams.** Use inline SVG from [lucide.dev](https://lucide.dev) with `currentColor`, `stroke-width="2"`, `viewBox="0 0 24 24"`. One icon per section header max.
+
+For diagrams: use §8 patterns (arch-row, flow-node) or Mermaid for 4+ nodes. Never box-drawing characters.
+
+### 7. Visualization — match tool to data
+
+| Data shape | Tool |
+|---|---|
+| 2-8 comparisons | CSS bench bars (§8) or `<table>` |
+| Time-series / >8 points | Chart.js |
+| Hierarchy / modules | §8 arch-row or inline SVG |
+| Process flow ≥4 nodes | Mermaid |
+| Process flow 2-3 nodes | §8 flow-node |
+| Key-value ≤6 rows | §8 kv-card |
+| Roadmap / phases | §8 step-timeline |
+
+**Rule:** don't import Chart.js/Mermaid for <5 data points or <4 nodes — hand-roll CSS/SVG.
+
+Chart.js defaults: `font.family = "'Outfit'"`, `color = '#71717a'`, `borderColor = 'rgba(0,0,0,0.04)'`, `borderRadius: 6`.
+
+### 8. Pattern Library
+
+Copy-paste components. CSS vars assume Report palette.
+
+**Bench bar:**
+```html
+<div class="bench-row">
+  <span class="label">Name</span>
+  <div class="bar-bg"><div class="bar-fill" style="width:42.5%"></div></div>
+  <span class="val">42.5%</span>
+</div>
+```
+```css
+.bench-row { display: grid; grid-template-columns: 140px 1fr 60px; gap: 14px; align-items: center; padding: 7px 0; }
+.bar-bg { height: 18px; background: var(--line-soft); border-radius: 6px; overflow: hidden; }
+.bar-fill { height: 100%; background: linear-gradient(90deg, var(--primary), #4a8e7c); border-radius: 6px; }
+```
+
+**Step timeline:**
+```css
+.timeline { position: relative; }
+.timeline::before { content: ""; position: absolute; left: 22px; top: 6px; bottom: 6px;
+  width: 2px; background: linear-gradient(180deg, var(--primary), var(--accent)); }
+.step { position: relative; padding-left: 60px; margin-bottom: 32px; }
+.step-icon { position: absolute; left: 6px; top: 0; width: 36px; height: 36px;
+  border-radius: 50%; background: white; border: 2px solid var(--primary);
+  display: inline-flex; align-items: center; justify-content: center; }
+```
+
+**Arch row** (replaces ASCII trees): two-column grid `130px 1fr`, tier label left, blocks flow right.
+```html
+<div class="arch-row">
+  <span class="arch-tier">Layer</span>
+  <div class="arch-blocks">
+    <span class="arch-block">Module <span class="desc-mini">description</span></span>
+  </div>
+</div>
+```
+
+**Flow node + arrow** (replaces ASCII boxes): two cards stacked, arrow row in middle with SVG arrowheads + protocol label.
+
+**KV card:** two-column grid `110px 1fr`, dashed borders between rows. Better than tables for ≤6 rows.
+
+---
+
+## Anti-Slop Checklist
+
+- [ ] 2-second test — first impression crafted, not generic?
+- [ ] Reader gets core conclusion within one screen
+- [ ] Enough whitespace — if "full", remove a section
+- [ ] Page mode picked correctly (not dark dashboard for a report)
+- [ ] No `#000`, no AI gradients, no neon, no Inter/Roboto/Arial
+- [ ] No emoji icons — inline SVG with `currentColor`
+- [ ] No ASCII art diagrams — using CSS/SVG patterns
+- [ ] No 3-equal-cards, no `border-l-4` accent cards
+- [ ] Didn't import Chart.js/Mermaid for <5 data points
+- [ ] No filler, no round-number stats, no banned copy ("Elevate", "Seamless")
+- [ ] Mobile responsive, every interactive element has hover state
+- [ ] Created or updated a local `.html` file and sent it with `<media />`
+
+---
+
+## HTML Template — Long-read Report
+
+Default when in doubt. For Data UI: swap cream→`#fafafa`, drop serif, simpler hero.
+
+```html
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Page Title</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Outfit:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f7f5f0; --panel: #ffffff; --line: #e9e3d6; --line-soft: #f0ebdf;
+      --text: #1f2533; --text-2: #3a4256; --muted: #7c7a72; --ink: #14171e;
+      --primary: #2f6f5e; --accent: #c97b3f;
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { margin: 0; }
+    body {
+      font-family: 'Outfit', -apple-system, 'PingFang SC', sans-serif;
+      background: var(--bg); color: var(--text); line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+      background-image:
+        radial-gradient(at 0% 0%, rgba(47,111,94,.05) 0%, transparent 45%),
+        radial-gradient(at 100% 0%, rgba(201,123,63,.05) 0%, transparent 45%);
+      background-attachment: fixed;
+    }
+    .wrap { max-width: 1080px; margin: 0 auto; padding: 56px 28px 96px; }
+    * { text-wrap: pretty; }
+    header.hero {
+      padding: 44px; border-radius: 22px;
+      background: linear-gradient(135deg, #f9f6ee, #efece6);
+      border: 1px solid var(--line); margin-bottom: 56px;
+      box-shadow: 0 1px 0 rgba(255,255,255,.6) inset, 0 6px 24px -16px rgba(20,23,30,.12);
+    }
+    header.hero h1 {
+      font-family: 'DM Serif Display', 'Source Han Serif SC', Georgia, serif;
+      font-size: 38px; font-weight: 400; line-height: 1.2; margin: 12px 0;
+      color: var(--ink);
+    }
+    h2 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 28px; font-weight: 400; margin: 64px 0 22px;
+      padding-bottom: 12px; border-bottom: 1px solid var(--line);
+      color: var(--ink); display: flex; align-items: center; gap: 14px;
+    }
+    h2 .sec-num {
+      width: 38px; height: 38px; border-radius: 10px; font-size: 13px;
+      font-family: 'Outfit', sans-serif; font-weight: 700;
+      background: linear-gradient(135deg, var(--primary), #1f4e42); color: #fff;
+      display: inline-flex; align-items: center; justify-content: center;
+    }
+    .card {
+      background: var(--panel); border: 1px solid var(--line);
+      border-radius: 14px; padding: 22px;
+      box-shadow: 0 4px 14px -10px rgba(20,23,30,.08);
+      transition: transform .15s, box-shadow .15s;
+    }
+    .card:hover { transform: translateY(-2px); box-shadow: 0 12px 28px -18px rgba(20,23,30,.18); }
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <header class="hero">
+    <h1>Page Title</h1>
+    <p style="color: var(--text-2); max-width: 800px;">Core conclusion in one sentence.</p>
+  </header>
+  <h2><span class="sec-num">01</span>Section</h2>
+</div>
+</body>
+</html>
+```
+
+## Example Output
+
+> I made a visual summary — much clearer than text:
+>
+> `<media type="file" src="/absolute/path/to/visual-summary.html" caption="Visual summary HTML page" />`
+
+
+========================================
+
+=== worktree-management ===
+---
+name: worktree-management
+description: "Git worktree workflow for isolated development. Load ONLY when the user has explicitly opted into worktree mode (UI WorktreeToggle ON, or the project's AGENTS.md mandates worktree workflow). Covers: worktree creation, branch naming, development workflow, invasive testing, merge/cleanup. Do NOT load by default — code edits, bug fixes, feature work, and file changes go directly in the workspace unless the user or project has opted in."
+---
+
+# Worktree Management
+
+## Core Rule (no exceptions)
+
+**All code changes must happen in a worktree. The main codebase directory stays on the project's default branch (e.g. `main`, `master`, `dev`, `trunk`), always clean. Unless the user explicitly asks you to commit to the default branch, never commit there directly — always use a feature/fix branch.**
+
+- Edit one line → worktree
+- Fix a bug → worktree
+- Add a test → worktree
+- Any git-tracked file edit → worktree
+
+**Violating this rule pollutes the reference baseline.**
+
+## Architecture
+
+```
+Main directory (/path/to/project/)           ← always on the project's default branch, clean
+  └── stable services run here (if applicable)
+
+Dev worktree (/path/to/project/.worktrees/feature-xxx/)
+  └── edit code + run tests here
+```
+
+**Why?** Projects with watch-mode dev servers restart on file changes. Editing in a separate worktree avoids disrupting running services.
+
+## Detect the Default Branch
+
+Different projects use different default branches (`main`, `master`, `dev`, `trunk`, etc.). Detect it before creating the worktree — don't hardcode `main`.
+
+```bash
+# Preferred: ask the remote
+git remote show origin | sed -n 's/^ *HEAD branch: //p'
+
+# Fallback: read the symbolic ref
+git symbolic-ref --short refs/remotes/origin/HEAD | sed 's@^origin/@@'
+```
+
+If the project documents a different base branch (e.g. `dev` for feature work, `main` for hotfix), follow the project convention. When in doubt, ask the user.
+
+## Creating a Worktree
+
+### Branch Naming (mandatory)
+
+- `feature/<kebab-case-name>` — new features
+- `fix/<kebab-case-name>` — bug fixes
+
+Examples: `feature/user-auth`, `fix/login-redirect`
+
+### Commands
+
+```bash
+# Always fetch first
+git fetch origin
+
+# Resolve the project root — MUST use absolute path to prevent cwd drift
+PROJECT_ROOT=$(git rev-parse --show-toplevel)
+
+# Resolve the base branch (see "Detect the Default Branch" above)
+BASE=$(git remote show origin | sed -n 's/^ *HEAD branch: //p')
+
+# Create worktree from the base branch
+git worktree add "$PROJECT_ROOT/.worktrees/feature-xxx" -b feature/xxx "origin/$BASE"
+cd "$PROJECT_ROOT/.worktrees/feature-xxx"
+
+# Install dependencies (if applicable)
+npm install  # or pnpm install, yarn, etc.
+```
+
+All worktrees go under `$PROJECT_ROOT/.worktrees/`. **Always resolve the project root with `git rev-parse --show-toplevel` first — never rely on cwd being the project root, or the worktree will land in the wrong directory.**
+
+## Development Workflow
+
+```bash
+PROJECT_ROOT=$(git rev-parse --show-toplevel)
+cd "$PROJECT_ROOT/.worktrees/feature-xxx"
+
+# Edit code...
+
+# Validate
+npm run typecheck     # if applicable
+npm test              # run tests
+```
+
+Key rules:
+- Don't read/write files across worktrees
+- Each worktree handles one task
+- Start a dev server in the worktree only when you need to verify runtime behavior
+
+## Invasive Testing (for testers)
+
+Create a test worktree from the feature branch:
+
+```bash
+PROJECT_ROOT=$(git rev-parse --show-toplevel)
+git worktree add "$PROJECT_ROOT/.worktrees/test-feat-invasive" feature/xxx
+```
+
+In the test worktree, freely modify source code for:
+- **Fault injection** — simulate I/O failures, network errors
+- **Probe insertion** — add counters and logging to critical paths
+- **Boundary testing** — extreme inputs, empty states, huge payloads
+- **Race detection** — add random delays to async operations, then trigger concurrent access
+
+Record findings in a handoff document. **Never commit invasive code** — keep the conclusions, discard the modifications.
+
+```bash
+# Cleanup after testing
+PROJECT_ROOT=$(git rev-parse --show-toplevel)
+git worktree remove "$PROJECT_ROOT/.worktrees/test-feat-invasive"
+```
+
+## Before Creating a PR/MR
+
+```bash
+# Sync with the latest base branch (use the same branch you created the worktree from)
+git fetch origin
+git rebase "origin/$BASE"
+# Resolve conflicts if any, then push
+```
+
+**Don't skip this** — stale branches cause merge conflicts and CI failures.
+
+## Cleanup
+
+```bash
+# After PR/MR is merged
+PROJECT_ROOT=$(git rev-parse --show-toplevel)
+git worktree remove "$PROJECT_ROOT/.worktrees/feature-xxx"
+git branch -d feature/xxx
+git worktree prune
+```
+
+## Troubleshooting
+
+| Problem | Fix |
+|---------|-----|
+| Dependency install fails | Delete node_modules/lock file, reinstall |
+| Port conflict | Specify a different port via env var |
+| Services restart unexpectedly | You're editing in the main directory — use a worktree |
+| Stale worktree references | `git worktree prune` |
+| Rebase conflicts | Resolve → `git add` → `git rebase --continue` |
+
+## Next Step: Push & Create PR/MR
+
+After completing your work in the worktree:
+
+1. Commit your changes
+2. Push the branch: `git push -u origin <branch-name>`
+3. Open a PR/MR following the project's convention (`gh pr create`, `glab mr create`, etc.)
+4. Track CI and code review through to merge — don't declare the work done until the change has actually landed on the base branch
+
+If the project provides a dedicated PR/MR workflow skill (one that handles CI tracking, reviewer pings, merge confirmation, post-merge cleanup), load it after creating the PR/MR. Discover what's available via the project's `AGENTS.md` or skill listing — don't hardcode skill names that may not exist in this environment.
+
+
+========================================
+
+=== x-link-reader ===
+---
+name: x-link-reader
+description: "Read X/Twitter content from x.com or twitter.com URLs. Use when the user shares an X or Twitter link (tweet or profile) and asks about its content. Also use when webfetch fails on x.com with anti-bot errors. Bypasses X's anti-scraping via the FxTwitter API — no API key needed."
+---
+
+# X/Twitter Link Reader
+
+X.com blocks direct HTTP fetching (returns anti-bot challenge pages). This skill
+uses the open-source [FxTwitter](https://github.com/FixTweet/FxTweet) API to
+retrieve tweet and profile data as structured JSON — free, no auth required.
+
+## When to use
+
+- User shares a URL matching `x.com/*/status/*` or `twitter.com/*/status/*`
+- User shares a profile URL like `x.com/username`
+- User asks "what does this tweet say", "summarize this post", etc.
+- `webfetch` on an `x.com` URL returns an error or empty page
+
+## Tweet: fetch a single post
+
+Replace the domain with `api.fxtwitter.com` and fetch as **text**:
+
+```
+Original:  https://x.com/elonmusk/status/1234567890
+Proxy:     https://api.fxtwitter.com/elonmusk/status/1234567890
+```
+
+Use `webfetch` with format `text` (the response is JSON):
+
+```
+webfetch url="https://api.fxtwitter.com/{user}/status/{id}" format="text"
+```
+
+### Tweet response structure
+
+```jsonc
+{
+  "code": 200,
+  "tweet": {
+    "url": "https://x.com/user/status/123",
+    "text": "The full tweet text",
+    "author": {
+      "name": "Display Name",
+      "screen_name": "handle",
+      "followers": 12345,
+      "avatar_url": "https://..."
+    },
+    "created_at": "Sun Apr 05 19:32:37 +0000 2026",
+    "replies": 20,
+    "retweets": 181,
+    "likes": 1424,
+    "views": 116843,
+    "lang": "en",
+    "replying_to": "other_user",        // null if not a reply
+    "quoted_status_result": { ... },     // quoted tweet, if any
+    "media": {
+      "photos": [{ "url": "..." }],
+      "videos": [{ "url": "..." }]
+    },
+    "card": {
+      "url": "...",
+      "title": "...",
+      "description": "..."
+    }
+  }
+}
+```
+
+## Profile: fetch user info
+
+```
+webfetch url="https://api.fxtwitter.com/{username}" format="text"
+```
+
+Returns user profile data including name, bio, follower/following counts, etc.
+
+## Translate a tweet
+
+Append `/translate/{lang}` to the tweet path:
+
+```
+webfetch url="https://api.fxtwitter.com/{user}/status/{id}/translate/zh" format="text"
+```
+
+Supported language codes: `zh`, `en`, `ja`, `ko`, `es`, `fr`, `de`, etc.
+
+## Key fields to present
+
+1. **Author**: `tweet.author.name` (@`tweet.author.screen_name`)
+2. **Text**: `tweet.text`
+3. **Date**: `tweet.created_at`
+4. **Engagement**: likes, retweets, replies, views
+5. **Media**: photos/videos URLs if present
+6. **Card**: linked article title/description if present
+7. **Reply context**: who the tweet is replying to, if applicable
+
+## Limitations
+
+- **Individual tweets and profiles only** — no timelines, search, or batch.
+- **Public content only** — private/protected accounts return errors.
+- **Deleted tweets** — the API returns an error; report this to the user.
+- **No write operations** — read-only, cannot post or interact.
+
+## Rules
+
+- Always use `api.fxtwitter.com`, never fetch `x.com` or `twitter.com` directly.
+- This API is read-only and public — no API key or authentication needed.
+- If the user just wants a tweet summary, present it concisely; don't dump raw JSON.
+
+
+========================================
+

@@ -41,7 +41,7 @@ export const SkillFrontmatterSchema = z.object({
     message: `Complexity must be one of: ${ALLOWED_COMPLEXITIES.join(", ")}`,
   }),
   platforms: z.array(z.string()).refine(
-    (arr) => arr.every((p) => ALLOWED_PLATFORMS.includes(p as any)),
+    (arr) => arr.every((p) => (ALLOWED_PLATFORMS as readonly string[]).includes(p)),
     { message: `Platforms must only contain values from: ${ALLOWED_PLATFORMS.join(", ")}` }
   ),
   featured: z.boolean(),

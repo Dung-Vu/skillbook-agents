@@ -30,19 +30,21 @@ export function SkillCompareClient({ skills }: SkillCompareClientProps): React.R
     const paramA = searchParams.get("a");
     const paramB = searchParams.get("b");
 
-    if (paramA && skills.some(s => s.slug === paramA)) {
-      setSlugA(paramA);
-    } else if (skills.length > 0) {
-      setSlugA(skills[0].slug);
-    }
+    setTimeout(() => {
+      if (paramA && skills.some(s => s.slug === paramA)) {
+        setSlugA(paramA);
+      } else if (skills.length > 0) {
+        setSlugA(skills[0].slug);
+      }
 
-    if (paramB && skills.some(s => s.slug === paramB)) {
-      setSlugB(paramB);
-    } else if (skills.length > 1) {
-      setSlugB(skills[1].slug);
-    } else if (skills.length > 0) {
-      setSlugB(skills[0].slug);
-    }
+      if (paramB && skills.some(s => s.slug === paramB)) {
+        setSlugB(paramB);
+      } else if (skills.length > 1) {
+        setSlugB(skills[1].slug);
+      } else if (skills.length > 0) {
+        setSlugB(skills[0].slug);
+      }
+    }, 0);
   }, [searchParams, skills]);
 
   // Sync state back to URL query parameters
@@ -100,37 +102,31 @@ export function SkillCompareClient({ skills }: SkillCompareClientProps): React.R
 
   // Sync scroll logic
   const handleScroll = (source: "A" | "B") => {
-    return () => {
-      const paneA = scrollRefA.current;
-      const paneB = scrollRefB.current;
-      if (!paneA || !paneB) return;
+    const paneA = scrollRefA.current;
+    const paneB = scrollRefB.current;
+    if (!paneA || !paneB) return;
 
-      if (!scrollActivePane.current) {
-        scrollActivePane.current = source;
-      }
+    if (!scrollActivePane.current) {
+      scrollActivePane.current = source;
+    }
 
-      if (scrollActivePane.current !== source) return;
+    if (scrollActivePane.current !== source) return;
 
-      if (source === "A") {
-        const ratio = paneA.scrollTop / (paneA.scrollHeight - paneA.clientHeight);
-        paneB.scrollTop = ratio * (paneB.scrollHeight - paneB.clientHeight);
-      } else {
-        const ratio = paneB.scrollTop / (paneB.scrollHeight - paneB.clientHeight);
-        paneA.scrollTop = ratio * (paneA.scrollHeight - paneA.clientHeight);
-      }
-    };
+    if (source === "A") {
+      const ratio = paneA.scrollTop / (paneA.scrollHeight - paneA.clientHeight);
+      paneB.scrollTop = ratio * (paneB.scrollHeight - paneB.clientHeight);
+    } else {
+      const ratio = paneB.scrollTop / (paneB.scrollHeight - paneB.clientHeight);
+      paneA.scrollTop = ratio * (paneA.scrollHeight - paneA.clientHeight);
+    }
   };
 
   const handleTouchStart = (source: "A" | "B") => {
-    return () => {
-      scrollActivePane.current = source;
-    };
+    scrollActivePane.current = source;
   };
 
   const handleMouseEnter = (source: "A" | "B") => {
-    return () => {
-      scrollActivePane.current = source;
-    };
+    scrollActivePane.current = source;
   };
 
   const resetActiveScroll = () => {
@@ -255,9 +251,9 @@ export function SkillCompareClient({ skills }: SkillCompareClientProps): React.R
                 {/* Content Panel A */}
                 <div 
                   ref={scrollRefA}
-                  onScroll={handleScroll("A")}
-                  onTouchStart={handleTouchStart("A")}
-                  onMouseEnter={handleMouseEnter("A")}
+                  onScroll={() => handleScroll("A")}
+                  onTouchStart={() => handleTouchStart("A")}
+                  onMouseEnter={() => handleMouseEnter("A")}
                   onMouseLeave={resetActiveScroll}
                   className="flex-1 p-6 overflow-y-auto skill-content scrollbar-thin select-text"
                 >
@@ -320,9 +316,9 @@ export function SkillCompareClient({ skills }: SkillCompareClientProps): React.R
                 {/* Content Panel B */}
                 <div 
                   ref={scrollRefB}
-                  onScroll={handleScroll("B")}
-                  onTouchStart={handleTouchStart("B")}
-                  onMouseEnter={handleMouseEnter("B")}
+                  onScroll={() => handleScroll("B")}
+                  onTouchStart={() => handleTouchStart("B")}
+                  onMouseEnter={() => handleMouseEnter("B")}
                   onMouseLeave={resetActiveScroll}
                   className="flex-1 p-6 overflow-y-auto skill-content scrollbar-thin select-text"
                 >

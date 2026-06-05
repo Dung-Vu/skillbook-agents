@@ -1,25 +1,22 @@
 "use client";
 
-import { motion } from "framer-motion";
+import React from "react";
+import { PaperCrumpleOverlay } from "@/components/ui/PaperCrumpleOverlay";
 
 export default function SkillsTemplate({
   children,
 }: {
   children: React.ReactNode;
-}) {
+}): React.ReactElement {
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 15, scale: 0.98 }}
-      animate={{ opacity: 1, y: 0, scale: 1 }}
-      transition={{
-        type: "spring",
-        stiffness: 260,
-        damping: 28,
-        mass: 0.5,
-      }}
-      className="w-full min-h-screen origin-top"
-    >
-      {children}
-    </motion.div>
+    <>
+      <PaperCrumpleOverlay />
+      <div 
+        className="w-full min-h-screen origin-top hardware-accelerated will-change-transform"
+        style={{ willChange: "transform" }}
+      >
+        {children}
+      </div>
+    </>
   );
 }

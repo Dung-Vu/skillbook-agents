@@ -23,6 +23,7 @@ import { cn } from "@/lib/utils";
 
 interface CustomWindow extends Window {
   __canvasPaused?: boolean;
+  __paperCrumpleOverlayRegistered?: boolean;
 }
 
 function AboutContent(): React.ReactElement {
@@ -62,8 +63,13 @@ function AboutContent(): React.ReactElement {
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      (window as unknown as CustomWindow).__canvasPaused = false;
-      window.dispatchEvent(new CustomEvent("canvas-resume"));
+      setTimeout(() => {
+        const customWindow = window as unknown as CustomWindow;
+        if (!customWindow.__paperCrumpleOverlayRegistered) {
+          customWindow.__canvasPaused = false;
+          window.dispatchEvent(new CustomEvent("canvas-resume"));
+        }
+      }, 0);
     }
   }, []);
 
