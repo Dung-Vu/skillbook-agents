@@ -16,10 +16,8 @@ platforms:
   - claude-code
   - mcp
 featured: false
-description: >-
-  Công cụ biến ảnh chụp chân dung, thú cưng, vật thể hoặc logo thành bộ 4 nhãn
-  dán hoạt hình dạng ảnh động (GIF) vui nhộn có kèm phụ đề tùy biến.
-oneLiner: Chuyển đổi ảnh chụp thành bộ 4 nhãn dán GIF hoạt hình sinh động.
+description: Tự động biến hình ảnh chân dung, thú cưng hoặc logo của bạn thành bộ 4 nhãn dán hoạt hình động (GIF) dễ thương kèm phụ đề vui nhộn.
+oneLiner: Biến ảnh chụp thành bộ nhãn dán hoạt hình động (GIF) vui nhộn.
 sourceUrl: ''
 sourceAuthor: Minimax
 lastVerified: '2026-06-03'
@@ -33,38 +31,40 @@ provider: minimax
 
 ## 📖 Tại Sao Cần Skill Này?
 
-Việc tạo nhãn dán (stickers) động từ ảnh chụp đòi hỏi các công cụ đồ họa phức tạp và tốn nhiều công sức cắt ghép. Kỹ năng này tự động hóa toàn bộ quy trình: từ chuyển đổi phong cách hoạt hình (cartoonify), tạo chuyển động biểu cảm cho đến ghép phụ đề tiếng Việt và xuất định dạng GIF sẵn sàng sử dụng.
+Để làm ra một nhãn dán (sticker) động từ ảnh chụp bình thường, bạn phải dùng các phần mềm chỉnh sửa đồ họa rất phức tạp và tốn thời gian. Kỹ năng này giúp tự động hóa toàn bộ quá trình: từ đổi ảnh thật thành nét vẽ hoạt hình dễ thương, tạo chuyển động biểu cảm, chèn chữ vui nhộn cho đến xuất ra tệp GIF để bạn gửi ngay cho bạn bè qua các ứng dụng nhắn tin.
+
+- **Dễ dàng tự chế sticker**: Biến ảnh chụp của chính mình, người thân hoặc thú cưng thành sticker hoạt hình độc quyền.
+- **Tạo biểu cảm đa dạng**: Tạo ra các trạng thái cảm xúc thú vị từ một bức ảnh tĩnh duy nhất.
+- **Chia sẻ nhanh chóng**: Xuất file ảnh động định dạng GIF thông dụng, dễ dàng gửi trên Zalo, Telegram, Messenger hay Feishu.
 
 ## ⚙️ Cách Hoạt Động
 
-Quy trình tạo nhãn dán GIF động:
-
 ```
-[Photo Upload] -> [Cartoon Style Transfer] -> [Expression Animation] -> [Caption Overlay] -> [GIF Generation]
+Tải ảnh lên → Vẽ lại kiểu hoạt hình → Tạo chuyển động biểu cảm → Chèn thêm chữ → Xuất tệp GIF động
 ```
 
-1. **Cartoonify**: Chuyển đổi ảnh chụp đầu vào sang nét vẽ hoạt hình chibi dễ thương.
-2. **Animate**: Tạo ra 4 chuyển động biểu cảm kinh điển (vui vẻ, khóc lóc, ngạc nhiên, giận dữ).
-3. **Deliver**: Ghép phụ đề ngắn tương ứng và hiển thị trực quan thông qua khối thẻ asset XML.
+1. **Chuyển thể hoạt hình**: Đổi bức ảnh thật thành hình vẽ hoạt hình phong cách chibi đáng yêu.
+2. **Tạo cử động**: Tạo ra 4 biểu cảm chuyển động cơ bản (vui mừng, khóc lóc, bất ngờ, giận dỗi).
+3. **Hoàn thiện**: Ghép thêm các dòng chữ ngắn vui nhộn phù hợp với từng biểu cảm và xuất file.
 
 ## 🚀 Cách Sử Dụng
 
-1. Ngôn ngữ hiển thị của nhãn dán và phụ đề phải tự động khớp với ngôn ngữ trò chuyện của người dùng.
-2. Đảm bảo phông nền của nhãn dán là trong suốt (transparent background) để người dùng dễ chia sẻ trên các ứng dụng nhắn tin.
-3. Trả về định dạng xuất chuẩn XML `<deliver_assets>` để hiển thị ảnh động trực tiếp trong khung chat.
+1. Dòng chữ chèn trên nhãn dán cần tự động điều chỉnh theo ngôn ngữ bạn đang dùng để trò chuyện.
+2. Nền của nhãn dán phải được xóa sạch (nền trong suốt) để khi gửi vào các nhóm chat trông tự nhiên và đẹp mắt hơn.
+3. Xuất file đúng định dạng hiển thị của khung chat để người dùng có thể xem trước và lưu lại dễ dàng.
 
 ## 💡 Kịch Bản Lập Trình Thực Tế
 
 ### Nhà phát triển:
-> "Hãy hướng dẫn tôi cách thiết lập và sử dụng kỹ năng GIF Sticker Maker để Chuyển đổi ảnh chụp thành bộ 4 nhãn dán GIF hoạt hình sinh động."
+> "Tôi muốn biến bức ảnh chú mèo cưng của tôi thành nhãn dán động để gửi trên Feishu/Telegram."
 
 ### AI Agent (Đã được trang bị Kỹ năng):
-> "Tôi đã sẵn sàng. Dưới đây là kịch bản vận hành thực tế cho kỹ năng GIF Sticker Maker:
-> 1. Thiết lập các thông số cấu hình và tham số đầu vào cần thiết cho hệ thống.
-> 2. Thực thi tuần tự các bước xử lý logic và tích hợp theo đúng chỉ dẫn của GIF Sticker Maker.
-> 3. Kiểm thử đầu ra, tối ưu hóa hiệu năng và cung cấp kết quả hoàn chỉnh."
+> "Tôi sẽ tạo bộ nhãn dán động cho chú mèo của bạn:
+> 1. Đọc hình ảnh chú mèo bạn gửi và chuyển đổi sang dạng hoạt hình 2D dễ thương.
+> 2. Tạo ra 4 hoạt ảnh động (vẫy chân, ngơ ngác, cười híp mắt, tức giận).
+> 3. Thêm các dòng chữ tiếng Việt đáng yêu vào hình ảnh và xuất ra 4 tệp GIF nền trong suốt."
 
 ## ⚠️ Lưu Ý & Gotchas
 
-- **Biến dạng khuôn mặt**: Việc hoạt hóa ảnh có thể làm mất đi các nét đặc trưng của khuôn mặt gốc. Hãy chọn phong cách hoạt hình giữ được hồn của bức ảnh gốc.
-- **Kích thước file lớn**: File GIF động có dung lượng rất lớn nếu không tối ưu. Hãy giới hạn thời gian hoạt ảnh dưới 2 giây và độ phân giải vừa phải.
+- **Hình ảnh bị méo**: Đôi khi việc biến đổi ảnh thật sang hoạt hình làm biến dạng các nét đặc trưng của vật thể gốc. Nên lựa chọn phong cách hoạt hình giữ được hồn của bức ảnh gốc.
+- **Dung lượng file**: Ảnh GIF động rất dễ bị nặng và tải chậm. Hãy giới hạn thời gian động ngắn dưới 2 giây và giảm nhẹ độ phân giải để gửi đi nhanh chóng.

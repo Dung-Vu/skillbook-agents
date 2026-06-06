@@ -17,10 +17,8 @@ platforms:
   - gemini-cli
   - universal
 featured: false
-description: >-
-  Duyệt tìm và lọc các bản thảo nghiên cứu y sinh học chưa qua phản biện theo
-  chuyên mục khoa học và khoảng thời gian.
-oneLiner: Tìm kiếm các bài báo tiền xuất bản về khoa học sự sống trên bioRxiv/medRxiv.
+description: Tìm kiếm và xem các nghiên cứu y sinh học mới nhất chưa qua phản biện khoa học trên bioRxiv và medRxiv theo các chuyên mục và thời gian gần nhất.
+oneLiner: Tìm kiếm bài báo nghiên cứu y học và sinh học mới nhất trên bioRxiv/medRxiv.
 sourceUrl: 'https://www.biorxiv.org/'
 sourceAuthor: Google DeepMind
 lastVerified: '2026-05-30'
@@ -35,48 +33,33 @@ provider: antigravity
 
 ## 📖 Tại Sao Cần Skill Này?
 
-bioRxiv (biology) và medRxiv (medicine) là nền tảng preprint cho life sciences — nơi researchers chia sẻ kết quả trước peer-review, đặc biệt quan trọng cho genomics, neuroscience, và epidemiology.
-
-- **Life sciences focus**: Biology, genomics, neuroscience, biochemistry, immunology
-- **Medical preprints**: Clinical research, public health, epidemiology (medRxiv)
-- **DOI-based**: Fetch paper metadata bằng DOI
-- **Browse by date**: Browse mới nhất theo category + date range
+bioRxiv (về sinh học) và medRxiv (về y học) là hai trang web lớn nơi các nhà nghiên cứu chia sẻ các khám phá y sinh học mới nhất trước khi được phê duyệt đăng báo. Kỹ năng này giúp bạn theo dõi các nghiên cứu y học, dịch bệnh hay gen di truyền mới nhất một cách nhanh chóng.
 
 ## ⚙️ Cách Hoạt Động
 
-```
-DOI / Date range + Category → bioRxiv/medRxiv API → 
-Return paper metadata, abstracts, download links
-```
+Quy trình tìm kiếm:
+1. Bạn cung cấp mã số bài viết (mã DOI) hoặc chọn một khoảng thời gian gần đây (ví dụ: 1-2 tuần gần nhất) kèm theo chuyên ngành muốn tìm.
+2. Trợ lý kết nối với hệ thống bioRxiv/medRxiv để lấy dữ liệu.
+3. Trợ lý trả về danh sách bài báo cùng nội dung tóm tắt để bạn nắm bắt nhanh.
 
 ## 🚀 Cách Sử Dụng
 
-### Universal
-
-```markdown
-# bioRxiv/medRxiv Rules
-- Date ranges phải NARROW (1-4 weeks) khi browse — API timeout nếu quá rộng.
-- Specify category khi browse: genomics, neuroscience, immunology, etc.
-- Keyword filtering là local (client-side) — narrow date range trước.
-- Dùng DOI cho direct paper lookup.
-```
+- Chọn khoảng thời gian ngắn (tốt nhất là trong vòng 1 đến 4 tuần gần đây) khi tìm kiếm để hệ thống không bị quá tải.
+- Chỉ định rõ chuyên ngành (như di truyền học, thần kinh học, miễn dịch học) để tìm kiếm chính xác hơn.
+- Cung cấp mã DOI nếu bạn muốn xem chi tiết một bài viết cụ thể.
 
 ## 💡 Kịch Bản Lập Trình Thực Tế
 
-### 🧑‍💻 Nhà phát triển:
-> "Hãy quét các bản thảo preprint mới nhất về ứng dụng mô hình ngôn ngữ lớn trong y sinh (LLMs in biomedicine) trên bioRxiv tuần này."
+### Người dùng:
+> "Tìm giúp tôi các nghiên cứu mới nhất trong 2 tuần qua về ứng dụng AI trong việc phân tích tế bào trên bioRxiv."
 
-### 🤖 AI Agent (Đã được trang bị Kỹ năng):
-> "Tôi sẽ tự động hóa việc kết nối và duyệt bản thảo preprint trên máy chủ bioRxiv/medRxiv cho bạn:"
->
-> 1. **Xác định khoảng thời gian**: Tôi thiết lập khoảng thời gian truy vấn trong vòng 7 ngày gần nhất và lọc theo phân nhóm chuyên ngành (Bioinformatics hoặc Genomics).
-> 2. **Quét từ khóa nâng cao**: Tôi lọc các bản thảo chứa cụm từ khóa `LLM`, `language model` hoặc `GPT` trong tiêu đề hoặc tóm tắt.
-> 3. **Tổng hợp danh sách preprint**: Tôi trình bày danh sách các nghiên cứu mới nhất kèm mã DOI, nhóm tác giả, tóm tắt ngắn gọn mục tiêu nghiên cứu và liên kết đọc trực tiếp bản thảo.
->
-> *Bạn sẽ luôn đi đầu trong việc nắm bắt các khám phá khoa học mới nhất ngay cả trước khi chúng được bình duyệt và xuất bản.*
+### Trợ lý:
+> "Tôi đã tìm kiếm trên bioRxiv trong 2 tuần qua với từ khóa 'AI' trong mục sinh tin học (Bioinformatics):
+> 1. Nghiên cứu 'Dự đoán cấu trúc tế bào bằng mô hình học máy nâng cao' - Tác giả B.
+> 2. Tóm tắt: Nhóm nghiên cứu đề xuất một công cụ AI mới giúp tăng tốc độ phân tích tế bào...
+> 3. Đây là mã DOI của bài viết để bạn tham khảo: [Mã DOI]."
 
 ## ⚠️ Lưu Ý & Gotchas
 
-- **Not peer-reviewed**: Preprints chưa qua peer review. Cẩn thận với claims.
-- **Narrow date ranges**: Browse API timeout nếu date range quá rộng (>4 weeks). Luôn specify category.
-- **medRxiv disclaimer**: Medical preprints đặc biệt cần cảnh báo — không dùng cho clinical decisions.
+- **Chưa qua kiểm duyệt**: Đây là các bản thảo chưa qua hội đồng khoa học phê duyệt chính thức. Đặc biệt, không được dùng các thông tin y học trên medRxiv để tự đưa ra quyết định chữa bệnh lâm sàng.
+- **Giới hạn thời gian**: Tránh tìm kiếm một khoảng thời gian quá dài (ví dụ vài năm) vì hệ thống sẽ bị lỗi do lượng dữ liệu quá lớn.

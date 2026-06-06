@@ -16,11 +16,8 @@ platforms:
   - claude-code
   - mcp
 featured: false
-description: >-
-  Trợ lý tìm việc toàn diện. Hỗ trợ tìm kiếm cơ hội trên nhiều nền tảng, chấm
-  điểm độ phù hợp, tối ưu hóa CV/Cover Letter và chuẩn bị câu hỏi phỏng vấn theo
-  sát mô tả công việc.
-oneLiner: Trợ lý tối ưu hóa hồ sơ và đồng hành suốt vòng đời tìm việc của ứng viên.
+description: Trợ lý hỗ trợ bạn tìm kiếm công việc phù hợp, sửa CV và thư xin việc (Cover Letter) theo đúng yêu cầu tuyển dụng, đồng thời luyện tập phỏng vấn thử để bạn tự tin hơn.
+oneLiner: Trợ lý cá nhân giúp bạn tìm việc, tối ưu CV và chuẩn bị phỏng vấn.
 sourceUrl: ''
 sourceAuthor: Minimax
 lastVerified: '2026-06-03'
@@ -37,38 +34,33 @@ provider: minimax
 
 ## 📖 Tại Sao Cần Skill Này?
 
-Quy trình tìm việc thường rời rạc và tốn nhiều công sức để chỉnh sửa hồ sơ cho phù hợp với từng vị trí tuyển dụng. Kỹ năng này cung cấp một bộ công cụ khép kín giúp Agent đồng hành cùng ứng viên: từ thu thập hồ sơ năng lực, tìm kiếm vị trí phù hợp, tối ưu CV chống quét ATS, cho đến đóng vai nhà tuyển dụng để phỏng vấn thử.
+Tìm việc và điều chỉnh CV cho từng công ty tốn rất nhiều thời gian. Kỹ năng này giúp bạn tự động tìm kiếm cơ hội phù hợp, nâng cấp CV để dễ trúng tuyển và luyện phỏng vấn thử như với người thật.
 
 ## ⚙️ Cách Hoạt Động
 
-Vòng đời hỗ trợ tìm việc:
-
-```
-[Profile Gathering] -> [Job Sourcing & Scoring] -> [ATS Resume Optimization] -> [Cover Letter Writing] -> [Mock Interview Prep]
-```
-
-1. **Sourcing**: Tìm kiếm tin tuyển dụng trên nhiều trang và chấm điểm độ phù hợp (0-100) với năng lực ứng viên.
-2. **Optimization**: Sửa CV để đưa các từ khóa (keywords) từ mô tả công việc vào một cách tự nhiên nhằm vượt qua bộ lọc ATS.
-3. **Interview**: Đóng vai nhà tuyển dụng đặt câu hỏi tình huống chuyên sâu và chấm điểm câu trả lời của ứng viên.
+Quy trình hỗ trợ:
+1. Thu thập thông tin kinh nghiệm và mong muốn của bạn.
+2. Tìm và đánh giá độ phù hợp của các tin tuyển dụng.
+3. Chỉnh sửa CV và viết thư xin việc sát với mô tả công việc.
+4. Giả lập buổi phỏng vấn thử và nhận xét câu trả lời của bạn.
 
 ## 🚀 Cách Sử Dụng
 
-1. Luôn chấm điểm mức độ phù hợp của tin tuyển dụng (`relevance score`) trước khi khuyên người dùng nộp hồ sơ.
-2. Khi tối ưu hóa CV, tuyệt đối không được bịa đặt kinh nghiệm; chỉ điều chỉnh cách dùng từ và nhấn mạnh các kỹ năng sẵn có sát với mô tả công việc.
-3. Cung cấp các câu trả lời phỏng vấn mẫu theo cấu trúc STAR (Situation, Task, Action, Result) chuẩn mực.
+- Cung cấp CV hiện tại và mô tả công việc bạn muốn ứng tuyển.
+- Yêu cầu trợ lý tìm kiếm các tin tuyển dụng đang mở.
+- Nhờ trợ lý viết thư xin việc hoặc đóng vai người phỏng vấn để luyện tập.
 
 ## 💡 Kịch Bản Lập Trình Thực Tế
 
-### Nhà phát triển:
-> "Hãy hướng dẫn tôi cách thiết lập và sử dụng kỹ năng Job Hunter để Trợ lý tối ưu hóa hồ sơ và đồng hành suốt vòng đời tìm việc của ứng viên."
+### Người dùng:
+> "Tôi muốn ứng tuyển vào vị trí Lập trình viên React. Đây là CV của tôi và link tin tuyển dụng. Hãy giúp tôi sửa CV và chuẩn bị 3 câu hỏi phỏng vấn phổ biến."
 
-### AI Agent (Đã được trang bị Kỹ năng):
-> "Tôi đã sẵn sàng. Dưới đây là kịch bản vận hành thực tế cho kỹ năng Job Hunter:
-> 1. Thiết lập các thông số cấu hình và tham số đầu vào cần thiết cho hệ thống.
-> 2. Thực thi tuần tự các bước xử lý logic và tích hợp theo đúng chỉ dẫn của Job Hunter.
-> 3. Kiểm thử đầu ra, tối ưu hóa hiệu năng và cung cấp kết quả hoàn chỉnh."
+### Trợ lý:
+> "Tôi đã phân tích CV của bạn và tin tuyển dụng. Dưới đây là các gợi ý:
+> 1. Thêm các từ khóa về 'React Hooks' và 'Quản lý trạng thái' vào phần kinh nghiệm làm việc để làm nổi bật hồ sơ.
+> 2. Đây là 3 câu hỏi phỏng vấn thường gặp kèm gợi ý trả lời theo phương pháp STAR (Tình huống, Nhiệm vụ, Hành động, Kết quả) để bạn luyện tập."
 
 ## ⚠️ Lưu Ý & Gotchas
 
-- **ATS Spanning**: Tránh việc nhồi nhét từ khóa vô nghĩa (keyword stuffing) vào CV. Bộ lọc ATS hiện đại sẽ quét và loại bỏ các hồ sơ này.
-- **Thông tin tuyển dụng hết hạn**: Các tin tuyển dụng trên web có thể đã đóng. Cần kiểm tra kỹ thời gian đăng tuyển trước khi gửi cho người dùng.
+- Không tự ý thêm bớt các thông tin sai sự thật vào CV.
+- Luôn kiểm tra lại thông tin tuyển dụng thực tế vì các tin đăng trên mạng có thể đã hết hạn.

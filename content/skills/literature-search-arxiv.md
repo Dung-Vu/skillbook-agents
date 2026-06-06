@@ -17,10 +17,8 @@ platforms:
   - gemini-cli
   - universal
 featured: false
-description: >-
-  Tra cứu kho lưu trữ arXiv về các nghiên cứu toán học, vật lý, khoa học máy
-  tính và AI, trích xuất tóm tắt và tải tệp PDF.
-oneLiner: 'Tìm kiếm và tải tài liệu, bài báo khoa học tiền xuất bản trên arXiv.'
+description: Tìm kiếm các bài báo khoa học, nghiên cứu mới nhất về toán học, vật lý, khoa học máy tính và trí tuệ nhân tạo (AI) trên trang arXiv, đồng thời hỗ trợ tải file PDF về đọc.
+oneLiner: Tìm kiếm và tải bài báo khoa học về công nghệ, toán học và AI từ arXiv.
 sourceUrl: 'https://arxiv.org/'
 sourceAuthor: Google DeepMind
 lastVerified: '2026-05-30'
@@ -34,47 +32,33 @@ provider: antigravity
 
 ## 📖 Tại Sao Cần Skill Này?
 
-arXiv là nền tảng preprint lớn nhất cho Physics, Math, CS, Biology, và nhiều lĩnh vực STEM — nơi researchers chia sẻ kết quả trước khi peer-review. Rất quan trọng cho AI/ML papers.
-
-- **Preprint access**: Papers mới nhất, trước khi xuất bản chính thức (weeks-months ahead)
-- **Full text**: Download PDF hoặc HTML full-text miễn phí
-- **arXiv IDs**: Resolve specific paper IDs (2301.12345)
-- **Category search**: cs.AI, cs.LG, q-bio, stat, etc.
+arXiv là một kho lưu trữ khổng lồ chứa các nghiên cứu mới nhất về công nghệ, toán học, vật lý và AI trước khi chúng được xuất bản chính thức trên các tạp chí. Kỹ năng này giúp bạn nhanh chóng tìm thấy các bài báo mới nhất, đọc bản tóm tắt và tải tài liệu gốc (PDF) hoàn toàn miễn phí.
 
 ## ⚙️ Cách Hoạt Động
 
-```
-Query / arXiv ID → arXiv API → 
-Return metadata, abstracts, download PDF/HTML
-```
+Quy trình tìm kiếm:
+1. Bạn nhập từ khóa hoặc mã số bài báo (arXiv ID).
+2. Trợ lý tìm kiếm trên hệ thống arXiv.
+3. Trợ lý trả về thông tin bài báo (tên, tác giả, tóm tắt) và link tải file PDF.
 
 ## 🚀 Cách Sử Dụng
 
-### Universal
-
-```markdown
-# arXiv Search Rules
-- Dùng cho: CS/AI/ML papers, physics, math, quantitative biology.
-- arXiv = preprints (chưa peer-reviewed). Luôn note this limitation.
-- Có thể download full-text PDF/HTML cho detailed analysis.
-```
+- Cho trợ lý biết chủ đề nghiên cứu bạn muốn tìm (ví dụ "Tìm các bài viết mới nhất về AI tạo video").
+- Bạn cũng có thể cung cấp mã số bài báo (ví dụ `2301.12345`) để tải trực tiếp bài đó.
+- Nhờ trợ lý dịch hoặc tóm tắt nội dung bài báo sau khi tải về.
 
 ## 💡 Kịch Bản Lập Trình Thực Tế
 
-### 🧑‍💻 Nhà phát triển:
-> "Tôi muốn tìm các nghiên cứu mới nhất về kỹ thuật tối ưu hóa LLM suy luận (Reasoning LLMs) trên arXiv."
+### Người dùng:
+> "Tìm giúp tôi các nghiên cứu mới nhất về cách tối ưu hóa mô hình ngôn ngữ lớn (LLM) trên arXiv."
 
-### 🤖 AI Agent (Đã được trang bị Kỹ năng):
-> "Tôi sẽ tự động kết nối và tìm kiếm các ấn phẩm khoa học trên thư viện arXiv cho bạn:"
->
-> 1. **Xây dựng cú pháp tìm kiếm nâng cao**: Tôi thiết lập truy vấn sử dụng toán tử logic: `ti:"Reasoning LLM" OR abs:"Reasoning models" AND "optimization"`.
-> 2. **Tải và Lọc tài liệu**: Tôi trích xuất danh sách 5 bài báo mới nhất, tự động lấy thông tin tiêu đề, nhóm tác giả, ngày công bố, tóm tắt (Abstract) và liên kết tải PDF chính thức.
-> 3. **Tóm tắt chuyên sâu**: Tôi đọc nhanh abstract của từng bài và phân loại các kỹ thuật nổi bật (như Test-Time Compute, Reinforcement Learning) để bạn nắm bắt nhanh xu hướng công nghệ.
->
-> *Bạn sẽ nhận được danh sách tài liệu học thuật tinh lọc và liên kết tải trực tiếp, giúp tiết kiệm thời gian cập nhật tri thức.*
+### Trợ lý:
+> "Tôi đã tìm kiếm trên arXiv và đây là các kết quả nổi bật:
+> 1. Bài viết 'Tối ưu hóa mô hình suy luận bằng học tăng cường' - Tác giả A.
+> 2. Tóm tắt: Nghiên cứu này chia sẻ phương pháp mới giúp AI trả lời nhanh hơn 30%...
+> 3. Đây là link để tải file PDF của bài báo: [Link PDF]."
 
 ## ⚠️ Lưu Ý & Gotchas
 
-- **Not peer-reviewed**: arXiv preprints chưa qua peer review — chất lượng vary widely.
-- **arXiv ≠ PubMed**: arXiv cho STEM preprints, PubMed cho biomedical published papers.
-- **Version history**: Papers có thể update (v1, v2...) — check latest version.
+- **Chưa qua kiểm duyệt chính thức**: Các bài viết trên arXiv là bản thảo trước khi xuất bản (preprint), vì thế thông tin có thể chưa được hội đồng khoa học kiểm duyệt kỹ càng.
+- **Phiên bản**: Một bài báo có thể có nhiều phiên bản cập nhật (v1, v2). Trợ lý sẽ cố gắng lấy phiên bản mới nhất cho bạn.

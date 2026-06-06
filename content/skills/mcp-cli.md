@@ -2,13 +2,10 @@
 category: tool-integration
 command: /mcp-cli
 complexity: intermediate
-description: >-
-  Quản lý danh sách, cấu hình và trạng thái của các máy chủ Model Context
-  Protocol (MCP) trên hệ thống. Kỹ năng này cho phép Agent xem danh sách server
-  hoạt động, thêm/sửa cấu hình server, và lấy cấu hình thô một cách an toàn.
+description: Quản lý, kiểm tra trạng thái và thiết lập kết nối với các máy chủ công cụ ngoài (MCP Servers) để mở rộng tính năng của trợ lý ảo.
 featured: false
 lastVerified: '2026-06-03'
-oneLiner: Quản lý danh sách và cấu hình các máy chủ Model Context Protocol (MCP).
+oneLiner: Quản lý kết nối và cấu hình các máy chủ công cụ ngoài (MCP) của trợ lý ảo.
 platforms:
   - universal
   - cursor
@@ -37,41 +34,32 @@ title: MCP CLI
 
 ## 📖 Tại Sao Cần Skill Này?
 
-Model Context Protocol (MCP) là giao thức chuẩn hóa để kết nối mô hình ngôn ngữ lớn với các công cụ ngoài. Agent cần kỹ năng này để cấu hình, kiểm tra trạng thái hoạt động của các server MCP và đồng bộ các công cụ (tools) của server đó thành các kỹ năng (skills) cục bộ.
+Model Context Protocol (MCP) là một chuẩn kết nối giúp trợ lý ảo sử dụng được các công cụ bên ngoài (ví dụ: truy cập cơ sở dữ liệu, đọc email, kết nối API). Kỹ năng này giúp trợ lý quản lý danh sách các máy chủ công cụ này, thêm bớt kết nối và cập nhật tính năng mới một cách dễ dàng.
 
 ## ⚙️ Cách Hoạt Động
 
-Quy trình quản lý server MCP:
-
-1. **Tra cứu & Cấu hình**: Chạy `mavis mcp list` xem danh sách server và `mavis mcp add` để ghi cấu hình server mới.
-2. **Đồng bộ hóa**: Chạy `mavis mcp sync` để kết nối server, đọc danh sách tool và tự động biên dịch thành file kỹ năng trong Mavis.
-
-```
-[Yêu cầu cấu hình MCP] ➔ 📝 [Đọc/Thêm cấu hình mavis mcp add] ➔ 🔑 [Xác thực auth login]
-                            ➔ 🔄 [Đồng bộ mavis mcp sync] ➔ 🛠️ [Kích hoạt kỹ năng mcp-<server>]
-```
+Quy trình đơn giản:
+1. Bạn yêu cầu thêm hoặc kiểm tra các máy chủ công cụ ngoài.
+2. Trợ lý dùng lệnh quản lý để xem danh sách các máy chủ đang chạy hoặc thêm máy chủ mới.
+3. Trợ lý đồng bộ hóa các công cụ từ máy chủ ngoài về hệ thống Mavis để biến chúng thành các kỹ năng sử dụng được.
 
 ## 🚀 Cách Sử Dụng
 
-```markdown
-# QUY TẮC QUẢN LÝ MCP CLI
-- **Sử dụng Skill được biên dịch**: Agent không được gọi trực tiếp danh mục công cụ thô của MCP. Phải đồng bộ hóa thành file skill và sử dụng ở session tiếp theo.
-- **Bảo mật API Key**: Tuyệt đối không chỉnh sửa thủ công tệp `mcp.json`. Phải dùng lệnh `mavis mcp add` để lưu trữ token an toàn.
-- **Luôn kiểm tra lỗi 401 của Matrix**: Nếu gặp lỗi 401 trên server matrix tích hợp, chạy `mavis mcp sync` để khởi động lại tiến trình matrix-mcp-cli với token mới từ bộ nhớ daemon.
-```
+- Yêu cầu trợ lý hiển thị danh sách các công cụ ngoài đang kết nối: "Liệt kê các máy chủ MCP đang chạy".
+- Khi bạn muốn thêm một công cụ mới, hãy cung cấp thông tin cấu hình cho trợ lý để tự động cài đặt.
+- Luôn chạy lệnh đồng bộ khi cấu hình thay đổi để trợ lý cập nhật các tính năng mới nhất.
 
 ## 💡 Kịch Bản Lập Trình Thực Tế
 
-### Nhà phát triển:
-> "Hãy hướng dẫn tôi cách thiết lập và sử dụng kỹ năng MCP CLI để Quản lý danh sách và cấu hình các máy chủ Model Context Protocol (MCP)."
+### Người dùng:
+> "Tôi vừa cài đặt một công cụ đọc file PDF mới qua cổng MCP. Hãy kiểm tra danh sách và cập nhật nó vào hệ thống."
 
-### AI Agent (Đã được trang bị Kỹ năng):
-> "Tôi đã sẵn sàng. Dưới đây là kịch bản vận hành thực tế cho kỹ năng MCP CLI:
-> 1. Thiết lập các thông số cấu hình và tham số đầu vào cần thiết cho hệ thống.
-> 2. Thực thi tuần tự các bước xử lý logic và tích hợp theo đúng chỉ dẫn của MCP CLI.
-> 3. Kiểm thử đầu ra, tối ưu hóa hiệu năng và cung cấp kết quả hoàn chỉnh."
+### Trợ lý:
+> "Tôi đã thực hiện các bước sau:
+> 1. Kiểm tra danh sách và phát hiện máy chủ MCP mới kết nối.
+> 2. Đã đồng bộ hóa công cụ đọc file PDF này vào hệ thống của bạn để sẵn sàng sử dụng cho các tác vụ tiếp theo."
 
 ## ⚠️ Lưu Ý & Gotchas
 
-* **Lỗi tiến trình MCP chạy ngầm**: Các máy chủ MCP stdio chạy như các tiến trình con kéo dài. Cần chạy `mavis mcp sync` để ép buộc khởi động lại tiến trình khi token daemon thay đổi.
-* **Thời gian nạp skill**: Các skill mới được tạo sau khi chạy lệnh sync sẽ không khả dụng ngay lập tức trong session hiện tại. Chúng chỉ có hiệu lực ở session tiếp theo.
+- **Cập nhật sau phiên làm việc**: Khi bạn vừa thêm một công cụ mới, bạn cần khởi động lại hoặc mở phiên chat mới để các công cụ này có hiệu lực hoàn toàn.
+- **Không chỉnh sửa file cấu hình bằng tay**: Hãy để trợ lý sử dụng lệnh hệ thống để thay đổi cấu hình nhằm tránh các lỗi định dạng file khiến hệ thống bị treo.

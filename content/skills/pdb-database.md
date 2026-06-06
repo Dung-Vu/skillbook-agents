@@ -18,9 +18,8 @@ platforms:
   - universal
 featured: false
 description: >-
-  Tìm kiếm các cấu trúc tinh thể nguyên tử của protein, axit nucleic và phối tử
-  thực nghiệm từ Protein Data Bank.
-oneLiner: Tra cứu và tải cấu trúc 3D thực nghiệm sinh học từ PDB.
+  Tìm kiếm và tải cấu trúc 3D thực nghiệm (protein, axit nucleic) từ Protein Data Bank (PDB). Hỗ trợ lấy thông tin cấu trúc nguyên tử để mô phỏng và thiết kế thuốc.
+oneLiner: 'Tra cứu và tải các cấu trúc 3D thực tế của protein từ PDB.'
 sourceUrl: 'https://www.rcsb.org/'
 sourceAuthor: Google DeepMind
 lastVerified: '2026-05-30'
@@ -36,52 +35,39 @@ provider: antigravity
 
 ## 📖 Tại Sao Cần Skill Này?
 
-RCSB PDB (Protein Data Bank) chứa >220,000 cấu trúc 3D thực nghiệm — X-ray crystallography, cryo-EM, NMR. Khác với AlphaFold (predicted), PDB cung cấp cấu trúc **xác nhận bằng thí nghiệm**.
-
-- **Experimental structures**: Resolution, R-factor, method (X-ray, cryo-EM, NMR)
-- **Ligand-bound structures**: Protein + drug/ligand co-crystal structures cho drug design
-- **Multi-search**: Sequence similarity, structure similarity, chemical attributes
+RCSB PDB (Protein Data Bank) là thư viện chứa hơn 220.000 cấu trúc 3D thực tế của các phân tử sinh học được xác định bằng thực nghiệm (thí nghiệm thực tế như tia X hoặc kính hiển vi điện tử). Khác với AlphaFold (dự đoán bằng máy tính), PDB cung cấp các dữ liệu thực tế giúp bạn:
+- **Xác thực thí nghiệm**: Biết chính xác hình dạng 3D thực tế và độ phân giải của cấu trúc nguyên tử.
+- **Thiết kế thuốc**: Xem cấu trúc protein khi đang liên kết với các hoạt chất/thuốc để hiểu cơ chế hoạt động.
+- **Tìm kiếm thông minh**: Tìm kiếm theo chuỗi protein, tên hoạt chất hoặc các thuộc tính hóa học.
 
 ## ⚙️ Cách Hoạt Động
 
+Quy trình tìm kiếm cấu trúc:
 ```
-Query (text/sequence/structure) → RCSB PDB API → 
-Return PDB entries with metadata, download structure files
+Nhập từ khóa / chuỗi protein ──> Tìm kiếm trên RCSB PDB ──> Tải file cấu trúc 3D (.pdb, .cif) để hiển thị/mô phỏng
 ```
-
-1. **Text search**: Tìm PDB entries theo protein name, organism, method
-2. **Sequence search**: Tìm structures có sequence tương đồng
-3. **Download**: Tải `.cif`, `.pdb` files cho visualization (PyMOL)
+- **Tìm kiếm**: Tìm kiếm cấu trúc theo tên protein, sinh vật hoặc phương pháp chụp hình.
+- **Tải xuống**: Tải các file tọa độ 3D về máy để trực quan hóa (ví dụ sử dụng phần mềm PyMOL).
 
 ## 🚀 Cách Sử Dụng
 
-### Universal
-
-```markdown
-# PDB Query Rules
-- PDB = experimental structures. AlphaFold = predicted structures. Luôn nói rõ nguồn.
-- Report: PDB ID, resolution, method, organism, ligands.
-- Ưu tiên structures có resolution tốt (X-ray < 2.0Å, cryo-EM < 3.0Å).
-- Kết hợp với PyMOL để visualize downloaded structures.
-```
+- Nhập tên protein hoặc mã PDB ID để bắt đầu tra cứu.
+- Ưu tiên chọn các cấu trúc có độ phân giải cao (chỉ số độ phân giải nhỏ: tia X < 2.0Å, kính hiển vi điện tử cryo-EM < 3.0Å) để có kết quả chính xác nhất.
+- Sử dụng file tải về kết hợp với phần mềm mô phỏng hoặc hiển thị 3D để phân tích.
 
 ## 💡 Kịch Bản Lập Trình Thực Tế
 
-### 🧑‍💻 Nhà phát triển:
-> "Hãy tải cấu trúc tinh thể 3D của protein main protease (Mpro) của virus SARS-CoV-2 từ Protein Data Bank để tôi làm docking."
+### Người dùng yêu cầu:
+> "Hãy tải cấu trúc 3D thực tế của protein chính (Mpro) của virus SARS-CoV-2 từ PDB để tôi nghiên cứu thiết kế thuốc."
 
-### 🤖 AI Agent (Đã được trang bị Kỹ năng):
-> "Tôi sẽ kết nối trực tiếp với Protein Data Bank (PDB) để tải cấu trúc 3D chuẩn xác cho bạn:"
->
-> 1. **Xác định mã PDB ID**: Tôi chẩn đoán và xác định cấu trúc tinh thể Mpro có độ phân giải cao nhất là **6LU7**.
-> 2. **Tải tệp tọa độ 3D**: Tôi thực hiện tải xuống tệp tin cấu trúc ở định dạng `.pdb` hoặc `.cif` trực tiếp từ máy chủ RCSB PDB.
-> 3. **Phân tích chất lượng tinh thể**: Tôi trích xuất thông số độ phân giải (Resolution: 2.16 Å), phương pháp giải cấu trúc (X-ray diffraction) và lập danh sách các phối tử (ligands) liên kết sẵn trong túi hoạt động.
->
-> *Tệp tọa độ 3D và báo cáo chẩn đoán cấu trúc tinh thể đã sẵn sàng, sẵn sàng để bạn đưa vào phần mềm mô phỏng.*
+### Trợ lý AI thực hiện:
+> "Tôi sẽ tìm kiếm và tải cấu trúc 3D từ PDB cho bạn:
+> 1. Xác định cấu trúc Mpro có chất lượng cao nhất hiện có (mã PDB là **6LU7**).
+> 2. Tải file cấu trúc định dạng `.pdb` trực tiếp từ hệ thống PDB.
+> 3. Trích xuất thông số chất lượng (độ phân giải 2.16 Å, phương pháp tia X) và hiển thị các hoạt chất liên kết có sẵn trong cấu trúc đó."
 
 ## ⚠️ Lưu Ý & Gotchas
 
-- **Resolution matters**: Thấp hơn = tốt hơn. X-ray <2.0Å excellent, >3.5Å poor. Cryo-EM thường >2.5Å.
-- **PDB vs AlphaFold**: PDB = experimental (ligand-bound, mutations), AlphaFold = predicted (canonical sequence only).
-- **Biological assembly vs asymmetric unit**: PDB file có thể chứa chỉ 1 subunit — cần generate biological assembly cho holoenzyme.
-- **Obsolete entries**: Một số PDB entries đã bị thay thế (superseded) — check status trước khi dùng.
+- **Độ phân giải (Resolution)**: Chỉ số này càng nhỏ thì cấu trúc càng sắc nét và chính xác (dưới 2.0Å là rất tốt, trên 3.5Å là kém).
+- **Khác biệt với AlphaFold**: PDB là hình chụp thực nghiệm (có thể chứa đột biến hoặc hoạt chất liên kết), trong khi AlphaFold là mô hình dự đoán lý thuyết.
+- **Kiểm tra phiên bản**: Một số cấu trúc cũ có thể đã bị thay thế bởi phiên bản mới tốt hơn, hãy kiểm tra trạng thái trước khi sử dụng.

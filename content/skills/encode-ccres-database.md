@@ -17,10 +17,8 @@ platforms:
   - gemini-cli
   - universal
 featured: false
-description: >-
-  Tìm kiếm chú giải vùng điều hòa gen và dữ liệu thực nghiệm di truyền học biểu
-  hiện (Epigenomics) trên các dòng tế bào người.
-oneLiner: Truy vấn các yếu tố điều hòa cis (cCREs) từ ENCODE.
+description: Tra cứu dữ liệu sinh học biểu hiện từ dự án ENCODE để định vị các vùng điều hòa gen (promoter, enhancer) đang hoạt động trong tế bào người.
+oneLiner: Tra cứu các yếu tố điều hòa hoạt động của gen từ dự án ENCODE.
 sourceUrl: 'https://screen.encodeproject.org/'
 sourceAuthor: Google DeepMind
 lastVerified: '2026-05-30'
@@ -28,71 +26,42 @@ relatedSkills:
   - ucsc-conservation-and-tfbs
   - jaspar-database
   - alphagenome-single-variant-analysis
-seoTitle: ENCODE Regulatory Elements — Skillbook Agents
-seoDescription: >-
-  Hướng dẫn Agent truy vấn ENCODE cCREs và dữ liệu ChIP-seq cho regulatory
-  element annotation.
+seoTitle: ENCODE Regulatory Elements — Tra cứu vùng điều hòa gen ENCODE
+seoDescription: Hướng dẫn Agent truy vấn các yếu tố điều hòa gen người (cCREs) và dữ liệu thực nghiệm sinh học biểu hiện từ dự án ENCODE.
 provider: antigravity
 ---
 
 ## 📖 Tại Sao Cần Skill Này?
 
-ENCODE (Encyclopedia of DNA Elements) đã phân loại hàng triệu vùng điều hòa trong genome người — cung cấp bản đồ chi tiết về promoter, enhancer, insulator, và silencer trên nhiều loại tế bào.
+Gen trong cơ thể chúng ta không tự hoạt động mà được kiểm soát bởi các "công tắc" sinh học gọi là các vùng điều hòa gen (như promoter giúp khởi động, enhancer giúp tăng cường). Dự án ENCODE đã lập bản đồ hàng triệu công tắc này trên nhiều loại tế bào khác nhau. Kỹ năng này giúp trợ lý tra cứu nhanh xem xung quanh một gen có những công tắc nào đang bật hoặc tắt, giúp bạn hiểu rõ cơ chế điều hòa hoạt động của gen.
 
-- **cCREs (candidate cis-Regulatory Elements)**: ~1.1 triệu regulatory elements được phân loại (PLS, pELS, dELS, CTCF-only, DNase-H3K4me3)
-- **Cell type-specific**: Annotation theo từng cell type/tissue cụ thể
-- **Experimental data**: ChIP-seq peaks, DNASE-seq, histone marks từ hàng ngàn thí nghiệm
+- **Định vị chính xác**: Tìm ra vị trí cụ thể của các vùng điều hòa gen trên nhiễm sắc thể.
+- **Đặc trưng theo tế bào**: Biết được công tắc nào chỉ hoạt động ở một loại tế bào cụ thể (ví dụ: tế bào gan, tế bào thần kinh).
+- **Hỗ trợ nghiên cứu sâu**: Cung cấp dữ liệu nền tảng cho việc thiết kế các thí nghiệm sinh học (như chỉnh sửa gen CRISPR).
 
 ## ⚙️ Cách Hoạt Động
 
-```
-Genomic region / Gene → SCREEN GraphQL API → 
-Return cCRE annotations + experimental data
-```
-
-1. **cCRE query**: Tìm regulatory elements trong genomic region hoặc gần gene
-2. **Classification**: PLS (promoter-like), pELS (proximal enhancer-like), dELS (distal enhancer-like), CTCF-only
-3. **Experiment data**: Query ENCODE Portal REST API cho raw ChIP-seq peaks, files, metadata
+1. **Xác định vùng gen**: Nhận thông tin về gen hoặc tọa độ nhiễm sắc thể từ bạn.
+2. **Truy vấn ENCODE**: Hệ thống tự động kết nối với cổng dữ liệu SCREEN của dự án ENCODE.
+3. **Phân tích kết quả**: Phân loại các vùng điều hòa tìm thấy (vùng khởi động promoter, vùng tăng cường enhancer) và mức độ hoạt động của chúng trong loại tế bào được yêu cầu.
 
 ## 🚀 Cách Sử Dụng
 
-### Universal
-
-```markdown
-# ENCODE Query Rules
-- Dùng SCREEN GraphQL API cho cCRE regulatory annotation queries.
-- Dùng ENCODE Portal REST API cho raw experimental data (ChIP-seq peaks, files).
-- Report cCRE classification type và cell type specificity.
-- Kết hợp với UCSC conservation để strengthen regulatory evidence.
-```
-
-### Cursor (.cursorrules)
-
-```markdown
-# ENCODE
-- cCRE types: PLS (promoter-like), pELS (proximal enhancer), dELS (distal enhancer), CTCF-only.
-- High DNase + H3K4me3 = promoter-like. High DNase + H3K27ac = enhancer-like.
-- Cell type matters: enhancer active trong liver có thể inactive trong brain.
-```
+- Cung cấp tên gen hoặc vùng tọa độ gen cùng loại tế bào bạn quan tâm cho trợ lý.
+- Trợ lý sẽ trích xuất danh sách các vùng điều hòa đang hoạt động kèm theo mã số tra cứu chính thức.
 
 ## 💡 Kịch Bản Lập Trình Thực Tế
 
-### 🧑‍💻 Nhà phát triển:
-> "Tôi muốn tìm các yếu tố điều hòa cis (cCREs) hoạt động mạnh trong vùng lân cận của gene SOX2 trong tế bào gốc phôi (hESC)."
+### Người dùng:
+> "Tìm giúp tôi các vùng điều hòa hoạt động mạnh xung quanh gen SOX2 trong tế bào gốc phôi."
 
-### 🤖 AI Agent (Đã được trang bị Kỹ năng):
-> "Tôi sẽ truy vấn cơ sở dữ liệu ENCODE thông qua cổng SCREEN GraphQL API để tìm kiếm cho bạn:"
->
-> 1. **Xác định vùng genomic**: Tôi tìm kiếm tọa độ genomic của gene SOX2 trên GRCh38 và mở rộng phạm vi tìm kiếm 50kb xung quanh.
-> 2. **Truy vấn cCREs**: Tôi lọc danh sách các yếu tố cis-regulatory (Promoter-like, Enhancer-like, CTCF-only) đang hoạt động trong dòng tế bào gốc phôi người (H1-hESC).
-> 3. **Phân tích tín hiệu biểu sinh**: Tôi trích xuất điểm số tín hiệu ChIP-seq của H3K4me3, H3K27ac và độ mở chromatin DNASE tại các vị trí này.
-> 4. **Báo cáo danh sách cCREs**: Tôi cung cấp danh sách các vùng điều hòa hoạt động mạnh nhất kèm mã ENCODE Accession (EH38E...) phục vụ cho việc thiết kế mồi CRISPR.
->
-> *Danh sách các vùng promoter và enhancer hoạt động kèm mức độ tự tin sinh học đã được tổng hợp đầy đủ.*
+### Trợ lý:
+> "Tôi đã tra cứu cơ sở dữ liệu ENCODE cho bạn:
+> - **Kết quả**: Phát hiện 3 vùng điều hòa tiềm năng (gồm 1 vùng khởi động promoter và 2 vùng tăng cường enhancer) hoạt động mạnh trong phạm vi 50kb quanh gen SOX2.
+> - **Mã tra cứu**: Mã số chính thức là EH38E...
+> - **Đặc trưng**: Các vùng này có tín hiệu hoạt động hóa học cao, đặc trưng cho trạng thái hoạt động của tế bào gốc phôi."
 
 ## ⚠️ Lưu Ý & Gotchas
 
-- **cCRE = candidate**: Đây là predictions dựa trên epigenomic data, không phải validated regulatory elements.
-- **Cell type specificity**: Một cCRE có thể active trong cell type A nhưng inactive trong cell type B.
-- **Two APIs**: SCREEN (GraphQL) cho annotations, ENCODE Portal (REST) cho raw experimental data — khác nhau.
-- **Data volume**: ENCODE Portal chứa petabytes data. Query cẩn thận để tránh quá tải.
+- **Ứng viên tiềm năng**: Các vùng điều hòa này được dự đoán dựa trên dữ liệu máy tính (epigenomic data), cần thực nghiệm thực tế để chứng minh chức năng 100%.
+- **Tính đặc hiệu của tế bào**: Một công tắc điều hòa có thể hoạt động ở loại tế bào này nhưng hoàn toàn "im lặng" ở tế bào khác. Hãy luôn chỉ định rõ loại tế bào bạn muốn khảo sát.

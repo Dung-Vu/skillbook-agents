@@ -17,10 +17,8 @@ platforms:
   - mcp
 featured: false
 description: >-
-  Quỹ đầu tư AI điều hành bởi điều phối viên, hợp tác với 18 chuyên gia đầu tư
-  hàng đầu (gồm 12 nhà đầu tư huyền thoại và 6 nhà phân tích tài chính chuyên
-  sâu) để đánh giá cổ phiếu.
-oneLiner: Đánh giá cơ hội đầu tư bằng hội đồng 18 chuyên gia và nhà phân tích AI.
+  Hệ thống AI giả lập một hội đồng đầu tư gồm điều phối viên, 12 nhà đầu tư huyền thoại và 6 nhà phân tích tài chính để cùng mổ xẻ, đánh giá chi tiết một mã cổ phiếu.
+oneLiner: Đánh giá cơ hội đầu tư thông qua hội đồng gồm 18 chuyên gia và nhà đầu tư huyền thoại giả lập.
 sourceUrl: ''
 sourceAuthor: Minimax
 lastVerified: '2026-06-03'
@@ -36,38 +34,38 @@ provider: minimax
 
 ## 📖 Tại Sao Cần Skill Này?
 
-Đánh giá một cơ hội đầu tư đòi hỏi kiến thức chuyên môn từ nhiều trường phái tài chính khác nhau (phân tích định giá, kỹ thuật, tâm lý thị trường, quản trị rủi ro). Kỹ năng này tập hợp một 'Dream Team' gồm 18 chuyên gia AI hoạt động dưới quyền điều phối viên để mổ xẻ mã cổ phiếu một cách toàn diện nhất.
+Đánh giá một cơ hội đầu tư chứng khoán rất phức tạp, đòi hỏi nhiều góc nhìn khác nhau như định giá, phân tích kỹ thuật, tâm lý thị trường và quản trị rủi ro. Kỹ năng này tập hợp một "biệt đội trong mơ" gồm 18 chuyên gia AI dưới sự dẫn dắt của một điều phối viên để cùng phân tích một mã cổ phiếu từ mọi góc độ, giúp bạn có cái nhìn toàn diện trước khi xuống tiền.
 
 ## ⚙️ Cách Hoạt Động
 
 Mô hình phối hợp hội đồng đầu tư:
 
 ```
-[Stock Inquiry] -> [Coordinator Allocates Work] -> [Analysts Draft Reports] -> [Masters Vote & Comment] -> [Portfolio & Risk Review] -> [Unified Action Plan]
+[Yêu cầu về cổ phiếu] -> [Điều phối viên giao việc] -> [Các nhà phân tích viết báo cáo] -> [Các nhà đầu tư huyền thoại bình luận và bỏ phiếu] -> [Đánh giá danh mục & rủi ro] -> [Kế hoạch hành động thống nhất]
 ```
 
-1. **Allocation**: Điều phối viên phân tích câu hỏi và phân chia nhiệm vụ cho các chuyên gia phù hợp.
-2. **Analysis**: Các nhà phân tích viết báo cáo chi tiết về định giá (Damodaran), cơ bản, kỹ thuật.
-3. **Consensus**: Các bậc thầy đầu tư (Buffett, Munger, Soros) đưa ra bình luận dựa trên triết lý cá nhân và bỏ phiếu quyết định.
+1. **Phân chia công việc**: Điều phối viên phân tích yêu cầu của bạn và giao việc cho các chuyên gia phù hợp.
+2. **Phân tích chuyên sâu**: Các nhà phân tích kỹ thuật và định giá lập báo cáo chi tiết về tình hình tài chính của doanh nghiệp.
+3. **Đưa ra ý kiến và bỏ phiếu**: Các nhà đầu tư huyền thoại (giả lập triết lý của Warren Buffett, Charlie Munger, George Soros...) đưa ra nhận xét dựa trên phong cách đầu tư của họ và tiến hành bỏ phiếu.
 
 ## 🚀 Cách Sử Dụng
 
-1. Luôn bao gồm tuyên bố miễn trừ trách nhiệm tài chính ở cuối báo cáo.
-2. Phân chia rõ ràng ý kiến của từng chuyên gia dưới dạng hội thoại hoặc đề mục riêng biệt để người dùng dễ theo dõi.
-3. Đưa ra khuyến nghị cuối cùng có cấu trúc rõ ràng về tỷ lệ phân bổ danh mục và quản trị rủi ro.
+1. Luôn thêm câu cảnh báo miễn trừ trách nhiệm tài chính ở cuối mỗi báo cáo (đây không phải lời khuyên tài chính pháp lý).
+2. Trình bày rõ ràng ý kiến của từng chuyên gia dưới dạng hội thoại hoặc các mục riêng để người đọc dễ theo dõi.
+3. Đưa ra khuyến nghị cuối cùng có cấu trúc rõ ràng về tỷ lệ mua/bán và cách quản trị rủi ro.
 
 ## 💡 Kịch Bản Lập Trình Thực Tế
 
-### Nhà phát triển:
-> "Hãy hướng dẫn tôi cách thiết lập và sử dụng kỹ năng Hedge Fund Expert Team để Đánh giá cơ hội đầu tư bằng hội đồng 18 chuyên gia và nhà phân tích AI."
+### 🧑‍💻 Nhà phát triển:
+> "Hãy hướng dẫn tôi cách thiết lập và sử dụng kỹ năng Hedge Fund Expert Team để đánh giá cơ hội đầu tư bằng hội đồng 18 chuyên gia và nhà phân tích AI."
 
-### AI Agent (Đã được trang bị Kỹ năng):
-> "Tôi đã sẵn sàng. Dưới đây là kịch bản vận hành thực tế cho kỹ năng Hedge Fund Expert Team:
-> 1. Thiết lập các thông số cấu hình và tham số đầu vào cần thiết cho hệ thống.
-> 2. Thực thi tuần tự các bước xử lý logic và tích hợp theo đúng chỉ dẫn của Hedge Fund Expert Team.
-> 3. Kiểm thử đầu ra, tối ưu hóa hiệu năng và cung cấp kết quả hoàn chỉnh."
+### 🤖 AI Agent (Đã được trang bị Kỹ năng):
+> "Tôi đã sẵn sàng. Dưới đây là cách vận hành hệ thống này:
+> 1. **Nhận thông tin đầu vào**: Nhận mã cổ phiếu cần phân tích (ví dụ: AAPL, TSLA) và các dữ liệu tài chính liên quan.
+> 2. **Chạy mô phỏng hội đồng**: Kích hoạt các chuyên gia AI lần lượt đưa ra phân tích theo đúng phong cách của họ (phân tích kỹ thuật, định giá dòng tiền, đánh giá giá trị dài hạn).
+> 3. **Tóm tắt và đưa ra khuyến nghị**: Tổng hợp ý kiến trái chiều, đúc kết kết quả bỏ phiếu của hội đồng và đề xuất kế hoạch phân bổ vốn an toàn."
 
 ## ⚠️ Lưu Ý & Gotchas
 
-- **Mâu thuẫn triết lý**: Các master có thể xung đột dữ dội (ví dụ: Graham đòi an toàn biên lớn còn Cathie Wood muốn tăng trưởng nhanh). Nhiệm vụ của bạn là tổng hợp các luồng ý kiến này thay vì cố dung hòa họ thành một tiếng nói chung.
-- **Quá tải thông tin**: Phối hợp 18 chuyên gia có thể tạo ra báo cáo quá dài. Hãy tóm tắt các ý chính trong phần Executive Summary.
+- **Xung đột triết lý**: Các nhà đầu tư huyền thoại có thể có ý kiến trái ngược nhau hoàn toàn (ví dụ: người theo trường phái giá trị muốn an toàn, người theo trường phái tăng trưởng muốn mạo hiểm). Bạn cần nêu rõ các luồng ý kiến này thay vì cố gắng ép họ đồng thuận.
+- **Báo cáo quá dài**: Việc tổng hợp ý kiến từ 18 chuyên gia có thể gây quá tải thông tin. Hãy luôn có một phần tóm tắt ngắn gọn (Executive Summary) ở đầu báo cáo.

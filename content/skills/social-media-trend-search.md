@@ -19,10 +19,8 @@ platforms:
   - mcp
 featured: false
 description: >-
-  Công cụ phân tích và tìm kiếm xu hướng trên các mạng xã hội (TikTok,
-  Instagram, Pinterest, X). Hỗ trợ tìm kiếm từ khóa xu hướng, phân tích thẻ
-  hashtag và gửi báo cáo qua webhook Feishu/Lark.
-oneLiner: 'Quét và phân tích xu hướng mạng xã hội hot nhất, xuất báo cáo Lark/Feishu.'
+  Kỹ năng tìm kiếm và phân tích các xu hướng đang hot trên mạng xã hội như TikTok, Instagram, Pinterest và X (Twitter). Sau đó, tự động gửi báo cáo trực quan vào nhóm chat Lark hoặc Feishu của bạn.
+oneLiner: 'Tìm kiếm xu hướng hot trên mạng xã hội và gửi báo cáo tự động vào Lark/Feishu.'
 sourceUrl: ''
 sourceAuthor: Minimax
 lastVerified: '2026-06-03'
@@ -36,37 +34,34 @@ provider: minimax
 
 ## 📖 Tại Sao Cần Skill Này?
 
-Xu hướng trên mạng xã hội thay đổi theo từng giờ, việc nắm bắt chậm sẽ khiến các chiến dịch marketing mất đi cơ hội tiếp cận khách hàng. Kỹ năng này cung cấp cho Agent khả năng quét các từ khóa, phân tích sự thay đổi lượng thảo luận của thẻ hashtag, phân loại nội dung đang thu hút tương tác lớn và gửi cảnh báo tự động về nhóm chat công việc thông qua Webhook.
+Các xu hướng trên mạng xã hội thay đổi rất nhanh. Kỹ năng này giúp bạn tự động theo dõi các từ khóa, chủ đề hoặc hashtag đang được quan tâm nhiều nhất, từ đó giúp bạn lên ý tưởng nội dung hoặc làm marketing kịp thời mà không cần tốn thời gian lướt mạng xã hội cả ngày.
 
 ## ⚙️ Cách Hoạt Động
 
-Quy trình phân tích và báo cáo xu hướng:
+Quy trình phân tích và báo cáo xu hướng diễn ra như sau:
 ```
-Nhap Hashtag/Tu khoa --> Quet Du lieu Mang xa hoi --> Phan loai Xu huong --> Gui bao cao Lark/Feishu Webhook
+[Nhập Hashtag/Từ khóa] ➔ [Thu thập dữ liệu mạng xã hội] ➔ [Lọc xu hướng nổi bật] ➔ [Gửi báo cáo Lark/Feishu]
 ```
-1. **Nhận cấu hình**: Nhận từ khóa, hashtag mục tiêu và URL Webhook của Feishu/Lark.
-2. **Quét dữ liệu**: Thu thập lượt thảo luận, số view, số tương tác của hashtag trong 24 giờ qua.
-3. **Phân tích**: Lọc ra các nội dung có tốc độ tăng trưởng tương tác đột biến (Breakout trends).
-4. **Đóng gói & Gửi**: Định dạng báo cáo dạng thẻ đẹp mắt và gửi qua webhook của ứng dụng quản trị công việc Lark/Feishu.
+1. **Thiết lập**: Nhận các từ khóa hoặc hashtag bạn muốn theo dõi, cùng với đường link nhận tin nhắn (Webhook) của Lark/Feishu.
+2. **Thu thập dữ liệu**: Kiểm tra lượt xem, lượt tương tác và mức độ thảo luận của các từ khóa này trong 24 giờ qua.
+3. **Lọc thông tin**: Tìm ra những bài viết, video hoặc chủ đề đang có sự tăng trưởng đột biến.
+4. **Gửi báo cáo**: Định dạng thông tin thành một tin nhắn dạng thẻ đẹp mắt và gửi trực tiếp vào nhóm chat công việc của bạn.
 
 ## 🚀 Cách Sử Dụng
 
-- Báo cáo gửi qua Webhook Feishu/Lark phải sử dụng định dạng thẻ tin nhắn (Interactive Message Card JSON) để hiển thị chuyên nghiệp.
-- Nhóm các xu hướng theo ngành hàng cụ thể (Thời trang, Công nghệ, Đồ ăn, v.v.) để dễ dàng theo dõi.
-- Cung cấp dẫn chứng trực tiếp bằng link các video/bài viết tiêu biểu đang dẫn đầu xu hướng đó.
+- Định dạng tin nhắn gửi vào Lark/Feishu dưới dạng thẻ thông tin trực quan để dễ đọc.
+- Phân loại các xu hướng theo từng lĩnh vực (Ví dụ: Thời trang, Ăn uống, Công nghệ) để dễ theo dõi.
+- Đính kèm link của các bài viết hoặc video tiêu biểu đang dẫn đầu xu hướng đó để bấm vào xem trực tiếp.
 
 ## 💡 Kịch Bản Lập Trình Thực Tế
 
 ### Nhà phát triển:
-> "Hãy hướng dẫn tôi cách thiết lập và sử dụng kỹ năng Social Media Trend Search để Quét và phân tích xu hướng mạng xã hội hot nhất, xuất báo cáo Lark/Feishu."
+> "Hãy thiết lập công cụ này để theo dõi hashtag #thoitranghe trên TikTok và gửi báo cáo vào Lark cho phòng Marketing."
 
 ### AI Agent (Đã được trang bị Kỹ năng):
-> "Tôi đã sẵn sàng. Dưới đây là kịch bản vận hành thực tế cho kỹ năng Social Media Trend Search:
-> 1. Thiết lập các thông số cấu hình và tham số đầu vào cần thiết cho hệ thống.
-> 2. Thực thi tuần tự các bước xử lý logic và tích hợp theo đúng chỉ dẫn của Social Media Trend Search.
-> 3. Kiểm thử đầu ra, tối ưu hóa hiệu năng và cung cấp kết quả hoàn chỉnh."
+> "Tôi sẽ thiết lập hệ thống để tự động quét hashtag #thoitranghe trên TikTok mỗi ngày, thống kê các video có tương tác cao nhất, sau đó định dạng thành tin nhắn dạng thẻ và gửi vào nhóm chat Lark của phòng Marketing."
 
 ## ⚠️ Lưu Ý & Gotchas
 
-- **Lỗi định dạng JSON Webhook**: Đảm bảo cấu trúc JSON gửi lên webhook Feishu đúng chuẩn, không bị thiếu dấu ngoặc gây lỗi 400.
-- **Giới hạn tần suất (Rate limit)**: Tránh gửi tin nhắn liên tục gây spam nhóm chat; khuyên dùng tần suất tối đa 1 lần/giờ.
+- **Lỗi gửi tin nhắn (Webhook)**: Cần đảm bảo cấu hình đường link nhận tin nhắn (Webhook URL) chính xác và đúng định dạng, nếu không tin nhắn sẽ không thể gửi đi.
+- **Tránh làm phiền (Spam)**: Không nên gửi báo cáo quá liên tục làm trôi tin nhắn trong nhóm chat. Tần suất khuyến nghị là 1 lần/ngày hoặc tối đa 1 lần/giờ.

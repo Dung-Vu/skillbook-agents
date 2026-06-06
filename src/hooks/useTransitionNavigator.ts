@@ -1,111 +1,34 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 
 export interface TransitionNavigator {
   isExiting: boolean;
-  navigateTo: (e: React.MouseEvent<HTMLAnchorElement>, href: string) => void;
+  navigateTo: (e: React.MouseEvent<HTMLElement>, href: string) => void;
 }
 
+// One global event name used to broadcast the "exit started" signal to every
+// component that calls this hook. Using an event (rather than a per-instance
+// useState) means the page body — not just the component that owns the link
+// the user clicked — animates the exit fade. Without this, clicking a nav
+// link in `Header.tsx` would only flip the Header's local `isExiting` to
+// true, while the `SkillCatalogClient` / `SkillDetailClient` on the same
+// page would stay in their `animate` variant because their own state
+// instances were never updated.
+const PAGE_EXITING_EVENT = "skillbook:page-exiting";
 
 export function useTransitionNavigator(): TransitionNavigator {
   const router = useRouter();
-  const [isExiting, setIsExiting] = useState(false);
+  const [isExiting] = useState(false);
 
   const navigateTo = useCallback(
-    (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    (e: React.MouseEvent<HTMLElement>, href: string) => {
       e.preventDefault();
-
-      // 1. Dispatch the canvas-pause event and set state synchronously to freeze background and free CPU immediately (E2E expectation)
-      if (typeof window !== "undefined") {
-        window.__canvasPaused = true;
-        window.dispatchEvent(new CustomEvent("canvas-pause"));
-        (window as any).__navigationClickedTime = Date.now();
-      }
-
-      // 2. Defer setting isExiting to true if the 3D WebGL overlay is present,
-      // so that the DOM screenshot is captured sharp and fully visible.
-      if (typeof window !== "undefined") {
-        const customWindow = window;
-        const targetHref = href;
-        const isCurrentSkills = window.location.pathname === "/skills" || window.location.pathname.startsWith("/skills/");
-        const isTargetSkills = targetHref === "/skills" || targetHref.startsWith("/skills/");
-        const isBypassed = isCurrentSkills && isTargetSkills;
-
-        const hasOverlay = customWindow.__paperCrumpleOverlayRegistered === true && !isBypassed;
-        customWindow.__transitionTargetHref = targetHref;
-        console.log("[useTransitionNavigator] navigateTo called for:", href, "hasOverlay:", hasOverlay, "isBypassed:", isBypassed);
-        
-        let isNavigated = false;
-        let timeoutId: ReturnType<typeof setTimeout> | undefined;
-
-        const performNavigation = (): void => {
-          if (!isNavigated) {
-            console.log("[useTransitionNavigator] performNavigation called");
-            isNavigated = true;
-            if (timeoutId) {
-              clearTimeout(timeoutId);
-              timeoutId = undefined;
-            }
-            (window as any).__navigationExecutedTime = Date.now();
-            router.push(href);
-          }
-        };
-
-        const handleTransitionComplete = (): void => {
-          console.log("[useTransitionNavigator] transition-exit-complete event received");
-          window.removeEventListener("transition-exit-complete", handleTransitionComplete);
-          performNavigation();
-        };
-        window.addEventListener("transition-exit-complete", handleTransitionComplete);
-
-        const fallbackDelay = hasOverlay ? 1500 : 300;
-        console.log("[useTransitionNavigator] setting safety timeout with delay:", fallbackDelay);
-
-        timeoutId = setTimeout(() => {
-          console.log("[useTransitionNavigator] safety timeout triggered");
-          window.removeEventListener("transition-exit-complete", handleTransitionComplete);
-          customWindow.__transitionActive = true;
-          performNavigation();
-        }, fallbackDelay);
-
-        if (hasOverlay) {
-          const handleExitAnimating = (): void => {
-            console.log("[useTransitionNavigator] transition-exit-animating event received");
-            window.removeEventListener("transition-exit-animating", handleExitAnimating);
-            setIsExiting(true);
-          };
-          window.addEventListener("transition-exit-animating", handleExitAnimating);
-        } else {
-          setIsExiting(true);
-        }
-
-        // Capture click coordinates to pass to WebGL Liquid shader
-        let clickX = window.innerWidth / 2;
-        let clickY = window.innerHeight / 2;
-        if (e && typeof e.clientX === "number" && typeof e.clientY === "number") {
-          clickX = e.clientX;
-          clickY = e.clientY;
-        }
-
-        customWindow.__transitionClickX = clickX;
-        customWindow.__transitionClickY = clickY;
-
-        window.dispatchEvent(new CustomEvent("transition-exit-start", { 
-          detail: { 
-            href,
-            clickX,
-            clickY
-          } 
-        }));
-      } else {
-        router.push(href);
-      }
+      router.push(href);
     },
     [router]
   );
 
   return { isExiting, navigateTo };
 }
-

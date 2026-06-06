@@ -3,12 +3,10 @@ category: reasoning-planning
 command: /plan-mode
 complexity: intermediate
 description: >-
-  Kích hoạt chế độ lập kế hoạch chi tiết trước khi thực hiện viết mã nguồn.
-  Hướng dẫn Agent tạo sơ đồ kiến trúc, phân tích rủi ro, thiết kế các bước kiểm
-  thử và xác lập tiêu chuẩn nghiệm thu rõ ràng.
+  Kích hoạt chế độ lập kế hoạch chi tiết trước khi bắt đầu lập trình. Giúp thiết kế cấu trúc hệ thống, đánh giá rủi ro, chuẩn bị kịch bản kiểm thử và xác định tiêu chí hoàn thành rõ ràng.
 featured: false
 lastVerified: '2026-06-03'
-oneLiner: Xây dựng kế hoạch triển khai chi tiết và kiểm thử trước khi thay đổi mã nguồn.
+oneLiner: 'Lập kế hoạch chi tiết và chuẩn bị kịch bản kiểm thử trước khi viết code.'
 platforms:
   - universal
   - cursor
@@ -34,47 +32,43 @@ title: Plan Mode
 
 ## 📖 Tại Sao Cần Skill Này?
 
-
-Trước khi bắt tay vào viết mã nguồn cho các tính năng phức tạp, AI Agent dễ gặp rủi ro viết sai hướng, gây ra việc phải sửa đổi lớn về sau. Kỹ năng này kích hoạt chế độ tư duy thiết kế hệ thống, giúp Agent thảo luận giải pháp với người dùng dưới vai trò một đồng nghiệp tin cậy, làm rõ các ràng buộc kỹ thuật và chốt kế hoạch thực thi rõ ràng trước khi viết dòng code đầu tiên.
+Khi gặp các yêu cầu lập trình phức tạp, nếu bắt tay vào viết code ngay lập tức, bạn rất dễ đi sai hướng, làm rối cấu trúc phần mềm và mất nhiều công sức để sửa lại sau đó. Kỹ năng này giúp bạn dừng lại một chút để tư duy thiết kế, thảo luận phương án tốt nhất và thống nhất một kế hoạch hành động rõ ràng trước khi viết những dòng code đầu tiên.
 
 ---
 
 ## ⚙️ Cách Hoạt Động
 
-Sơ đồ hoạt động:
+Quy trình lập kế hoạch diễn ra qua các bước:
 ```
-[Yêu cầu phức tạp] ➔ 🕵️ [Khảo sát mã nguồn] ➔ 🧠 [Đề xuất & Thống nhất] ➔ 📝 [Tạo file kế hoạch]
+Nhận yêu cầu ──> Khảo sát mã nguồn hiện có ──> Đề xuất giải pháp tối ưu ──> Tạo file kế hoạch hành động
 ```
 
-- **Khảo sát hiện trạng**: Tự động kích hoạt cho các tác vụ phức tạp và quét cấu trúc code thực tế để định hình phương án.
-- **Đề xuất giải pháp**: Đưa ra một giải pháp tối ưu duy nhất kèm phân tích rủi ro ngắn thay vì các tùy chọn mơ hồ.
-- **Tạo tệp kế hoạch**: Ghi lại kế hoạch bằng Markdown nêu rõ phạm vi, các bước sửa đổi, kịch bản test và bước tiếp theo.
+- **Khảo sát**: Xem xét cấu trúc code thực tế trong dự án để hiểu cách hoạt động hiện tại.
+- **Đề xuất**: Đưa ra một giải pháp tối ưu duy nhất kèm phân tích ngắn gọn về ưu nhược điểm, thay vì liệt kê quá nhiều phương án mơ hồ để người dùng tự chọn.
+- **Tạo kế hoạch**: Ghi lại chi tiết các bước cần làm, cách chạy thử để kiểm tra lỗi và bước tiếp theo để nghiệm thu.
+
 ## 🚀 Cách Sử Dụng
 
-
-```markdown
-# QUY TẮC LẬP KẾ HOẠCH DỰ ÁN
-- **Đưa ra khuyến nghị rõ ràng**: Phải đề xuất một hướng đi cụ thể và giải thích lý do, không được đưa ra danh sách lựa chọn chung chung để người dùng tự chọn.
-- **Giọng điệu đồng nghiệp**: Giao tiếp thân thiện, tự nhiên, tập trung thẳng vào bản chất kỹ thuật thay vì viết báo cáo đánh giá trịnh trọng, sáo rỗng.
-- **Thiết lập tiêu chuẩn nghiệm thu**: Mọi kế hoạch lập ra phải kết thúc bằng một "Next Step" (Bước tiếp theo) cụ thể và một phương pháp chạy kiểm thử để nghiệm thu.
-```
+- Đề xuất một hướng đi rõ ràng cùng lý do kỹ thuật cụ thể.
+- Trao đổi tự nhiên, ngắn gọn và đi thẳng vào vấn đề kỹ thuật thực tế.
+- Đảm bảo kế hoạch luôn có phần kịch bản chạy thử để xác minh code hoạt động đúng sau khi sửa đổi.
 
 ---
 
 ## 💡 Kịch Bản Lập Trình Thực Tế
 
 
-### Nhà phát triển:
-> "Hãy hướng dẫn tôi cách thiết lập và sử dụng kỹ năng Plan Mode để Xây dựng kế hoạch triển khai chi tiết và kiểm thử trước khi thay đổi mã nguồn."
+### Người dùng yêu cầu:
+> "Tôi muốn thêm tính năng đăng nhập bằng Google vào trang web hiện tại."
 
-### AI Agent (Đã được trang bị Kỹ năng):
-> "Tôi đã sẵn sàng. Dưới đây là kịch bản vận hành thực tế cho kỹ năng Plan Mode:
-> 1. Thiết lập các thông số cấu hình và tham số đầu vào cần thiết cho hệ thống.
-> 2. Thực thi tuần tự các bước xử lý logic và tích hợp theo đúng chỉ dẫn của Plan Mode.
-> 3. Kiểm thử đầu ra, tối ưu hóa hiệu năng và cung cấp kết quả hoàn chỉnh."
+### Trợ lý AI thực hiện:
+> "Tôi sẽ hỗ trợ bạn lên kế hoạch thực hiện:
+> 1. Khảo sát các file xử lý tài khoản hiện có trong dự án.
+> 2. Đề xuất phương án sử dụng thư viện NextAuth vì nó bảo mật và tương thích tốt nhất với code hiện tại của bạn.
+> 3. Lập danh sách các file cần sửa đổi và viết kịch bản chạy thử để kiểm tra tính năng đăng nhập sau khi hoàn tất."
 
 ## ⚠️ Lưu Ý & Gotchas
 
 
-* **Kế hoạch quá phức tạp (Over-engineering)**: Tránh thiết kế các kiến trúc quá đồ sộ cho các nhiệm vụ đơn giản. Kế hoạch phải phù hợp với quy mô hiện tại của cơ sở mã nguồn.
-* **Bỏ qua bước khảo sát thực tế**: Đề xuất giải pháp lý thuyết mà không mở file thực tế xem cấu trúc code hiện tại thường dẫn đến việc đề xuất các hàm hoặc thư viện bị trùng lặp.
+* **Vẽ vời quá mức (Over-engineering)**: Tránh thiết kế các mô hình quá phức tạp cho các tác vụ đơn giản. Hãy ưu tiên giải pháp tinh gọn và phù hợp với quy mô dự án.
+* **Đoán mò không khảo sát code**: Đề xuất giải pháp lý thuyết mà không mở xem các file code cũ sẽ dễ gây ra tình trạng viết trùng lặp tính năng hoặc xung đột thư viện. Hãy luôn đọc kỹ code cũ trước.

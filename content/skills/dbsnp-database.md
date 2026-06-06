@@ -17,79 +17,49 @@ platforms:
   - gemini-cli
   - universal
 featured: false
-description: >-
-  Tìm kiếm thông tin SNP, indel bằng mã rsID hoặc tọa độ genome, truy xuất tần
-  số alen và mối liên quan bệnh lý lâm sàng.
-oneLiner: Tra cứu và bản đồ hóa các biến thể di truyền ngắn trong dbSNP.
+description: Tra cứu dữ liệu sinh học dbSNP để kiểm tra thông tin chi tiết của các biến thể di truyền ngắn (như SNP, indel) dựa trên mã rsID hoặc tọa độ gen.
+oneLiner: Tra cứu thông tin chi tiết và vị trí của các biến thể di truyền ngắn.
 sourceUrl: 'https://www.ncbi.nlm.nih.gov/snp/'
 sourceAuthor: Google DeepMind
 lastVerified: '2026-05-30'
 relatedSkills: []
-seoTitle: dbSNP Variant Lookup — Skillbook Agents
-seoDescription: >-
-  Hướng dẫn Agent tra cứu SNPs và indels từ dbSNP, mapping giữa rsID, tọa độ
-  genomic, và HGVS.
+seoTitle: dbSNP Variant Lookup — Tra cứu biến thể gen dbSNP
+seoDescription: Hướng dẫn Agent tra cứu vị trí, loại biến thể di truyền ngắn và tần suất xuất hiện trong dân số từ cơ sở dữ liệu dbSNP.
 provider: antigravity
 ---
 
 ## 📖 Tại Sao Cần Skill Này?
 
-dbSNP là registry toàn cầu cho biến thể di truyền ngắn — mỗi variant được gán một **rsID** duy nhất (vd: rs1234567). Đây là "số CMND" của variant, được sử dụng rộng rãi trong GWAS, clinical reports, và publications.
+Trong nghiên cứu di truyền học, mỗi biến thể gen nhỏ (đột biến điểm) thường có một mã định danh duy nhất gọi là **rsID** (ví dụ: rs1234567) – giống như số CMND của biến thể đó. Kỹ năng này giúp bạn tra cứu nhanh thông tin từ dbSNP (cơ sở dữ liệu toàn cầu của NCBI) để biết đột biến này nằm ở đâu, trên gen nào và mức độ phổ biến của nó trong dân số.
 
-- **ID resolution**: Chuyển đổi giữa rsID ↔ genomic coordinates ↔ HGVS notation
-- **Allele frequency**: Tần suất allele trong các quần thể (global, population-specific)
-- **Clinical significance**: Liên kết với ClinVar, gene associations, variant type
+- **Tìm kiếm nhanh chóng**: Chuyển đổi linh hoạt giữa mã rsID, vị trí tọa độ gen và tên gen liên quan.
+- **Biết độ phổ biến**: Xem biến thể này là phổ biến hay cực kỳ hiếm gặp trong cộng đồng.
+- **Chuẩn bị dữ liệu**: Cung cấp thông tin nền tảng để phân tích sâu hơn về mặt lâm sàng hoặc y khoa.
 
 ## ⚙️ Cách Hoạt Động
 
-```
-rsID / Coordinates / HGVS → dbSNP API → 
-Return variant details (type, genes, frequencies, clinical significance)
-```
-
-1. **Input**: rsID (rs123), VCF format (chr:pos:ref:alt), hoặc HGVS string
-2. **Query**: NCBI dbSNP REST API
-3. **Output**: Variant type (SNV/indel), gene associations, allele frequencies (GRCh38), clinical links
+1. **Nhận đầu vào**: Bạn cung cấp mã rsID hoặc tọa độ vị trí của gen.
+2. **Truy vấn dbSNP**: Hệ thống tự động kết nối và tìm kiếm trên cơ sở dữ liệu dbSNP của NCBI.
+3. **Trả về kết quả**: Cung cấp loại biến thể, tên gen bị ảnh hưởng, tọa độ chính xác trên nhiễm sắc thể và tần suất xuất hiện trong dân số.
 
 ## 🚀 Cách Sử Dụng
 
-### Universal
-
-```markdown
-# dbSNP Lookup Rules
-- Khi user cung cấp rsID → tra dbSNP để lấy coordinates, gene, allele frequency.
-- Khi user cung cấp genomic coordinates → tra dbSNP để tìm rsID tương ứng.
-- Báo cáo: variant type, gene, allele frequency, clinical significance nếu có.
-- Tọa độ output luôn trên GRCh38.
-```
-
-### Cursor (.cursorrules)
-
-```markdown
-# dbSNP
-- dbSNP là bước đầu tiên khi user cung cấp rsID — resolve thành coordinates trước khi dùng tools khác.
-- Allele frequency giúp phân biệt common variant vs rare variant (MAF < 1% = rare).
-- Cross-reference với ClinVar cho clinical interpretation.
-```
+- Đưa mã rsID hoặc tọa độ gen cần kiểm tra cho trợ lý.
+- Trợ lý sẽ nhanh chóng trả về báo cáo tóm tắt thông tin của biến thể đó.
 
 ## 💡 Kịch Bản Lập Trình Thực Tế
 
-### 🧑‍💻 Nhà phát triển:
-> "Hãy tra cứu thông tin của mã SNP rs121912651 trên dbSNP để tôi biết vị trí genomic và hậu quả sinh học của nó."
+### Người dùng:
+> "Tìm giúp tôi thông tin về mã biến thể rs121912651 trên dbSNP với."
 
-### 🤖 AI Agent (Đã được trang bị Kỹ năng):
-> "Tôi sẽ thực hiện truy vấn và phân tích mã SNP này trên dbSNP thông qua các bước tự động:"
->
-> 1. **Khởi chạy API dbSNP**: Tôi gửi truy vấn đến cổng API NCBI Entrez để lấy thông tin chi tiết của mã rsID rs121912651.
-> 2. **Ánh xạ tọa độ Genomic**: Tôi xác định vị trí của biến thể nằm trên chromosome 17, tọa độ GRCh38 và HGVS nucleotide change tương ứng.
-> 3. **Đánh giá hậu quả sinh học**: Tôi phân tích chức năng của SNP này nằm trong gene **TP53** và gây ra đột biến sai nghĩa (Missense Variant) p.Arg273Cys, thay đổi acid amin tại domain liên kết DNA.
-> 4. **Trích xuất tần số alen**: Tôi lấy dữ liệu tần số từ dự án 1000 Genomes và gnomAD để báo cáo mức độ phổ biến di truyền của SNP này trong các quần thể người khác nhau.
->
-> *Thông tin SNP chi tiết và chính xác đã được tổng hợp hoàn chỉnh, hỗ trợ đắc lực cho công tác chú giải dữ liệu NGS.*
+### Trợ lý:
+> "Tôi đã tra cứu cơ sở dữ liệu dbSNP cho bạn:
+> - **Vị trí**: Nằm trên nhiễm sắc thể 17.
+> - **Gen liên quan**: Gen **TP53** (gen kiểm soát sự phát triển của tế bào).
+> - **Tác động**: Làm thay đổi axit amin trong cấu trúc protein, có thể ảnh hưởng đến chức năng chống ung thư của gen.
+> - **Tần suất**: Rất hiếm gặp trong dân số chung."
 
 ## ⚠️ Lưu Ý & Gotchas
 
-- **rsID merge**: Một số rsID cũ đã được merged vào rsID mới — dbSNP tự động redirect.
-- **GRCh38 only**: Tọa độ output trên GRCh38. Nếu user có hg19 coordinates → cần liftover.
-- **Common ≠ benign**: Variant common (MAF >1%) vẫn có thể liên quan đến disease risk (vd: APOE ε4).
-- **Clinical vs frequency**: dbSNP cung cấp frequency, ClinVar cung cấp pathogenicity — dùng cả hai.
+- **Gộp mã rsID**: Đôi khi các mã rsID cũ đã được gộp chung vào một mã mới hơn, hệ thống sẽ tự động chuyển hướng đến mã mới nhất.
+- **Chuẩn bản đồ gen**: Tọa độ trả về mặc định sử dụng bản đồ gen mới nhất (GRCh38). Nếu bạn đang dùng hệ tọa độ cũ hơn (như hg19), hãy báo cho trợ lý biết để chuyển đổi tọa độ tương ứng.

@@ -16,11 +16,8 @@ platforms:
   - claude-code
   - mcp
 featured: false
-description: >-
-  Trợ lý AI cấp cao cho giám đốc điều hành. Hỗ trợ lập kế hoạch toàn diện, phân
-  rã mục tiêu thành các cột mốc hành động, hỗ trợ đưa ra quyết định chiến lược
-  và theo dõi tiến độ dự án.
-oneLiner: Hỗ trợ lập kế hoạch chiến lược và thực thi mục tiêu cho CEO/Quản lý.
+description: Trợ lý điều hành cao cấp hỗ trợ CEO và các nhà quản lý lập kế hoạch, phân chia mục tiêu lớn thành các việc cần làm nhỏ hơn, và theo dõi tiến độ công việc để đưa ra quyết định chiến lược nhanh chóng.
+oneLiner: Hỗ trợ lập kế hoạch công việc và thực hiện mục tiêu cho người quản lý.
 sourceUrl: ''
 sourceAuthor: Minimax
 lastVerified: '2026-06-03'
@@ -34,38 +31,34 @@ provider: minimax
 
 ## 📖 Tại Sao Cần Skill Này?
 
-Nhà điều hành thường phải xử lý lượng thông tin khổng lồ và đưa ra hàng loạt quyết định nhanh chóng. Kỹ năng này giúp Agent đóng vai trò như một chánh văn phòng (Chief of Staff), cấu trúc hóa mọi mục tiêu trừu tượng thành các bước hành động cụ thể và quản lý tiến độ chặt chẽ.
+Người quản lý và điều hành doanh nghiệp thường phải xử lý một lượng công việc khổng lồ và đưa ra nhiều quyết định quan trọng mỗi ngày. Skill này giúp trợ lý AI hoạt động như một thư ký hoặc chánh văn phòng đắc lực: tự động sắp xếp các ý tưởng phức tạp thành một kế hoạch hành động rõ ràng và theo sát tiến độ để bạn không bỏ sót bất kỳ việc quan trọng nào.
 
 ## ⚙️ Cách Hoạt Động
 
-Luồng quản lý mục tiêu và thực thi:
-
-```
-[Goal Clarification] -> [Milestone Roadmap] -> [Task Decomposition] -> [Autonomous Execution] -> [Results Review]
-```
-
-1. **Goal**: Phát biểu mục tiêu cốt lõi của người dùng trong một câu rõ ràng.
-2. **Roadmap**: Chia nhỏ lộ trình thành các cột mốc (Milestones) đi kèm thời hạn.
-3. **Decompose**: Bẻ nhỏ cột mốc thành các đầu việc (Tasks) và hành động tiếp theo (Next Action).
+Quy trình lập kế hoạch và thực hiện:
+1. **Xác định mục tiêu**: Làm rõ mong muốn cốt lõi của bạn bằng một câu tóm tắt ngắn gọn.
+2. **Xây dựng lộ trình**: Chia nhỏ mục tiêu lớn thành các mốc thời gian cụ thể (Milestones).
+3. **Phân chia công việc**: Bẻ nhỏ các mốc thời gian thành từng việc cần làm ngay (Tasks), giao cho các bộ phận hoặc tự thực hiện.
 
 ## 🚀 Cách Sử Dụng
 
-1. Luôn kết thúc mỗi lượt phản hồi bằng một hành động đề xuất cụ thể (`Next Action`) để duy trì đà tiến độ.
-2. Hạn chế đặt câu hỏi làm rõ rườm rà; thay vào đó hãy đề xuất một bản dự thảo kế hoạch để người dùng duyệt hoặc sửa.
-3. Không bao giờ bỏ qua bước đánh giá kết quả (Review) sau khi hoàn thành công việc.
+1. Luôn đề xuất rõ ràng việc cần làm tiếp theo (`Next Action`) ở cuối mỗi câu trả lời để công việc được trôi chảy.
+2. Tránh đặt quá nhiều câu hỏi rườm rà; thay vào đó, hãy tự phác thảo trước một bản kế hoạch để người quản lý duyệt hoặc chỉnh sửa.
+3. Sau khi hoàn thành công việc, luôn tổ chức đánh giá lại kết quả để rút kinh nghiệm cho các bước tiếp theo.
 
 ## 💡 Kịch Bản Lập Trình Thực Tế
 
-### Nhà phát triển:
-> "Hãy hướng dẫn tôi cách thiết lập và sử dụng kỹ năng CEO Assistant để Hỗ trợ lập kế hoạch chiến lược và thực thi mục tiêu cho CEO/Quản lý."
+### Người dùng:
+> "Tôi muốn mở rộng thị trường sản phẩm của mình sang khu vực Đông Nam Á trong quý này."
 
-### AI Agent (Đã được trang bị Kỹ năng):
-> "Tôi đã sẵn sàng. Dưới đây là kịch bản vận hành thực tế cho kỹ năng CEO Assistant:
-> 1. Thiết lập các thông số cấu hình và tham số đầu vào cần thiết cho hệ thống.
-> 2. Thực thi tuần tự các bước xử lý logic và tích hợp theo đúng chỉ dẫn của CEO Assistant.
-> 3. Kiểm thử đầu ra, tối ưu hóa hiệu năng và cung cấp kết quả hoàn chỉnh."
+### Trợ lý AI:
+> "Để thực hiện mục tiêu đó, tôi đề xuất bản kế hoạch sơ bộ như sau:
+> 1. Mốc 1 (Tuần 1-2): Nghiên cứu thị trường tại hai nước tiềm năng nhất (ví dụ: Thái Lan và Indonesia).
+> 2. Mốc 2 (Tuần 3-4): Tìm hiểu các quy định pháp lý và thủ tục nhập khẩu tại đây.
+> 3. Mốc 3 (Tuần 5-6): Liên hệ với 3 đối tác phân phối bản địa để chào hàng.
+> Việc cần làm ngay hôm nay: Tôi sẽ soạn thảo báo cáo nghiên cứu nhanh về thói quen tiêu dùng sản phẩm của bạn tại Thái Lan và Indonesia."
 
 ## ⚠️ Lưu Ý & Gotchas
 
-- **Thiếu tập trung**: Dễ bị cuốn vào các tiểu tiết vụn vặt. Luôn đối chiếu các đầu việc đang làm với mục tiêu cốt lõi ban đầu của CEO.
-- **Lập kế hoạch quá phức tạp**: Lộ trình quá cồng kềnh sẽ khó thực thi. Giữ cho kế hoạch tinh gọn và dễ điều chỉnh linh hoạt.
+- **Bị cuốn vào việc nhỏ**: Rất dễ bị phân tâm bởi các việc lặt vặt. Luôn nhớ đối chiếu những việc đang làm với mục tiêu lớn ban đầu.
+- **Kế hoạch quá cồng kềnh**: Lộ trình quá dài dòng và phức tạp sẽ khó thực hiện. Hãy giữ cho bản kế hoạch đơn giản, thực tế và dễ dàng thay đổi khi cần.

@@ -2,15 +2,10 @@
 category: content-communication
 command: /pptx
 complexity: intermediate
-description: >-
-  Đọc, phân tích cấu trúc slide và trích xuất dữ liệu từ các tài liệu trình
-  chiếu PowerPoint (`.pptx`). Hỗ trợ tìm kiếm văn bản, lấy ghi chú slide
-  (speaker notes) và xử lý hình ảnh nhúng.
+description: Giúp bạn tự động hóa việc đọc nội dung, trích xuất dữ liệu, ghi chú và tạo mới các slide trình chiếu PowerPoint (`.pptx`) một cách chuyên nghiệp.
 featured: false
 lastVerified: '2026-06-03'
-oneLiner: >-
-  Phân tích cấu trúc, trích xuất nội dung và ghi chú từ slide PowerPoint
-  (.pptx).
+oneLiner: Hỗ trợ đọc, chỉnh sửa và tạo slide PowerPoint (.pptx) tự động.
 platforms:
   - universal
   - cursor
@@ -37,43 +32,33 @@ title: Minimax PPTX
 
 ## 📖 Tại Sao Cần Skill Này?
 
-Tạo slide PowerPoint (`.pptx`) bằng code thường dễ gặp lỗi tràn khung văn bản hoặc sai tỷ lệ. Kỹ năng này cung cấp các giới hạn kích thước canvas chuẩn 16x9, hướng dẫn thiết kế slide module hóa bằng JavaScript (PptxGenJS) và các bước trích xuất, chỉnh sửa an toàn.
+Thiết kế slide PowerPoint thủ công tốn nhiều thời gian căn chỉnh bố cục, font chữ và căn lề. Kỹ năng này giúp trợ lý ảo tự động phân tích cấu trúc slide cũ, trích xuất nội dung và ghi chú của người thuyết trình, hoặc tạo ra bộ slide mới chuẩn tỉ lệ 16:9 với màu sắc và bố cục đồng đều mà không lo bị tràn khung chữ.
 
 ## ⚙️ Cách Hoạt Động
 
-Quy trình tạo và sửa slide:
-
-1. **Phân tích**: Chọn tỷ lệ 16x9. Nếu có slide mẫu, dùng `audit_pptx.py` để phân tích mã màu và font chữ gốc.
-2. **Thiết kế JS**: Viết riêng từng tệp JS cho mỗi slide (`slide-01.js`, v.v.) xuất hàm đồng bộ `createSlide`. Đảm bảo tọa độ nằm trong giới hạn canvas 10.0" x 5.625".
-3. **Biên dịch**: Chạy `compile.js` để xuất slide PPTX và kiểm tra căn lề, số trang.
-
-```
-[Yêu cầu slide / Slide mẫu] ➔ 🔍 [Chạy audit_pptx.py tìm màu/font] ➔ 📐 [Thiết kế slide JS độc lập (tối đa 10" x 5.625")]
-                                 ➔ 💻 [Chạy compile.js tạo tệp .pptx] ➔ 🧪 [Kiểm tra QA căn lề & số trang]
-```
+Quy trình thực hiện:
+1. **Phân tích mẫu**: Trợ lý quét qua slide cũ (nếu có) để tìm hiểu tông màu và font chữ bạn hay dùng.
+2. **Lập trình thiết kế**: Trợ lý thiết kế từng trang slide với kích thước chuẩn 16:9, đảm bảo các phần tử nội dung nằm gọn trong khung hình.
+3. **Xuất file**: Trợ lý xuất trực tiếp file dạng `.pptx` và tự động đánh số trang ở góc dưới.
 
 ## 🚀 Cách Sử Dụng
 
-```markdown
-# QUY TẮC THIẾT KẾ SLIDE POWERPOINT
-- **Tỷ lệ 16x9 bắt buộc**: Luôn thiết lập tỷ lệ slide chuẩn `LAYOUT_16x9` (kích thước vật lý 10 inch x 5.625 inch). Không viết tràn phần tử ra ngoài khung này.
-- **Không dùng hàm bất đồng bộ trong slide**: Hàm `createSlide` cấu trúc slide bắt buộc phải chạy đồng bộ, tuyệt đối không dùng `async/await`.
-- **Đánh số trang**: Tất cả các slide (ngoại trừ slide tiêu đề) bắt buộc phải có số trang đặt tại góc dưới bên phải (tọa độ x xấp xỉ 9.3, y xấp xỉ 5.1).
-- **Mã màu Hex chuẩn**: Màu sắc truyền cho PptxGenJS phải viết ở dạng chuỗi hex 6 ký tự không chứa ký tự `#` (ví dụ: dùng `FF0000`, không dùng `#FF0000`).
-```
+- Nhờ trợ lý trích xuất văn bản hoặc các hình ảnh, ghi chú từ một file PowerPoint có sẵn.
+- Yêu cầu tạo mới một bộ slide dựa trên nội dung báo cáo bạn cung cấp.
+- Khi cung cấp mã màu cho thiết kế, hãy dùng định dạng mã màu chuẩn không có dấu `#` (ví dụ: dùng `1B5AB5` thay vì `#1B5AB5`).
 
 ## 💡 Kịch Bản Lập Trình Thực Tế
 
-### Nhà phát triển:
-> "Hãy hướng dẫn tôi cách thiết lập và sử dụng kỹ năng Minimax PPTX để Phân tích cấu trúc, trích xuất nội dung và ghi chú từ slide PowerPoint (.pptx)."
+### Người dùng:
+> "Tôi có một file PowerPoint giới thiệu sản phẩm. Hãy trích xuất toàn bộ phần ghi chú của người nói (speaker notes) ở dưới mỗi slide ra thành một file văn bản."
 
-### AI Agent (Đã được trang bị Kỹ năng):
-> "Tôi đã sẵn sàng. Dưới đây là kịch bản vận hành thực tế cho kỹ năng Minimax PPTX:
-> 1. Thiết lập các thông số cấu hình và tham số đầu vào cần thiết cho hệ thống.
-> 2. Thực thi tuần tự các bước xử lý logic và tích hợp theo đúng chỉ dẫn của Minimax PPTX.
-> 3. Kiểm thử đầu ra, tối ưu hóa hiệu năng và cung cấp kết quả hoàn chỉnh."
+### Trợ lý:
+> "Tôi đã xử lý yêu cầu của bạn:
+> 1. Đọc file PowerPoint `intro.pptx` của bạn.
+> 2. Quét qua từng slide và lấy ra phần ghi chú thuyết trình.
+> 3. Đây là file văn bản chứa đầy đủ ghi chú của từng slide từ 1 đến 10."
 
 ## ⚠️ Lưu Ý & Gotchas
 
-* **Lỗi ghi đè màu sắc của Template**: Khi sao chép phong cách từ slide mẫu, hãy cẩn thận gán đúng vai trò của màu nền (`bg`) và màu chữ chính (`primary`).
-* **Hạn chế chụp ảnh màn hình**: Việc chụp ảnh màn hình slide để xem thử trực quan chỉ hỗ trợ trên hệ điều hành macOS và yêu cầu môi trường có cài đặt `soffice` và `swiftc`.
+- **Lưu ý mã màu**: Các thư viện xuất slide yêu cầu mã màu viết liền (ví dụ `FF0000`). Nếu viết sai định dạng, màu sắc slide sẽ bị hiển thị sai lệch.
+- **Tránh tràn chữ**: Trợ lý sẽ tự động giới hạn lượng chữ trên mỗi slide để tránh việc chữ bị tràn ra ngoài viền màn hình hoặc đè lên số trang.

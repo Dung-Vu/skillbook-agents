@@ -17,10 +17,8 @@ platforms:
   - mcp
 featured: false
 description: >-
-  Công cụ tự động hóa việc dọn dẹp và sắp xếp thư mục thông minh. Phân loại tệp
-  tin theo định dạng, di chuyển các tệp rác vào thư mục lưu trữ tạm thời và đảm
-  bảo an toàn dữ liệu tuyệt đối.
-oneLiner: Dọn dẹp và sắp xếp tệp tin trong thư mục một cách khoa học và an toàn.
+  Kỹ năng tự động sắp xếp các tệp tin lộn xộn trong thư mục của bạn vào các nhóm rõ ràng (như tài liệu, hình ảnh, mã nguồn) và dọn dẹp các thư mục trống một cách an toàn.
+oneLiner: Tự động phân loại tệp tin và dọn dẹp thư mục làm việc gọn gàng, an toàn.
 sourceUrl: ''
 sourceAuthor: Minimax
 lastVerified: '2026-06-03'
@@ -34,37 +32,34 @@ provider: minimax
 
 ## 📖 Tại Sao Cần Skill Này?
 
-Thư mục làm việc hoặc thư mục Tải xuống (Downloads) của người dùng thường tích tụ hàng trăm tệp tin lộn xộn, gây khó khăn cho việc tìm kiếm. Kỹ năng này cho phép Agent thực hiện dọn dẹp thư mục theo quy trình cực kỳ an toàn: tạo bản sao lưu (Backup) tạm thời trước khi di chuyển, phân loại tệp tin vào các thư mục con tương ứng (Documents, Images, Archives, v.v.), tránh xóa nhầm các tệp tin quan trọng hoặc tệp tin hệ thống.
+Thư mục làm việc hoặc thư mục tải về (Downloads) của bạn thường rất dễ bị lộn xộn sau một thời gian sử dụng. Kỹ năng này giúp bạn tự động sắp xếp lại các tệp tin này một cách khoa học mà không sợ bị mất dữ liệu hay xóa nhầm các tệp tin hệ thống quan trọng.
 
 ## ⚙️ Cách Hoạt Động
 
-Quy trình dọn dẹp thư mục an toàn:
+Quy trình sắp xếp thư mục diễn ra như sau:
 ```
-Quet thu muc nguon --> Tao ban sao luu du phong --> Phan loai tep tin --> Di chuyen & Don dep thu muc trong
+[Kiểm tra thư mục] ➔ [Tạo bản sao lưu tạm] ➔ [Phân loại theo loại tệp] ➔ [Di chuyển vào thư mục tương ứng]
 ```
-1. **Kiểm tra đầu vào**: Đọc danh sách các tệp tin trong thư mục chỉ định và phân tích đuôi mở rộng (`.pdf`, `.docx`, `.png`).
-2. **Sao lưu**: Tạo thư mục backup tạm thời để lưu trữ trạng thái trước khi thực hiện dọn dẹp.
-3. **Phân loại**: Sắp xếp tệp tin vào nhóm: Văn bản (Documents), Hình ảnh (Images), Lập trình (Code), Nén (Archives).
-4. **Di chuyển an toàn**: Di chuyển tệp tin vào thư mục phân loại, giữ lại các tệp tin hệ thống ẩn (`.gitignore`, `.env`) và xóa các thư mục rỗng.
+1. **Kiểm tra**: Quét toàn bộ tệp tin trong thư mục và nhận diện định dạng của chúng (như `.pdf`, `.docx`, `.png`).
+2. **Sao lưu**: Tạo một bản sao lưu dự phòng tạm thời để đảm bảo an toàn trước khi thay đổi.
+3. **Phân loại**: Gom các tệp tin có cùng mục đích sử dụng vào một nhóm: Văn bản (Documents), Hình ảnh (Images), Mã nguồn (Code), File nén (Archives).
+4. **Di chuyển**: Chuyển các tệp tin vào đúng vị trí mới, giữ nguyên các tệp cấu hình ẩn (như `.gitignore`, `.env`) và xóa các thư mục rỗng.
 
 ## 🚀 Cách Sử Dụng
 
-- **An toàn dữ liệu là số một**: Tuyệt đối không xóa trực tiếp bất kỳ tệp tin nào của người dùng. Mọi hành động dọn dẹp phải thông qua việc di chuyển vào thư mục Archive hoặc Trash tạm thời.
-- Giữ nguyên các tệp ẩn khởi đầu bằng dấu chấm (`.`) và các thư mục cấu hình hệ thống quan trọng.
-- Sau khi hoàn thành, xuất báo cáo danh sách các tệp tin đã di chuyển kèm sơ đồ cây thư mục mới trực quan.
+- **An toàn dữ liệu là trên hết**: Không bao giờ xóa vĩnh viễn tệp tin của người dùng. Mọi thao tác dọn dẹp phải thực hiện thông qua việc di chuyển tệp vào thư mục lưu trữ tạm thời hoặc Thùng rác.
+- Giữ nguyên các tệp ẩn bắt đầu bằng dấu chấm (`.`) và các thư mục cấu hình quan trọng của hệ thống.
+- Sau khi dọn dẹp xong, gửi báo cáo liệt kê những tệp tin đã di chuyển kèm cấu trúc thư mục mới để người dùng dễ theo dõi.
 
 ## 💡 Kịch Bản Lập Trình Thực Tế
 
 ### Nhà phát triển:
-> "Hãy hướng dẫn tôi cách thiết lập và sử dụng kỹ năng Tidy Folder để Dọn dẹp và sắp xếp tệp tin trong thư mục một cách khoa học và an toàn."
+> "Hãy dọn dẹp và sắp xếp lại các tệp tin trong thư mục Downloads của tôi cho gọn gàng."
 
 ### AI Agent (Đã được trang bị Kỹ năng):
-> "Tôi đã sẵn sàng. Dưới đây là kịch bản vận hành thực tế cho kỹ năng Tidy Folder:
-> 1. Thiết lập các thông số cấu hình và tham số đầu vào cần thiết cho hệ thống.
-> 2. Thực thi tuần tự các bước xử lý logic và tích hợp theo đúng chỉ dẫn của Tidy Folder.
-> 3. Kiểm thử đầu ra, tối ưu hóa hiệu năng và cung cấp kết quả hoàn chỉnh."
+> "Tôi sẽ quét thư mục Downloads của bạn, tạo một bản sao lưu tạm thời để đảm bảo an toàn. Sau đó, tôi sẽ gom toàn bộ ảnh vào thư mục Images, tài liệu vào thư mục Documents và xóa các thư mục trống không sử dụng, cuối cùng gửi lại báo cáo cho bạn."
 
 ## ⚠️ Lưu Ý & Gotchas
 
-- **Xung đột tên tệp**: Đề xuất giải pháp ghi đè hoặc tự động đổi tên (thêm hậu tố ngày tháng) nếu xảy ra hiện tượng trùng tên tệp tin ở thư mục đích.
-- **Giới hạn quyền đọc ghi**: Cảnh báo người dùng nếu gặp lỗi phân quyền (Permission Denied) đối với các tệp tin hệ thống đang mở.
+- **Trùng tên tệp**: Nếu có hai tệp trùng tên khi di chuyển sang thư mục mới, AI sẽ tự động đổi tên (ví dụ: thêm ngày tháng vào cuối tên tệp) để tránh ghi đè làm mất file cũ.
+- **Lỗi quyền truy cập**: Nếu một tệp đang được mở bởi chương trình khác hoặc bị hệ thống khóa, AI sẽ bỏ qua tệp đó và thông báo lại cho bạn biết.

@@ -17,55 +17,49 @@ platforms:
   - claude-code
   - mcp
 featured: false
-description: >-
-  Kỹ năng thiết kế UI/UX cao cấp, chuyên sâu về tư duy thẩm mỹ hiện đại. Định
-  hình bảng màu nghệ thuật, thiết lập hệ thống phông chữ tương thích và cấu trúc
-  các thành phần CSS chuẩn hóa.
-oneLiner: Nâng cấp giao diện người dùng lên chuẩn thẩm mỹ cao cấp và hiện đại.
+description: Nâng tầm thiết kế giao diện lên chuẩn cao cấp với tư duy thẩm mỹ hiện đại, phối màu nghệ thuật độc đáo, kết hợp phông chữ tinh tế và các hiệu ứng chuyển động mượt mà.
+oneLiner: Thiết kế giao diện cao cấp, nghệ thuật và hiện đại.
 sourceUrl: ''
 sourceAuthor: Minimax
 lastVerified: '2026-06-03'
 relatedSkills: []
-seoTitle: UI/UX Pro Max - Minimax Skill for AI Agents
-seoDescription: >-
-  Sử dụng kỹ năng UI/UX Pro Max để xây dựng các giao diện web đậm chất nghệ
-  thuật, tối ưu hóa CSS và cấu trúc chữ chuyên sâu.
+seoTitle: UI/UX Pro Max - Thiết kế giao diện cao cấp, nghệ thuật
+seoDescription: Cấu hình AI Agent nâng cấp thẩm mỹ giao diện, tối ưu hóa cặp phông chữ và thiết kế hiệu ứng tương tác mượt mà đạt chuẩn premium.
 provider: minimax
 ---
 
 ## 📖 Tại Sao Cần Skill Này?
 
-Các giao diện web hiện đại đòi hỏi một tư duy thẩm mỹ đột phá, vượt ra ngoài các khung giao diện CSS thông thường để tạo dấu ấn thương hiệu. Kỹ năng này cung cấp các nguyên tắc phối màu nghệ thuật (như phối màu đơn sắc ấm, phối màu đất sâu), kỹ thuật chọn phông chữ cao cấp (sans-serif và serif tương phản) và tối ưu hóa mã CSS tương tác mượt mà.
+Để nổi bật giữa hàng ngàn trang web thông thường, sản phẩm của bạn cần có phong cách thiết kế độc đáo và đẳng cấp để tạo ấn tượng mạnh mẽ ngay từ cái nhìn đầu tiên. Kỹ năng này giúp trợ lý thiết kế giao diện mang tính thẩm mỹ cao, thoát khỏi các khuôn mẫu đại trà, phối hợp màu sắc sang trọng và tạo ra các hiệu ứng tương tác thời thượng nhất.
+
+- **Đẳng cấp thương hiệu**: Định hình phong cách thiết kế riêng biệt, sang trọng và chuyên nghiệp.
+- **Thẩm mỹ hiện đại**: Ứng dụng các xu hướng thiết kế mới nhất như kính mờ (glassmorphism), đổ bóng đa tầng và phối màu nghệ thuật.
+- **Tương tác đỉnh cao**: Tạo ra các hiệu ứng chuyển động (micro-animations) tinh tế giúp giao diện trở nên sống động và chân thực.
 
 ## ⚙️ Cách Hoạt Động
 
-Quy trình xây dựng giao diện nghệ thuật:
-```
-Nhan dien thuong hieu --> Chon phoi mau & Font dac trung --> Cau truc khung CSS --> Toi uu
-```
-1. **Khảo sát phong cách**: Đọc kỹ thông điệp thương hiệu để lựa chọn ngôn ngữ thiết kế (Sang trọng, Tối giản, Sáng tạo).
-2. **Chọn tài nguyên thiết kế**: Định hình bảng màu đặc sắc (tránh màu xanh SaaS mặc định) và cặp phông chữ tương phản phù hợp.
-3. **Cấu trúc mã CSS**: Viết các đoạn mã CSS sạch sử dụng biến tùy chỉnh (CSS Custom Properties) để kiểm soát thống nhất.
-4. **Tối ưu**: Đảm bảo các hiệu ứng chuyển động (animations) nhẹ nhàng, tải trang nhanh và hiển thị sắc nét.
+1. **Xác định ngôn ngữ thiết kế**: Lựa chọn phong cách phù hợp với cá tính thương hiệu (ví dụ: tối giản sang trọng, công nghệ tương lai, hay cổ điển thanh lịch).
+2. **Thiết lập màu sắc & phông chữ nghệ thuật**: Lựa chọn bảng màu độc quyền và kết hợp cặp phông chữ tương phản tinh tế (ví dụ: dùng phông chữ có chân cho tiêu đề lớn và phông chữ không chân cho nội dung).
+3. **Lập trình CSS chất lượng cao**: Tạo ra các đoạn mã CSS tùy biến để kiểm soát chặt chẽ từng chi tiết nhỏ như viền, bóng đổ và độ phản chiếu ánh sáng.
+4. **Tối ưu hóa chuyển động**: Tích hợp các hiệu ứng chuyển động nhẹ nhàng, tự nhiên để nâng cao trải nghiệm mà không làm chậm trang web.
 
 ## 🚀 Cách Sử Dụng
 
-- Tránh sử dụng các bảng màu mặc định của Tailwind CSS nếu không cần thiết; khuyên dùng các mã màu tự định nghĩa để tạo sự độc đáo.
-- Bắt buộc phải chọn các cặp phông chữ có sự tương phản mạnh mẽ (ví dụ: dùng phông Serif cho tiêu đề và Sans-serif cho nội dung chính).
-- Cung cấp các đoạn mã CSS mẫu có độ chi tiết cao, giải thích rõ ràng vai trò của từng thuộc tính thiết kế.
+- Yêu cầu trợ lý nâng cấp thiết kế của trang web hiện tại hoặc lên ý tưởng thiết kế cho một sản phẩm mới theo phong cách cao cấp.
+- Trợ lý sẽ cung cấp ý tưởng bố cục, mã màu độc quyền và các đoạn mã CSS mẫu sẵn sàng để lập trình.
 
 ## 💡 Kịch Bản Lập Trình Thực Tế
 
-### Nhà phát triển:
-> "Hãy hướng dẫn tôi cách thiết lập và sử dụng kỹ năng UI/UX Pro Max để Nâng cấp giao diện người dùng lên chuẩn thẩm mỹ cao cấp và hiện đại."
+### Người dùng:
+> "Hãy thiết kế trang giới thiệu sản phẩm đồng hồ đeo tay cao cấp theo phong cách tối giản và sang trọng."
 
-### AI Agent (Đã được trang bị Kỹ năng):
-> "Tôi đã sẵn sàng. Dưới đây là kịch bản vận hành thực tế cho kỹ năng UI/UX Pro Max:
-> 1. Thiết lập các thông số cấu hình và tham số đầu vào cần thiết cho hệ thống.
-> 2. Thực thi tuần tự các bước xử lý logic và tích hợp theo đúng chỉ dẫn của UI/UX Pro Max.
-> 3. Kiểm thử đầu ra, tối ưu hóa hiệu năng và cung cấp kết quả hoàn chỉnh."
+### Trợ lý:
+> "Tôi đề xuất phong cách thiết kế 'Premium Noir' (Đen huyền bí):
+> - **Màu sắc**: Màu nền đen nhám làm chủ đạo, kết hợp chữ màu vàng cát và các chi tiết màu trắng ngà để tạo sự tương phản sang trọng.
+> - **Phông chữ**: Tiêu đề chính sử dụng phông chữ có chân quý phái (như Playfair Display), nội dung sử dụng phông chữ không chân hiện đại (như Inter) để dễ đọc.
+> - **Hiệu ứng**: Áp dụng hiệu ứng kính mờ cho thanh điều hướng và hiệu ứng xuất hiện từ từ (fade-in) khi cuộn trang để tạo cảm giác mượt mà, cao cấp."
 
 ## ⚠️ Lưu Ý & Gotchas
 
-- **Quá tải font chữ**: Không sử dụng quá 2 họ phông chữ (font family) khác nhau trong cùng một trang web để tránh làm mất đi sự nhất quán.
-- **Hiệu ứng nặng**: Hạn chế sử dụng các thư viện chuyển động nặng gây giật lag trên thiết bị di động.
+- **Không lạm dụng chuyển động**: Quá nhiều hiệu ứng bay nhảy phức tạp sẽ gây mỏi mắt cho người dùng và làm giảm tốc độ tải trang trên điện thoại di động.
+- **Nhất quán phông chữ**: Tuyệt đối không dùng quá 2 loại phông chữ khác nhau trên cùng một giao diện để tránh làm loãng phong cách thiết kế.

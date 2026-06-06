@@ -3,16 +3,18 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
-import { Sparkles, Menu, X, Terminal, Info, History, ChevronRight, Globe } from "lucide-react";
+import { Sparkles, Menu, X, Terminal, Info, ChevronRight, Globe } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLanguage } from "@/context/LanguageContext";
+import { useTransitionNavigator } from "@/hooks/useTransitionNavigator";
 
 export function Header(): React.ReactElement {
   const pathname = usePathname() || "";
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const { language, toggleLanguage, t } = useLanguage();
+  const { navigateTo } = useTransitionNavigator();
 
   useEffect(() => {
     const handleScroll = (): void => {
@@ -28,26 +30,23 @@ export function Header(): React.ReactElement {
     {
       href: "/skills",
       label: t("nav.skills"),
+      icon: Terminal,
       activeCheck: (path: string): boolean => path.startsWith("/skills"),
     },
     {
       href: "/about",
       label: t("nav.about"),
+      icon: Info,
       activeCheck: (path: string): boolean => path === "/about",
-    },
-    {
-      href: "/compare",
-      label: t("nav.compare"),
-      activeCheck: (path: string): boolean => path === "/compare",
-    },
-    {
-      href: "/providers/antigravity",
-      label: t("nav.antigravity"),
-      activeCheck: (path: string): boolean => path === "/providers/antigravity",
     },
   ];
 
-  const isLightThemePage = pathname === "/skills" || pathname === "/about" || pathname === "/compare" || pathname.startsWith("/providers");
+  const isLightThemePage = pathname === "/skills" || pathname === "/about";
+
+  // Mobile menu items
+  const mobileNavLinks = [
+    ...navLinks,
+  ];
 
   return (
     <header
@@ -79,11 +78,11 @@ export function Header(): React.ReactElement {
         )}
       />
 
-      <nav className="mx-auto max-w-7xl px-6 flex items-center justify-between">
+      <nav aria-label="Menu chính" className="mx-auto max-w-7xl px-6 flex items-center justify-between">
         {/* Logo */}
         <Link
           href="/"
-          className="flex items-center gap-2 group decoration-none"
+          className="flex items-center gap-2 group no-underline"
         >
           <div className={cn(
             "w-8 h-8 rounded-lg flex items-center justify-center transition-all duration-300",
@@ -97,6 +96,7 @@ export function Header(): React.ReactElement {
                 "animate-[spin_10s_linear_infinite] group-hover:animate-[spin_2s_linear_infinite]",
                 isLightThemePage ? "text-indigo-600" : "text-[var(--color-accent-primary)]"
               )}
+              aria-hidden="true"
             />
           </div>
           <span className={cn(
@@ -115,6 +115,7 @@ export function Header(): React.ReactElement {
               <Link
                 key={link.href}
                 href={link.href}
+                onClick={(e) => navigateTo(e, link.href)}
                 className={cn(
                   "text-sm font-medium transition-colors duration-200 no-underline relative group py-1",
                   isActive
@@ -125,6 +126,7 @@ export function Header(): React.ReactElement {
                     ? "text-slate-600 hover:text-slate-800"
                     : "text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)]"
                 )}
+                aria-current={isActive ? "page" : undefined}
               >
                 {link.label}
                 <span
@@ -140,18 +142,21 @@ export function Header(): React.ReactElement {
             );
           })}
 
+
+
           {/* Premium Language Switcher (Desktop) */}
           <button
             onClick={toggleLanguage}
             className={cn(
-              "flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border text-xs font-mono font-bold transition-all duration-300 active:scale-95 cursor-pointer ml-2",
+              "flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border text-xs font-mono font-bold transition-all duration-300 active:scale-95 cursor-pointer ml-1",
               isLightThemePage
                 ? "bg-slate-50 border-slate-200 text-slate-600 hover:text-indigo-600 hover:border-indigo-200 hover:shadow-sm"
                 : "bg-white/5 border-white/10 text-[var(--color-text-secondary)] hover:text-white hover:border-white/20"
             )}
+            aria-label={language === "vi" ? "Switch to English" : "Chuyển sang tiếng Việt"}
             title={language === "vi" ? "Switch to English" : "Chuyển sang tiếng Việt"}
           >
-            <Globe size={13} className="shrink-0" />
+            <Globe size={13} className="shrink-0" aria-hidden="true" />
             <span className={cn(
               language === "vi"
                 ? isLightThemePage ? "text-indigo-600 font-extrabold" : "text-[var(--color-accent-primary)] font-extrabold"
@@ -167,7 +172,7 @@ export function Header(): React.ReactElement {
         </div>
 
         {/* Mobile Toggle & Language Switcher */}
-        <div className="flex items-center gap-3 md:hidden">
+        <div className="flex items-center gap-2 md:hidden">
           {/* Quick Language Toggle on Mobile Bar */}
           <button
             onClick={toggleLanguage}
@@ -177,13 +182,16 @@ export function Header(): React.ReactElement {
                 ? "bg-slate-50 border-slate-200 text-slate-600"
                 : "bg-white/5 border-white/10 text-[var(--color-text-secondary)]"
             )}
+            aria-label={language === "vi" ? "Switch to English" : "Chuyển sang tiếng Việt"}
             title={language === "vi" ? "Switch to English" : "Chuyển sang tiếng Việt"}
           >
-            <Globe size={11} className="shrink-0" />
+            <Globe size={11} className="shrink-0" aria-hidden="true" />
             <span className={cn(language === "vi" ? (isLightThemePage ? "text-indigo-600 font-extrabold" : "text-[var(--color-accent-primary)] font-extrabold") : "opacity-40")}>VI</span>
             <span className="opacity-20">/</span>
             <span className={cn(language === "en" ? (isLightThemePage ? "text-indigo-600 font-extrabold" : "text-[var(--color-accent-primary)] font-extrabold") : "opacity-40")}>EN</span>
           </button>
+
+
 
           <button
             className={cn(
@@ -193,7 +201,7 @@ export function Header(): React.ReactElement {
             onClick={() => setMobileOpen(!mobileOpen)}
             aria-label="Toggle menu"
           >
-            {mobileOpen ? <X size={24} /> : <Menu size={24} />}
+            {mobileOpen ? <X size={22} aria-hidden="true" /> : <Menu size={22} aria-hidden="true" />}
           </button>
         </div>
       </nav>
@@ -213,19 +221,18 @@ export function Header(): React.ReactElement {
                 : "bg-[var(--color-bg-secondary)]/95 border-[var(--color-border)] text-white"
             )}
           >
-            {navLinks.map((link) => {
+            {mobileNavLinks.map((link) => {
               const isActive = link.activeCheck(pathname);
-              
-              // Select appropriate icon
-              let IconComponent = Terminal;
-              if (link.href === "/about") IconComponent = Info;
-              else if (link.href === "/compare") IconComponent = History;
-              else if (link.href === "/providers/antigravity") IconComponent = Sparkles;
+              const IconComponent = link.icon;
 
               return (
                 <Link
                   key={link.href}
                   href={link.href}
+                  onClick={(e) => {
+                    setMobileOpen(false);
+                    navigateTo(e, link.href);
+                  }}
                   className={cn(
                     "flex items-center justify-between p-3 rounded-xl border transition-all duration-300 no-underline cursor-pointer group",
                     isActive
@@ -236,7 +243,7 @@ export function Header(): React.ReactElement {
                       ? "bg-slate-50/40 border-slate-100 hover:bg-slate-50 hover:border-slate-200 text-slate-600"
                       : "bg-white/5 border-transparent hover:bg-white/10 hover:border-white/10 text-[var(--color-text-secondary)]"
                   )}
-                  onClick={() => setMobileOpen(false)}
+                  aria-current={isActive ? "page" : undefined}
                 >
                   <div className="flex items-center gap-3">
                     <div className={cn(
@@ -249,7 +256,7 @@ export function Header(): React.ReactElement {
                         ? "bg-slate-100 text-slate-400 group-hover:text-slate-600 group-hover:bg-slate-200/60"
                         : "bg-white/5 text-slate-400 group-hover:text-white group-hover:bg-white/10"
                     )}>
-                      <IconComponent size={14} />
+                      <IconComponent size={14} aria-hidden="true" />
                     </div>
                     <span className="text-xs font-semibold font-sans tracking-wide">
                       {link.label}
@@ -264,6 +271,7 @@ export function Header(): React.ReactElement {
                         ? isLightThemePage ? "text-indigo-500" : "text-[var(--color-accent-primary)]"
                         : "text-slate-300 group-hover:text-slate-400"
                     )}
+                    aria-hidden="true"
                   />
                 </Link>
               );
@@ -285,8 +293,9 @@ export function Header(): React.ReactElement {
                     ? "bg-slate-50 border-slate-200 text-slate-700 hover:bg-slate-100"
                     : "bg-white/5 border-white/10 text-white hover:bg-white/10"
                 )}
+                aria-label={language === "vi" ? "Switch to English" : "Chuyển sang tiếng Việt"}
               >
-                <Globe size={13} />
+                <Globe size={13} aria-hidden="true" />
                 <span className={cn(language === "vi" ? (isLightThemePage ? "text-indigo-600 font-extrabold" : "text-[var(--color-accent-primary)] font-extrabold") : "opacity-40")}>VI</span>
                 <span className="opacity-20 font-light">/</span>
                 <span className={cn(language === "en" ? (isLightThemePage ? "text-indigo-600 font-extrabold" : "text-[var(--color-accent-primary)] font-extrabold") : "opacity-40")}>EN</span>

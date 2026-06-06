@@ -18,9 +18,8 @@ platforms:
   - universal
 featured: false
 description: >-
-  Bản đồ hóa gen với các quá trình sinh học, chức năng phân tử, thành phần tế
-  bào và khám phá cây phân cấp thuật ngữ GO.
-oneLiner: Tra cứu chú giải chức năng sinh học gen Gene Ontology (GO).
+  Công cụ tra cứu thông tin chức năng sinh học của gen và protein (Gene Ontology - GO), giúp bạn biết một gen hoạt động như thế nào, nằm ở đâu trong tế bào và tham gia vào những quá trình gì.
+oneLiner: Tra cứu nhanh chức năng sinh học và vị trí hoạt động của gen/protein trong tế bào.
 sourceUrl: 'https://www.ebi.ac.uk/QuickGO/'
 sourceAuthor: Google DeepMind
 lastVerified: '2026-05-30'
@@ -34,55 +33,40 @@ provider: antigravity
 
 ## 📖 Tại Sao Cần Skill Này?
 
-Gene Ontology (GO) là hệ thống phân loại chuẩn quốc tế cho chức năng sinh học — mọi protein/gene đều được gán GO terms mô tả: làm gì (Molecular Function), tham gia quá trình nào (Biological Process), nằm ở đâu (Cellular Component).
-
-- **Gene → Functions**: Gene X tham gia những quá trình sinh học nào
-- **Function → Genes**: Quá trình "apoptosis" liên quan đến genes nào
-- **Hierarchy navigation**: GO terms có cấu trúc cây — parent/child/ancestor relationships
+Mỗi gen hay protein trong cơ thể giống như một người công nhân với nhiệm vụ riêng biệt. Skill này giúp bạn nhanh chóng hiểu được:
+- **Nhiệm vụ của gen/protein**: Nó làm chức năng gì (ví dụ: liên kết DNA, truyền tín hiệu).
+- **Nơi hoạt động**: Nó nằm ở đâu trong tế bào (nhân, màng tế bào, hay bào quan).
+- **Quá trình tham gia**: Nó tham gia vào hoạt động sống nào của cơ thể (ví dụ: tự hủy tế bào lỗi, tăng trưởng tế bào).
+- **Mối quan hệ**: Tìm kiếm các chức năng liên quan theo sơ đồ phân cấp từ chung đến chi tiết.
 
 ## ⚙️ Cách Hoạt Động
 
-```
-Gene / GO term → QuickGO REST API → 
-Return GO annotations, hierarchy, evidence codes
-```
-
-1. **Annotation query**: Lấy GO terms cho gene/protein, filter theo evidence code
-2. **Term lookup**: Chi tiết GO term (definition, hierarchy)
-3. **Hierarchy navigation**: Parents, children, ancestors của GO term
+Khi bạn yêu cầu tra cứu một gen hoặc mã sinh học (GO term), hệ thống sẽ:
+1. **Tìm kiếm thông tin**: Truy vấn cơ sở dữ liệu QuickGO của Viện Tin sinh học Châu Âu (EMBL-EBI).
+2. **Lọc dữ liệu**: Lấy ra các chức năng sinh học, vị trí hoạt động và quy trình liên quan.
+3. **Phân loại nguồn tin**: Xác định thông tin đó dựa trên thí nghiệm thực tế hay do máy tính tự suy luận để bạn đánh giá độ tin cậy.
 
 ## 🚀 Cách Sử Dụng
 
-### Universal
-
-```markdown
-# QuickGO Rules
-- GO có 3 aspects: BP (Biological Process), MF (Molecular Function), CC (Cellular Component).
-- Evidence codes matter: EXP/IDA/IPI = experimental, IEA = electronic (lower quality).
-- Dùng hierarchy để tìm terms general hơn hoặc specific hơn.
-- KHÔNG dùng cho: drug targets (dùng OpenTargets), pathway diagrams (dùng Reactome).
-```
+Khi viết yêu cầu cho trợ lý AI:
+- Cung cấp tên gen cụ thể (ví dụ: `TP53`, `EGFR`) hoặc mã định danh Gene Ontology (ví dụ: `GO:0006915`).
+- Yêu cầu lọc thông tin có bằng chứng thực nghiệm nếu muốn độ chính xác cao.
+- Tránh dùng công cụ này để tìm đường đi của thuốc (nên dùng OpenTargets) hoặc vẽ sơ đồ phản ứng hóa sinh phức tạp (nên dùng Reactome).
 
 ## 💡 Kịch Bản Lập Trình Thực Tế
 
 ### 🧑‍💻 Nhà phát triển:
-> "Hãy tra cứu các chú giải Gene Ontology (GO terms) của gene TP53 để tôi biết nó tham gia vào những chức năng phân tử và quá trình sinh học nào."
+> "Hãy tra cứu các chức năng sinh học và vị trí hoạt động trong tế bào của gen TP53 để tôi hiểu cơ chế của nó."
 
 ### 🤖 AI Agent (Đã được trang bị Kỹ năng):
-> "Tôi sẽ truy vấn cơ sở dữ liệu QuickGO của viện EBI để lấy toàn bộ chú giải chức năng di truyền cho bạn:"
->
-> 1. **Ánh xạ Gene sang UniProt ID**: Tôi ánh xạ TP53 sang mã UniProt chuẩn **P04637**.
-> 2. **Truy vấn chú giải GO**: Tôi tải danh sách các chú giải được kiểm chứng thực nghiệm từ QuickGO API.
-> 3. **Phân loại theo 3 nhánh GO**:
->    * **Molecular Function (Chức năng phân tử)**: `GO:0003700` (hoạt tính yếu tố phiên mã liên kết DNA đặc hiệu).
->    * **Biological Process (Quá trình sinh học)**: `GO:0006915` (quá trình apoptotic/tự hủy tế bào).
->    * **Cellular Component (Thành phần tế bào)**: `GO:0005634` (định vị trong nhân tế bào).
-> 4. **Trích xuất mã chứng cứ**: Tôi lọc và chỉ báo cáo các chú giải có bằng chứng thực nghiệm mạnh để đảm bảo độ tin cậy khoa học cao nhất.
->
-> *Báo cáo chú giải Gene Ontology toàn diện đã sẵn sàng, giúp bạn hiểu sâu sắc cơ chế sinh học phân tử của gene.*
+> "Tôi đã tìm kiếm trên cơ sở dữ liệu QuickGO và tìm thấy các thông tin sau về gen TP53 (mã chuẩn P04637):
+> 
+> 1. **Chức năng phân tử**: Giúp kích hoạt các gen khác bằng cách liên kết vào DNA (`GO:0003700`).
+> 2. **Quá trình sinh học**: Tham gia điều khiển chu trình tự hủy của tế bào lỗi/hỏng (`GO:0006915`).
+> 3. **Thành phần tế bào**: Hoạt động chủ yếu bên trong nhân tế bào (`GO:0005634`).
+> 4. **Mức độ tin cậy**: Tất cả các thông tin trên đều đã được xác thực qua các thí nghiệm thực tế trong phòng thí nghiệm."
 
 ## ⚠️ Lưu Ý & Gotchas
 
-- **Evidence codes**: IEA (Inferred from Electronic Annotation) chiếm ~98% annotations nhưng chất lượng thấp hơn experimental (EXP, IDA).
-- **GO ≠ pathway**: GO mô tả functions/processes, không phải signaling cascades. Dùng Reactome cho pathway diagrams.
-- **Propagation**: GO annotations propagate up the hierarchy — annotated với child term tự động inherits parent terms.
+- **Nguồn gốc dữ liệu**: Hãy chú ý các mã chứng cứ đi kèm. Những thông tin có mã dựa trên "thí nghiệm thực tế" (như EXP, IDA) có độ tin cậy cao hơn nhiều so với thông tin "máy tính tự suy luận" (IEA).
+- **Không phải sơ đồ phản ứng**: Công cụ này chỉ liệt kê chức năng và vai trò của gen, chứ không vẽ ra sơ đồ các bước phản ứng sinh hóa phức tạp. Nếu cần xem sơ đồ phản ứng chi tiết, hãy dùng công cụ Reactome.

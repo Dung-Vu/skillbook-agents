@@ -17,11 +17,8 @@ platforms:
   - claude-code
   - mcp
 featured: false
-description: >-
-  Hệ thống quỹ đầu tư mô phỏng chạy bằng AI, kết hợp các chiến lược giao dịch đa
-  chuyên gia và thu thập thông tin thị trường toàn diện. Phân tích cổ phiếu qua
-  tranh luận bull/bear và hội đồng nhà đầu tư huyền thoại.
-oneLiner: Phân tích cổ phiếu và đưa ra quyết định đầu tư bằng hệ thống đa tác nhân AI.
+description: Hệ thống phân tích cổ phiếu và hỗ trợ đầu tư sử dụng nhiều trợ lý AI đóng vai các chuyên gia tài chính. Giúp bạn đánh giá cổ phiếu đa chiều bằng cách cho các AI tranh luận (phe ủng hộ và phe phản đối) để đưa ra lời khuyên đầu tư khách quan.
+oneLiner: Phân tích cổ phiếu và hỗ trợ quyết định đầu tư bằng nhóm chuyên gia AI.
 sourceUrl: ''
 sourceAuthor: Minimax
 lastVerified: '2026-06-03'
@@ -38,38 +35,33 @@ provider: minimax
 
 ## 📖 Tại Sao Cần Skill Này?
 
-Quyết định đầu tư tài chính đòi hỏi sự cân bằng giữa thu thập thông tin đa chiều và phân tích rủi ro nghiêm ngặt. Kỹ năng này phối hợp nhiều tác nhân AI đóng vai các nhà phân tích và nhà đầu tư huyền thoại để tạo ra các báo cáo phân tích cổ phiếu khách quan, giảm thiểu thiên kiến xác nhận (confirmation bias).
+Quyết định đầu tư tài chính rất phức tạp và dễ bị ảnh hưởng bởi cảm xúc cá nhân. Skill này tập hợp nhiều trợ lý AI đóng vai các nhà phân tích tài chính và nhà đầu tư nổi tiếng để cùng thảo luận, giúp bạn có cái nhìn đa chiều, khách quan và hạn chế sai lầm khi chọn cổ phiếu.
 
 ## ⚙️ Cách Hoạt Động
 
-Quy trình phân tích cổ phiếu qua các bước:
-
-```
-[Ticker ID] -> [Data Gathering] -> [Analyst Reports] -> [Bull/Bear Debate] -> [Legendary Council] -> [Risk/Portfolio Summary]
-```
-
-1. **Data Gathering**: Thu thập dữ liệu tài chính vĩ mô, cơ bản, kỹ thuật và tin tức.
-2. **Analyst Reports**: Các nhà phân tích định giá, kỹ thuật, cơ bản viết báo cáo chuyên sâu.
-3. **Debate & Council**: Tranh luận gắt gao giữa phe Bò và phe Gấu, sau đó hội đồng nhà đầu tư bỏ phiếu quyết định đầu tư.
+Quy trình phân tích diễn ra tự động qua các bước:
+1. **Thu thập thông tin**: Gom dữ liệu về giá cả, báo cáo tài chính và tin tức mới nhất của cổ phiếu.
+2. **Viết báo cáo chuyên môn**: Các AI đóng vai chuyên gia phân tích kỹ thuật và định giá để mổ xẻ chi tiết.
+3. **Tranh luận và Bỏ phiếu**: Các AI chia làm hai phe (ủng hộ mua và khuyên bán) tranh luận với nhau, sau đó hội đồng đưa ra kết luận cuối cùng và cảnh báo rủi ro.
 
 ## 🚀 Cách Sử Dụng
 
-1. Luôn đính kèm tuyên bố miễn trừ trách nhiệm: Thông tin chỉ mang tính chất giáo dục và nghiên cứu, không phải lời khuyên tài chính thực tế.
-2. Đảm bảo thu thập đủ dữ liệu giá lịch sử, định giá tài chính cơ bản trước khi đưa ra phân tích.
-3. Điều phối cuộc tranh luận một cách độc lập để có góc nhìn trung lập từ cả phe mua và phe bán.
+1. Luôn thêm dòng cảnh báo: Kết quả phân tích chỉ mang tính chất tham khảo học tập, không phải lời khuyên đầu tư tài chính thực tế.
+2. Cung cấp đầy đủ tên mã cổ phiếu và số liệu tài chính gần nhất trước khi phân tích.
+3. Đảm bảo các AI tranh luận độc lập để có được ý kiến phản biện khách quan nhất từ cả hai phía.
 
 ## 💡 Kịch Bản Lập Trình Thực Tế
 
-### Nhà phát triển:
-> "Hãy hướng dẫn tôi cách thiết lập và sử dụng kỹ năng AI Trading Consortium để Phân tích cổ phiếu và đưa ra quyết định đầu tư bằng hệ thống đa tác nhân AI."
+### Người dùng:
+> "Hãy phân tích mã cổ phiếu AAPL của Apple để xem có nên mua lúc này không."
 
-### AI Agent (Đã được trang bị Kỹ năng):
-> "Tôi đã sẵn sàng. Dưới đây là kịch bản vận hành thực tế cho kỹ năng AI Trading Consortium:
-> 1. Thiết lập các thông số cấu hình và tham số đầu vào cần thiết cho hệ thống.
-> 2. Thực thi tuần tự các bước xử lý logic và tích hợp theo đúng chỉ dẫn của AI Trading Consortium.
-> 3. Kiểm thử đầu ra, tối ưu hóa hiệu năng và cung cấp kết quả hoàn chỉnh."
+### Trợ lý AI:
+> "Tôi sẽ thực hiện phân tích theo các bước:
+> 1. Thu thập báo cáo tài chính quý gần nhất và dữ liệu giá hiện tại của AAPL.
+> 2. Kích hoạt nhóm AI giả lập để phân tích điểm mạnh, điểm yếu và các cơ hội của Apple.
+> 3. Tổ chức tranh luận giữa phe khuyên mua và phe khuyên bán để gửi đến bạn báo cáo tổng hợp kèm khuyến nghị."
 
 ## ⚠️ Lưu Ý & Gotchas
 
-- **Dữ liệu lỗi thời**: Dữ liệu thị trường thay đổi liên tục. Luôn xác minh ngày cập nhật của dữ liệu đầu vào.
-- **Thiên vị phong cách**: Mỗi nhà đầu tư huyền thoại (như Warren Buffett hay Cathie Wood) có phong cách trái ngược nhau. Hãy để họ tự do tranh luận để đưa ra khuyến nghị cân bằng.
+- **Dữ liệu có thể bị trễ**: Thị trường chứng khoán thay đổi từng phút. Hãy kiểm tra kỹ xem dữ liệu đầu vào có phải là thông tin mới nhất hay không.
+- **Phong cách đầu tư trái ngược**: Các chuyên gia AI giả lập (như trường phái đầu tư giá trị hoặc trường phái đầu tư mạo hiểm) sẽ có ý kiến trái chiều. Hãy lắng nghe lập luận của cả hai bên để đưa ra lựa chọn phù hợp với túi tiền của bạn.

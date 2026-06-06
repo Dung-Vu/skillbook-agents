@@ -190,7 +190,7 @@ export function HeroSection(): React.ReactElement {
           <div className="hero-reveal opacity-0 flex items-center justify-center w-full max-w-[260px] px-2 sm:max-w-none sm:px-0">
             <Link 
               href="/skills" 
-              className="btn-primary w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-3.5 text-sm sm:text-base font-sans decoration-none whitespace-nowrap transition-all duration-300 shadow-[0_0_20px_rgba(168,85,247,0.2)] hover:shadow-[0_0_30px_rgba(168,85,247,0.4)]"
+              className="btn-primary w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-3.5 text-sm sm:text-base font-sans no-underline whitespace-nowrap transition-all duration-300 shadow-[0_0_20px_rgba(168,85,247,0.2)] hover:shadow-[0_0_30px_rgba(168,85,247,0.4)]"
             >
               <span>Thư viện Kỹ năng</span>
               <ArrowRight size={14} className="shrink-0 sm:w-4 sm:h-4" />

@@ -200,6 +200,17 @@ export function parseMarkdownTable(lines: string[]): string {
   `;
 }
 
+// Whitelist of safe language identifiers that may appear in the `lang` slot of
+// a fenced code block. Anything else is stripped to prevent the markdown
+// parser from injecting attacker-controlled content into the rendered
+// `<code class="language-${lang}">` attribute. Keep this list in sync with
+// `highlightSyntax()` in this file.
+const SAFE_LANG_PATTERN = /^[a-z0-9+#.-]{1,30}$/i;
+function sanitizeLang(raw: string): string {
+  if (!raw) return "";
+  return SAFE_LANG_PATTERN.test(raw) ? raw : "";
+}
+
 // 5. Master Block-Level Markdown Parser
 export function parseMarkdownToHtml(md: string): string {
   const lines = md.replace(/\r/g, "").split("\n");
@@ -213,7 +224,7 @@ export function parseMarkdownToHtml(md: string): string {
     if (line.trim().startsWith("```")) {
       const backtickMatch = line.trim().match(/^(~{3,4}|`{3,4})/);
       const backticks = backtickMatch ? backtickMatch[1] : "```";
-      const lang = line.trim().substring(backticks.length).trim();
+      const lang = sanitizeLang(line.trim().substring(backticks.length).trim());
       const codeLines: string[] = [];
       i++;
       while (i < lines.length && !lines[i].trim().startsWith(backticks)) {
@@ -224,7 +235,11 @@ export function parseMarkdownToHtml(md: string): string {
 
       const rawCode = codeLines.join("\n");
       const highlightedCode = highlightSyntax(rawCode, lang);
-      blocks.push(`<pre><code class="language-${lang}">${highlightedCode}</code></pre>`);
+      // `lang` is already sanitized via `sanitizeLang()` above, so it can be
+      // safely interpolated as an attribute. The code body is escaped inside
+      // `highlightSyntax()` so no further encoding is required here.
+      const langAttr = lang ? ` class="language-${lang}"` : "";
+      blocks.push(`<pre><code${langAttr}>${highlightedCode}</code></pre>`);
       continue;
     }
 

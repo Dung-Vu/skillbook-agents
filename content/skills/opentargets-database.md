@@ -18,9 +18,10 @@ platforms:
   - universal
 featured: false
 description: >-
-  Hỗ trợ khám phá đích sinh học tiềm năng bằng cách tích hợp bằng chứng di
-  truyền, y văn và thuốc thực nghiệm từ Open Targets.
-oneLiner: Tìm kiếm mối liên hệ đích tác dụng của thuốc và bệnh lý.
+  Khám phá mối liên kết giữa gene/protein và bệnh tật, hỗ trợ nghiên cứu phát
+  triển thuốc bằng cách phân tích dữ liệu di truyền và thuốc thực nghiệm từ Open
+  Targets.
+oneLiner: 'Tìm kiếm mối liên hệ giữa gene, đích tác dụng của thuốc và bệnh lý.'
 sourceUrl: 'https://platform.opentargets.org/'
 sourceAuthor: Google DeepMind
 lastVerified: '2026-05-30'
@@ -37,52 +38,38 @@ provider: antigravity
 
 ## 📖 Tại Sao Cần Skill Này?
 
-Open Targets tích hợp dữ liệu từ genetics, genomics, transcriptomics, drugs, và literature để đánh giá mối liên hệ giữa **targets** (genes/proteins) và **diseases** — hỗ trợ drug discovery pipeline.
-
-- **Target-disease associations**: Evidence score cho gene-disease relationship
-- **Tractability**: Gene có druggable bằng small molecule, antibody, hay gene therapy không
-- **Known drugs**: Drugs đã approved hoặc đang clinical trials cho target
-- **Safety data**: Known toxicity effects khi modulate target
+Open Targets là kho dữ liệu lớn kết hợp thông tin di truyền học, y học lâm sàng và các nghiên cứu khoa học để đánh giá mối liên hệ giữa **đích tác dụng** (gene/protein) và **bệnh lý**. Kỹ năng này giúp bạn dễ dàng:
+- **Đánh giá liên kết**: Xem mức độ liên quan mật thiết giữa một gene cụ thể với một loại bệnh.
+- **Khả năng chế tạo thuốc**: Biết được gene đó có thể tác động bằng thuốc hóa dược nhỏ, kháng thể hay liệu pháp gene không.
+- **Tra cứu thuốc hiện có**: Tìm các thuốc đang thử nghiệm lâm sàng hoặc đã được duyệt bán liên quan đến gene mục tiêu.
 
 ## ⚙️ Cách Hoạt Động
 
+Quy trình hoạt động:
 ```
-Gene / Disease → Open Targets GraphQL API → 
-Return associations, evidence, drugs, tractability, safety
+Nhập Gene / Tên bệnh ──> Truy vấn cơ sở dữ liệu Open Targets ──> Hiển thị mức độ liên quan, loại thuốc và độ an toàn
 ```
-
-1. **Association**: Overall score (0-1) cho gene-disease pair, breakdown by data type
-2. **Evidence**: Genetics (GWAS), somatic mutations, expression, literature, drugs
-3. **Tractability**: Small molecule, antibody, PROTAC, gene therapy assessments
+- **Điểm số liên kết**: Hệ thống tính toán điểm số (từ 0 đến 1) để thể hiện độ tin cậy của mối liên hệ giữa gene và bệnh.
+- **Bằng chứng nghiên cứu**: Thu thập dữ liệu từ các thử nghiệm lâm sàng, tài liệu y khoa và các biến dị di truyền.
 
 ## 🚀 Cách Sử Dụng
 
-### Universal
-
-```markdown
-# Open Targets Rules
-- Association score > 0.5 = strong evidence. Score 0.1-0.5 = moderate.
-- Report evidence breakdown: genetic_association, somatic_mutation, known_drug, etc.
-- Tractability assessment cho drug development feasibility.
-- Known drugs: report mechanism, phase, approval status.
-```
+- Nhập tên gene (ví dụ: EGFR) hoặc tên bệnh để tra cứu mức độ liên kết.
+- Yêu cầu xem đánh giá khả năng bào chế thuốc từ gene mục tiêu đó.
+- Xem danh sách thuốc hiện có, bao gồm cơ chế hoạt động, giai đoạn thử nghiệm lâm sàng (Phase) và trạng thái phê duyệt.
 
 ## 💡 Kịch Bản Lập Trình Thực Tế
 
-### 🧑‍💻 Nhà phát triển:
-> "Tôi đang nghiên cứu đích tác dụng gene EGFR cho bệnh ung thư phổi tế bào không nhỏ (NSCLC). Hãy tìm thông tin liên kết bệnh lý và các thuốc liên quan trên Open Targets."
+### Người dùng yêu cầu:
+> "Tôi đang nghiên cứu gene EGFR cho bệnh ung thư phổi tế bào không nhỏ. Hãy tìm các thông tin liên kết bệnh lý và thuốc liên quan."
 
-### 🤖 AI Agent (Đã được trang bị Kỹ năng):
-> "Tôi sẽ truy vấn cơ sở dữ liệu Open Targets Platform để lập báo cáo phát triển thuốc cho bạn:"
->
-> 1. **Ánh xạ Gene và Disease ID**: Tôi ánh xạ EGFR sang Ensembl ID và NSCLC sang mã Ontology bệnh chuẩn.
-> 2. **Tính toán điểm số liên kết (Association Score)**: Tôi tải điểm số liên kết giữa EGFR và NSCLC để chứng minh mức độ tin cậy sinh học của đích tác dụng này (điểm số gần mức tối đa 1.0 EGFR đột biến).
-> 3. **Trích xuất thông tin thuốc đang thử nghiệm**: Tôi lập danh sách các thuốc ức chế EGFR (như Osimertinib, Gefitinib) đi kèm trạng thái thử nghiệm lâm sàng cao nhất (Phase IV) và cơ chế tác dụng dược lý.
->
-> *Báo cáo EGFR-NSCLC toàn diện bao gồm cả bằng chứng di truyền học và bản đồ thuốc lâm sàng đã sẵn sàng để hỗ trợ nghiên cứu của bạn.*
+### Trợ lý AI thực hiện:
+> "Tôi sẽ tìm kiếm trên Open Targets Platform để lập báo cáo cho bạn:
+> 1. Đối chiếu gene EGFR với mã định danh sinh học chuẩn.
+> 2. Tính toán điểm liên kết sinh học để kiểm tra độ tin cậy của gene này đối với bệnh ung thư phổi.
+> 3. Liệt kê các thuốc ức chế EGFR nổi tiếng (như Osimertinib) cùng với giai đoạn thử nghiệm lâm sàng hiện tại của chúng."
 
 ## ⚠️ Lưu Ý & Gotchas
 
-- **Association ≠ causation**: High score = strong evidence linking target-disease, không đảm bảo drugging target sẽ cure disease.
-- **Tractability tiers**: Bucket 1 (clinical precedence) > Bucket 2 (predicted druggable) > Bucket 3 (not yet druggable).
-- **Human-focused**: Open Targets chủ yếu cho human targets/diseases.
+- **Liên quan không đồng nghĩa với điều trị**: Điểm số liên kết cao cho thấy gene có vai trò lớn trong bệnh, nhưng không chắc chắn rằng việc tác động thuốc vào gene đó sẽ chữa khỏi hoàn toàn bệnh.
+- **Tập trung vào cơ thể người**: Dữ liệu của Open Targets chủ yếu phục vụ nghiên cứu trên người, không áp dụng cho động vật khác.

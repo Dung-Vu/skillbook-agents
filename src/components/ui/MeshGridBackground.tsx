@@ -20,10 +20,28 @@ interface Ripple {
   alpha: number;
 }
 
-export function MeshGridBackground(): React.ReactElement {
+interface MeshGridBackgroundProps {
+  intensity?: "low" | "high" | "none";
+}
+
+export function MeshGridBackground({ intensity = "high" }: MeshGridBackgroundProps): React.ReactElement {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
+  // `intensity` is intentionally not in the dependency array: this effect
+  // is a mount-once setup for the canvas, and re-running it on prop
+  // changes would tear down and rebuild all the listeners and assets
+  // mid-session. The few callers pass a constant `intensity`, so the
+  // usual "include all deps" warning is a false positive here. We mirror
+  // the prop into a ref so the latest value is still available inside the
+  // effect body if needed without re-triggering it.
+  const intensityRef = useRef(intensity);
   useEffect(() => {
+    intensityRef.current = intensity;
+  }, [intensity]);
+
+  useEffect(() => {
+    if (intensity === "none") return;
+
     const canvas = canvasRef.current;
     if (!canvas) return;
 
@@ -460,7 +478,8 @@ export function MeshGridBackground(): React.ReactElement {
     const handlePause = (): void => {
       isPaused = true;
       if (typeof window !== "undefined") {
-        window.__canvasPaused = true;
+        window.__transition = window.__transition || {};
+        window.__transition.canvasPaused = true;
       }
       stopLoop();
     };
@@ -468,7 +487,8 @@ export function MeshGridBackground(): React.ReactElement {
     const handleResume = (): void => {
       isPaused = false;
       if (typeof window !== "undefined") {
-        window.__canvasPaused = false;
+        window.__transition = window.__transition || {};
+        window.__transition.canvasPaused = false;
       }
       startLoop();
     };
@@ -499,7 +519,21 @@ export function MeshGridBackground(): React.ReactElement {
       mediaQuery.removeEventListener("change", handleMotionChange);
       observer.disconnect();
       stopLoop();
+      // Reset the global flag so a freshly-mounted background on the next
+      // page does not see a stale `canvasPaused = true` left behind by an
+      // interrupted transition. Without this, a background unmounted
+      // mid-pause would leave the next page's canvas permanently frozen.
+      if (typeof window !== "undefined") {
+        const t = window.__transition;
+        if (t) {
+          t.canvasPaused = false;
+        }
+      }
     };
+    // We intentionally depend on the ref-mirrored intensity, not the prop
+    // reference, so this effect runs only on mount/unmount. The
+    // exhaustive-deps lint rule is a false positive here.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -542,11 +576,13 @@ export function MeshGridBackground(): React.ReactElement {
         backgroundSize: '45px 45px'
       }} />
 
-      <canvas
-        ref={canvasRef}
-        className="fixed inset-0 w-screen h-screen pointer-events-none z-0"
-        style={{ willChange: "transform", transform: "translateZ(0)" }}
-      />
+      {intensity !== "none" && (
+        <canvas
+          ref={canvasRef}
+          className="fixed inset-0 w-screen h-screen pointer-events-none z-0"
+          style={{ willChange: "transform", transform: "translateZ(0)" }}
+        />
+      )}
     </div>
   );
 }

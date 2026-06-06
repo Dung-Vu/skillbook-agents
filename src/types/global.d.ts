@@ -1,13 +1,20 @@
 export {};
 
 declare global {
+  interface TransitionState {
+    canvasPaused?: boolean;
+    paperCrumpleOverlayRegistered?: boolean;
+    transitionActive?: boolean;
+    transitionClickX?: number;
+    transitionClickY?: number;
+    transitionTargetHref?: string;
+    navigationClickedTime?: number;
+    navigationExecutedTime?: number;
+    isBypassed?: boolean;
+  }
+
   interface Window {
-    __canvasPaused?: boolean;
-    __paperCrumpleOverlayRegistered?: boolean;
-    __transitionActive?: boolean;
-    __transitionClickX?: number;
-    __transitionClickY?: number;
-    __transitionTargetHref?: string;
+    __transition?: TransitionState;
   }
 
   interface WindowEventMap {
@@ -16,5 +23,6 @@ declare global {
     "transition-exit-start": CustomEvent;
     "transition-exit-complete": CustomEvent;
     "transition-exit-animating": CustomEvent;
+    "skillbook:page-exiting": CustomEvent;
   }
 }

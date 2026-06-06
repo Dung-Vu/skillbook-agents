@@ -17,12 +17,9 @@ platforms:
   - universal
 featured: true
 description: >-
-  Khởi tạo mạng lưới làm việc cộng tác giữa nhiều AI Agent chuyên biệt (Dev, QA,
-  PM, Architect) để giải quyết các dự án lớn một cách chuyên nghiệp và toàn
-  diện.
+  Kỹ năng phối hợp nhiều AI trợ lý (như Lập trình viên, Kiểm thử viên, Quản lý dự án) cùng làm việc với nhau để hoàn thành một dự án lớn, giúp tăng chất lượng và giảm sai sót.
 oneLiner: >-
-  Tổ chức mạng lưới cộng tác giữa nhiều AI Agent chuyên biệt để giải quyết dự án
-  lớn.
+  Phối hợp nhiều AI trợ lý chuyên biệt cùng làm việc để giải quyết dự án lớn.
 sourceUrl: ''
 sourceAuthor: Google DeepMind
 lastVerified: '2026-06-01'
@@ -38,56 +35,50 @@ provider: antigravity
 
 ## 📖 Tại Sao Cần Skill Này?
 
-Khi đối mặt với các dự án phần mềm quy mô lớn, một AI Agent đơn lẻ thường bị quá tải do giới hạn ngữ cảnh và thiếu góc nhìn phản biện chéo. Kỹ năng này giải quyết vấn đề bằng cách:
-- **Phân rã vai trò chuyên biệt**: Triệu hồi các Agent phụ đóng vai trò cụ thể như PM, Architect, Developer, QA.
-- **Cộng tác không đồng bộ**: Cho phép các Agent thảo luận, chia sẻ tài liệu và tự phân chia công việc hiệu quả.
-- **Đảm bảo chất lượng**: Tách biệt luồng phát triển và kiểm thử, ngăn chặn code lỗi được bàn giao cho người dùng.
+Một AI trợ lý đơn lẻ đôi khi khó xử lý tốt các dự án quá lớn và phức tạp. Kỹ năng này giúp chia nhỏ dự án và phân công cho nhiều AI trợ lý có chuyên môn khác nhau (người lên kế hoạch, người thiết kế, người lập trình, người kiểm thử) cùng hợp tác, giống như một đội ngũ ngoài đời thực để đạt hiệu quả cao nhất.
+
+- **Phân vai rõ ràng**: Mỗi AI đảm nhận một vai trò cụ thể như Quản lý dự án, Thiết kế hệ thống, Lập trình viên, hay Kiểm thử viên.
+- **Phối hợp nhịp nhàng**: Các AI có thể thảo luận, chia sẻ thông tin và tự phân chia công việc dưới sự điều phối chung.
+- **Đảm bảo chất lượng**: Tách biệt giữa người viết mã nguồn và người kiểm tra lỗi để tránh đưa các đoạn mã lỗi tới tay bạn.
 
 ## ⚙️ Cách Hoạt Động
 
+Sơ đồ phối hợp:
 ```
-[Nhận Dự Án Lớn] ➔ 👥 [Khởi tạo Đội ngũ Agent]
-                           ├── PM Agent: Quản lý kế hoạch & Timeline
-                           ├── Architect Agent: Thiết kế cấu trúc hệ thống
-                           ├── Developer Agent: Thực thi viết mã nguồn
-                           └── QA Agent: Viết test & Kiểm thử chất lượng ➔ [Bàn giao sản phẩm hoàn chỉnh]
+[Dự án lớn] ➔ 👥 [Nhóm AI cộng tác]
+                 ├── AI Quản lý: Lên kế hoạch & Theo dõi tiến độ
+                 ├── AI Thiết kế: Phác thảo cấu trúc
+                 ├── AI Lập trình: Viết mã nguồn
+                 └── AI Kiểm thử: Soát lỗi & Chạy thử ➔ [Bàn giao sản phẩm hoàn thiện]
 ```
 
-Quy trình thực thi cộng tác:
-1. **Khởi tạo & Phân rã**: Dùng `invoke_subagent` để triệu hồi các Agent phụ chuyên biệt kèm system prompt riêng biệt.
-2. **Điều phối & Đồng bộ**: PM Agent điều phối tiến độ và tổng hợp cập nhật thông qua tệp `task.md` chung.
-3. **Kiểm tra chéo & Bàn giao**: QA Agent chạy kiểm thử code của Developer và PM hợp nhất báo cáo trước khi bàn giao.
+Quy trình thực hiện:
+1. **Triệu tập nhân sự**: AI chính sẽ gọi các AI phụ phù hợp với yêu cầu dự án.
+2. **Theo dõi tiến độ**: AI Quản lý sẽ tổng hợp tiến trình làm việc của cả nhóm vào một file nhật ký chung.
+3. **Kiểm tra chéo**: AI Kiểm thử chạy thử và tìm lỗi trong mã nguồn do AI Lập trình viết ra để sửa kịp thời trước khi bàn giao.
 
 ## 🚀 Cách Sử Dụng
 
-````markdown
-# TEAMWORK MULTI-AGENT INSTRUCTIONS & RULES
-
-## 1. Sub-agent Spawning & Context Separation
-- Chỉ khởi tạo sub-agents cho các phần việc độc lập và đòi hỏi vai trò khác biệt rõ rệt (ví dụ: QA viết test cases tách biệt hoàn toàn với Developer viết code).
-- Tránh triệu hồi quá nhiều agents phụ không cần thiết gây loãng ngữ cảnh và lãng phí token hệ thống.
-
-## 2. Multi-Agent Communication
-- Sử dụng công cụ `send_message` để trao đổi thông tin kỹ thuật giữa các agents một cách có cấu trúc.
-- Mỗi agent phụ phải ghi chép tiến trình công việc của mình vào một tệp tin nhật ký riêng để PM Agent dễ dàng hợp nhất.
-
-## 3. Strict Quality Gates
-- Code được viết bởi Developer Agent **bắt buộc** phải được review và chạy thử nghiệm bởi QA Agent trước khi bàn giao kết quả cuối cùng cho người dùng.
-- If QA phát hiện lỗi, Developer phải quay lại bước sửa đổi và chạy lại kiểm thử.
-````
+```markdown
+# CÁC QUY TẮC PHỐI HỢP NHÓM AI
+- Chỉ tạo thêm AI phụ cho các công việc độc lập (như kiểm thử độc lập) để tránh lãng phí tài nguyên hệ thống.
+- Các AI trao đổi thông tin kỹ thuật rõ ràng và cập nhật tiến độ vào file chung.
+- Mã nguồn do AI Lập trình viết ra bắt buộc phải được AI Kiểm thử duyệt và chạy thử thành công trước khi gửi cho bạn.
+```
 
 ## 💡 Kịch Bản Lập Trình Thực Tế
 
 ### Nhà phát triển:
-> "Hãy hướng dẫn tôi cách thiết lập và sử dụng kỹ năng Teamwork Multi-Agent Preview để Tổ chức mạng lưới cộng tác giữa nhiều AI Agent chuyên biệt để giải quyết dự án lớn."
+> "Tôi muốn xây dựng một website bán hàng trực tuyến có tính năng thanh toán. Hãy phối hợp nhóm AI để làm việc này."
 
 ### AI Agent (Đã được trang bị Kỹ năng):
-> "Tôi đã sẵn sàng. Dưới đây là kịch bản vận hành thực tế cho kỹ năng Teamwork Multi-Agent Preview:
-> 1. Thiết lập các thông số cấu hình và tham số đầu vào cần thiết cho hệ thống.
-> 2. Thực thi tuần tự các bước xử lý logic và tích hợp theo đúng chỉ dẫn của Teamwork Multi-Agent Preview.
-> 3. Kiểm thử đầu ra, tối ưu hóa hiệu năng và cung cấp kết quả hoàn chỉnh."
+> "Tôi sẽ triệu tập một nhóm AI:
+> 1. AI Thiết kế sẽ phác thảo cấu trúc trang web và tính năng thanh toán.
+> 2. AI Lập trình sẽ tiến hành viết mã nguồn cho trang web.
+> 3. AI Kiểm thử sẽ chạy thử các tính năng để đảm bảo thanh toán hoạt động an toàn, không có lỗi trước khi bàn giao cho bạn."
 
 ## ⚠️ Lưu Ý & Gotchas
 
-* **Xung Đột Tài Nguyên (Race Conditions)**: Tránh cho nhiều Agent cùng chỉnh sửa một file nguồn hoặc ghi đè thư mục test cùng lúc.
-* **Tối Ưu Giao Tiếp**: Hạn chế thảo luận dông dài; PM Agent cần quyết định nhanh để kết thúc tranh luận kéo dài.
+* **Tránh sửa trùng file**: Tránh để các AI cùng chỉnh sửa một file một lúc vì dễ gây mất dữ liệu hoặc xung đột mã nguồn.
+* **Giao tiếp tập trung**: Các AI cần thảo luận ngắn gọn, tập trung vào công việc để đưa ra quyết định nhanh chóng và hoàn thành dự án đúng hạn.
+

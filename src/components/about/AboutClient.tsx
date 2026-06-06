@@ -23,7 +23,7 @@ import { cn } from "@/lib/utils";
 export function AboutClient(): React.ReactElement {
   const [activeBlock, setActiveBlock] = useState<"llm" | "tools" | "skills">("skills");
   const [activeStep, setActiveStep] = useState<number>(0);
-  const { t, language } = useLanguage();
+  const { t } = useLanguage();
 
   const handleBlockClick = (block: "llm" | "tools" | "skills") => {
     setActiveBlock(block);
@@ -57,12 +57,12 @@ export function AboutClient(): React.ReactElement {
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      setTimeout(() => {
-        if (!window.__paperCrumpleOverlayRegistered) {
-          window.__canvasPaused = false;
-          window.dispatchEvent(new CustomEvent("canvas-resume"));
-        }
-      }, 0);
+      const transition = window.__transition;
+      if (!transition || !transition.paperCrumpleOverlayRegistered) {
+        window.__transition = window.__transition || {};
+        window.__transition.canvasPaused = false;
+        window.dispatchEvent(new CustomEvent("canvas-resume"));
+      }
     }
   }, []);
 
@@ -115,11 +115,11 @@ export function AboutClient(): React.ReactElement {
   };
 
   return (
-    <main className="min-h-screen pt-28 bg-[#f4f6fc] text-slate-800 relative overflow-clip pb-20 transition-colors duration-300">
+    <main id="main-content" tabIndex={-1} className="min-h-screen pt-28 bg-[#f4f6fc] text-slate-800 relative overflow-clip pb-20 transition-colors duration-300 outline-none">
       
       {/* Luminous Interactive Mesh Grid Background */}
       <div className="absolute inset-0 z-0 pointer-events-none opacity-85">
-        <MeshGridBackground />
+        <MeshGridBackground intensity="none" />
       </div>
 
       {/* Floating Pastel Auroras */}
@@ -140,21 +140,10 @@ export function AboutClient(): React.ReactElement {
             {t("about.briefing")}
           </span>
           <h1 className="text-3xl sm:text-4xl md:text-5xl font-black mb-6 leading-tight tracking-tight text-slate-900">
-            {language === "vi" ? (
-              <>
-                Tri thức Bản địa dành cho{" "}
-                <span className="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
-                  AI Agents tự chủ
-                </span>
-              </>
-            ) : (
-              <>
-                Local Knowledge for{" "}
-                <span className="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
-                  Autonomous AI Agents
-                </span>
-              </>
-            )}
+            {t("about.heroTitlePart1")}
+            <span className="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
+              {t("about.heroTitlePart2")}
+            </span>
           </h1>
           <p className="text-base sm:text-lg text-slate-600 leading-relaxed font-sans">
             {t("about.desc")}

@@ -3,7 +3,11 @@ import { test, expect } from "@playwright/test";
 interface CustomWindow extends Window {
   __canvasPauseDispatched?: boolean;
   __canvasResumeDispatched?: boolean;
-  __canvasPaused?: boolean;
+  __transition?: {
+    canvasPaused?: boolean;
+    navigationClickedTime?: number;
+    navigationExecutedTime?: number;
+  };
 }
 
 test.describe("Skills Page Transitions & Canvas Optimization Spec", () => {
@@ -22,12 +26,12 @@ test.describe("Skills Page Transitions & Canvas Optimization Spec", () => {
     await expect(canvas).toBeVisible();
   });
 
-  test("should dispatch 'canvas-pause' and set window.__canvasPaused immediately upon clicking skill card", async ({ page }) => {
-    await page.goto("/skills");
+  test("should dispatch 'canvas-pause' and set window.__canvasPaused immediately upon clicking navigation link from /about to /skills", async ({ page }) => {
+    await page.goto("/about");
 
-    // Wait for the skills container and card to be visible
-    const firstSkillCard = page.locator(".skills-table-container .skill-card, .skill-card").first();
-    await expect(firstSkillCard).toBeVisible();
+    // Wait for the skills navigation link to be visible in the header
+    const skillsLink = page.locator("header nav a[href='/skills']").first();
+    await expect(skillsLink).toBeVisible();
 
     // Attach custom listener on the window object to track if 'canvas-pause' is dispatched
     await page.evaluate(() => {
@@ -39,7 +43,7 @@ test.describe("Skills Page Transitions & Canvas Optimization Spec", () => {
     });
 
     // Trigger click without awaiting the full navigation
-    await firstSkillCard.click();
+    await skillsLink.click();
 
     // IMMEDIATELY verify that 'canvas-pause' is dispatched and window.__canvasPaused is true
     const pauseDispatched = await page.evaluate(() => {
@@ -48,34 +52,33 @@ test.describe("Skills Page Transitions & Canvas Optimization Spec", () => {
     });
     const canvasPausedState = await page.evaluate(() => {
       const customWindow = window as unknown as CustomWindow;
-      return customWindow.__canvasPaused;
+      return customWindow.__transition?.canvasPaused;
     });
 
     expect(pauseDispatched).toBe(true);
     expect(canvasPausedState).toBe(true);
   });
 
-  test("should enforce a delayed navigation (>= 300ms) after clicking a skill card", async ({ page }) => {
-    await page.goto("/skills");
+  test("should enforce a delayed navigation (>= 300ms) after clicking navigation link from /about to /skills", async ({ page }) => {
+    await page.goto("/about");
 
-    const firstSkillCard = page.locator(".skills-table-container .skill-card, .skill-card").first();
-    await expect(firstSkillCard).toBeVisible();
+    const skillsLink = page.locator("header nav a[href='/skills']").first();
+    await expect(skillsLink).toBeVisible();
 
-    const targetHref = await firstSkillCard.getAttribute("href");
-    expect(targetHref).not.toBeNull();
-
+    const targetHref = "/skills";
     const initialUrl = page.url();
 
     // Attach timing tracker
     await page.evaluate(() => {
-      const customWindow = window as any;
-      customWindow.__navigationClickedTime = 0;
-      customWindow.__navigationExecutedTime = 0;
+      const customWindow = window as unknown as CustomWindow;
+      customWindow.__transition = customWindow.__transition || {};
+      customWindow.__transition.navigationClickedTime = 0;
+      customWindow.__transition.navigationExecutedTime = 0;
     });
 
     // Record time and click
     const clickTime = Date.now();
-    await firstSkillCard.click();
+    await skillsLink.click();
 
     // Wait 50ms (or whatever real-time the CPU schedules this thread back)
     await page.waitForTimeout(50);
@@ -84,10 +87,10 @@ test.describe("Skills Page Transitions & Canvas Optimization Spec", () => {
     if (midUrl !== initialUrl) {
       // If CPU scheduling lag caused the sleep to take >300ms, verify via browser-side timestamps
       const browserTiming = await page.evaluate(() => {
-        const customWindow = window as any;
+        const customWindow = window as unknown as CustomWindow;
         return {
-          clicked: customWindow.__navigationClickedTime,
-          executed: customWindow.__navigationExecutedTime
+          clicked: customWindow.__transition?.navigationClickedTime,
+          executed: customWindow.__transition?.navigationExecutedTime
         };
       });
       if (browserTiming.clicked && browserTiming.executed) {
@@ -101,8 +104,8 @@ test.describe("Skills Page Transitions & Canvas Optimization Spec", () => {
       // Verify that at 50ms (when no lag occurred), the URL had NOT changed yet
       expect(midUrl).toBe(initialUrl);
 
-      // Wait for Next.js to navigate to the target slug page
-      await page.waitForURL(new RegExp(targetHref!));
+      // Wait for Next.js to navigate to the target page
+      await page.waitForURL(new RegExp(targetHref));
       const transitionDuration = Date.now() - clickTime;
 
       // Verify the transition takes >= 300ms
@@ -134,7 +137,7 @@ test.describe("Skills Page Transitions & Canvas Optimization Spec", () => {
 
     const canvasPausedState = await page.evaluate(() => {
       const customWindow = window as unknown as CustomWindow;
-      return customWindow.__canvasPaused;
+      return customWindow.__transition?.canvasPaused;
     });
     expect(canvasPausedState).toBeFalsy();
   });
@@ -153,16 +156,21 @@ test.describe("Skills Page Transitions & Canvas Optimization Spec", () => {
       });
     });
 
-    await page.goto("/skills");
+    await page.goto("/about");
 
-    const firstSkillCard = page.locator(".skills-table-container .skill-card, .skill-card").first();
-    await expect(firstSkillCard).toBeVisible();
+    const skillsLink = page.locator("header nav a[href='/skills']").first();
+    await expect(skillsLink).toBeVisible();
 
-    const targetHref = await firstSkillCard.getAttribute("href");
-    expect(targetHref).not.toBeNull();
+    const targetHref = "/skills";
+
+    // Reset the resume flag before click to ensure we don't clear the event fired by the transition itself
+    await page.evaluate(() => {
+      const customWindow = window as unknown as CustomWindow;
+      customWindow.__canvasResumeDispatched = false;
+    });
 
     // Click to start transition
-    await firstSkillCard.click();
+    await skillsLink.click();
 
     // Verify immediate pause
     const pauseDispatched = await page.evaluate(() => {
@@ -171,19 +179,13 @@ test.describe("Skills Page Transitions & Canvas Optimization Spec", () => {
     });
     const canvasPausedState = await page.evaluate(() => {
       const customWindow = window as unknown as CustomWindow;
-      return customWindow.__canvasPaused;
+      return customWindow.__transition?.canvasPaused;
     });
     expect(pauseDispatched).toBe(true);
     expect(canvasPausedState).toBe(true);
 
-    // Reset the resume flag for the transition check
-    await page.evaluate(() => {
-      const customWindow = window as unknown as CustomWindow;
-      customWindow.__canvasResumeDispatched = false;
-    });
-
     // Wait for route change
-    await page.waitForURL(new RegExp(targetHref!));
+    await page.waitForURL(new RegExp(targetHref));
     await page.waitForLoadState("domcontentloaded");
 
     // Verify eventually resumes
@@ -196,7 +198,7 @@ test.describe("Skills Page Transitions & Canvas Optimization Spec", () => {
 
     const canvasPausedAfterResume = await page.evaluate(() => {
       const customWindow = window as unknown as CustomWindow;
-      return customWindow.__canvasPaused;
+      return customWindow.__transition?.canvasPaused;
     });
     expect(canvasPausedAfterResume).toBeFalsy();
   });

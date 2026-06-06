@@ -2,13 +2,10 @@
 category: tool-integration
 command: /lark-tools
 complexity: advanced
-description: >-
-  Truy cập toàn diện các dịch vụ Feishu/Lark (Lịch biểu, Chat, Công việc,
-  Bitable, Tài liệu) thông qua `lark-cli` và API của daemon. Hỗ trợ xác thực
-  người dùng OAuth và kết nối bot tự động để gửi tin nhắn hoặc quản lý dữ liệu.
+description: Giúp bạn tự động hóa các công việc trên Lark và Feishu như lên lịch họp, gửi tin nhắn tự động vào nhóm chat, cập nhật bảng dữ liệu Bitable và quản lý tài liệu.
 featured: false
 lastVerified: '2026-06-03'
-oneLiner: Kết nối và thao tác với các dịch vụ Feishu/Lark thông qua dòng lệnh lark-cli.
+oneLiner: Liên kết và tự động hóa các công việc trên Feishu/Lark.
 platforms:
   - universal
   - cursor
@@ -37,44 +34,33 @@ title: Lark Tools
 
 ## 📖 Tại Sao Cần Skill Này?
 
-Kỹ năng này giúp AI Agent tương tác trực tiếp với không gian làm việc doanh nghiệp trên Feishu/Lark. Agent có thể tự động đọc lịch làm việc để tìm giờ trống, kiểm tra danh bạ, gửi thông báo báo cáo tiến độ vào nhóm chat hoặc cập nhật bảng dữ liệu Bitable.
+Feishu và Lark là các ứng dụng làm việc nhóm phổ biến. Kỹ năng này giúp trợ lý kết nối trực tiếp với tài khoản Lark/Feishu của bạn để tự động làm các việc như nhắc lịch họp, gửi thông báo báo cáo tiến độ vào nhóm chat hoặc tự động cập nhật bảng dữ liệu mà không cần bạn phải làm thủ công.
 
 ## ⚙️ Cách Hoạt Động
 
-Cách thức vận hành:
-
-1. **Kiểm tra môi trường**: Đảm bảo `@larksuite/cli` đã cài đặt và đọc cổng từ tệp `daemon.port`.
-2. **Xác thực**: Kiểm tra trạng thái xác thực qua `lark-cli auth status` (OAuth hoặc Bot).
-3. **Thực thi**: Gọi các subcommand của `lark-cli` (như `calendar`, `im`, v.v.) để đọc/ghi dữ liệu.
-
-```
-[Yêu cầu Lark] ➔ ⚙️ [Kiểm tra lark-cli & daemon.port] ➔ 🔑 [Xác thực OAuth / Token]
-                     ➔ 💻 [Chạy lark-cli subcommand] ➔ 📦 [Nhận JSON & Trả kết quả]
-```
+Quy trình hoạt động:
+1. Trợ lý kết nối với hệ thống Lark/Feishu thông qua tài khoản của bạn hoặc tài khoản robot (Bot).
+2. Khi bạn yêu cầu (ví dụ "Đặt lịch họp lúc 3h chiều"), trợ lý sẽ kiểm tra thời gian trống của bạn.
+3. Trợ lý thực hiện thao tác (tạo lịch hẹn, gửi tin nhắn, điền bảng dữ liệu) và gửi lại thông báo xác nhận.
 
 ## 🚀 Cách Sử Dụng
 
-```markdown
-# QUY TẮC SỬ DỤNG LARK-TOOLS
-- **Định tuyến nền tảng**: Bắt buộc chọn đúng recipe PowerShell cho Windows hoặc Bash cho macOS/Linux khi thao tác với file và biến môi trường.
-- **Xác định rõ định danh**: Dùng `--as user` cho các tài nguyên cá nhân (Lịch, Drive, Task) và `--as bot` cho tin nhắn và sự kiện của ứng dụng.
-- **Không viết cứng cổng daemon**: Cổng daemon là động, luôn luôn đọc cổng từ tệp tin `daemon.port` hoặc parse từ `mavis status`.
-- **Tránh spam tin nhắn**: Khi gửi tin nhắn qua IM, định cấu hình tần suất hợp lý để tránh bị Feishu chặn vì giới hạn tần suất (rate limiting).
-```
+- Kết nối tài khoản Lark/Feishu của bạn bằng cách đăng nhập theo hướng dẫn của trợ lý.
+- Bạn có thể ra lệnh bằng ngôn ngữ tự nhiên, ví dụ "Gửi tin nhắn chào mừng thành viên mới vào nhóm Dự án" hoặc "Thêm công việc này vào danh sách việc cần làm trên Lark".
+- Luôn kiểm tra quyền truy cập của bot nếu bạn muốn nó làm việc trong một nhóm chat cụ thể.
 
 ## 💡 Kịch Bản Lập Trình Thực Tế
 
-### Nhà phát triển:
-> "Hãy hướng dẫn tôi cách thiết lập và sử dụng kỹ năng Lark Tools để Kết nối và thao tác với các dịch vụ Feishu/Lark thông qua dòng lệnh lark-cli."
+### Người dùng:
+> "Hãy kiểm tra xem chiều nay tôi có lịch trống nào từ 2h đến 5h không, và tạo một cuộc họp tên 'Đánh giá dự án' vào giờ đó giúp tôi."
 
-### AI Agent (Đã được trang bị Kỹ năng):
-> "Tôi đã sẵn sàng. Dưới đây là kịch bản vận hành thực tế cho kỹ năng Lark Tools:
-> 1. Thiết lập các thông số cấu hình và tham số đầu vào cần thiết cho hệ thống.
-> 2. Thực thi tuần tự các bước xử lý logic và tích hợp theo đúng chỉ dẫn của Lark Tools.
-> 3. Kiểm thử đầu ra, tối ưu hóa hiệu năng và cung cấp kết quả hoàn chỉnh."
+### Trợ lý:
+> "Tôi đã kiểm tra lịch làm việc trên Lark của bạn:
+> 1. Bạn đang trống lịch từ 3h đến 4h chiều.
+> 2. Tôi đã tạo thành công cuộc họp 'Đánh giá dự án' vào khung giờ 15:00 - 16:00 hôm nay và gửi lời mời đến các thành viên."
 
 ## ⚠️ Lưu Ý & Gotchas
 
-* **Lỗi 401 / LARK_USER_AUTH_REQUIRED**: Thường xảy ra khi mã OAuth của người dùng hết hạn. Cần chạy `lark-cli auth login --recommend` hoặc yêu cầu cấp quyền scope cụ thể.
-* **Đường link Bitable bị sai**: Khi truy cập Bitable, hãy chắc chắn trích xuất đúng `appToken` từ URL trình duyệt và `tableId` thông qua lệnh liệt kê bảng.
-* **Định dạng tin nhắn Markdown**: Feishu sử dụng chuẩn Markdown riêng cho chatbot, nếu gửi chuỗi markdown chuẩn thông thường có thể gây lỗi hiển thị tin nhắn trống.
+- **Lỗi hết hạn đăng nhập**: Thỉnh thoảng tài khoản của bạn sẽ hết hạn kết nối, bạn chỉ cần đăng nhập lại theo liên kết trợ lý cung cấp.
+- **Quyền hạn của robot (Bot)**: Robot cần được thêm vào nhóm chat trước thì mới có thể gửi tin nhắn hoặc đọc thông tin trong nhóm đó.
+- **Định dạng tin nhắn**: Feishu/Lark có cách hiển thị tin nhắn riêng, trợ lý sẽ tự động điều chỉnh để tin nhắn hiển thị đẹp mắt nhất.

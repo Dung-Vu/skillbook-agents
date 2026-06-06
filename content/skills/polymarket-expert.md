@@ -18,10 +18,8 @@ platforms:
   - mcp
 featured: false
 description: >-
-  Kiến trúc sư AI và Chuyên gia định lượng thị trường dự đoán Polymarket và
-  InfoFi. Phân tích xác suất toán học, tính toán tiêu chuẩn Kelly để tối đa hóa
-  kỳ vọng lợi nhuận.
-oneLiner: Chuyên gia phân tích thị trường dự đoán Polymarket và tài chính thông tin.
+  Hỗ trợ phân tích dữ liệu, tính toán tỷ lệ cược và đề xuất chiến lược tham gia thị trường dự đoán Polymarket bằng toán học xác suất. Giúp đánh giá cơ hội và quản lý rủi ro vốn khoa học.
+oneLiner: 'Phân tích toán học và chiến lược tham gia thị trường dự đoán Polymarket.'
 sourceUrl: ''
 sourceAuthor: Minimax
 lastVerified: '2026-06-03'
@@ -37,37 +35,37 @@ provider: minimax
 
 ## 📖 Tại Sao Cần Skill Này?
 
-Thị trường dự đoán (Prediction Markets) như Polymarket phản ánh thông tin thực tế rất nhanh nhưng thường bị nhiễu do tâm lý và cảm xúc của đám đông. Kỹ năng này giúp Agent nhận diện các sai lệch giá (inefficiency) bằng toán học thuần túy, tính toán quy mô vị thế tối ưu qua tiêu chuẩn Kelly và viết mã tích hợp với CLOB (Central Limit Order Book) thông qua Polygon network.
+Thị trường dự đoán (như Polymarket) phản ánh khả năng xảy ra của các sự kiện thực tế (như bầu cử, thể thao, sự kiện thế giới) dựa trên dòng tiền của người tham gia. Tuy nhiên, giá cả trên sàn thường bị dao động do cảm xúc của đám đông. Kỹ năng này giúp bạn nhận diện các cơ hội đầu tư có lợi thông qua phân tích toán học, tính toán số tiền đầu tư hợp lý (sử dụng công thức Kelly) để tránh rủi ro và hướng dẫn lập trình tự động giao dịch an toàn.
 
 ## ⚙️ Cách Hoạt Động
 
-Luồng xử lý định lượng Polymarket:
+Quy trình phân tích cơ hội giao dịch:
 ```
-Quét thị trường & Tin tức ──> Tính Xác suất biên (Implied Prob) ──> Tính Kỳ vọng Toán (EV) & Kelly ──> Đưa ra quyết định Giao dịch
+Theo dõi tỷ lệ cược ──> Tính xác suất thực tế ──> Tính lợi nhuận kỳ vọng & Quản lý vốn ──> Đưa ra quyết định
 ```
-1. **Quét dữ liệu**: Tìm kiếm các thị trường Polymarket đang mở, lấy tỷ lệ cược hiện tại qua công cụ tìm kiếm web.
-2. **Tính toán**: Chuyển đổi giá cổ phiếu (shares) thành xác suất thị trường, so sánh với xác suất thực tế tự phân tích để tìm EV dương.
-3. **Quản lý vốn**: Áp dụng công thức Kelly để xác định phần trăm vốn tối ưu cần giải ngân.
-4. **Tích hợp hệ thống**: Hướng dẫn tích hợp mã python (`py-clob-client`) để đặt lệnh tự động trên mạng Polygon.
+- **Thu thập dữ liệu**: Quét thông tin các sự kiện đang mở trên Polymarket và tỷ lệ cược hiện tại của chúng.
+- **Tính toán cơ hội**: Đổi giá cổ phiếu (shares) thành tỷ lệ phần trăm cơ hội thắng, so sánh với dữ liệu thực tế để tìm ra cơ hội có lợi nhất.
+- **Tối ưu hóa nguồn vốn**: Áp dụng công thức Kelly để xác định phần trăm vốn an toàn cần bỏ ra cho mỗi giao dịch.
+- **Tự động hóa**: Hướng dẫn sử dụng thư viện lập trình (như `py-clob-client`) để đặt lệnh tự động trên mạng Polygon.
 
 ## 🚀 Cách Sử Dụng
 
-- Chỉ hành động theo tính toán logic cơ học, loại bỏ hoàn toàn trực giác. Nếu một giao dịch không có EV dương sau khi trừ phí, bắt buộc phải loại bỏ.
-- Sử dụng công thức Kelly để quản lý vốn: `f* = (p*(b+1) - 1) / b` trong đó `p` là xác suất thắng thực tế, `b` là tỷ lệ cược.
-- Đảm bảo hướng dẫn cấu hình chi tiết private key và API key của Polymarket một cách an toàn, tránh để lộ trên mã nguồn hoặc log chat.
+- Đưa ra phân tích dựa trên các số liệu và logic toán học, loại bỏ yếu tố cảm tính cá nhân.
+- Sử dụng công thức Kelly để quản lý vốn: `f* = (p*(b+1) - 1) / b` (trong đó `p` là xác suất thắng thực tế, `b` là tỷ lệ cược nhận được).
+- Hướng dẫn cấu hình mã khóa ví điện tử (Private Key) và mã API an toàn, không được lưu trên các file chia sẻ công khai.
 
 ## 💡 Kịch Bản Lập Trình Thực Tế
 
-### Nhà phát triển:
-> "Hãy hướng dẫn tôi cách thiết lập và sử dụng kỹ năng Polymarket Expert để Chuyên gia phân tích thị trường dự đoán Polymarket và tài chính thông tin."
+### Người dùng yêu cầu:
+> "Tôi muốn tính toán xem có nên đặt cược vào kết quả trận chung kết bóng đá sắp tới trên Polymarket không và nên dùng bao nhiêu vốn."
 
-### AI Agent (Đã được trang bị Kỹ năng):
-> "Tôi đã sẵn sàng. Dưới đây là kịch bản vận hành thực tế cho kỹ năng Polymarket Expert:
-> 1. Thiết lập các thông số cấu hình và tham số đầu vào cần thiết cho hệ thống.
-> 2. Thực thi tuần tự các bước xử lý logic và tích hợp theo đúng chỉ dẫn của Polymarket Expert.
-> 3. Kiểm thử đầu ra, tối ưu hóa hiệu năng và cung cấp kết quả hoàn chỉnh."
+### Trợ lý AI thực hiện:
+> "Tôi sẽ hỗ trợ bạn phân tích theo phương pháp khoa học:
+> 1. Quét tỷ lệ cược hiện tại của trận đấu trên Polymarket.
+> 2. Đánh giá xác suất thắng thực tế dựa trên phong độ và dữ liệu đối đầu của hai đội.
+> 3. Áp dụng công thức Kelly để tính ra tỷ lệ phần trăm vốn an toàn bạn nên đặt nếu cơ hội thắng thực tế cao hơn tỷ lệ cược của thị trường."
 
 ## ⚠️ Lưu Ý & Gotchas
 
-- **Thanh khoản mỏng**: Cảnh báo người dùng về trượt giá (slippage) khi giao dịch quy mô lớn ở các thị trường ngách.
-- **Rủi ro giải quyết tranh chấp**: Lưu ý về các tranh chấp kết quả (resolution disputes) từ UMA Oracle đối với các thị trường có mô tả mập mờ.
+- **Thanh khoản thấp**: Ở các thị trường nhỏ hoặc ít người chơi, việc mua bán số lượng lớn có thể bị chênh lệch giá nhiều hoặc khó khớp lệnh ngay lập tức.
+- **Tranh chấp kết quả**: Một số sự kiện có luật lệ không rõ ràng có thể dẫn đến việc tranh chấp kết quả từ bên thứ ba (UMA Oracle). Hãy đọc kỹ điều khoản của thị trường trước khi tham gia.

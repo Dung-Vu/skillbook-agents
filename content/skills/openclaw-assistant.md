@@ -17,10 +17,8 @@ platforms:
   - mcp
 featured: false
 description: >-
-  Chuyên gia cấu hình và vận hành openclaw (clawd.bot). Hỗ trợ cài đặt trên máy
-  chủ ảo VPS, kết nối các kênh chat phổ biến (WhatsApp, Telegram, Discord) và xử
-  lý sự cố kết nối API.
-oneLiner: 'Hướng dẫn cài đặt, cấu hình và vận hành cổng kết nối bot openclaw.'
+  Hỗ trợ cài đặt và quản lý Openclaw để đưa trợ lý ảo AI lên các ứng dụng nhắn tin như WhatsApp, Telegram, Discord. Giúp tự động cấu hình máy chủ, kết nối tài khoản và sửa nhanh các lỗi kết nối.
+oneLiner: 'Cài đặt và kết nối trợ lý AI với các ứng dụng nhắn tin qua Openclaw.'
 sourceUrl: ''
 sourceAuthor: Minimax
 lastVerified: '2026-06-03'
@@ -37,39 +35,36 @@ provider: minimax
 
 ## 📖 Tại Sao Cần Skill Này?
 
-
-Openclaw là một giải pháp mã nguồn mở mạnh mẽ để đưa AI Agent lên các nền tảng chat thực tế, nhưng việc thiết lập VPS, cấu hình biến môi trường, webhook và tích hợp API rất phức tạp với nhiều bước thủ công. Kỹ năng này cung cấp một kho tri thức chuyên sâu để kiểm tra hệ thống, triển khai từng bước và tự động sửa các lỗi phân quyền hoặc kết nối.
+Openclaw giúp bạn đưa trợ lý ảo AI vào các ứng dụng trò chuyện quen thuộc (như Telegram, WhatsApp, Discord) để trả lời tin nhắn tự động. Tuy nhiên, việc cài đặt Openclaw trên máy chủ (VPS) và cấu hình kết nối thường rất phức tạp với nhiều bước kỹ thuật. Kỹ năng này sẽ hướng dẫn bạn từng bước thiết lập dễ dàng, tự động kiểm tra hệ thống và khắc phục nhanh các sự cố kết nối.
 
 ## ⚙️ Cách Hoạt Động
 
-Quy trình gỡ lỗi và triển khai:
+Quy trình thiết lập và sửa lỗi diễn ra như sau:
 ```
-Kiểm tra hiện trạng (health/status) ──> Thiết lập môi trường VPS ──> Kết nối Kênh chat ──> Kiểm tra Bảo mật ──> Vận hành
+Kiểm tra máy chủ ──> Điền thông tin kết nối ──> Thiết lập bảo mật ──> Kích hoạt hoạt động
 ```
-- **Chẩn đoán & Cấu hình**: Quét trạng thái bằng `openclaw doctor` hoặc `clawdbot status --all` và nạp API keys vào `.env`.
-- **Kết nối kênh**: Thiết lập cổng kết nối (WhatsApp Web, Telegram Token, Discord Bot Secrets).
-- **Bảo mật & Vận hành**: Kiểm tra bảo mật bằng `clawdbot security audit --deep` và khởi chạy qua systemd/Docker.
+- **Kiểm tra hệ thống**: Sử dụng các lệnh như `openclaw doctor` hoặc `clawdbot status --all` để xem máy chủ đã sẵn sàng chưa.
+- **Kết nối ứng dụng chat**: Hỗ trợ liên kết tài khoản WhatsApp, Telegram hoặc Discord bằng cách điền mã khóa (Token) vào file cấu hình `.env`.
+- **Vận hành an toàn**: Quét lỗi bảo mật bằng lệnh `clawdbot security audit --deep` trước khi chạy chính thức trên máy chủ.
+
 ## 🚀 Cách Sử Dụng
 
-
-- Luôn yêu cầu kiểm tra hiện trạng hệ thống bằng lệnh `openclaw status` hoặc `openclaw health` trước khi đề xuất bất kỳ thay đổi nào.
-- Hướng dẫn người dùng các bước phân quyền tệp tin an toàn, tránh để lộ khóa bảo mật API trong file cấu hình công khai.
-- Sử dụng các lệnh kiểm tra cấu hình chính xác và hướng dẫn chi tiết các tham số CLI của `clawdbot`.
+- Luôn kiểm tra trạng thái máy chủ bằng lệnh `openclaw status` hoặc `openclaw health` trước khi thay đổi bất kỳ cấu hình nào.
+- Làm theo hướng dẫn để phân quyền truy cập file an toàn, tránh để lộ các khóa bảo mật quan trọng.
+- Sử dụng các lệnh kiểm tra cấu hình có sẵn của công cụ để đảm bảo hệ thống hoạt động ổn định.
 
 ## 💡 Kịch Bản Lập Trình Thực Tế
 
+### Người dùng yêu cầu:
+> "Tôi muốn cài đặt bot Telegram kết nối với trợ lý AI bằng Openclaw trên máy chủ VPS của mình."
 
-### Nhà phát triển:
-> "Hãy hướng dẫn tôi cách thiết lập và sử dụng kỹ năng Openclaw Assistant để Hướng dẫn cài đặt, cấu hình và vận hành cổng kết nối bot openclaw."
-
-### AI Agent (Đã được trang bị Kỹ năng):
-> "Tôi đã sẵn sàng. Dưới đây là kịch bản vận hành thực tế cho kỹ năng Openclaw Assistant:
-> 1. Thiết lập các thông số cấu hình và tham số đầu vào cần thiết cho hệ thống.
-> 2. Thực thi tuần tự các bước xử lý logic và tích hợp theo đúng chỉ dẫn của Openclaw Assistant.
-> 3. Kiểm thử đầu ra, tối ưu hóa hiệu năng và cung cấp kết quả hoàn chỉnh."
+### Trợ lý AI thực hiện:
+> "Tôi sẽ hỗ trợ bạn thực hiện qua các bước sau:
+> 1. Kiểm tra môi trường máy chủ xem đã đủ điều kiện cài đặt chưa.
+> 2. Hướng dẫn bạn lấy mã Token từ Telegram BotFather và lưu vào cấu hình một cách an toàn.
+> 3. Khởi chạy bot và kiểm tra xem bot đã nhận và phản hồi tin nhắn thành công chưa."
 
 ## ⚠️ Lưu Ý & Gotchas
 
-
-- **Lộ khóa bảo mật**: Không hiển thị các file cấu hình chứa API key gốc trong log phản hồi cho người dùng.
-- **Lỗi cổng mạng (Port collision)**: Chú ý kiểm tra xem cổng mạng mặc định của openclaw có bị chiếm dụng bởi các dịch vụ khác trên VPS trước khi khởi chạy.
+- **Bảo mật thông tin**: Tuyệt đối không chia sẻ công khai các file cấu hình chứa API key hoặc mã Token của bạn để tránh bị kẻ xấu lợi dụng.
+- **Trùng cổng mạng**: Nếu hệ thống báo lỗi không chạy được, hãy kiểm tra xem cổng mạng mặc định của Openclaw có đang bị ứng dụng khác sử dụng hay không để đổi sang cổng khác.

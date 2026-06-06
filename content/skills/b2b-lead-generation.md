@@ -16,11 +16,8 @@ platforms:
   - claude-code
   - mcp
 featured: false
-description: >-
-  Trợ lý tự động hóa quy trình tìm kiếm khách hàng B2B. Tự động xác định đối thủ
-  cạnh tranh, tìm kiếm khách hàng tiềm năng, chấm điểm khách hàng và tạo tài
-  liệu tiếp cận cá nhân hóa.
-oneLiner: Tự động hóa tìm kiếm và chấm điểm khách hàng tiềm năng B2B.
+description: Tự động hóa việc tìm kiếm khách hàng doanh nghiệp (B2B). Giúp bạn phân tích đối thủ cạnh tranh, lọc ra danh sách khách hàng tiềm năng chất lượng nhất và soạn thảo email chào hàng được cá nhân hóa.
+oneLiner: Tìm kiếm và đánh giá khách hàng tiềm năng cho doanh nghiệp bằng AI.
 sourceUrl: ''
 sourceAuthor: Minimax
 lastVerified: '2026-06-03'
@@ -37,38 +34,34 @@ provider: minimax
 
 ## 📖 Tại Sao Cần Skill Này?
 
-Nghiên cứu khách hàng tiềm năng thủ công tốn nhiều thời gian và dễ bỏ sót thông tin. Kỹ năng này cung cấp cho Agent một quy trình làm việc chuẩn 6 bước từ cấu hình tìm kiếm, cào dữ liệu, làm sạch, chấm điểm lead cho đến viết email/tin nhắn tiếp cận (outreach) chuyên nghiệp.
+Tìm kiếm và nghiên cứu thông tin khách hàng doanh nghiệp bằng tay rất tốn thời gian, dễ nhầm lẫn và thiếu hiệu quả. Skill này giúp trợ lý AI tự động thực hiện quy trình tìm kiếm, lọc thông tin, chấm điểm xem khách hàng nào tiềm năng nhất, từ đó tự viết email tiếp cận đúng nhu cầu của họ.
 
 ## ⚙️ Cách Hoạt Động
 
-Quy trình tìm kiếm lead tự động:
-
-```
-[Product Info] -> [Competitor Identification] -> [Lead Mining] -> [Scoring & Enrichment] -> [Outreach Material] -> [Daily Report]
-```
-
-1. **Lead Mining**: Tìm kiếm thông tin liên hệ và chi tiết doanh nghiệp từ các nguồn công khai.
-2. **Scoring**: Đánh giá độ phù hợp (A/B/C/D) dựa trên quy mô, ngành nghề, và mức độ quan tâm.
-3. **Outreach**: Viết email tiếp cận được cá nhân hóa theo điểm đau (pain point) của từng doanh nghiệp.
+Quy trình tìm kiếm khách hàng tự động:
+1. **Tìm kiếm dữ liệu (Lead Mining)**: Thu thập thông tin doanh nghiệp và người liên hệ từ các nguồn công khai trên mạng.
+2. **Chấm điểm độ phù hợp (Scoring)**: Đánh giá xem doanh nghiệp đó có thực sự cần sản phẩm của bạn không (xếp hạng theo quy mô, ngành nghề).
+3. **Soạn thư tiếp cận (Outreach)**: Tự động viết email chào hàng gửi riêng cho từng doanh nghiệp, giải quyết đúng vấn đề họ đang gặp phải.
 
 ## 🚀 Cách Sử Dụng
 
-1. Luôn xác thực địa chỉ email và thông tin doanh nghiệp trước khi lưu trữ vào danh sách lead.
-2. Tùy chỉnh các tiêu chí chấm điểm (scoring criteria) phù hợp với định vị sản phẩm của người dùng.
-3. Viết nội dung tiếp cận ngắn gọn, tập trung vào giá trị mang lại thay vì quảng cáo sản phẩm đơn thuần.
+1. AI cần kiểm tra kỹ thông tin liên hệ và email của doanh nghiệp để tránh gửi nhầm hoặc gửi vào hòm thư chết.
+2. Thiết lập rõ các tiêu chí lọc khách hàng (như ngành nghề, quy mô công ty, vị trí địa lý) trước khi tìm kiếm.
+3. Soạn nội dung email ngắn gọn, tập trung vào những giải pháp giúp ích cho khách hàng thay vì chỉ quảng cáo giới thiệu sản phẩm.
 
 ## 💡 Kịch Bản Lập Trình Thực Tế
 
-### Nhà phát triển:
-> "Hãy hướng dẫn tôi cách thiết lập và sử dụng kỹ năng B2B Lead Generation để Tự động hóa tìm kiếm và chấm điểm khách hàng tiềm năng B2B."
+### Người dùng:
+> "Hãy tìm cho tôi các công ty vận chuyển tại TP.HCM và soạn email giới thiệu phần mềm quản lý kho của tôi."
 
-### AI Agent (Đã được trang bị Kỹ năng):
-> "Tôi đã sẵn sàng. Dưới đây là kịch bản vận hành thực tế cho kỹ năng B2B Lead Generation:
-> 1. Thiết lập các thông số cấu hình và tham số đầu vào cần thiết cho hệ thống.
-> 2. Thực thi tuần tự các bước xử lý logic và tích hợp theo đúng chỉ dẫn của B2B Lead Generation.
-> 3. Kiểm thử đầu ra, tối ưu hóa hiệu năng và cung cấp kết quả hoàn chỉnh."
+### Trợ lý AI:
+> "Tôi sẽ thực hiện theo các bước sau:
+> 1. Tìm kiếm danh sách các công ty vận chuyển tại TP.HCM từ các nguồn dữ liệu mở.
+> 2. Phân loại và lọc ra các công ty có quy mô phù hợp với phần mềm của bạn.
+> 3. Tìm thông tin liên hệ của người phụ trách (như Giám đốc vận hành hoặc Trưởng phòng IT).
+> 4. Soạn thảo email chào hàng được cá nhân hóa, nhấn mạnh giải pháp giúp họ tiết kiệm 30% chi phí vận hành kho."
 
 ## ⚠️ Lưu Ý & Gotchas
 
-- **Lead rác**: Dữ liệu thu thập tự động có thể chứa nhiều địa chỉ email chung (như info@, contact@). Hãy ưu tiên tìm kiếm email cá nhân của người ra quyết định (CEO, Director, Manager).
-- **Vi phạm quy định**: Tuân thủ các quy định về quyền riêng tư dữ liệu (như GDPR/CCPA) khi thu thập thông tin liên hệ.
+- **Email không hoạt động**: Quá trình quét tự động dễ lấy phải các hòm thư chung (như info@, contact@). AI nên ưu tiên tìm hòm thư cá nhân của người có thẩm quyền quyết định để tăng tỷ lệ phản hồi.
+- **Quy định bảo mật**: Luôn tuân thủ các quy định pháp luật về bảo vệ dữ liệu cá nhân khi thu thập thông tin và gửi thư điện tử quảng cáo.

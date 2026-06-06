@@ -17,10 +17,8 @@ platforms:
   - gemini-cli
   - universal
 featured: false
-description: >-
-  Tải các trình tự gen, protein bằng mã Accession ID hoặc tìm kiếm theo danh mục
-  loài sinh vật từ các cơ sở dữ liệu NCBI.
-oneLiner: Truy xuất trình tự nucleotide và protein từ NCBI.
+description: Giúp tải chuỗi gen (nucleotide) và chuỗi đạm (protein) từ ngân hàng gen quốc tế NCBI bằng mã định danh (Accession ID) hoặc tên gen để phục vụ nghiên cứu sinh học.
+oneLiner: Tải chuỗi gen và protein từ cơ sở dữ liệu sinh học NCBI.
 sourceUrl: 'https://www.ncbi.nlm.nih.gov/'
 sourceAuthor: Google DeepMind
 lastVerified: '2026-05-30'
@@ -37,49 +35,35 @@ provider: antigravity
 
 ## 📖 Tại Sao Cần Skill Này?
 
-- **Tra cứu và Tìm kiếm**: Truy xuất chuỗi nucleotide/protein nhanh chóng qua mã Accession ID (NM_000546, NP_000537...) hoặc tên gene + loài.
-- **Dịch mã CDS**: Trích xuất vùng mã hóa CDS từ mã nucleotide và tự động dịch thành protein.
-- **Liên kết chéo**: Tìm chuỗi liên kết với bằng sáng chế (patents) hoặc bài báo PubMed.
+Trong nghiên cứu sinh học và y tế, việc tìm kiếm cấu trúc chuỗi gen hoặc chuỗi protein của các loài sinh vật rất quan trọng. Kỹ năng này giúp trợ lý ảo nhanh chóng kết nối với ngân hàng gen quốc tế NCBI để tải chính xác chuỗi dữ liệu sinh học (định dạng FASTA) bằng mã số hoặc tên gen của loài, giúp bạn không cần phải tìm kiếm thủ công trên trang web.
+
 ## ⚙️ Cách Hoạt Động
 
-```
-Accession / Gene name / PubMed ID → NCBI E-utilities → 
-Return sequences in FASTA format
-```
+Quy trình tìm kiếm:
+1. Bạn cung cấp mã số gen (Accession ID) hoặc tên gen kèm tên loài sinh vật (ví dụ: gen insulin ở người).
+2. Trợ lý kết nối với cơ sở dữ liệu NCBI để tải chuỗi dữ liệu.
+3. Trợ lý hiển thị hoặc lưu chuỗi gen/protein dưới dạng định dạng FASTA tiêu chuẩn để bạn sử dụng.
 
-- **Tra cứu & Tìm kiếm**: Tra cứu trực tiếp bằng Accession ID hoặc tìm kiếm theo tên gen + loài.
-- **Dịch mã CDS**: Trích xuất và dịch chuỗi CDS từ chuỗi nucleotide.
-- **Liên kết chéo**: Tìm chuỗi liên kết từ PubMed ID hoặc mã bằng sáng chế.
 ## 🚀 Cách Sử Dụng
 
-
-### Universal
-
-```markdown
-# NCBI Sequence Fetch Rules
-- Hỗ trợ multiple lookup modes: accession, gene+organism, locus tag, PubMed link, patent.
-- Output luôn ở FASTA format.
-- Dùng RefSeq accessions (NM_, NP_) khi có thể — chất lượng cao hơn GenBank.
-- Kết hợp với UniProt hoặc Ensembl cho cross-validation.
-```
+- Yêu cầu trợ lý tải chuỗi bằng cách cung cấp mã số gen cụ thể (ví dụ: `NM_000207`).
+- Nếu không có mã số, hãy cung cấp tên gen và tên loài sinh vật (ví dụ: "gen INS ở người").
+- Bạn có thể nhờ trợ lý dịch chuỗi gen thành chuỗi protein tương ứng hoặc tìm gen liên quan đến một bài báo khoa học.
 
 ## 💡 Kịch Bản Lập Trình Thực Tế
 
+### Người dùng:
+> "Hãy tải cho tôi chuỗi gen insulin của người từ cơ sở dữ liệu NCBI."
 
-### 🧑‍💻 Nhà phát triển:
-> "Hãy tải cho tôi chuỗi nucleotide FASTA của gene insulin người từ cơ sở dữ liệu GenBank của NCBI."
-
-### 🤖 AI Agent (Đã được trang bị Kỹ năng):
-> "Tôi sẽ kết nối trực tiếp với cổng E-utilities của NCBI để tải chuỗi gen chính xác cho bạn:"
->
-> 1. **Xác định mã Accession ID**: Tôi chẩn đoán và ánh xạ gene insulin người (INS) sang mã số GenBank chuẩn là **NM_000207**.
-> 2. **Tải chuỗi Nucleotide**: Tôi thực thi lệnh efetch của NCBI để tải chuỗi ở định dạng FASTA chuẩn.
-> 3. **Chẩn đoán chuỗi**: Tôi kiểm tra chiều dài chuỗi, phân tích vùng mã hóa CDS (Coding Sequence) để chỉ ra chính xác vị trí bắt đầu (start codon) và kết thúc (stop codon) của gen phục vụ cho việc thiết kế vector biểu hiện.
->
-> *Chuỗi nucleotide chuẩn FASTA và báo cáo phân tích CDS đã được chuẩn bị đầy đủ và sẵn sàng để bạn sao chép.*
+### Trợ lý:
+> "Tôi đã tìm kiếm trên cơ sở dữ liệu NCBI:
+> 1. Mã số gen insulin người được xác định là **NM_000207**.
+> 2. Tôi đã tải chuỗi nucleotide của gen này ở định dạng FASTA.
+> 3. Đây là đoạn đầu của chuỗi gen để bạn tham khảo:
+> `>NM_000207.3 Homo sapiens insulin (INS), mRNA`
+> `AGCCCTCCAGGACAGGCTGCATCAGAAGAGGCCATCAAGCAGGTCTG...`"
 
 ## ⚠️ Lưu Ý & Gotchas
 
-- **RefSeq vs GenBank**: Ưu tiên RefSeq (NM_, NP_) vì đã được kiểm chứng (curated), tránh GenBank thô/bản nháp.
-- **Giới hạn tần suất**: Lệnh gọi API bị giới hạn (3 req/s không key, 10 req/s có key); script wrapper tự động xử lý.
-- **Dạng protein**: Chuỗi tải về thường là precursor (gồm signal/propeptide), cần cắt tỉa nếu muốn dạng trưởng thành.
+- **Mã gen chuẩn**: Nên sử dụng mã gen bắt đầu bằng `NM_` hoặc `NP_` (RefSeq) vì đây là các chuỗi đã được các nhà khoa học kiểm chứng độ chính xác, tránh các chuỗi nháp.
+- **Giới hạn tốc độ tải**: Hệ thống NCBI giới hạn số lần tải trong một giây. Trợ lý sẽ tự động điều chỉnh tốc độ tải để tránh bị chặn kết nối.

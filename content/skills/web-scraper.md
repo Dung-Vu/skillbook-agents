@@ -16,58 +16,50 @@ platforms:
   - claude-code
   - mcp
 featured: false
-description: >-
-  Công cụ thu thập dữ liệu web đa năng. Hỗ trợ quét nội dung văn bản từ các
-  trang web, tự động bóc tách thông tin có cấu trúc và lưu trữ kết quả dưới các
-  định dạng phổ biến (JSON, CSV, Markdown).
-oneLiner: 'Thu nhập, phân tích và xuất dữ liệu có cấu trúc từ các trang web trực tuyến.'
+description: Công cụ thu thập dữ liệu tự động từ các trang web. Hỗ trợ bóc tách thông tin, lọc bỏ mã rác và xuất ra các định dạng dữ liệu có cấu trúc dễ sử dụng như JSON, CSV, Excel.
+oneLiner: Tự động thu thập và xuất dữ liệu từ các trang web trực tuyến.
 sourceUrl: ''
 sourceAuthor: Minimax
 lastVerified: '2026-06-03'
 relatedSkills:
   - tidy-folder
   - seo-geo-optimization-expert
-seoTitle: Web Scraper - Minimax Skill for AI Agents
-seoDescription: >-
-  Tích hợp kỹ năng cào dữ liệu Web Scraper cho AI Agent: sử dụng Python, xử lý
-  chặn IP, bóc tách cấu trúc và lưu file JSON/CSV.
+seoTitle: Web Scraper - Tự động cào dữ liệu và bóc tách thông tin trang web
+seoDescription: Cấu hình AI Agent tự động viết mã thu thập dữ liệu web, bóc tách thông tin có cấu trúc và xuất ra file JSON/CSV/Excel.
 provider: minimax
 ---
 
 ## 📖 Tại Sao Cần Skill Này?
 
-Để đưa ra các phân tích chính xác, AI Agent cần có dữ liệu thực tế từ internet. Tuy nhiên, việc cào dữ liệu thủ công rất tốn thời gian và các trang web thường có cấu trúc HTML khác nhau. Kỹ năng này cung cấp các kịch bản lập trình Python (sử dụng BeautifulSoup hoặc Playwright) để Agent tự động bóc tách các thẻ HTML, trích xuất văn bản sạch và lưu trữ dữ liệu khoa học.
+Khi bạn cần tổng hợp lượng lớn thông tin từ một hoặc nhiều trang web (ví dụ: so sánh giá sản phẩm của đối thủ, lấy danh sách tin tức mới nhất, thu thập thông tin liên hệ), việc sao chép thủ công rất tốn thời gian và công sức. Kỹ năng này giúp trợ lý tự động viết các chương trình thông minh để ghé thăm trang web, trích xuất chính xác các thông tin cần thiết và gom lại thành một tệp dữ liệu sạch sẽ, ngăn nắp cho bạn sử dụng ngay.
+
+- **Thu thập quy mô lớn**: Lấy hàng trăm, hàng ngàn thông tin tự động chỉ trong vài phút.
+- **Dữ liệu sạch sẽ**: Loại bỏ hoàn toàn các quảng cáo, menu và mã nguồn rác của trang web, chỉ giữ lại phần nội dung bạn quan tâm.
+- **Đa dạng định dạng**: Xuất dữ liệu ra các định dạng phổ biến để dễ dàng nhập vào Excel hoặc các công cụ phân tích khác.
 
 ## ⚙️ Cách Hoạt Động
 
-Quy trình cào dữ liệu web tự động:
-```
-Nhap URL dich --> Phan tich cau truc HTML --> Viet Code Scraper --> Thuc thi cao du lieu --> Luu (JSON/CSV)
-```
-1. **Xác định mục tiêu**: Nhận đường dẫn trang web cần cào dữ liệu và định nghĩa các trường thông tin mong muốn (Tiêu đề, Giá cả, Ngày đăng).
-2. **Kiểm tra cấu trúc**: Phân tích mã nguồn HTML của trang để tìm các thẻ CSS Selectors hoặc XPath tương ứng.
-3. **Lập trình thu thập**: Viết script Python sử dụng thư viện `httpx` (hoặc `playwright` nếu trang web tải bằng JavaScript).
-4. **Lọc dữ liệu**: Loại bỏ mã HTML rác, trích xuất văn bản thô sạch và chuyển đổi sang cấu trúc đối tượng dữ liệu.
-5. **Lưu trữ**: Xuất kết quả ra file JSON hoặc CSV và trả về đường dẫn tệp.
+1. **Xác định mục tiêu**: Nhận đường link trang web và danh sách thông tin bạn muốn lấy từ bạn (ví dụ: tên sản phẩm, giá bán, mô tả).
+2. **Phân tích cấu trúc**: Rà soát mã nguồn trang web để tìm ra vị trí chính xác của dữ liệu đó.
+3. **Thực thi thu thập**: Chạy mã lập trình để tải trang web và bóc tách thông tin (hỗ trợ cả các trang web sử dụng nhiều công nghệ tương tác hiện đại).
+4. **Lọc và lưu trữ**: Gom thông tin lại, loại bỏ các kết quả trống và xuất ra file CSV, JSON hoặc Excel.
 
 ## 🚀 Cách Sử Dụng
 
-- Tuân thủ quy tắc ứng xử cào dữ liệu thân thiện: cấu hình tham số `User-Agent` thực tế và thêm khoảng trễ (delay) giữa các lượt yêu cầu để tránh làm quá tải máy chủ đích.
-- Kiểm tra tính hợp lệ của dữ liệu thu được trước khi lưu tệp, loại bỏ các kết quả trống (null/empty) không mong muốn.
-- Hỗ trợ xử lý ngoại lệ chu đáo như lỗi hết thời gian chờ (timeout) hoặc lỗi không kết nối được máy chủ.
+- Gửi đường dẫn trang web cùng các thông tin bạn muốn lấy cho trợ lý.
+- Trợ lý sẽ tự động thiết lập tiến trình cào dữ liệu và gửi lại file kết quả cho bạn tải về.
 
 ## 💡 Kịch Bản Lập Trình Thực Tế
 
-### Nhà phát triển:
-> "Hãy hướng dẫn tôi cách thiết lập và sử dụng kỹ năng Web Scraper để Thu nhập, phân tích và xuất dữ liệu có cấu trúc từ các trang web trực tuyến."
+### Người dùng:
+> "Lấy giúp tôi danh sách 20 cuốn sách bán chạy nhất trên trang web sách này kèm giá bán của từng cuốn."
 
-### AI Agent (Đã được trang bị Kỹ năng):
-> "Tôi đã sẵn sàng. Dưới đây là kịch bản vận hành thực tế cho kỹ năng Web Scraper:
-> 1. Thiết lập các thông số cấu hình và tham số đầu vào cần thiết cho hệ thống.
-> 2. Thực thi tuần tự các bước xử lý logic và tích hợp theo đúng chỉ dẫn của Web Scraper.
-> 3. Kiểm thử đầu ra, tối ưu hóa hiệu năng và cung cấp kết quả hoàn chỉnh."
+### Trợ lý:
+> "Tôi đã thực hiện thu thập dữ liệu cho bạn:
+> - **Tiến trình**: Truy cập trang web, bóc tách thông tin tiêu đề sách, tên tác giả và giá bán hiện tại của 20 cuốn sách hàng đầu.
+> - **Thành phẩm**: Đã sắp xếp ngăn nắp và xuất ra file `danh_sach_sach_hot.csv` sẵn sàng để bạn mở bằng Excel."
 
 ## ⚠️ Lưu Ý & Gotchas
 
-- **Chặn truy cập (Anti-bot)**: Cảnh báo người dùng nếu trang web mục tiêu sử dụng các giải pháp chống cào dữ liệu mạnh mẽ như Cloudflare hay CAPTCHA.
-- **HTML thay đổi**: Cấu trúc HTML của trang web có thể thay đổi bất cứ lúc nào, khiến các CSS Selectors cũ không hoạt động.
+- **Chống cào dữ liệu (Anti-bot)**: Một số trang web có tường lửa chống thu thập dữ liệu tự động hoặc yêu cầu xác minh mã CAPTCHA (hình ảnh xác thực). Trợ lý sẽ báo cho bạn biết nếu gặp các trang web này để tìm giải pháp thay thế.
+- **Trang web thay đổi giao diện**: Mã thu thập dữ liệu hoạt động dựa trên cấu trúc hiện tại của trang web. Nếu trang web đó thay đổi thiết kế hoặc nâng cấp giao diện, chương trình có thể bị lỗi và cần được điều chỉnh lại.

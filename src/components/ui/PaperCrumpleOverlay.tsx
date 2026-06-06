@@ -127,7 +127,9 @@ const captureScreenshot = async (): Promise<HTMLCanvasElement> => {
     });
     return canvasResult;
   } catch (err) {
-    console.warn("[PaperCrumpleOverlay] html2canvas-pro screenshot capture failed (falling back):", err);
+    if (process.env.NODE_ENV === "development") {
+      console.warn("[PaperCrumpleOverlay] html2canvas-pro screenshot capture failed (falling back):", err);
+    }
     return createFallbackCanvas();
   }
 };
@@ -141,12 +143,19 @@ export function PaperCrumpleOverlay(): React.ReactElement | null {
   // Phase state: "entering", "idle", "exiting"
   const [phase, setPhase] = useState<"entering" | "idle" | "exiting">("idle");
 
-  // Check if transition is between catalog /skills and detail /skills/[slug]
-  const customWindow = typeof window !== "undefined" ? window : null;
-  const targetHref = customWindow ? customWindow.__transitionTargetHref || "" : "";
-  const isCurrentSkills = pathname === "/skills" || pathname.startsWith("/skills/");
-  const isTargetSkills = targetHref === "/skills" || targetHref.startsWith("/skills/");
-  const isBypassed = isCurrentSkills && isTargetSkills;
+  // Check if transition is active. Memoized so the reference is stable
+  // across renders and the main transition `useEffect` doesn't tear down
+  // and rebuild the Three.js scene just because some parent re-rendered
+  // (which would re-derive the value and invalidate the effect deps).
+  const isBypassed = React.useMemo<boolean>(() => {
+    if (typeof window === "undefined") return false;
+    const t = window.__transition;
+    if (t && typeof t.isBypassed === "boolean") return t.isBypassed;
+    const isCurrentSkills = pathname === "/skills" || pathname.startsWith("/skills/");
+    const targetHref = t?.transitionTargetHref || "";
+    const isTargetSkills = targetHref === "/skills" || targetHref.startsWith("/skills/");
+    return isCurrentSkills && isTargetSkills;
+  }, [pathname]);
 
   // Three.js instances
   const rendererRef = useRef<WebGLRenderer | null>(null);
@@ -163,7 +172,8 @@ export function PaperCrumpleOverlay(): React.ReactElement | null {
     if (typeof window === "undefined") return;
 
     const customWindow = window;
-    customWindow.__paperCrumpleOverlayRegistered = true;
+    customWindow.__transition = customWindow.__transition || {};
+    customWindow.__transition.paperCrumpleOverlayRegistered = true;
 
     const handleExitStart = (e: Event) => {
       const customEvent = e as CustomEvent;
@@ -176,27 +186,38 @@ export function PaperCrumpleOverlay(): React.ReactElement | null {
 
     window.addEventListener("transition-exit-start", handleExitStart);
 
-    if (customWindow.__transitionActive) {
-      const clickX = typeof customWindow.__transitionClickX === "number" ? customWindow.__transitionClickX : window.innerWidth / 2;
-      const clickY = typeof customWindow.__transitionClickY === "number" ? customWindow.__transitionClickY : window.innerHeight / 2;
-      clickPosRef.current = { x: clickX, y: clickY };
-
-      customWindow.__transitionActive = false; // consume
-      setTimeout(() => {
-        setPhase("entering");
-      }, 0);
-    } else {
-      setTimeout(() => {
-        customWindow.__canvasPaused = false;
-        window.dispatchEvent(new CustomEvent("canvas-resume"));
-      }, 50);
+    if (customWindow.__transition && !customWindow.__transition.transitionActive) {
+      customWindow.__transition.canvasPaused = false;
+      window.dispatchEvent(new CustomEvent("canvas-resume"));
     }
 
     return () => {
-      customWindow.__paperCrumpleOverlayRegistered = false;
+      if (customWindow.__transition) {
+        customWindow.__transition.paperCrumpleOverlayRegistered = false;
+      }
       window.removeEventListener("transition-exit-start", handleExitStart);
     };
   }, []);
+
+  // Listen for route changes to trigger entering animation
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const customWindow = window;
+
+    if (customWindow.__transition && customWindow.__transition.transitionActive) {
+      const clickX = typeof customWindow.__transition.transitionClickX === "number" ? customWindow.__transition.transitionClickX : window.innerWidth / 2;
+      const clickY = typeof customWindow.__transition.transitionClickY === "number" ? customWindow.__transition.transitionClickY : window.innerHeight / 2;
+      clickPosRef.current = { x: clickX, y: clickY };
+
+      customWindow.__transition.transitionActive = false; // consume
+      // Defer the React state update to a microtask. This effect is a
+      // legitimate one-shot external-system sync (consuming a "transition
+      // requested" signal posted to the global `__transition` state), not
+      // a derived-state derivation, so deferral is the recommended fix
+      // for the React 19 "no cascading setState in effect" lint rule.
+      queueMicrotask(() => setPhase("entering"));
+    }
+  }, [pathname]);
 
   // Lock scroll when transition is active
   useEffect(() => {
@@ -214,6 +235,7 @@ export function PaperCrumpleOverlay(): React.ReactElement | null {
   useEffect(() => {
     if (typeof window === "undefined") return;
     if (phase === "idle" || isBypassed) return;
+    // (deps: phase, isBypassed — both memoized to be stable.)
 
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -353,7 +375,9 @@ export function PaperCrumpleOverlay(): React.ReactElement | null {
         if (rawProgress < 1.0) {
           animationFrameIdRef.current = requestAnimationFrame(animate);
         } else {
-          customWindow.__transitionActive = true;
+          if (customWindow.__transition) {
+            customWindow.__transition.transitionActive = true;
+          }
           document.body.classList.remove("transition-active-exiting");
           window.dispatchEvent(new CustomEvent("transition-exit-complete"));
         }
@@ -397,7 +421,9 @@ export function PaperCrumpleOverlay(): React.ReactElement | null {
           setPhase("idle");
           disposeThree();
           document.body.classList.remove("transition-active-entering");
-          customWindow.__canvasPaused = false;
+          if (customWindow.__transition) {
+            customWindow.__transition.canvasPaused = false;
+          }
           window.dispatchEvent(new CustomEvent("canvas-resume"));
         }
       };
@@ -434,7 +460,9 @@ export function PaperCrumpleOverlay(): React.ReactElement | null {
     window.addEventListener("resize", handleResize);
 
     if (phase === "entering") {
-      customWindow.__canvasPaused = true;
+      if (customWindow.__transition) {
+        customWindow.__transition.canvasPaused = true;
+      }
       window.dispatchEvent(new CustomEvent("canvas-pause"));
 
       const runEnter = async () => {
@@ -476,7 +504,9 @@ export function PaperCrumpleOverlay(): React.ReactElement | null {
 
       runEnter();
     } else if (phase === "exiting") {
-      customWindow.__canvasPaused = true;
+      if (customWindow.__transition) {
+        customWindow.__transition.canvasPaused = true;
+      }
       window.dispatchEvent(new CustomEvent("canvas-pause"));
 
       const runExit = async () => {
@@ -504,7 +534,7 @@ export function PaperCrumpleOverlay(): React.ReactElement | null {
       document.body.classList.remove("transition-active-exiting", "transition-active-entering");
       disposeThree();
     };
-  }, [phase]);
+  }, [phase, isBypassed]);
 
   if (phase === "idle" || isBypassed) {
     return null;

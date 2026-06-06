@@ -17,10 +17,8 @@ platforms:
   - mcp
 featured: false
 description: >-
-  Trợ lý tạo ảnh 3D và đồ họa chất lượng cao theo 17 phong cách đa dạng (chibi,
-  low-poly, mockups quảng cáo). Tối ưu hóa prompt để tạo sản phẩm trực quan sắc
-  nét.
-oneLiner: Tạo hình ảnh 3D và đồ họa quảng cáo chất lượng cao bằng AI.
+  Tự động biến các ý tưởng đơn giản thành những bức ảnh 3D, mô hình đồ họa hoặc ảnh quảng cáo chuyên nghiệp thông qua việc tối ưu hóa câu lệnh cho AI.
+oneLiner: Thiết kế hình ảnh 3D và đồ họa quảng cáo chất lượng cao bằng AI.
 sourceUrl: ''
 sourceAuthor: Minimax
 lastVerified: '2026-06-03'
@@ -36,38 +34,38 @@ provider: minimax
 
 ## 📖 Tại Sao Cần Skill Này?
 
-Việc tự viết các câu lệnh (prompt) tạo ảnh 3D thường cho ra kết quả không như ý do thiếu các từ khóa kỹ thuật về ánh sáng, góc máy và chất liệu. Kỹ năng này đóng vai trò như một kỹ sư prompt chuyên sâu, tinh chỉnh các câu lệnh của người dùng theo 17 phong cách nghệ thuật được tuyển chọn kỹ lưỡng.
+Việc tự viết mô tả để AI vẽ ảnh 3D hoặc ảnh quảng cáo thường không đạt kết quả tốt nếu thiếu các từ khóa kỹ thuật về ánh sáng, góc máy hay chất liệu. Kỹ năng này đóng vai trò như một chuyên gia tư vấn thiết kế: tự động làm rõ ý tưởng của bạn, thêm thắt các từ khóa chuyên môn theo 17 phong cách nghệ thuật độc đáo (như chibi, mô hình đất sét, low-poly...) và tạo ra hình ảnh chất lượng cao.
 
 ## ⚙️ Cách Hoạt Động
 
 Quy trình thiết kế ảnh nghệ thuật:
 
 ```
-[Idea Input] -> [Select from 17 Styles] -> [Apply Prompt Template] -> [Call Image API] -> [Deliver Asset]
+[Ý tưởng của bạn] -> [Chọn 1 trong 17 phong cách] -> [Tự động điền mẫu câu lệnh chuẩn] -> [AI vẽ ảnh] -> [Nhận bức ảnh hoàn chỉnh]
 ```
 
-1. **Style Mapping**: Ánh xạ ý tưởng của người dùng vào 1 phát họa phong cách (như Claymation, Toy 3D, Knolling, Low-Poly).
-2. **Prompt Construction**: Điền thông tin vào các template câu lệnh có sẵn cấu trúc camera và ánh sáng studio.
-3. **Delivery**: Xuất ảnh trực tiếp và hiển thị thông qua định dạng XML `<deliver_assets>`.
+1. **Lựa chọn phong cách**: Xác định phong cách nghệ thuật phù hợp nhất với ý tưởng của bạn (ví dụ: Mô hình đồ chơi 3D, Phong cách gấp giấy, Đất sét hoạt hình).
+2. **Xây dựng câu lệnh tối ưu**: Áp dụng các mẫu câu lệnh có sẵn cấu trúc về bố cục, ánh sáng studio và tiêu cự camera.
+3. **Hiển thị hình ảnh**: Xuất ảnh và hiển thị trực tiếp sản phẩm trong cuộc trò chuyện cho bạn.
 
 ## 🚀 Cách Sử Dụng
 
-1. Nhận diện ngôn ngữ của người dùng để tùy biến phụ đề và văn bản đè trên ảnh theo đúng ngôn ngữ đó.
-2. Trả về kết quả trực tiếp và ngắn gọn tối đa; không giải thích dài dòng về quá trình tạo ảnh.
-3. Sử dụng đúng template tương ứng cho từng nhóm phong cách (Nhân vật, Phong cảnh, Sản phẩm, Biến đổi phong cách).
+1. Nhận diện ngôn ngữ yêu cầu của người dùng để điều chỉnh các chi tiết văn bản (nếu có) trên bức ảnh cho phù hợp.
+2. Hiển thị kết quả ảnh trực tiếp, nhanh chóng, tránh giải thích dài dòng về các bước tạo ảnh phức tạp.
+3. Sử dụng đúng bộ khuôn mẫu câu lệnh (template) phù hợp cho từng nhóm nội dung: Vẽ nhân vật, Vẽ phong cảnh, hoặc Thiết kế sản phẩm.
 
 ## 💡 Kịch Bản Lập Trình Thực Tế
 
-### Nhà phát triển:
-> "Hãy hướng dẫn tôi cách thiết lập và sử dụng kỹ năng Image Craft để Tạo hình ảnh 3D và đồ họa quảng cáo chất lượng cao bằng AI."
+### 🧑‍💻 Nhà phát triển:
+> "Hãy hướng dẫn tôi cách thiết lập và sử dụng kỹ năng Image Craft để tạo hình ảnh 3D và đồ họa quảng cáo."
 
-### AI Agent (Đã được trang bị Kỹ năng):
-> "Tôi đã sẵn sàng. Dưới đây là kịch bản vận hành thực tế cho kỹ năng Image Craft:
-> 1. Thiết lập các thông số cấu hình và tham số đầu vào cần thiết cho hệ thống.
-> 2. Thực thi tuần tự các bước xử lý logic và tích hợp theo đúng chỉ dẫn của Image Craft.
-> 3. Kiểm thử đầu ra, tối ưu hóa hiệu năng và cung cấp kết quả hoàn chỉnh."
+### 🤖 AI Agent (Đã được trang bị Kỹ năng):
+> "Tôi đã sẵn sàng. Dưới đây là cách vận hành hệ thống tạo ảnh này:
+> 1. **Tiếp nhận ý tưởng**: Nhận mô tả sơ bộ từ bạn (ví dụ: một chiếc điện thoại đặt trên bãi cát bờ biển).
+> 2. **Lựa chọn phong cách phù hợp**: Đề xuất phong cách chụp ảnh sản phẩm thương mại chuyên nghiệp.
+> 3. **Tạo câu lệnh và xuất ảnh**: Tạo câu lệnh tối ưu gửi đến công cụ vẽ ảnh AI và hiển thị bức ảnh chất lượng cao ngay lập tức."
 
 ## ⚠️ Lưu Ý & Gotchas
 
-- **Lỗi chính tả chữ đè (text overlay)**: Khi tạo ảnh quảng cáo sản phẩm có chữ, hãy cảnh báo người dùng rằng chữ có thể bị lỗi chính tả nhẹ do giới hạn của mô hình tạo ảnh.
-- **Xung đột phong cách**: Việc phối hợp quá nhiều phong cách đối lập trong một câu lệnh sẽ làm mô hình bị rối. Hãy giữ prompt nhất quán theo một chủ đề duy nhất.
+- **Lỗi chữ viết trên ảnh**: AI tạo ảnh vẫn gặp khó khăn trong việc vẽ chính xác từng ký tự chữ. Nếu bạn muốn chèn chữ vào ảnh quảng cáo, hãy lưu ý chữ có thể bị viết sai chính tả.
+- **Xung đột phong cách**: Việc nhồi nhét quá nhiều phong cách khác nhau vào một bức ảnh (ví dụ: vừa vẽ màu nước vừa muốn 3D sắc nét) sẽ làm ảnh bị lỗi hoặc không đẹp. Hãy giữ phong cách nhất quán.

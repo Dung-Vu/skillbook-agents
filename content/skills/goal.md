@@ -16,12 +16,8 @@ platforms:
   - gemini-cli
   - universal
 featured: true
-description: >-
-  Chế độ chạy tự trị dài hạn giúp AI thực hiện các tác vụ phức tạp liên tục, tự
-  sửa lỗi cho đến khi hoàn thành mục tiêu hoàn toàn.
-oneLiner: >-
-  Chế độ tự trị dài hạn giúp AI giải quyết các tác vụ phức tạp mà không cần can
-  thiệp.
+description: Chế độ giúp AI tự động thực hiện các chuỗi công việc phức tạp trong thời gian dài, tự xử lý lỗi phát sinh mà không cần người dùng phải can thiệp liên tục.
+oneLiner: Chế độ giúp AI tự động hoàn thành các công việc dài hạn và tự sửa lỗi.
 sourceUrl: ''
 sourceAuthor: Google DeepMind
 lastVerified: '2026-06-01'
@@ -37,55 +33,42 @@ provider: antigravity
 
 ## 📖 Tại Sao Cần Skill Này?
 
-Khi giải quyết các tác vụ phức tạp, quy trình làm việc thường dễ phát sinh lỗi và ngắt quãng. Kỹ năng `/goal` giúp AI hoạt động tự trị dài hạn thông qua:
-* **Lập kế hoạch tự trị**: Tự động phân rã mục tiêu lớn thành các nhiệm vụ nhỏ trong `task.md`.
-* **Vòng lặp tự sửa lỗi**: Tự phát hiện lỗi biên dịch hoặc runtime, phân tích nguyên nhân và sửa đổi mã nguồn.
-* **Hoạt động liên tục**: Thực thi xuyên suốt cho đến khi đạt 100% mục tiêu.
+Khi thực hiện các dự án lập trình lớn hoặc công việc phức tạp, AI thường phải dừng lại để hỏi ý kiến bạn nhiều lần, hoặc dễ bị treo khi gặp lỗi. Kỹ năng `/goal` biến AI thành một "trợ lý tự hành", có thể tự chia nhỏ công việc, tự chạy thử nghiệm, phát hiện lỗi và sửa chữa cho đến khi hoàn tất mục tiêu cuối cùng.
+
+- **Tự động hóa hoàn toàn**: AI tự đưa ra các quyết định trung gian để hoàn thành nhiệm vụ mà không cần bạn can thiệp liên tục.
+- **Tự động sửa lỗi**: Khi chương trình bị lỗi, AI tự động đọc thông báo lỗi và sửa lại mã nguồn cho đúng.
+- **Hoạt động bền bỉ**: Thực hiện liên tục cho đến khi toàn bộ mục tiêu đề ra được giải quyết 100%.
 
 ## ⚙️ Cách Hoạt Động
 
 ```
-[Nhận Mục Tiêu Lớn] ➔ 📝 [Lập Bản Kế Hoạch task.md]
-                           ├── Thực thi từng tác vụ con
-                           ├── Gặp lỗi ➔ 🔍 [Phân tích & Tự sửa đổi]
-                           └── Đạt mục tiêu ➔ 🚀 [Báo cáo nghiệm thu]
+Nhận mục tiêu lớn ➔ Lập danh sách công việc ➔ Tự động thực thi ➔ Gặp lỗi ➔ Tự sửa lỗi ➔ Đạt mục tiêu & Báo cáo
 ```
 
-Quy trình suy nghĩ của Agent khi thực thi `/goal`:
-1. **Khởi tạo**: Phân tích yêu cầu và tạo kế hoạch trong `implementation_plan.md` và `task.md`.
-2. **Thực thi & Đánh giá**: Viết mã và chạy kiểm thử chẩn đoán sau mỗi bước.
-3. **Báo cáo & Tự sửa lỗi**: Cập nhật tiến độ vào `task.md`, tự động sửa lỗi và chỉ dừng lại khi hoàn thành.
+1. **Lập kế hoạch**: Tự động chia nhỏ yêu cầu lớn của bạn thành một danh sách các việc cần làm cụ thể trong tệp `task.md`.
+2. **Thực hiện và kiểm tra**: Viết mã nguồn, chạy thử và tự đánh giá xem có lỗi nào phát sinh không sau mỗi bước.
+3. **Cập nhật tiến độ**: Ghi nhận những phần việc đã hoàn thành và tiếp tục thực hiện các bước tiếp theo cho đến khi xong hoàn toàn.
 
 ## 🚀 Cách Sử Dụng
 
-````markdown
-# GOAL COMMAND INSTRUCTIONS & RULES
+### Quy tắc chạy chế độ tự hành Goal
 
-## 1. Autonomous Execution Rule
-- Khi người dùng kích hoạt lệnh `/goal`, hãy chuyển sang chế độ tự trị tối đa.
-- Không dừng lại để hỏi ý kiến người dùng cho các quyết định trung gian trừ khi gặp lỗi nghiêm trọng không thể khắc phục.
-
-## 2. Planning & Tracking
-- Luôn tạo hoặc cập nhật tệp `task.md` trong thư mục làm việc để quản lý danh sách việc cần làm.
-- Cập nhật trạng thái của từng tác vụ (`[ ]`, `[/]`, `[x]`) sau mỗi bước thực thi để người dùng có thể theo dõi tiến độ bất kỳ lúc nào.
-
-## 3. Self-Correction & Robustness
-- Nếu một lệnh hoặc script thất bại, hãy đọc kỹ thông báo lỗi từ console, tìm nguyên nhân gốc rễ và tự động sửa mã nguồn.
-- Không thử lại cùng một phương án lỗi quá 3 lần. Thay vào đó, hãy tìm cách tiếp cận thay thế.
-````
+- **Tự trị tối đa**: Khi kích hoạt lệnh `/goal`, AI sẽ hạn chế hỏi ý kiến người dùng cho các bước nhỏ, trừ khi gặp lỗi cực kỳ nghiêm trọng không thể tự giải quyết.
+- **Theo dõi tiến độ**: Luôn tạo hoặc cập nhật tệp `task.md` trong thư mục làm việc để người dùng có thể mở ra xem tiến độ công việc bất cứ lúc nào.
+- **Cơ chế tự sửa lỗi**: Nếu một câu lệnh hoặc chương trình chạy thử bị lỗi, hãy đọc kỹ thông báo lỗi, tìm nguyên nhân gốc rễ và tự động sửa lại mã nguồn. Không thử lại một cách làm lỗi quá 3 lần mà phải tìm phương án thay thế.
 
 ## 💡 Kịch Bản Lập Trình Thực Tế
 
 ### Nhà phát triển:
-> "Hãy hướng dẫn tôi cách thiết lập và sử dụng kỹ năng Goal Long-Running Task để Chế độ tự trị dài hạn giúp AI giải quyết các tác vụ phức tạp mà không cần can thiệp."
+> "Hãy giúp tôi viết toàn bộ code và kiểm thử cho một ứng dụng chat đơn giản."
 
 ### AI Agent (Đã được trang bị Kỹ năng):
-> "Tôi đã sẵn sàng. Dưới đây là kịch bản vận hành thực tế cho kỹ năng Goal Long-Running Task:
-> 1. Thiết lập các thông số cấu hình và tham số đầu vào cần thiết cho hệ thống.
-> 2. Thực thi tuần tự các bước xử lý logic và tích hợp theo đúng chỉ dẫn của Goal Long-Running Task.
-> 3. Kiểm thử đầu ra, tối ưu hóa hiệu năng và cung cấp kết quả hoàn chỉnh."
+> "Tôi sẽ sử dụng lệnh `/goal` để tự động làm việc này cho bạn:
+> 1. Tôi lập danh sách việc cần làm trong file `task.md`.
+> 2. Tôi tự động lập trình cả phần giao diện và phần xử lý dữ liệu.
+> 3. Tôi chạy thử ứng dụng. Nếu gặp lỗi, tôi đọc thông báo lỗi và tự chỉnh sửa code cho đến khi ứng dụng chạy mượt mà mà không làm phiền bạn."
 
 ## ⚠️ Lưu Ý & Gotchas
 
-- **Hạn ngạch Tokens**: Các tác vụ dài hạn tiêu tốn lượng token lớn; ưu tiên lưu dữ liệu vào tệp tin thay vì in output terminal quá lớn.
-- **Vòng lặp vô hạn**: Luôn cài đặt cơ chế ngắt tự động nếu một quy trình kiểm thử hoặc câu lệnh liên tục thất bại mà không có tiến triển.
+- **Tiêu tốn tài nguyên**: Chế độ tự động chạy dài hạn có thể tiêu tốn nhiều tài nguyên hệ thống, nên lưu thông tin vào file thay vì in quá nhiều chữ ra màn hình.
+- **Tránh vòng lặp vô hạn**: Cần thiết lập cơ chế tự ngắt nếu AI lặp đi lặp lại một hành động lỗi quá nhiều lần mà không tìm ra hướng giải quyết khác.

@@ -18,9 +18,8 @@ platforms:
   - universal
 featured: false
 description: >-
-  Tìm kiếm phân tử hóa học, công thức cấu tạo, danh pháp IUPAC, tính chất vật lý
-  và hoạt tính sinh học của hợp chất.
-oneLiner: Tra cứu thông tin hóa chất và hoạt tính sinh học từ PubChem.
+  Truy cập PubChem - cơ sở dữ liệu hóa chất lớn nhất thế giới để tra cứu công thức, cấu trúc hóa học, tính chất vật lý, thông tin an toàn và hoạt tính sinh học của các hợp chất.
+oneLiner: 'Tra cứu thông tin hóa chất và hoạt tính sinh học từ PubChem.'
 sourceUrl: 'https://pubchem.ncbi.nlm.nih.gov/'
 sourceAuthor: Google DeepMind
 lastVerified: '2026-05-30'
@@ -36,50 +35,36 @@ provider: antigravity
 
 ## 📖 Tại Sao Cần Skill Này?
 
-PubChem là database hóa chất lớn nhất thế giới — chứa >110 triệu compounds với chemical properties, bioactivity assays, safety data, và patent information.
-
-- **Compound lookup**: Tìm theo tên, CID, SMILES, InChI
-- **Properties**: Molecular weight, formula, logP, polar surface area, etc.
-- **Similarity/substructure search**: Tìm compounds tương tự hoặc chứa scaffold cụ thể
-- **Bioactivity**: BioAssay screening results, target info
+PubChem là thư viện hóa chất lớn nhất thế giới chứa hơn 110 triệu hợp chất. Nó cung cấp đầy đủ thông tin về các thuộc tính hóa học, thử nghiệm hoạt tính sinh học, cảnh báo an toàn và thông tin bằng sáng chế. Kỹ năng này giúp bạn:
+- **Tra cứu hợp chất**: Tìm kiếm nhanh chóng theo tên chất, mã số định danh (CID) hoặc mã cấu trúc (SMILES).
+- **Xem thuộc tính hóa lý**: Tra cứu khối lượng phân tử, công thức cấu tạo và độ phân cực.
+- **Xem cảnh báo an toàn**: Tìm hiểu về độc tính của chất và các biện pháp bảo hộ lao động đi kèm.
 
 ## ⚙️ Cách Hoạt Động
 
+Quy trình tìm kiếm thông tin:
 ```
-Name / CID / SMILES → PubChem PUG REST API → 
-Return chemical properties, bioactivity, similar compounds
+Nhập tên chất / CID / cấu trúc ──> Truy vấn API PubChem ──> Hiển thị tính chất hóa lý, độc tính và hoạt tính sinh học
 ```
 
 ## 🚀 Cách Sử Dụng
 
-### Universal
-
-```markdown
-# PubChem Rules
-- Dùng PubChem cho chemical properties và compound identification.
-- Similarity search: Tanimoto ≥ 0.8 = structurally similar.
-- Kết hợp ChEMBL cho curated bioactivity (IC50/Ki).
-```
+- Nhập tên hoạt chất cần tra cứu (ví dụ: Curcumin, Caffeine) để tìm mã CID và thông tin chi tiết.
+- Sử dụng mã cấu trúc SMILES để tái dựng lại hình ảnh 3D của phân tử khi cần thiết.
+- Đánh giá sơ bộ xem hợp chất có khả năng làm thuốc hay không dựa trên các chỉ số hóa lý tiêu chuẩn (quy tắc Lipinski).
 
 ## 💡 Kịch Bản Lập Trình Thực Tế
 
-### 🧑‍💻 Nhà phát triển:
-> "Hãy tra cứu thông tin hóa học của hoạt chất Curcumin trên PubChem bao gồm công thức, chỉ số SMILES và độc tính."
+### Người dùng yêu cầu:
+> "Hãy tra cứu thông tin hóa học của hoạt chất Curcumin trên PubChem bao gồm công thức, chỉ số cấu trúc SMILES và độc tính."
 
-### 🤖 AI Agent (Đã được trang bị Kỹ năng):
-> "Tôi sẽ kết nối trực tiếp với API của PubChem để trích xuất toàn bộ hồ sơ hóa chất Curcumin cho bạn:"
->
-> 1. **Tra cứu mã số CID**: Tôi tìm kiếm Curcumin và xác định mã CID chuẩn là **969516**.
-> 2. **Tải thuộc tính hóa lý**: Tôi trích xuất các thông số cốt lõi:
->    * Công thức hóa học: `C21H20O6`.
->    * Khối lượng phân tử: `368.4 g/mol`.
->    * Cấu trúc SMILES: `COC1=C(C=CC(=C1)/C=C/C(=O)CC(=O)/C=C/C2=CC(=C(C=C2)O)OC)O`.
-> 3. **Thu thập dữ liệu độc tính và an toàn**: Tôi lấy thông tin an toàn hóa chất (MSDS), bao gồm cảnh báo gây kích ứng và liều độc thực nghiệm LD50 trên chuột.
->
-> *Hồ sơ hóa chất Curcumin đầy đủ và chính xác đã sẵn sàng, hỗ trợ tối đa cho các nghiên cứu hóa dược của bạn.*
+### Trợ lý AI thực hiện:
+> "Tôi sẽ truy cập cơ sở dữ liệu PubChem để lấy hồ sơ chất Curcumin cho bạn:
+> 1. Xác định mã CID chuẩn của Curcumin là **969516**.
+> 2. Trích xuất các thuộc tính hóa lý: Công thức hóa học `C21H20O6`, khối lượng phân tử `368.4 g/mol` và chuỗi mã hóa cấu trúc SMILES.
+> 3. Cung cấp dữ liệu an toàn hóa chất bao gồm các cảnh báo kích ứng và liều lượng gây độc thực nghiệm LD50."
 
 ## ⚠️ Lưu Ý & Gotchas
 
-- **CID vs SID**: CID = unique compound, SID = substance record (may include mixtures, salts).
-- **PubChem vs ChEMBL**: PubChem = broader (properties + screening), ChEMBL = curated (IC50/Ki values).
-- **Lipinski's Rule of 5**: MW ≤500, LogP ≤5, HBD ≤5, HBA ≤10 — rough drug-likeness filter.
+- **Phân biệt CID và SID**: CID đại diện cho một hợp chất hóa học tinh khiết duy nhất, trong khi SID là bản ghi của một mẫu chất có thể bao gồm hỗn hợp hoặc muối.
+- **Quy tắc Lipinski**: Đây chỉ là quy tắc lọc sơ bộ để đánh giá khả năng hấp thụ của thuốc trong cơ thể người (khối lượng phân tử < 500, độ hòa tan phù hợp), không đảm bảo chất đó chắc chắn sẽ thành thuốc thành công.

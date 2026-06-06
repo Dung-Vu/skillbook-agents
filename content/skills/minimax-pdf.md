@@ -2,13 +2,10 @@
 category: content-communication
 command: /pdf
 complexity: intermediate
-description: >-
-  Thao tác đọc và ghi các tệp tin PDF. Kỹ năng này cung cấp các hướng dẫn cụ thể
-  về việc trích xuất văn bản từ PDF, tìm kiếm nội dung, và sinh tệp PDF mới
-  thông qua các thư viện lập trình tương thích.
+description: Hỗ trợ đọc tài liệu PDF, tự động trích xuất thông tin, bảng biểu, sơ đồ và tạo các tệp PDF mới có giao diện chuyên nghiệp, mục lục nhấp chuyển trang được.
 featured: false
 lastVerified: '2026-06-03'
-oneLiner: 'Đọc, trích xuất thông tin và tạo tệp tin PDF ổn định trên các nền tảng.'
+oneLiner: Hỗ trợ đọc, trích xuất dữ liệu và tạo tệp tin PDF tự động.
 platforms:
   - universal
   - cursor
@@ -34,42 +31,32 @@ title: Minimax PDF
 
 ## 📖 Tại Sao Cần Skill Này?
 
-PDF là định dạng tài liệu phổ biến nhưng rất khó trích xuất thông tin chính xác hoặc sinh ra với định dạng bố cục đẹp mắt. Kỹ năng này cung cấp cho Agent các giải pháp trích xuất văn bản, gọi mô hình thị giác khi gặp sơ đồ phức tạp, và sinh tệp PDF tiêu chuẩn có mục lục tương tác.
+Tệp PDF rất khó để copy thông tin một cách chính xác hoặc tự động tạo mới với định dạng đẹp mắt mà không bị lỗi dòng. Kỹ năng này giúp trợ lý ảo đọc hiểu chính xác các tệp PDF (kể cả biểu đồ hay bảng số liệu phức tạp) và tạo ra các tệp PDF mới chuyên nghiệp, có mục lục liên kết giúp người đọc dễ dàng chuyển trang bằng một cú click chuột.
 
 ## ⚙️ Cách Hoạt Động
 
-Quy trình xử lý tài liệu PDF:
-
-1. **Tra cứu & Phân tích**: Đối chiếu yêu cầu với `pitfalls-index.md` và chọn lộ trình Đọc/Ghi.
-2. **Đọc**: Dùng `pdfplumber` cho văn bản thường. Nếu có biểu đồ hoặc bảng phức tạp, gọi script thị giác `read_pdf_vision.py`.
-3. **Ghi & Kiểm tra**: Sinh tệp PDF (như HTML->PDF, LaTeX) và dùng `pdfinfo` kiểm tra kích thước trang, TOC, liên kết điều hướng.
-
-```
-[Yêu cầu tệp PDF] ➔ 🔍 [Tra cứu Pitfalls-index] ➔ 📖 [Đọc: pdfplumber / Vision từng trang]
-                      ➔ 📝 [Ghi: HTML-to-PDF / LaTeX] ➔ 🧪 [Xác thực kích thước & Clickable TOC]
-```
+Quy trình xử lý:
+1. **Đọc PDF**: Nếu là văn bản thông thường, trợ lý sẽ trích xuất chữ. Nếu có hình vẽ hoặc bảng biểu tài chính phức tạp, trợ lý sẽ dùng tính năng quét ảnh (Vision) để đọc từng trang nhằm tránh lỗi mất định dạng dòng cột.
+2. **Tạo PDF**: Trợ lý thiết kế nội dung dưới dạng trang web (HTML) hoặc mã văn bản (LaTeX) rồi chuyển đổi sang PDF để giữ nguyên căn lề đẹp mắt.
+3. **Kiểm tra**: Trợ lý kiểm tra lại kích thước trang và các liên kết mục lục để đảm bảo hoạt động tốt.
 
 ## 🚀 Cách Sử Dụng
 
-```markdown
-# QUY TẮC XỬ LÝ TỆP PDF
-- **Không nuốt lỗi stderr**: Tuyệt đối không dùng `2>/dev/null` khi gọi các lệnh shell liên quan đến PDF. Hãy chuyển hướng ghi ra file log để dễ dàng gỡ lỗi.
-- **Bắt buộc có Clickable TOC**: Tất cả tài liệu PDF nhiều trang được sinh ra từ kỹ năng này bắt buộc phải có mục lục (TOC) có thể nhấp chuột để điều hướng.
-- **Quy tắc đọc bảng tài chính**: Khi gặp bảng số liệu báo cáo tài chính phức tạp, không được dùng parser văn bản thô. Bắt buộc dùng `read_pdf_vision.py` trên từng trang đơn lẻ để tránh xáo trộn dòng.
-```
+- Nhờ trợ lý đọc các tài liệu PDF báo cáo tài chính hoặc nghiên cứu khoa học để tóm tắt các điểm chính hoặc rút trích số liệu.
+- Yêu cầu tạo tài liệu PDF từ một nội dung có sẵn và yêu cầu có mục lục bấm chuyển trang được.
+- Đảm bảo môi trường làm việc của bạn đã cài đặt các font chữ tiếng Việt để tránh lỗi hiển thị thành ô vuông trống.
 
 ## 💡 Kịch Bản Lập Trình Thực Tế
 
-### Nhà phát triển:
-> "Hãy hướng dẫn tôi cách thiết lập và sử dụng kỹ năng Minimax PDF để Đọc, trích xuất thông tin và tạo tệp tin PDF ổn định trên các nền tảng."
+### Người dùng:
+> "Tôi có một báo cáo tài chính PDF dài 50 trang. Hãy trích xuất bảng doanh thu quý 4 ở trang 12 và tóm tắt lại cho tôi."
 
-### AI Agent (Đã được trang bị Kỹ năng):
-> "Tôi đã sẵn sàng. Dưới đây là kịch bản vận hành thực tế cho kỹ năng Minimax PDF:
-> 1. Thiết lập các thông số cấu hình và tham số đầu vào cần thiết cho hệ thống.
-> 2. Thực thi tuần tự các bước xử lý logic và tích hợp theo đúng chỉ dẫn của Minimax PDF.
-> 3. Kiểm thử đầu ra, tối ưu hóa hiệu năng và cung cấp kết quả hoàn chỉnh."
+### Trợ lý:
+> "Tôi đã xử lý yêu cầu của bạn:
+> 1. Tôi sử dụng công cụ đọc hình ảnh trên trang 12 của tệp PDF để giữ nguyên định dạng các cột số liệu doanh thu.
+> 2. Đây là bảng số liệu doanh thu quý 4 được trích xuất chính xác và bản tóm tắt ngắn gọn các điểm chính."
 
 ## ⚠️ Lưu Ý & Gotchas
 
-* **Lỗi mất font chữ CJK**: Khi render HTML sang PDF bằng Playwright/Chromium, nếu thiếu cài đặt font chữ tiếng Trung/Việt trong môi trường hệ thống, văn bản sẽ bị hiển thị thành các ô vuông trống.
-* **Thời gian chờ hiển thị biểu đồ**: Khi sử dụng các thư viện như Chart.js để vẽ biểu đồ trên HTML trước khi xuất PDF, hãy chắc chắn đặt sự kiện đợi biểu đồ render xong hoàn toàn, tránh xuất tệp PDF khi biểu đồ còn đang tải hoạt họa.
+- **Lỗi hiển thị chữ**: Khi tạo file PDF tiếng Việt, nếu hệ thống thiếu font chữ, các từ có dấu tiếng Việt có thể bị lỗi hiển thị. Trợ lý luôn kiểm tra và thiết lập font chữ phù hợp.
+- **Biểu đồ động**: Nếu tài liệu của bạn chứa biểu đồ động, trợ lý sẽ đợi biểu đồ vẽ xong hoàn chỉnh rồi mới lưu thành file PDF để tránh hình ảnh bị mờ hoặc trống trơn.

@@ -17,10 +17,8 @@ platforms:
   - gemini-cli
   - universal
 featured: false
-description: >-
-  Tìm kiếm các thử nghiệm lâm sàng theo bệnh lý, loại thuốc, nhà tài trợ, trạng
-  thái tuyển chọn và địa điểm nghiên cứu.
-oneLiner: Tra cứu cơ sở dữ liệu thử nghiệm lâm sàng ClinicalTrials.gov.
+description: Tra cứu dữ liệu các cuộc thử nghiệm lâm sàng trên người của các loại thuốc, vaccine hoặc phương pháp điều trị mới trên trang ClinicalTrials.gov. Hỗ trợ đắc lực cho các bác sĩ, nhà nghiên cứu và bệnh nhân cần tìm phương pháp điều trị thử nghiệm.
+oneLiner: Tra cứu thông tin thử nghiệm lâm sàng thuốc và vắc-xin trên thế giới.
 sourceUrl: 'https://clinicaltrials.gov/'
 sourceAuthor: Google DeepMind
 lastVerified: '2026-05-30'
@@ -34,50 +32,38 @@ provider: antigravity
 
 ## 📖 Tại Sao Cần Skill Này?
 
-ClinicalTrials.gov là registry lớn nhất cho thử nghiệm lâm sàng — chứa >480,000 trials trên toàn thế giới. Quan trọng cho drug development tracking, patient matching, và competitive intelligence.
+ClinicalTrials.gov là kho lưu trữ thông tin lớn nhất thế giới về các cuộc thử nghiệm lâm sàng (thử nghiệm trên người) đối với các loại thuốc và phương pháp chữa bệnh mới, với hơn 480.000 cuộc thử nghiệm. 
 
-- **Search trials**: Theo condition, drug/intervention, location, phase, status
-- **Trial details**: Protocol, eligibility criteria, outcomes, sponsor
-- **Recruiting trials**: Tìm trials đang tuyển bệnh nhân cho patient matching
-- **Portfolio analysis**: Tất cả trials của một sponsor/company
-- **Count/aggregate**: Thống kê số trials theo conditions, phases, thời gian
+Khi các nhà nghiên cứu cần theo dõi tiến độ phát triển thuốc mới, hoặc khi bác sĩ và bệnh nhân muốn tìm kiếm các cuộc thử nghiệm đang tuyển tình nguyện viên để tham gia điều trị thử nghiệm, việc tìm kiếm thủ công sẽ rất phức tạp. Skill này giúp trợ lý AI tự động lọc, thống kê và kết xuất thông tin chi tiết về các dự án thử nghiệm lâm sàng trên toàn cầu.
 
 ## ⚙️ Cách Hoạt Động
 
-```
-Search query → ClinicalTrials.gov APIv2 → 
-Return trial list, details, eligibility, statistics
-```
+Quy trình hoạt động:
+1. **Lên từ khóa tìm kiếm**: Tìm theo tên bệnh, tên thuốc, tên công ty tài trợ, địa điểm hoặc giai đoạn thử nghiệm.
+2. **Truy cập dữ liệu**: Kết nối trực tiếp qua cổng API của ClinicalTrials.gov để lấy thông tin mới nhất.
+3. **Phân tích thông tin**: Lọc ra các thông tin quan trọng như: tiêu chuẩn lựa chọn bệnh nhân, địa chỉ bệnh viện thực hiện và trạng thái hiện tại (đang tuyển người, đã hoàn thành, v.v.).
 
 ## 🚀 Cách Sử Dụng
 
-### Universal
-
-```markdown
-# ClinicalTrials.gov Rules
-- Search by: condition, intervention, location, phase, status, sponsor.
-- NCT ID (NCTxxxxxxxx) cho direct trial lookup.
-- Trial phases: Phase 1 (safety) → Phase 2 (efficacy) → Phase 3 (confirmation) → Phase 4 (post-market).
-- Status: Recruiting, Active, Completed, Terminated, Withdrawn.
-```
+1. Tìm kiếm bằng cách lọc: tên bệnh, loại thuốc/vắc-xin sử dụng, nơi thực hiện, giai đoạn thử nghiệm (Phase) và trạng thái tuyển chọn (Status).
+2. Nếu có sẵn mã định danh cuộc thử nghiệm (NCT ID, ví dụ: `NCT12345678`), hãy nhập trực tiếp để xem ngay thông tin chi tiết của cuộc thử nghiệm đó.
+3. Lưu ý các giai đoạn thử nghiệm: Giai đoạn 1 (kiểm tra độ an toàn trên nhóm nhỏ), Giai đoạn 2 (kiểm tra hiệu quả), Giai đoạn 3 (thử nghiệm diện rộng để xác nhận), Giai đoạn 4 (theo dõi sau khi thuốc ra thị trường).
 
 ## 💡 Kịch Bản Lập Trình Thực Tế
 
-### 🧑‍💻 Nhà phát triển:
-> "Hãy tìm cho tôi các thử nghiệm lâm sàng Giai đoạn III mới nhất đang tuyển bệnh nhân điều trị Alzheimer bằng kháng thể đơn dòng."
+### Người dùng:
+> "Hãy tìm cho tôi các cuộc thử nghiệm lâm sàng Giai đoạn III mới nhất đang tuyển bệnh nhân điều trị bệnh Alzheimer bằng thuốc kháng thể đơn dòng."
 
-### 🤖 AI Agent (Đã được trang bị Kỹ năng):
-> "Tôi sẽ thực hiện truy vấn cơ sở dữ liệu ClinicalTrials.gov của Mỹ thông qua quy trình tự động hóa:"
->
-> 1. **Xây dựng cấu trúc truy vấn**: Tôi thiết lập bộ lọc nâng cao bao gồm: Tình trạng bệnh (Alzheimer's Disease), Giai đoạn (Phase 3), Trạng thái tuyển dụng (Recruiting), và từ khóa can thiệp (Monoclonal Antibody).
-> 2. **Tải và Trích xuất thông tin**: Tôi truy xuất danh sách các thử nghiệm trùng khớp, tự động phân tích mã NCT ID, tiêu đề nghiên cứu, đơn vị tài trợ (Sponsor) và tiêu chí lựa chọn/loại trừ (Eligibility Criteria).
-> 3. **Tổng hợp báo cáo lâm sàng**: Tôi trình bày danh sách các thử nghiệm nổi bật (như các nghiên cứu về Donanemab, Lecanemab) kèm theo địa điểm trung tâm y tế đang tuyển chọn và thông tin liên hệ của điều phối viên.
->
-> *Bạn sẽ nhận được danh sách thử nghiệm lâm sàng được cập nhật thời gian thực, giúp hỗ trợ đắc lực cho việc ghép nối bệnh nhân và nghiên cứu lâm sàng.*
+### Trợ lý AI:
+> "Tôi sẽ thực hiện theo các bước sau:
+> 1. Thiết lập tìm kiếm với từ khóa bệnh Alzheimer, Giai đoạn III (Phase 3), Trạng thái tuyển dụng (Recruiting) và phương pháp kháng thể đơn dòng.
+> 2. Truy cập cơ sở dữ liệu để lấy danh sách các cuộc thử nghiệm trùng khớp.
+> 3. Lọc ra các thông tin quan trọng: tên cuộc thử nghiệm, hãng dược tài trợ, tiêu chuẩn để bệnh nhân được tham gia và danh sách các bệnh viện đang tiếp nhận hồ sơ.
+> 4. Gửi báo cáo tổng hợp chi tiết cho bạn."
 
 ## ⚠️ Lưu Ý & Gotchas
 
-- **Registration ≠ quality**: Tất cả trials phải register nhưng chất lượng và kết quả vary widely.
-- **Status lag**: Trial status trên ClinicalTrials.gov có thể chậm vài tuần so với actual status.
-- **Results**: Không phải tất cả trials đều post kết quả — check PubMed cho published results.
-- **APIv2**: Sử dụng APIv2 (mới), không phải classic API (deprecated).
+- **Đăng ký không đồng nghĩa với chất lượng**: Tất cả các thử nghiệm đều bắt buộc phải đăng ký thông tin lên đây, nhưng chất lượng nghiên cứu của từng bên có thể khác nhau rất nhiều.
+- **Thông tin có độ trễ**: Trạng thái tuyển người hiển thị trực tuyến có thể bị chậm vài tuần so với thực tế tại các bệnh viện.
+- **Kết quả thử nghiệm**: Nhiều cuộc thử nghiệm không công bố kết quả lên trang web này. Bạn nên tìm kiếm thêm các bài báo khoa học liên quan trên thư viện y khoa PubMed.
+- **Sử dụng phiên bản API mới**: Đảm bảo sử dụng phiên bản kết nối APIv2 mới nhất để tránh lỗi truy xuất dữ liệu.

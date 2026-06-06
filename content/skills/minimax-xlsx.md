@@ -2,13 +2,10 @@
 category: content-communication
 command: /xlsx
 complexity: intermediate
-description: >-
-  Xử lý, phân tích và ghi các tệp bảng tính Excel (`.xlsx`). Cung cấp cây quyết
-  định để lựa chọn thư viện phù hợp (như pandas, openpyxl) tùy thuộc vào mục
-  đích đọc/ghi và kích thước dữ liệu.
+description: Hỗ trợ tự động hóa việc đọc dữ liệu, tạo mới và ghi chép các bảng tính Excel (`.xlsx`) kèm theo các công thức tính toán tự động và định dạng chuyên nghiệp.
 featured: false
 lastVerified: '2026-06-03'
-oneLiner: 'Đọc, ghi và xử lý bảng tính Excel (.xlsx) dựa trên cây quyết định tối ưu.'
+oneLiner: Hỗ trợ đọc, viết và xử lý bảng tính Excel (.xlsx) tự động.
 platforms:
   - universal
   - cursor
@@ -36,43 +33,33 @@ title: Minimax XLSX
 
 ## 📖 Tại Sao Cần Skill Này?
 
-Tệp bảng tính Excel (`.xlsx`) thường được sử dụng cho các mô hình tài chính, tính toán doanh nghiệp và quản lý dữ liệu lớn. Kỹ năng này cung cấp nguyên tắc "Formula-first" (Ưu tiên công thức) bắt buộc để tệp Excel giữ được tính năng tính toán động thay vì xuất ra các số tĩnh, kết hợp quy trình recalculate để cập nhật kết quả tính toán chính xác.
+Làm việc với bảng tính Excel lớn tốn nhiều thời gian để viết công thức tính toán và căn chỉnh định dạng. Kỹ năng này giúp trợ lý ảo tự động đọc hiểu dữ liệu trong Excel, tạo báo cáo mới, viết các công thức tự động (như tính tổng, tính trung bình) thay vì điền số tĩnh, giúp file Excel của bạn luôn tự cập nhật khi thay đổi số liệu.
 
 ## ⚙️ Cách Hoạt Động
 
-Quy trình thao tác với file Excel:
-
-1. **Lựa chọn thư viện**: Chọn `pandas`/`polars` cho tập dữ liệu thô lớn (>500k dòng) hoặc `openpyxl` để áp dụng định dạng và ghi công thức động.
-2. **Formula-first**: Khai báo các cột dữ liệu bằng công thức tiêu chuẩn (ví dụ `=SUM(...)`), tuyệt đối không tính sẵn kết quả tĩnh.
-3. **Tính toán & Xác thực**: Chạy `recalc.py` bằng LibreOffice để thực thi công thức, đảm bảo tệp Excel có kết quả đệm chính xác trước khi bàn giao.
-
-```
-[Dữ liệu thô / Chỉ thị] ➔ 📊 [Đọc bằng pandas / polars nếu dữ liệu lớn] ➔ ✍️ [openpyxl ghi công thức dynamic (=...)]
-                               ➔ 🎨 [Áp dụng định dạng font & màu sắc chuẩn] ➔ 🔄 [Chạy recalc.py & Check error == 0]
-```
+Quy trình thực hiện:
+1. **Lọc dữ liệu**: Trợ lý sử dụng công cụ phù hợp tùy theo dung lượng file (file cực lớn sẽ dùng bộ xử lý nhanh để không bị treo).
+2. **Viết công thức**: Trợ lý viết các công thức Excel (ví dụ `=SUM(...)`) để tính toán số liệu động.
+3. **Tính toán lại**: Trợ lý chạy thử nghiệm tính toán để đảm bảo các công thức không bị lỗi và hiển thị đúng kết quả trước khi gửi cho bạn.
 
 ## 🚀 Cách Sử Dụng
 
-```markdown
-# QUY TẮC XỬ LÝ BẢNG TÍNH EXCEL
-- **Formula-first là bắt buộc**: Tuyệt đối không tính toán tổng hoặc tỷ lệ trong Python rồi ghi đè số tĩnh vào Excel. Mọi giá trị có thể tính toán phải được biểu diễn bằng công thức bắt đầu bằng dấu `=`.
-- **Luôn tính toán lại (Recalculate)**: Trước khi bàn giao bất kỳ tệp Excel có chứa công thức nào, bắt buộc phải chạy `python scripts/recalc.py <file>` để LibreOffice sinh giá trị đệm.
-- **Giữ nguyên mẫu gốc**: Khi chỉnh sửa tệp Excel có sẵn, các định dạng hiện tại (font, độ rộng cột, viền ô) có mức ưu tiên cao hơn quy tắc mặc định của kỹ năng này.
-- **Không rút gọn tập dữ liệu lớn**: Không sử dụng `head()` hoặc `sample()` để giảm dung lượng file khi ghi đè nếu không có yêu cầu, tránh làm sai lệch các phép tính tổng.
-```
+- Nhờ trợ lý đọc dữ liệu từ file Excel có sẵn và thực hiện tính toán hoặc vẽ biểu đồ.
+- Yêu cầu trợ lý tạo file Excel mới, lập bảng báo cáo doanh thu kèm các công thức tự động tính tổng hoặc tỷ lệ phần trăm.
+- Trợ lý sẽ tự động giữ nguyên định dạng (font chữ, màu sắc) của file gốc khi chỉnh sửa để không làm xáo trộn thiết kế của bạn.
 
 ## 💡 Kịch Bản Lập Trình Thực Tế
 
-### Nhà phát triển:
-> "Hãy hướng dẫn tôi cách thiết lập và sử dụng kỹ năng Minimax XLSX để Đọc, ghi và xử lý bảng tính Excel (.xlsx) dựa trên cây quyết định tối ưu."
+### Người dùng:
+> "Tôi có danh sách bán hàng thô này. Hãy tạo một file Excel báo cáo doanh thu, tự động tính tổng tiền ở cột cuối và làm nổi bật các dòng có doanh thu lớn."
 
-### AI Agent (Đã được trang bị Kỹ năng):
-> "Tôi đã sẵn sàng. Dưới đây là kịch bản vận hành thực tế cho kỹ năng Minimax XLSX:
-> 1. Thiết lập các thông số cấu hình và tham số đầu vào cần thiết cho hệ thống.
-> 2. Thực thi tuần tự các bước xử lý logic và tích hợp theo đúng chỉ dẫn của Minimax XLSX.
-> 3. Kiểm thử đầu ra, tối ưu hóa hiệu năng và cung cấp kết quả hoàn chỉnh."
+### Trợ lý:
+> "Tôi đã tạo file Excel báo cáo doanh thu cho bạn:
+> 1. Toàn bộ cột 'Tổng tiền' đã được thiết lập công thức nhân tự động giữa số lượng và đơn giá.
+> 2. Đã thêm công thức tính tổng doanh thu toàn bộ ở cuối bảng.
+> 3. Các dòng có doanh thu lớn đã được tự động tô màu xanh nổi bật để bạn dễ theo dõi."
 
 ## ⚠️ Lưu Ý & Gotchas
 
-* **Lỗi Công thức trống (String-only)**: openpyxl chỉ ghi chuỗi công thức chứ không thực tế chạy tính toán. Nếu bỏ qua bước recalculate, tệp Excel mở ra trên một số ứng dụng đọc sẽ hiển thị trống hoặc bằng 0.
-* **Lỗi đọc file chứa vùng gộp (Merged Cells)**: Khi dùng `iter_rows()` đọc dữ liệu, chỉ có ô góc trên bên trái của vùng gộp chứa dữ liệu thực tế. Cần unmerge trước khi đọc nếu muốn duyệt toàn bộ hàng.
+- **Lưu ý công thức**: Trợ lý sẽ tự động kích hoạt tính năng tính toán trước khi gửi file, tránh trường hợp bạn mở file lên nhưng các cột công thức chỉ hiển thị số 0 hoặc bị trống.
+- **Vùng gộp ô (Merged Cells)**: Khi Excel gộp nhiều ô làm một, dữ liệu thực tế chỉ nằm ở ô đầu tiên. Trợ lý sẽ xử lý cẩn thận để tránh đọc thiếu thông tin của các ô được gộp.

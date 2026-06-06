@@ -16,11 +16,8 @@ platforms:
   - claude-code
   - mcp
 featured: false
-description: >-
-  Kỹ năng tạo video AI chuyên nghiệp từ mô tả văn bản hoặc hoạt hóa hình ảnh
-  tĩnh. Hỗ trợ tạo nội dung marketing, truyền thông xã hội và kể chuyện trực
-  quan bằng video.
-oneLiner: Tạo video và hoạt ảnh AI từ văn bản hoặc hình ảnh tĩnh.
+description: Kỹ năng tạo video ngắn và ảnh động bằng AI từ mô tả văn bản hoặc từ hình ảnh tĩnh. Giúp bạn sản xuất video quảng cáo, đăng mạng xã hội và dựng phim hoạt hình nhanh chóng mà không cần phần mềm dựng phim phức tạp.
+oneLiner: Tự động tạo video và hoạt ảnh từ chữ hoặc ảnh có sẵn bằng AI.
 sourceUrl: ''
 sourceAuthor: Minimax
 lastVerified: '2026-06-03'
@@ -37,38 +34,33 @@ provider: minimax
 
 ## 📖 Tại Sao Cần Skill Này?
 
-Tạo video chất lượng cao từ đầu đòi hỏi nhiều kỹ năng kỹ thuật phức tạp. Kỹ năng này cho phép Agent tự động chuyển ngữ cảnh văn bản hoặc hình ảnh thành kịch bản phân cảnh (storyboard) và tạo sinh video trực quan với các chuyển động mượt mà, chuyên nghiệp.
+Việc tự dựng video quảng cáo hay hoạt hình từ đầu đòi hỏi kỹ thuật chỉnh sửa rất phức tạp và tốn thời gian. Skill này giúp trợ lý AI tự viết kịch bản, vẽ phân cảnh và tạo ra những đoạn video chuyển động mượt mà, chuyên nghiệp chỉ từ một câu mô tả hoặc một bức ảnh tĩnh của bạn.
 
 ## ⚙️ Cách Hoạt Động
 
-Quy trình chuyển đổi văn bản/hình ảnh thành video:
-
-```
-[Prompt/Image Input] -> [Storyboarding & Scripting] -> [Frame Selection] -> [Video Generation Engine] -> [Output Video Asset]
-```
-
-1. **Planning**: Viết kịch bản chi tiết và phân chia các cảnh quay (scenes).
-2. **Prompt Engineering**: Thiết kế các câu lệnh mô tả chuyển động (motion prompts) tối ưu cho công cụ sinh video.
-3. **Rendering & Export**: Gọi API sinh video và kiểm tra chất lượng file xuất bản.
+Quy trình tạo video tự động:
+1. **Lên kịch bản**: AI viết nội dung và chia nhỏ video thành từng cảnh cụ thể.
+2. **Tạo mô tả chuyển động**: Viết mô tả chi tiết về góc máy quay và cách nhân vật chuyển động.
+3. **Dựng và Xuất video**: Chạy công cụ tạo video bằng AI và xuất ra file hoàn chỉnh cho bạn.
 
 ## 🚀 Cách Sử Dụng
 
-1. Luôn xác định rõ tỷ lệ khung hình (aspect ratio) phù hợp với nền tảng đích (16:9 cho YouTube, 9:16 cho TikTok/Reels).
-2. Cung cấp các mô tả chuyển động camera rõ ràng (pan, zoom, tilt) để tăng tính nghệ thuật.
-3. Khi hoạt hóa ảnh tĩnh, giữ nguyên cấu trúc gốc của ảnh để tránh méo hình kỳ dị.
+1. Chọn đúng tỷ lệ khung hình cho video (ví dụ: ngang 16:9 cho YouTube, hoặc dọc 9:16 cho TikTok/Reels).
+2. Mô tả rõ góc máy quay mong muốn (như phóng to, thu nhỏ, di chuyển máy) để video trông sinh động hơn.
+3. Khi làm ảnh tĩnh chuyển động, hãy chọn mức độ vừa phải để tránh làm biến dạng các chi tiết gốc trong ảnh.
 
 ## 💡 Kịch Bản Lập Trình Thực Tế
 
-### Nhà phát triển:
-> "Hãy hướng dẫn tôi cách thiết lập và sử dụng kỹ năng AI Video Creator để Tạo video và hoạt ảnh AI từ văn bản hoặc hình ảnh tĩnh."
+### Người dùng:
+> "Tôi có một bức ảnh phong cảnh biển, hãy làm cho sóng biển vỗ và mây trôi tự nhiên."
 
-### AI Agent (Đã được trang bị Kỹ năng):
-> "Tôi đã sẵn sàng. Dưới đây là kịch bản vận hành thực tế cho kỹ năng AI Video Creator:
-> 1. Thiết lập các thông số cấu hình và tham số đầu vào cần thiết cho hệ thống.
-> 2. Thực thi tuần tự các bước xử lý logic và tích hợp theo đúng chỉ dẫn của AI Video Creator.
-> 3. Kiểm thử đầu ra, tối ưu hóa hiệu năng và cung cấp kết quả hoàn chỉnh."
+### Trợ lý AI:
+> "Tôi sẽ thực hiện theo các bước sau:
+> 1. Nhận bức ảnh phong cảnh của bạn và xác định các vùng cần chuyển động (sóng biển, đám mây).
+> 2. Thiết lập lệnh chuyển động máy quay nhẹ nhàng từ trái sang phải.
+> 3. Tạo và gửi cho bạn đoạn video ngắn 4 giây có sóng vỗ và mây trôi mượt mà."
 
 ## ⚠️ Lưu Ý & Gotchas
 
-- **Méo hình chuyển động**: Chuyển động quá nhanh dễ gây lỗi biến dạng vật thể. Hãy bắt đầu với mức độ chuyển động nhẹ nhàng.
-- **Không đồng bộ phong cách**: Khi tạo video nhiều phân cảnh, đảm bảo phong cách hình ảnh nhất quán giữa các cảnh quay.
+- **Lỗi biến dạng vật thể**: Nếu yêu cầu chuyển động quá mạnh hoặc quá nhanh, hình ảnh có thể bị méo mó kỳ dị. Nên chọn chuyển động nhẹ nhàng để video đẹp tự nhiên.
+- **Lệch phong cách**: Khi ghép nhiều đoạn video ngắn thành một phim dài, hãy chú ý giữ nguyên tông màu và phong cách vẽ giữa các cảnh để video trông đồng nhất.

@@ -18,9 +18,8 @@ platforms:
   - universal
 featured: true
 description: >-
-  Tra cứu kho dữ liệu tóm tắt y học MEDLINE, liên kết y văn với các thực thể
-  sinh học như gen, protein và hợp chất hóa học.
-oneLiner: Tìm kiếm tài liệu y sinh học học thuật từ PubMed.
+  Tra cứu PubMed - thư viện y học lớn nhất thế giới của Mỹ để tìm kiếm tài liệu nghiên cứu y sinh học, các bài báo khoa học và thử nghiệm lâm sàng thực tế một cách chính xác.
+oneLiner: 'Tìm kiếm tài liệu y sinh học học thuật từ PubMed.'
 sourceUrl: 'https://pubmed.ncbi.nlm.nih.gov/'
 sourceAuthor: Google DeepMind
 lastVerified: '2026-05-30'
@@ -34,64 +33,39 @@ provider: antigravity
 
 ## 📖 Tại Sao Cần Skill Này?
 
-PubMed chứa >37 triệu citations cho biomedical literature — nguồn tham khảo không thể thiếu cho nghiên cứu y học và sinh học. Agent không có skill này thường bịa references hoặc trích dẫn sai.
-
-- **Grounded search**: Tìm papers thực tế với PMIDs thật — tránh hallucination
-- **10 functions**: search, fetch abstracts, full text, cross-database linking, spelling check, citation matching, discovery, caching
-- **Cross-database**: Link papers đến Gene, Protein, PubChem, ClinVar databases
-- **Bulk workflows**: History Server cho batch processing >10 PMIDs
+PubMed chứa hơn 37 triệu trích dẫn tài liệu y sinh học, là nguồn thông tin chính thống cực kỳ quan trọng cho các nghiên cứu y học và sinh học. Kỹ năng này giúp bạn:
+- **Trích dẫn xác thực**: Tìm kiếm các bài báo khoa học thực tế với mã số PMID chính xác, tránh hoàn toàn lỗi đưa thông tin giả mạo.
+- **Tính năng toàn diện**: Hỗ trợ tìm kiếm, đọc tóm tắt (Abstract), tải toàn văn bài viết (Full Text) miễn phí và liên kết tài liệu với thông tin gene/protein hoặc hóa chất tương ứng.
+- **Xử lý nhanh chóng**: Hỗ trợ xử lý thông tin hàng loạt khi cần đọc nhiều bài báo cùng lúc.
 
 ## ⚙️ Cách Hoạt Động
 
+Quy trình tìm kiếm tài liệu:
 ```
-Search query → PubMed E-utilities → PMIDs → 
-Fetch abstracts / Full text → Cross-database links
+Nhập từ khóa nghiên cứu ──> Truy vấn API PubMed ──> Trả về mã bài báo (PMID) ──> Đọc tóm tắt / Toàn văn
 ```
-
-1. **search_pubmed**: Tìm PMIDs matching query (structured/free-text)
-2. **fetch_article_abstracts**: Lấy title, authors, abstract cho batch PMIDs
-3. **get_full_text_pmc**: Full text từ PubMed Central (open access)
-4. **find_linked_biological_data**: Link papers đến biological databases
+- **Tìm kiếm**: Tìm mã bài báo (PMID) phù hợp với chủ đề nghiên cứu.
+- **Đọc chi tiết**: Lấy tiêu đề, tác giả, tóm tắt nội dung và tải toàn văn từ kho lưu trữ miễn phí PubMed Central nếu có.
 
 ## 🚀 Cách Sử Dụng
 
-### Universal
-
-```markdown
-# PubMed Rules
-- Luôn dùng PubMed MCP tool khi cần tài liệu y sinh. KHÔNG bịa PMIDs.
-- Filter với jq trước khi đọc vào context — tránh overflow.
-- MeSH terms cho precise search: "Alzheimer Disease"[MeSH] thay vì free text.
-- Bulk: >10 PMIDs → dùng History Server (cache_results_history).
-- Luôn list URLs papers đã sử dụng trong output.
-```
-
-### Cursor (.cursorrules)
-
-```markdown
-# PubMed Search
-- KHÔNG tự bịa PMID hoặc DOI. Tất cả trích dẫn phải từ PubMed thực tế.
-- Format: [Title](https://pubmed.ncbi.nlm.nih.gov/PMID) (PMID: xxx)
-- Giới hạn 3-5 search queries nếu không tìm thấy — không iterate vô tận.
-```
+- Luôn sử dụng công cụ PubMed khi cần tìm kiếm bằng chứng y học hoặc nghiên cứu y sinh học. Tuyệt đối không tự tạo ra các mã số bài báo hoặc link liên kết không có thật.
+- Sử dụng thuật ngữ y khoa chuẩn (MeSH) để tìm kiếm chính xác hơn (ví dụ: dùng `"Alzheimer Disease"[MeSH]` thay vì từ khóa tiếng Anh thông thường).
+- Luôn hiển thị đường link bài viết chính thức trong kết quả phản hồi cho người dùng.
 
 ## 💡 Kịch Bản Lập Trình Thực Tế
 
-### 🧑‍💻 Nhà phát triển:
-> "Tôi muốn tìm các thử nghiệm lâm sàng mới nhất về việc sử dụng thuốc Metformin để kéo dài tuổi thọ trên PubMed."
+### Người dùng yêu cầu:
+> "Tôi muốn tìm các nghiên cứu lâm sàng mới nhất về việc sử dụng thuốc Metformin để chống lão hóa trên PubMed."
 
-### 🤖 AI Agent (Đã được trang bị Kỹ năng):
-> "Tôi sẽ thực hiện tìm kiếm và tổng hợp các nghiên cứu học thuật trên cơ sở dữ liệu PubMed của thư viện Y khoa Quốc gia Mỹ:"
->
-> 1. **Xây dựng truy vấn MeSH**: Tôi thiết lập truy vấn nâng cao sử dụng từ khóa chuẩn y khoa: `Metformin[Mesh] AND Longevity[Mesh] OR Aging[Title/Abstract] AND Clinical Trial[Publication Type]`.
-> 2. **Tải và Lọc thư mục**: Tôi trích xuất 5 bài báo khoa học chất lượng cao gần đây nhất, tự động lấy thông tin tiêu đề, nhóm tác giả, ngày công bố, tóm tắt abstract và mã số PMID/PMCID.
-> 3. **Tổng hợp báo cáo y khoa**: Tôi tóm tắt ngắn gọn mục tiêu, phương pháp thử nghiệm lâm sàng (ví dụ dự án TAME trial) và các phát hiện cốt lõi của từng bài báo để bạn có cái nhìn tổng quan nhanh nhất.
->
-> *Danh sách nghiên cứu y sinh chất lượng cao kèm tóm tắt chuyên sâu đã được chuẩn bị hoàn hảo, hỗ trợ bạn viết tổng quan tài liệu khoa học.*
+### Trợ lý AI thực hiện:
+> "Tôi sẽ tìm kiếm trên PubMed để tổng hợp thông tin cho bạn:
+> 1. Xây dựng câu lệnh tìm kiếm chuẩn y khoa kết hợp từ khóa `Metformin` và `Aging` hoặc `Longevity`.
+> 2. Lấy danh sách 5 bài báo khoa học chất lượng cao gần đây nhất kèm mã số PMID và link chính thức.
+> 3. Tóm tắt nhanh mục tiêu, phương pháp thử nghiệm và kết quả chính của từng nghiên cứu để bạn dễ dàng nắm bắt thông tin."
 
 ## ⚠️ Lưu Ý & Gotchas
 
-- **Rate limit**: 3 req/s (free), 10 req/s (with API key). Script wrapper tự động handle.
-- **Full text ≠ always available**: Chỉ PMC open access articles có full text. Nhiều papers chỉ có abstract.
-- **MeSH precision**: Dùng MeSH terms cho precise search — "Neoplasms"[MeSH] capture tất cả cancer types.
-- **Bulk efficiency**: >10 papers → dùng History Server pipeline, không fetch one-by-one.
+- **Giới hạn tốc độ**: Hệ thống sẽ tự động điều tiết tần suất gửi yêu cầu để không bị máy chủ PubMed chặn.
+- **Không phải bài viết nào cũng miễn phí**: Một số bài báo yêu cầu trả phí để đọc toàn văn. Với những bài này, bạn chỉ có thể đọc miễn phí phần tóm tắt (Abstract).
+- **Lọc thông tin thông minh**: Khi xử lý danh sách lớn hơn 10 bài viết, hãy sử dụng tính năng lưu trữ tạm thời thay vì tải từng bài một để tránh quá tải mạng.

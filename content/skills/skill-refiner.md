@@ -3,12 +3,10 @@ category: workflow-orchestration
 command: /skill-refiner
 complexity: advanced
 description: >-
-  Kỹ năng tinh chỉnh và tối ưu hóa các tệp kỹ năng hiện có. Tập trung vào việc
-  tinh lọc các hướng dẫn prompt dư thừa, làm sạch các đoạn mã lệnh thừa thãi,
-  cập nhật tham chiếu và đảm bảo tuân thủ tiêu chuẩn chất lượng cao nhất.
+  Kỹ năng giúp sửa đổi, tối ưu hóa và làm gọn các hướng dẫn (prompt) hoặc mã nguồn trong các kỹ năng sẵn có một cách an toàn mà không làm hỏng tính năng cũ.
 featured: false
 lastVerified: '2026-06-03'
-oneLiner: 'Tinh chỉnh, tối ưu hóa prompt và làm sạch mã nguồn của các kỹ năng hiện có.'
+oneLiner: 'Tự động sửa lỗi, tối ưu hóa và dọn dẹp các kỹ năng AI hiện có một cách an toàn.'
 platforms:
   - universal
   - cursor
@@ -36,51 +34,42 @@ title: Skill Refiner
 
 ## 📖 Tại Sao Cần Skill Này?
 
-Kỹ năng này giúp AI Agent thực hiện các thay đổi, sửa chữa nhỏ một cách an toàn trên các Kỹ năng hiện có mà không làm hỏng các tính năng cũ. Nó giúp đảm bảo tính nhất quán của mã nguồn kỹ năng, kiểm tra trùng lặp thông tin và sử dụng các bản vá nhỏ dạng "surgical patch" thay vì viết lại toàn bộ tệp tin.
-
----
+Kỹ năng này giúp AI tự động cập nhật, sửa lỗi nhỏ hoặc cải tiến các kỹ năng khác mà không lo làm hỏng hay đè lên cấu trúc cũ. Nó giống như việc "vá áo" - chỉ sửa đúng chỗ cần sửa thay vì làm lại toàn bộ tệp tin từ đầu.
 
 ## ⚙️ Cách Hoạt Động
 
-Quy trình tinh chỉnh kỹ năng:
-1. **Thu thập bằng chứng**: Lấy thông tin lỗi từ danh sách Signal hoặc phản hồi trực tiếp của người dùng.
-2. **Đọc tệp tin hiện tại**: Chạy `mavis skill show <name>` để lấy nội dung thô và lưu mã băm bảo mật (`hash`).
-3. **Phân tích nguyên nhân**: Xác định lỗi thuộc về tài liệu sai, môi trường thay đổi hay thiếu trường hợp đặc biệt. Nếu do Agent chạy sai, dừng lại.
-4. **Tạo bản vá surgical**: Viết cấu trúc thay đổi chỉ tập trung vào dòng lỗi dạng `old_string` / `new_string`.
-5. **Thực thi bản vá**: Gửi request POST chứa mã băm xác thực `expectedOldHash` lên API hệ thống để cập nhật an toàn.
+Quy trình tinh chỉnh một kỹ năng diễn ra như sau:
+1. **Tìm lỗi**: Phát hiện ra điểm cần sửa thông qua báo cáo lỗi hoặc yêu cầu trực tiếp từ bạn.
+2. **Đọc nội dung**: Xem nội dung hiện tại của kỹ năng và lấy một "mã bảo mật" (mã hash) để làm căn cứ.
+3. **Tạo bản vá**: Chỉ viết lại chính xác phần thông tin bị lỗi hoặc cần nâng cấp.
+4. **Cập nhật an toàn**: Áp dụng bản vá lên hệ thống bằng cách đối chiếu mã bảo mật để tránh ghi đè nhầm dữ liệu.
 
 Sơ đồ quy trình:
 ```
-[Bằng chứng lỗi / Signal] ➔ 📖 [Đọc skill hiện tại & lấy Hash] ➔ 📐 [Thiết kế bản vá nhỏ (surgical patch)]
-                               ➔ 🔒 [Kiểm tra an toàn CAS (hash)] ➔ 💻 [Gọi API cập nhật apply]
+[Phát hiện lỗi/Yêu cầu] ➔ 📖 [Đọc nội dung & Lấy mã bảo mật] ➔ 📐 [Tạo bản vá nhỏ]
+                         ➔ 🔒 [Xác thực mã bảo mật] ➔ 💻 [Cập nhật file thành công]
 ```
-
----
 
 ## 🚀 Cách Sử Dụng
 
 ```markdown
-# QUY TẮC TINH CHỈNH KỸ NĂNG
-- **Bắt buộc có khóa băm CAS**: Lệnh gọi API cập nhật bắt buộc phải truyền kèm tham số `expectedOldHash` để tránh ghi đè chéo khi có nhiều Agent chạy song song.
-- **Không tự tinh chỉnh bản thân**: Agent tuyệt đối không được phép chỉnh sửa tệp `SKILL.md` của chính kỹ năng `skill-refiner`.
-- **Bảo toàn Frontmatter**: YAML frontmatter (phần name và description) của kỹ năng mục tiêu phải được giữ nguyên vẹn sau bản vá.
-- **Không chèn khóa bảo mật**: Tuyệt đối không ghi thông tin đăng nhập hay khóa API của hệ thống vào tệp kỹ năng.
+# CÁC QUY TẮC KHI SỬ DỤNG
+- Luôn sử dụng mã bảo mật khi cập nhật để tránh ghi đè nhầm khi có nhiều Agent chạy cùng lúc.
+- AI không được tự ý sửa đổi chính file hướng dẫn của kỹ năng này (`skill-refiner`).
+- Giữ nguyên phần thông tin cấu hình (frontmatter) ở đầu file kỹ năng.
+- Không lưu mật khẩu, khóa API hoặc thông tin cá nhân nhạy cảm vào file kỹ năng.
 ```
-
----
 
 ## 💡 Kịch Bản Lập Trình Thực Tế
 
 ### Nhà phát triển:
-> "Hãy hướng dẫn tôi cách thiết lập và sử dụng kỹ năng Skill Refiner để Tinh chỉnh, tối ưu hóa prompt và làm sạch mã nguồn của các kỹ năng hiện có."
+> "Hãy giúp tôi cập nhật hướng dẫn cho kỹ năng viết báo cáo để nó tập trung nhiều hơn vào số liệu thay vì từ ngữ chung chung."
 
 ### AI Agent (Đã được trang bị Kỹ năng):
-> "Tôi đã sẵn sàng. Dưới đây là kịch bản vận hành thực tế cho kỹ năng Skill Refiner:
-> 1. Thiết lập các thông số cấu hình và tham số đầu vào cần thiết cho hệ thống.
-> 2. Thực thi tuần tự các bước xử lý logic và tích hợp theo đúng chỉ dẫn của Skill Refiner.
-> 3. Kiểm thử đầu ra, tối ưu hóa hiệu năng và cung cấp kết quả hoàn chỉnh."
+> "Tôi sẽ sử dụng kỹ năng Skill Refiner để tìm kỹ năng viết báo cáo, đọc nội dung hiện tại, thay thế phần hướng dẫn cũ bằng hướng dẫn mới tập trung vào số liệu, và cập nhật lại file đó một cách an toàn."
 
 ## ⚠️ Lưu Ý & Gotchas
 
-* **Lỗi xung đột Hash (Concurrent Modification)**: Nếu một Agent khác đã cập nhật kỹ năng trước đó, mã băm sẽ không khớp và API trả về lỗi. Agent cần đọc lại nội dung mới và tạo lại bản vá.
-* **Sửa đổi kỹ năng Built-in**: Các kỹ năng built-in ở thư mục `packages/daemon/skills/` là bất biến lúc runtime. Agent không thể dùng API cập nhật mà phải hướng dẫn người dùng tạo nhánh Git sửa đổi và mở MR.
+* **Lỗi xung đột dữ liệu**: Nếu có ai đó đã sửa file này trước bạn, mã bảo mật cũ sẽ không còn khớp. Bạn cần đọc lại nội dung mới nhất của file và thực hiện lại các bước sửa đổi.
+* **Kỹ năng mặc định của hệ thống**: Một số kỹ năng có sẵn của hệ thống được bảo vệ và không thể chỉnh sửa trực tiếp. Để thay đổi chúng, bạn cần dùng các công cụ lập trình chuyên dụng hoặc gửi yêu cầu lên hệ thống Git.
+

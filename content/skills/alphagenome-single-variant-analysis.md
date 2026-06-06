@@ -17,10 +17,8 @@ platforms:
   - gemini-cli
   - universal
 featured: true
-description: >-
-  Phân tích ảnh hưởng của biến thể di truyền lên biểu hiện gen (RNA-seq), khả
-  năng tiếp cận chromatin (DNASE) và các yếu tố điều hòa.
-oneLiner: Phân tích ảnh hưởng của biến thể di truyền biểu hiện gen bằng AlphaGenome.
+description: Dự đoán ảnh hưởng của các đột biến gen (biến thể di truyền) ở vùng không mã hóa lên hoạt động biểu hiện gen bằng mô hình AlphaGenome của Google DeepMind.
+oneLiner: Dự đoán tác động của biến thể di truyền lên hoạt động của gen bằng AlphaGenome.
 sourceUrl: 'https://alphagenome.deepmind.com/'
 sourceAuthor: Google DeepMind
 lastVerified: '2026-05-30'
@@ -38,65 +36,39 @@ provider: antigravity
 
 ## 📖 Tại Sao Cần Skill Này?
 
-~98% bộ gene người không mã hóa protein (non-coding regions), nhưng chứa các yếu tố điều hòa quan trọng như promoter, enhancer, silencer. Biến thể trong vùng non-coding rất khó đánh giá tác động bằng phương pháp truyền thống.
+Khoảng 98% bộ gen của con người không trực tiếp tạo ra protein, nhưng lại chứa các vùng điều khiển (giống như công tắc tắt/mở) cực kỳ quan trọng cho gen. Khi xảy ra đột biến ở những vùng này, các phương pháp thông thường rất khó biết được liệu đột biến đó có gây hại hay làm gen hoạt động bất thường hay không.
 
-- **Variant effect prediction**: AlphaGenome dự đoán thay đổi RNA-seq, DNASE, ChIP-seq khi thay đổi nucleotide
-- **Multi-track analysis**: Đánh giá đồng thời ảnh hưởng lên gene expression, chromatin accessibility, histone marks, và transcription factor binding
-- **Tissue-specific**: Phân tích theo từng tissue/cell type cụ thể (UBERON/CL ontology)
+Skill này giúp trợ lý AI sử dụng mô hình trí tuệ nhân tạo AlphaGenome để dự đoán xem một đột biến cụ thể sẽ làm tăng hay giảm sự biểu hiện của gen, làm thay đổi cấu trúc tế bào như thế nào trong từng loại mô cụ thể trên cơ thể.
 
 ## ⚙️ Cách Hoạt Động
 
-```
-Variant (chr:pos:ref>alt) → AlphaGenome API → 
-Predict changes in RNA-seq, DNASE, ChIP, CTCF → Report impact scores
-```
-
-1. **Input**: Variant ở format `chr:pos:ref>alt` (vd: `chr17:7579472:G>A`)
-2. **Prediction**: AlphaGenome model dự đoán signal changes cho nhiều assay tracks
-3. **Output**: Effect sizes cho RNA-seq, DNASE accessibility, histone modifications, TF binding
+Quy trình phân tích biến thể:
+1. **Nhập thông tin đột biến**: Cung cấp vị trí đột biến trên nhiễm sắc thể (ví dụ: nhiễm sắc thể số 17, vị trí 7579472, đổi từ G sang A).
+2. **Dự đoán tác động**: Mô hình AlphaGenome phân tích tác động của đột biến lên các hoạt động sinh học của tế bào.
+3. **Trả về kết quả**: Chỉ ra gen bị ảnh hưởng tăng hay giảm hoạt động và mức độ ảnh hưởng của nó.
 
 ## 🚀 Cách Sử Dụng
 
-### Universal
-
-```markdown
-# AlphaGenome Analysis Rules
-- Variant phải ở format chr:pos:ref>alt trên GRCh38.
-- Resolve biological terms (tissue/cell type) sang UBERON/CL ontology trước khi query.
-- Báo cáo: gene expression change, chromatin effect, TF binding disruption.
-- Cảnh báo rõ ràng: đây là prediction, cần xác nhận bằng thí nghiệm.
-```
-
-### Cursor (.cursorrules)
-
-```markdown
-# AlphaGenome
-- Dùng khi user hỏi về non-coding variant effects, pathogenicity, regulatory effects.
-- Resolve tissue names sang ontology IDs (UBERON/CL) trước khi query.
-- Kết hợp với ClinVar và gnomAD để cross-reference clinical significance.
-```
+1. Chỉ nhập tọa độ đột biến theo định dạng chuẩn GRCh38 (ví dụ: `chr17:7579472:G>A`).
+2. Chuyển đổi tên bộ phận/mô cơ thể sang mã định danh y học chuẩn trước khi gửi yêu cầu.
+3. Đọc báo cáo về mức độ thay đổi biểu hiện của gen và khả năng liên kết của các protein kiểm soát gen.
+4. Luôn nhắc nhở người dùng: Đây là kết quả dự đoán của AI, cần làm thí nghiệm thực tế để kiểm chứng.
 
 ## 💡 Kịch Bản Lập Trình Thực Tế
 
-### 🧑‍💻 Nhà phát triển:
-> "Tôi cần dự đoán ảnh hưởng của biến thể vùng không mã hóa chr17:7579472:G>A lên sự biểu hiện của gene TP53 trong mô vú."
+### Người dùng:
+> "Hãy dự đoán đột biến vùng không mã hóa chr17:7579472:G>A ảnh hưởng thế nào đến hoạt động của gen TP53 trong mô vú."
 
-### 🤖 AI Agent (Đã được trang bị Kỹ năng):
-> "Tôi sẽ thực hiện phân tích này bằng công nghệ mô hình học sâu AlphaGenome thông qua các bước tự động:"
->
-> 1. **Xác thực định dạng biến thể**: Tôi xác nhận tọa độ biến thể của bạn là chuẩn GRCh38 và đã resolve tên mô vú sang ID ontology chuẩn **UBERON:0001911**.
-> 2. **Chạy dự đoán tín hiệu di truyền**: Tôi gửi truy vấn đến AlphaGenome API để chạy dự đoán đồng thời nhiều track tín hiệu sinh học.
-> 3. **Tổng hợp kết quả RNA-seq & Epigenomics**:
->    * Biểu hiện gene TP53: Dự đoán giảm mạnh **2.3 lần** trong mô vú (Effect size: -0.85).
->    * Khả năng tiếp cận Chromatin (DNASE): Giảm mạnh tại vùng promoter (-0.62).
->    * Gắn yếu tố phiên mã: Vị trí liên kết của SP1 bị phá vỡ hoàn toàn (score: -0.91), làm ảnh hưởng trực tiếp đến chu trình tự điều hòa của p53.
-> 4. **Cảnh báo khoa học**: Tôi gửi báo cáo kèm theo khuyến nghị rằng đây là kết quả dự đoán của mô hình học sâu, bạn nên tiến hành xác thực lại bằng thí nghiệm phóng thích phóng xạ (reporter assay) hoặc chỉnh sửa gene CRISPR.
->
-> *Toàn bộ báo cáo tác động di truyền đa chiều đã được chuẩn bị đầy đủ giúp bạn hiểu sâu sắc cơ chế điều hòa của biến thể.*
+### Trợ lý AI:
+> "Tôi sẽ thực hiện theo các bước sau:
+> 1. Xác thực vị trí đột biến trên hệ gen chuẩn GRCh38 và mã hóa mô vú thành mã y học chuẩn.
+> 2. Chạy mô hình dự đoán AlphaGenome.
+> 3. Kết quả cho thấy: hoạt động biểu hiện của gen TP53 dự đoán sẽ bị giảm mạnh 2.3 lần trong mô vú.
+> 4. Đưa ra khuyến nghị: Bạn nên tiến hành các thí nghiệm sinh học thực tế để kiểm tra lại kết quả dự đoán này."
 
 ## ⚠️ Lưu Ý & Gotchas
 
-- **Chỉ GRCh38**: Tọa độ phải trên human genome assembly GRCh38. Nếu có hg19 → cần liftover trước.
-- **Prediction, not diagnosis**: Không dùng để chẩn đoán lâm sàng. Luôn cảnh báo người dùng.
-- **Tissue ontology**: Cần resolve tên tissue/cell type sang UBERON hoặc CL IDs — không dùng tên tự do.
-- **Non-coding focus**: Hiệu quả nhất cho variants trong promoter, enhancer, UTR. Coding variants nên dùng VEP (Ensembl) thay thế.
+- **Chỉ hỗ trợ hệ gen chuẩn GRCh38**: Tọa độ đột biến phải tuân theo phiên bản GRCh38 mới nhất của con người.
+- **Kết quả chỉ mang tính tham khảo**: Đây không phải là chẩn đoán y tế lâm sàng. Không dùng để chẩn đoán bệnh trực tiếp.
+- **Định danh mô cơ thể**: Phải dùng mã y học chuẩn để chỉ định mô (như mô vú, mô phổi), không dùng tên gọi tự do.
+- **Tập trung vào vùng điều khiển**: Skill này hiệu quả nhất cho các đột biến nằm ngoài vùng mã hóa gen (promoter, enhancer). Các đột biến nằm trong vùng mã hóa trực tiếp nên dùng công cụ khác phù hợp hơn.

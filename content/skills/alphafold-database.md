@@ -17,10 +17,8 @@ platforms:
   - gemini-cli
   - universal
 featured: true
-description: >-
-  Truy xuất và phân tích cấu trúc protein dự đoán bởi AlphaFold bằng mã UniProt
-  ID.
-oneLiner: Truy xuất và phân tích cấu trúc protein dự đoán bởi AlphaFold.
+description: Tra cứu và phân tích hình dạng 3D của protein (dự đoán bởi hệ thống AlphaFold của Google DeepMind) bằng mã UniProt ID. Giúp ích cho nghiên cứu sinh học, thiết kế thuốc và phân tích cấu trúc tế bào.
+oneLiner: Tìm kiếm và phân tích cấu trúc 3D của protein từ cơ sở dữ liệu AlphaFold.
 sourceUrl: 'https://alphafold.ebi.ac.uk/'
 sourceAuthor: Google DeepMind
 lastVerified: '2026-05-30'
@@ -38,79 +36,39 @@ provider: antigravity
 
 ## 📖 Tại Sao Cần Skill Này?
 
-AlphaFold Database chứa hơn 200 triệu cấu trúc protein dự đoán — nguồn tài nguyên khổng lồ cho nghiên cứu sinh học cấu trúc. Tuy nhiên, Agent mặc định không biết cách:
+Cơ sở dữ liệu AlphaFold chứa hơn 200 triệu cấu trúc protein 3D - một nguồn tài nguyên khổng lồ cho nghiên cứu y sinh. Tuy nhiên, thông thường máy tính rất khó tự động tải đúng định dạng file cấu trúc, đánh giá độ tin cậy của các vùng dự đoán, hoặc tìm ra ranh giới giữa các phần chức năng (domain) của protein. 
 
-- **Truy xuất cấu trúc**: Không biết API endpoint hay format file mmCIF mà AlphaFold sử dụng
-- **Đánh giá chất lượng dự đoán**: Không hiểu metric pLDDT (predicted Local Distance Difference Test) — chỉ số quan trọng nhất cho biết độ tin cậy từng vùng
-- **Phát hiện domain boundaries**: Không phân tích được Predicted Aligned Error (PAE) matrix để xác định ranh giới giữa các domain cứng
-
-Skill này trang bị cho Agent bộ công cụ CLI hoàn chỉnh để tải cấu trúc, phân tích độ tin cậy, và phát hiện vùng vô trật tự (intrinsically disordered regions) tự động.
+Skill này cung cấp các công cụ giúp trợ lý AI tự động tải cấu trúc protein, phân tích độ chính xác của hình ảnh 3D và chỉ ra các vùng cấu trúc rõ ràng hoặc các vùng lỏng lẻo (vô trật tự) một cách dễ hiểu.
 
 ## ⚙️ Cách Hoạt Động
 
-Workflow gồm 3 bước chính:
-
-```
-UniProt ID → Fetch Structure (mmCIF + PAE) → Analyze pLDDT → Analyze PAE/Domains
-```
-
-1. **Fetch Structure**: Tải file `.cif`, PAE JSON, và metadata từ AlphaFold API bằng script `fetch_structure.py`. Hỗ trợ tự động fallback sang fragment cho protein lớn.
-2. **Analyze pLDDT**: Script `analyze_plddt.py` đọc metadata và phân loại: structured, disordered, hoặc mixed dựa trên ngưỡng confidence (Very High >90, High 70-90, Low 50-70, Very Low <50).
-3. **Analyze PAE/Domains**: Script `analyze_pae.py` dùng sliding-window heuristic để phát hiện domain boundaries từ PAE matrix.
+Quy trình phân tích tự động:
+1. **Tải cấu trúc**: Dùng mã định danh protein (UniProt ID) để tải dữ liệu hình dạng 3D và ma trận lỗi dự đoán (PAE) từ hệ thống AlphaFold.
+2. **Đánh giá độ tin cậy (pLDDT)**: Phân loại chất lượng hình ảnh 3D thành các mức: Rất cao (trên 90), Cao (70-90), Thấp (50-70) và Rất thấp (dưới 50).
+3. **Xác định các vùng chức năng (Domain)**: Dựa vào ma trận lỗi để tìm ra ranh giới giữa các khối cấu trúc cứng cáp của protein.
 
 ## 🚀 Cách Sử Dụng
 
-### Universal
-
-```markdown
-# AlphaFold Structure Analysis Rules
-
-Khi người dùng yêu cầu phân tích cấu trúc protein từ AlphaFold:
-1. Yêu cầu UniProt Accession ID (vd: P00520, P04637). KHÔNG chấp nhận tên protein hay gene name.
-2. Sử dụng script fetch_structure.py để tải cấu trúc mmCIF và PAE.
-3. Chạy analyze_plddt.py để đánh giá confidence — báo cáo rõ ràng phần trăm vùng high/low confidence.
-4. Chạy analyze_pae.py để phát hiện domain boundaries.
-5. Tổng hợp kết quả: overall confidence, số domain, vùng disordered, cảnh báo nếu protein quá lớn (>2700 AA).
-```
-
-### Cursor (.cursorrules)
-
-```markdown
-# AlphaFold Analysis
-- Luôn yêu cầu UniProt ID trước khi fetch cấu trúc AlphaFold.
-- Chạy cả pLDDT analysis lẫn PAE domain analysis cho mỗi protein.
-- Cảnh báo rõ ràng nếu protein có phần lớn vùng disordered (pLDDT < 50).
-- Nhắc người dùng rằng pLDDT per-residue nằm trong B-factor column của file mmCIF.
-```
-
-### Claude Code
-
-```markdown
-# AlphaFold Analysis Instructions
-- Require UniProt Accession ID before querying AlphaFold Database.
-- Always run both pLDDT and PAE analyses — present a unified structural summary.
-- Flag isoform warnings and large protein fragment issues prominently.
-```
+1. Luôn yêu cầu mã định danh protein UniProt ID (ví dụ: P00520, P04637). Tránh tìm bằng tên protein hoặc tên gene thông thường vì dễ gây nhầm lẫn.
+2. Sử dụng các công cụ được cài đặt sẵn để tải dữ liệu tự động, không tải thủ công bằng lệnh thô.
+3. Đọc kỹ báo cáo về tỷ lệ các vùng đạt độ tin cậy cao và các vùng lỏng lẻo. Cảnh báo người dùng nếu protein quá lớn (dài hơn 2700 đơn vị).
 
 ## 💡 Kịch Bản Lập Trình Thực Tế
 
-### 🧑‍💻 Nhà phát triển:
-> "Hãy tải và phân tích cấu trúc protein ABL1 từ cơ sở dữ liệu AlphaFold để xem vùng nào có độ tin cậy cao và vùng nào bị vô trật tự."
+### Người dùng:
+> "Hãy phân tích hình dạng 3D của protein ABL1 từ cơ sở dữ liệu AlphaFold để xem phần nào chính xác và phần nào lỏng lẻo."
 
-### 🤖 AI Agent (Đã được trang bị Kỹ năng):
-> "Tôi sẽ tiến hành thực hiện yêu cầu này ngầm bằng các bước tự động sau:"
->
-> 1. **Ánh xạ mã protein**: Tôi đã tự động chẩn đoán và ánh xạ gene ABL1 sang mã UniProt ID chuẩn là **P00520**.
-> 2. **Tải cấu trúc mmCIF và ma trận PAE**: Tôi tự động chạy script tải cấu trúc 3D mmCIF và ma trận Predicted Aligned Error (PAE) từ AlphaFold Database.
-> 3. **Phân tích chất lượng pLDDT**: Tôi quét dữ liệu pLDDT và nhận thấy cấu trúc đạt độ tin cậy trung bình là 72.3 (Mixed confidence), trong đó có 35% vùng đạt độ tin cậy rất cao (>90) và 22% vùng độ tin cậy rất thấp (<50).
-> 4. **Xác định ranh giới các Domain**: Tôi phân tích ma trận PAE và xác định thành công ranh giới của 3 domain chính: SH3 (Residues 1-82), SH2 (Residues 83-145) và Kinase (Residues 230-500).
-> 5. **Đưa ra khuyến nghị chuyên môn**: Tôi phát hiện vùng liên kết (Residues 146-229) có chỉ số pLDDT rất thấp, kết luận đây là vùng vô trật tự (intrinsically disordered linker) và khuyên bạn nên tránh sử dụng vùng này cho các tác vụ docking phân tử hay căn chỉnh cấu trúc.
->
-> *Chỉ sau vài giây, toàn bộ cấu trúc 3D và báo cáo đánh giá chất lượng dự đoán của protein ABL1 đã được tổng hợp chi tiết và trực quan cho bạn.*
+### Trợ lý AI:
+> "Tôi sẽ thực hiện theo các bước sau:
+> 1. Xác định mã UniProt ID của protein ABL1 là **P00520**.
+> 2. Tải file mô hình 3D và ma trận lỗi từ cơ sở dữ liệu AlphaFold.
+> 3. Kiểm tra chất lượng: Cấu trúc đạt độ tin cậy trung bình là 72.3/100, với 35% vùng đạt độ tin cậy rất cao và 22% vùng độ tin cậy rất thấp.
+> 4. Xác định các phân đoạn quan trọng: Tìm thấy 3 vùng chức năng chính SH3, SH2 và Kinase.
+> 5. Cảnh báo: Vùng nối giữa các phân đoạn có độ tin cậy thấp, là vùng lỏng lẻo (vô trật tự), khuyên bạn không nên dùng vùng này để thử nghiệm gắn kết phân tử thuốc."
 
 ## ⚠️ Lưu Ý & Gotchas
 
-- **Bắt buộc UniProt ID**: Không chấp nhận gene name, protein name, hay amino acid sequence. Yêu cầu người dùng tra cứu ID tại [uniprot.org](https://www.uniprot.org) trước.
-- **Protein lớn (>2700 AA)**: AlphaFold chia thành fragments — kết quả có thể không hoàn chỉnh và cần cảnh báo rõ ràng.
-- **Disordered ≠ sai**: pLDDT thấp không có nghĩa dự đoán sai — có thể protein đó thực sự vô trật tự (intrinsically disordered). Đừng nhầm lẫn hai khái niệm này.
-- **Rate limit**: Script wrapper tự động enforce rate limit. Không tự gọi API trực tiếp bằng curl/wget.
+- **Bắt buộc dùng UniProt ID**: Không dùng tên thông thường. Hãy hướng dẫn người dùng tìm ID tại trang web uniprot.org trước.
+- **Protein siêu lớn**: Nếu protein quá dài (trên 2700 đơn vị), mô hình sẽ bị chia cắt thành nhiều phần nhỏ, thông tin có thể không liền mạch.
+- **Vùng lỏng lẻo (Disordered)**: Vùng có độ tin cậy thấp không hẳn là dự đoán sai, mà có thể do vùng đó trong tự nhiên thực sự chuyển động tự do và không có hình dạng cố định.
+- **Giới hạn lượt gọi**: Sử dụng các lệnh tích hợp sẵn để tránh bị hệ thống chặn do gửi quá nhiều yêu cầu cùng lúc.

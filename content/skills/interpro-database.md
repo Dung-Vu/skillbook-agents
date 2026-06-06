@@ -18,9 +18,8 @@ platforms:
   - universal
 featured: false
 description: >-
-  Nhận diện domain chức năng, phân loại họ protein bằng InterPro và đối chiếu
-  cây phân loại loài sinh học.
-oneLiner: 'Phân tích và nhận diện các vùng domain, họ protein di truyền học.'
+  Tìm kiếm các vùng chức năng (domain) và xác định họ của protein bằng cơ sở dữ liệu InterPro, giúp dự đoán chức năng sinh học của protein.
+oneLiner: Phân tích vùng chức năng (domain) và xác định họ của protein.
 sourceUrl: 'https://www.ebi.ac.uk/interpro/'
 sourceAuthor: Google DeepMind
 lastVerified: '2026-05-30'
@@ -34,53 +33,49 @@ provider: antigravity
 
 ## 📖 Tại Sao Cần Skill Này?
 
-Protein hoạt động thông qua các **domain** — đơn vị cấu trúc và chức năng độc lập. InterPro tích hợp 14 databases (Pfam, CDD, PROSITE, SMART, etc.) thành một resource thống nhất để phân tích domain architecture.
+Protein hoạt động thông qua các phần cấu trúc độc lập gọi là **domain** (phân vùng chức năng). InterPro là một hệ thống lớn tích hợp dữ liệu từ 14 nguồn uy tín khác nhau (như Pfam, CDD, PROSITE...) giúp bạn:
 
-- **Domain identification**: Protein có những domain nào, ở vị trí nào
-- **Family classification**: Protein thuộc family nào, superfamily nào
-- **Functional sites**: Active sites, binding sites, PTM sites
-- **InterPro-N**: Deep learning mở rộng coverage đáng kể
+- **Nhận diện domain**: Biết protein có những phân vùng chức năng nào và nằm ở vị trí nào trên chuỗi.
+- **Phân loại họ protein**: Xác định protein đó thuộc nhóm hay họ protein nào để biết các đặc điểm chung.
+- **Xác định các vị trí hoạt động**: Tìm ra nơi xảy ra phản ứng hóa học hoặc nơi liên kết với các chất khác trên protein.
 
 ## ⚙️ Cách Hoạt Động
 
 ```
-Protein ID / Sequence → InterPro API → 
-Return domains, families, sites with member database annotations
+Mã hoặc chuỗi Protein → API InterPro → Trả về thông tin domain, họ protein và các chú giải chức năng liên quan
 ```
 
-1. **Protein lookup**: Lấy domain architecture cho UniProt ID
-2. **Entry search**: Tìm all proteins sharing a domain
-3. **Domain Architecture (IDA)**: So sánh domain arrangements giữa proteins
+1. **Tra cứu protein**: Tìm kiếm cấu trúc domain của một protein cụ thể dựa trên mã định danh.
+2. **Tìm kiếm chéo**: Tìm tất cả các protein có cùng một loại domain chức năng.
+3. **So sánh cấu trúc domain**: So sánh cách sắp xếp các domain giữa các protein khác nhau để tìm sự tương đồng.
 
 ## 🚀 Cách Sử Dụng
 
 ### Universal
 
 ```markdown
-# InterPro Rules
-- Dùng InterPro để biết protein có domains gì và thuộc family nào.
-- Report: InterPro entry ID, member database (Pfam, CDD), domain boundaries.
-- IDA (Integrated Domain Architecture) để so sánh proteins cùng domain arrangement.
-- GO terms từ InterPro entries cho functional annotation.
+# Quy tắc sử dụng InterPro
+- Sử dụng InterPro khi cần phân tích cấu trúc chức năng (domain) và phân loại họ của protein.
+- Báo cáo cụ thể: Mã định danh InterPro, nguồn cơ sở dữ liệu gốc (Pfam, CDD) và vị trí bắt đầu/kết thúc của domain.
+- Sử dụng chức năng so sánh cấu trúc domain để tìm các protein có cách sắp xếp phân vùng tương tự.
 ```
 
 ## 💡 Kịch Bản Lập Trình Thực Tế
 
 ### 🧑‍💻 Nhà phát triển:
-> "Tôi có một chuỗi protein mới. Hãy chạy dự đoán xem protein này chứa những domain và gia đình protein (protein family) nào bằng InterPro."
+> "Tôi có một chuỗi protein mới. Hãy phân tích xem protein này chứa những domain chức năng nào và thuộc họ protein nào bằng InterPro."
 
 ### 🤖 AI Agent (Đã được trang bị Kỹ năng):
-> "Tôi sẽ thực hiện phân tích kiến trúc domain tích hợp của protein bằng InterPro API thông qua quy trình tự động:"
+> "Tôi sẽ thực hiện phân tích cấu trúc domain của protein này thông qua API InterPro cho bạn:"
 >
-> 1. **Xác thực chuỗi FASTA**: Tôi kiểm tra định dạng chuỗi amino acid của bạn để đảm bảo không chứa ký tự lỗi.
-> 2. **Chạy quét InterProScan**: Tôi gửi chuỗi protein của bạn đến máy chủ InterPro để chạy quét đồng thời qua 14 cơ sở dữ liệu thành viên (như Pfam, PROSITE, SMART, PANTHER).
-> 3. **Phân tích kiến trúc Domain**: Tôi trích xuất các vị trí khớp hạt (Residue coordinates), xác định sự tồn tại của domain Kinase, domain immunoglobulin và các tín hiệu định vị nhân (NLS).
-> 4. **Vẽ sơ đồ kiến trúc**: Tôi mô tả kiến trúc domain chi tiết và gán các nhãn Gene Ontology (GO terms) liên quan đến chức năng sinh học của protein mới.
+> 1. **Kiểm tra dữ liệu**: Xác thực chuỗi amino acid đầu vào của protein để đảm bảo định dạng chính xác.
+> 2. **Gửi yêu cầu phân tích**: Gửi chuỗi protein đến hệ thống InterPro để quét chéo qua 14 cơ sở dữ liệu thành viên.
+> 3. **Đọc kết quả**: Xác định các domain có mặt (ví dụ: domain Kinase, domain Globulin) kèm theo vị trí cụ thể của chúng trên chuỗi protein.
+> 4. **Tổng hợp chức năng**: Gán các nhãn chức năng sinh học tương ứng với các domain phát hiện được để bạn dễ hình dung vai trò của protein này.
 >
-> *Báo cáo kiến trúc domain tích hợp hoàn chỉnh sẽ giúp bạn nhanh chóng suy luận ra chức năng sinh học của chuỗi protein mới.*
+> *Dữ liệu này sẽ giúp bạn dễ dàng đoán được protein mới này hoạt động như thế nào trong cơ thể.*
 
 ## ⚠️ Lưu Ý & Gotchas
 
-- **Multiple databases**: Cùng domain có thể match từ Pfam, CDD, SMART với boundaries hơi khác — InterPro unifies chúng.
-- **InterPro-N**: Neural network predictions mở rộng coverage cho protein sequences không có close homologs.
-- **Domain ≠ function**: Có domain không có nghĩa domain đó active — cần context biological.
+- **Nhiều nguồn dữ liệu**: Một domain có thể được định nghĩa hơi khác nhau về vị trí bắt đầu và kết thúc tùy theo nguồn dữ liệu (như Pfam hay CDD). InterPro sẽ giúp gom nhóm và thống nhất chúng lại.
+- **Có domain chưa chắc đã hoạt động**: Sự hiện diện của một domain chỉ là cơ sở dự đoán, bạn vẫn cần các nghiên cứu sinh học thực tế để xác nhận xem domain đó có thực sự hoạt động trong tế bào hay không.

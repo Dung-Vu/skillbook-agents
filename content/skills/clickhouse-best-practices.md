@@ -16,11 +16,8 @@ platforms:
   - claude-code
   - mcp
 featured: false
-description: >-
-  Chuyên gia tối ưu hóa cơ sở dữ liệu ClickHouse. Cung cấp các quy tắc kiểm tra
-  cấu trúc schema, tối ưu hóa câu lệnh truy vấn SELECT/JOIN, chiến lược phân
-  vùng partition và tối ưu hiệu suất ghi dữ liệu.
-oneLiner: Hướng dẫn tối ưu hóa schema và hiệu suất truy vấn ClickHouse.
+description: Hướng dẫn tối ưu hóa cơ sở dữ liệu ClickHouse để lưu trữ và truy vấn dữ liệu lớn siêu tốc. Giúp bạn thiết kế bảng dữ liệu chuẩn, viết câu lệnh tìm kiếm nhanh hơn và tối ưu hóa tốc độ ghi dữ liệu.
+oneLiner: Hướng dẫn thiết kế bảng và tăng tốc độ tìm kiếm dữ liệu trong ClickHouse.
 sourceUrl: ''
 sourceAuthor: Minimax
 lastVerified: '2026-06-03'
@@ -37,38 +34,36 @@ provider: minimax
 
 ## 📖 Tại Sao Cần Skill Này?
 
-ClickHouse là cơ sở dữ liệu hướng cột cực nhanh, nhưng nó đòi hỏi tư duy thiết kế khác biệt hoàn toàn so với SQL truyền thống (như PostgreSQL, MySQL). Thiết kế sai khóa ORDER BY, lạm dụng cập nhật (mutations), hay phân vùng quá nhỏ có thể khiến hệ thống cạn kiệt tài nguyên.
+ClickHouse là hệ quản trị cơ sở dữ liệu hướng cột, cực kỳ nhanh khi xử lý hàng tỷ dòng dữ liệu, nhưng nó đòi hỏi cách thiết kế rất khác so với các cơ sở dữ liệu thông thường (như MySQL hay PostgreSQL). Nếu thiết kế sai cách sắp xếp dữ liệu, cập nhật dữ liệu quá nhiều hoặc chia nhỏ dữ liệu không hợp lý, hệ thống sẽ bị quá tải và chạy rất chậm.
+
+Skill này hướng dẫn trợ lý AI cách kiểm tra cấu trúc cơ sở dữ liệu của bạn, phát hiện ra các lỗi thiết kế phổ biến và đề xuất cách viết lại mã SQL tối ưu để hệ thống hoạt động với hiệu suất cao nhất.
 
 ## ⚙️ Cách Hoạt Động
 
-Quy trình đánh giá chất lượng schema và truy vấn ClickHouse:
-
-```
-[SQL Schema/Query] -> [28 Rules Check] -> [Identify Anti-patterns] -> [Propose Refactored SQL] -> [Ingestion Advice]
-```
-
-1. **Schema Check**: Kiểm tra kiểu dữ liệu, khóa ORDER BY (luôn xếp từ độ chọn lọc thấp đến cao), và chiến lược ReplacingMergeTree.
-2. **Query Check**: Tối ưu hóa các truy vấn JOIN (ưu tiên chuyển thành mảng hoặc sử dụng dict), loại bỏ các phép toán không cần thiết trên cột lớn.
-3. **Ingestion Check**: Đảm bảo kích thước batch ghi dữ liệu đủ lớn (từ 10,000 đến 100,000 dòng/batch).
+Quy trình đánh giá và tối ưu hóa:
+1. **Kiểm tra cấu trúc bảng**: Đánh giá các kiểu dữ liệu đã chọn và cách sắp xếp dữ liệu (khóa ORDER BY) để chắc chắn dữ liệu được lưu trữ khoa học nhất.
+2. **Tối ưu hóa tìm kiếm**: Cải tiến các câu lệnh truy vấn phức tạp (như lệnh JOIN giữa các bảng lớn) để chúng chạy nhanh hơn và tốn ít bộ nhớ hơn.
+3. **Kiểm tra cách ghi dữ liệu**: Đảm bảo dữ liệu được ghi theo từng nhóm lớn (batch) để tránh tạo ra quá nhiều tệp nhỏ gây nghẽn đĩa cứng.
 
 ## 🚀 Cách Sử Dụng
 
-1. Khóa `ORDER BY` của bảng phải là tập con của khóa `PRIMARY KEY` nếu chúng khác nhau.
-2. Tránh sử dụng kiểu dữ liệu `Nullable` nếu không thực sự cần thiết, thay thế bằng các giá trị mặc định (như rỗng hoặc 0) để tiết kiệm dung lượng.
-3. Sử dụng các hàm tổng hợp đặc thù của ClickHouse (như `uniqCombined`, `groupArray`) để tăng tốc xử lý.
+1. Luôn sắp xếp thứ tự các cột trong khóa sắp xếp (`ORDER BY`) từ những cột ít thay đổi giá trị đến những cột thay đổi nhiều.
+2. Hạn chế sử dụng kiểu dữ liệu cho phép giá trị trống (`Nullable`) nếu không thực sự cần thiết. Hãy thay bằng giá trị mặc định (như số `0` hoặc chuỗi rỗng `""`) để tiết kiệm dung lượng đĩa cứng.
+3. Sử dụng các hàm tính toán nhanh được thiết kế riêng cho ClickHouse (như tính toán gần đúng để đếm số lượng phần tử duy nhất) thay vì các hàm thông thường để tăng tốc xử lý.
 
 ## 💡 Kịch Bản Lập Trình Thực Tế
 
-### Nhà phát triển:
-> "Hãy hướng dẫn tôi cách thiết lập và sử dụng kỹ năng ClickHouse Best Practices để Hướng dẫn tối ưu hóa schema và hiệu suất truy vấn ClickHouse."
+### Người dùng:
+> "Tôi có một bảng lưu trữ lịch sử truy cập web (logs) chạy rất chậm khi thống kê theo ngày. Hãy giúp tôi tối ưu hóa."
 
-### AI Agent (Đã được trang bị Kỹ năng):
-> "Tôi đã sẵn sàng. Dưới đây là kịch bản vận hành thực tế cho kỹ năng ClickHouse Best Practices:
-> 1. Thiết lập các thông số cấu hình và tham số đầu vào cần thiết cho hệ thống.
-> 2. Thực thi tuần tự các bước xử lý logic và tích hợp theo đúng chỉ dẫn của ClickHouse Best Practices.
-> 3. Kiểm thử đầu ra, tối ưu hóa hiệu năng và cung cấp kết quả hoàn chỉnh."
+### Trợ lý AI:
+> "Tôi sẽ thực hiện theo các bước sau:
+> 1. Kiểm tra cấu trúc bảng hiện tại của bạn.
+> 2. Phát hiện bạn đang dùng khóa sắp xếp `ORDER BY (ID, Ngay)` -> tôi khuyên bạn nên đổi thành `ORDER BY (Ngay, ID)` vì cột ngày có ít giá trị khác nhau hơn cột ID.
+> 3. Thay thế kiểu dữ liệu `Nullable(String)` bằng `String` mặc định để giảm 20% dung lượng lưu trữ trên đĩa.
+> 4. Hướng dẫn bạn ghi dữ liệu theo từng lô lớn (từ 10,000 đến 100,000 dòng một lần) thay vì ghi từng dòng một."
 
 ## ⚠️ Lưu Ý & Gotchas
 
-- **Lạm dụng UPDATE/DELETE**: ClickHouse không được tối ưu cho các thao tác cập nhật từng dòng. Hãy sử dụng cơ chế `ReplacingMergeTree` hoặc phân vùng để quản lý vòng đời dữ liệu.
-- **Quá nhiều phân vùng (Over-partitioning)**: Chia phân vùng theo ngày cho dữ liệu nhỏ sẽ tạo ra quá nhiều file trên ổ cứng. Hãy phân vùng theo tháng.
+- **Tránh dùng UPDATE và DELETE thường xuyên**: ClickHouse không được thiết kế để sửa xóa từng dòng dữ liệu. Nếu cần cập nhật dữ liệu liên tục, hãy sử dụng bảng dạng `ReplacingMergeTree` để tự động ghi đè và dọn dẹp dữ liệu cũ.
+- **Chia quá nhiều phân vùng (Partition)**: Đừng chia nhỏ dữ liệu theo từng ngày nếu lượng dữ liệu mỗi ngày quá ít, điều này làm ClickHouse phải tạo ra quá nhiều tệp tin gây chậm hệ thống. Hãy đổi sang chia phân vùng theo tháng.

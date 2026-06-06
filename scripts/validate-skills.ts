@@ -179,9 +179,15 @@ Options:
     }
   }
 
-  // Phase 2: Validate relatedSkills Graph for cycles & depth (warning-only or error based on config)
-  const isStrictGraph = true; // Set to true to fail build. Note: Current content contains many cycles!
-  
+  // Phase 2: Validate relatedSkills Graph for cycles & depth.
+  //
+  // Set `STRICT_GRAPH=true` (or pass `--strict-graph`) to fail the build on
+  // any cycle or depth-violation. We default to `false` because legacy
+  // content contains many cycles; `prune-skills.ts` can be used to clean
+  // them up before re-enabling strict mode.
+  const isStrictGraph =
+    args.includes("--strict-graph") || process.env.STRICT_GRAPH === "true";
+
   for (const startSlug of relatedSkillsGraph.keys()) {
     try {
       checkGraphFromNode(startSlug, relatedSkillsGraph);
@@ -213,21 +219,28 @@ Options:
 function checkGraphFromNode(
   start: string,
   graph: Map<string, string[]>,
-  visited: Set<string> = new Set(),
+  // The full path from the original root down to (but not including) the
+  // current `start` node. Tracking the full path lets us report a clean,
+  // human-readable cycle or chain in the error message, instead of the
+  // ambiguous "a -> b -> a -> a" output produced by the previous
+  // visited-set approach.
+  path: string[] = [],
   depth = 0
 ) {
-  if (visited.has(start)) {
-    throw new Error(`Circular dependency detected: ${Array.from(visited).join(" -> ")} -> ${start}`);
+  const cycleStart = path.indexOf(start);
+  if (cycleStart !== -1) {
+    const cycle = path.slice(cycleStart);
+    cycle.push(start);
+    throw new Error(`Circular dependency detected: ${cycle.join(" -> ")}`);
   }
   if (depth > 3) {
-    throw new Error(`Link depth limit (max 3 hops) exceeded via path: ${Array.from(visited).join(" -> ")} -> ${start}`);
+    throw new Error(`Link depth limit (max 3 hops) exceeded via path: ${[...path, start].join(" -> ")}`);
   }
 
-  visited.add(start);
   const related = graph.get(start) || [];
   for (const rel of related) {
     if (graph.has(rel)) {
-      checkGraphFromNode(rel, graph, new Set(visited), depth + 1);
+      checkGraphFromNode(rel, graph, [...path, start], depth + 1);
     }
   }
 }

@@ -1,11 +1,12 @@
 "use client";
 
-import React, { useState, useMemo, useEffect, useCallback } from "react";
+import React, { useState, useMemo, useEffect, useCallback, useRef } from "react";
 import Link from "next/link";
+import { useRouter, useSearchParams } from "next/navigation";
 import { motion, AnimatePresence, Variants } from "framer-motion";
 import { Search, ArrowRight, Copy, Check } from "lucide-react";
 import Fuse from "fuse.js";
-import { cn, formatCommand } from "@/lib/utils";
+import { cn, formatCommand, copyToClipboard } from "@/lib/utils";
 import {
   Skill,
   CategoryId,
@@ -82,15 +83,18 @@ const SkillRow = React.memo(function SkillRow({ skill, navigateTo }: SkillRowPro
   const handleCopy = useCallback((e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     e.stopPropagation();
-    navigator.clipboard.writeText(formatCommand(skill.command, skill.slug));
-    setCopied(true);
-    setTimeout(() => setCopied(false), 1500);
+    copyToClipboard(formatCommand(skill.command, skill.slug)).then((success) => {
+      if (success) {
+        setCopied(true);
+        setTimeout(() => setCopied(false), 1500);
+      }
+    });
   }, [skill.command, skill.slug]);
 
   return (
     <Link
       href={`/skills/${skill.slug}`}
-      onClick={(e) => navigateTo(e as unknown as React.MouseEvent<HTMLAnchorElement>, `/skills/${skill.slug}`)}
+      onClick={(e) => navigateTo(e, `/skills/${skill.slug}`)}
       className="skill-card flex flex-col sm:flex-row sm:items-center justify-between py-3 px-4 border-b border-slate-100 hover:bg-slate-50/50 transition-all duration-300 group font-mono text-xs cursor-pointer block"
       id={`skill-${skill.slug}`}
     >
@@ -98,16 +102,7 @@ const SkillRow = React.memo(function SkillRow({ skill, navigateTo }: SkillRowPro
         <span className="font-bold font-mono text-[11px] sm:text-xs bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 bg-clip-text text-transparent group-hover:brightness-110 transition-all duration-200 truncate">
           {formatCommand(skill.command, skill.slug)}
         </span>
-        {skill.provider && (
-          <span className={cn(
-            "text-[8px] sm:text-[9px] font-mono font-bold px-1.5 py-0.2 rounded border uppercase shrink-0 tracking-wider scale-90 sm:scale-100 origin-left",
-            skill.provider === "antigravity" 
-              ? "bg-indigo-50 border-indigo-200/50 text-indigo-600"
-              : "bg-rose-50 border-rose-200/50 text-rose-600"
-          )}>
-            {skill.provider}
-          </span>
-        )}
+
         <button
           onClick={handleCopy}
           className="p-1 rounded bg-slate-100 border border-slate-200/60 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50/80 opacity-0 group-hover:opacity-100 focus:opacity-100 transition-all duration-200 shrink-0 ml-1 flex items-center justify-center cursor-pointer"
@@ -141,58 +136,73 @@ export function SkillCatalogClient({
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   categoryCountMap = {},
 }: SkillCatalogClientProps): React.ReactElement {
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const searchInputRef = useRef<HTMLInputElement>(null);
+
   const [searchVal, setSearchVal] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
-
   const [activeCategory, setActiveCategory] = useState<CategoryId | null>(null);
   const [activeProvider, setActiveProvider] = useState<"antigravity" | "minimax" | null>(null);
 
-  // Sync URL query params with state on mount
+  // Sync URL query params with state on mount & handle focusSearch
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      const params = new URLSearchParams(window.location.search);
-      const providerParam = params.get("provider");
-      const categoryParam = params.get("category");
+    const providerParam = searchParams.get("provider");
+    const categoryParam = searchParams.get("category");
 
-      setTimeout(() => {
-        if (providerParam === "antigravity" || providerParam === "minimax") {
-          setActiveProvider(providerParam);
+    // Defer the React state updates to a microtask so we don't trigger
+    // React 19's "cascading setState in effect body" lint rule. The state
+    // values are still applied before the next paint, so behaviour is
+    // identical to a synchronous call.
+    queueMicrotask(() => {
+      if (providerParam === "antigravity" || providerParam === "minimax") {
+        setActiveProvider(providerParam);
+      }
+      if (categoryParam) {
+        const isValidCategory = Object.values(CATEGORIES).some((cat) => cat.id === categoryParam);
+        if (isValidCategory) {
+          setActiveCategory(categoryParam as CategoryId);
         }
-        if (categoryParam) {
-          const isValidCategory = Object.values(CATEGORIES).some((cat) => cat.id === categoryParam);
-          if (isValidCategory) {
-            setActiveCategory(categoryParam as CategoryId);
-          }
+      }
+    });
+
+    if (searchParams.get("focusSearch") === "true") {
+      // Small timeout to guarantee DOM has painted and input is interactable
+      const timer = setTimeout(() => {
+        if (searchInputRef.current) {
+          searchInputRef.current.focus();
         }
-      }, 0);
+      }, 100);
+      return () => clearTimeout(timer);
     }
-  }, []);
+  }, [searchParams]);
 
   // Update URL query params when state changes
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      const params = new URLSearchParams(window.location.search);
-      
-      if (activeProvider) {
-        params.set("provider", activeProvider);
-      } else {
-        params.delete("provider");
-      }
+    const params = new URLSearchParams(searchParams.toString());
+    
+    // focusSearch is a one-time navigation trigger, remove it from subsequent URL states
+    params.delete("focusSearch");
 
-      if (activeCategory) {
-        params.set("category", activeCategory);
-      } else {
-        params.delete("category");
-      }
-
-      const newSearch = params.toString();
-      const newPath = window.location.pathname + (newSearch ? `?${newSearch}` : "");
-      
-      if (window.location.search !== (newSearch ? `?${newSearch}` : "")) {
-        window.history.replaceState(null, "", newPath);
-      }
+    if (activeProvider) {
+      params.set("provider", activeProvider);
+    } else {
+      params.delete("provider");
     }
-  }, [activeProvider, activeCategory]);
+
+    if (activeCategory) {
+      params.set("category", activeCategory);
+    } else {
+      params.delete("category");
+    }
+
+    const newSearch = params.toString();
+    const currentSearch = searchParams.toString();
+
+    if (newSearch !== currentSearch && typeof window !== "undefined") {
+      router.replace(`/skills${newSearch ? `?${newSearch}` : ""}`, { scroll: false });
+    }
+  }, [activeProvider, activeCategory, searchParams, router]);
 
   const [isCategoriesOpen, setIsCategoriesOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
@@ -307,12 +317,12 @@ export function SkillCatalogClient({
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      setTimeout(() => {
-        if (!window.__paperCrumpleOverlayRegistered) {
-          window.__canvasPaused = false;
-          window.dispatchEvent(new CustomEvent("canvas-resume"));
-        }
-      }, 0);
+      const transition = window.__transition;
+      if (!transition || !transition.paperCrumpleOverlayRegistered) {
+        window.__transition = window.__transition || {};
+        window.__transition.canvasPaused = false;
+        window.dispatchEvent(new CustomEvent("canvas-resume"));
+      }
     }
   }, []);
 
@@ -400,7 +410,7 @@ export function SkillCatalogClient({
                       : "bg-white/60 border-slate-200/60 text-slate-600 hover:text-indigo-600 hover:bg-white"
                   )}
                 >
-                  <span>Antigravity</span>
+                  <span>{t("nav.antigravity")}</span>
                   <span className={cn(
                     "text-[9px] font-bold px-1.5 py-0.2 rounded font-mono",
                     activeProvider === "antigravity" ? "bg-indigo-100 text-indigo-700" : "bg-slate-100 text-slate-500"
@@ -417,7 +427,7 @@ export function SkillCatalogClient({
                       : "bg-white/60 border-slate-200/60 text-slate-600 hover:text-indigo-600 hover:bg-white"
                   )}
                 >
-                  <span>Minimax</span>
+                  <span>{t("nav.minimax")}</span>
                   <span className={cn(
                     "text-[9px] font-bold px-1.5 py-0.2 rounded font-mono",
                     activeProvider === "minimax" ? "bg-indigo-100 text-indigo-700" : "bg-slate-100 text-slate-500"
@@ -537,12 +547,15 @@ export function SkillCatalogClient({
 
             {/* Search Control Hub */}
             <div className="flex items-center gap-3">
-              <div className="relative flex-1 bg-white/80 border border-slate-200 focus-within:border-indigo-500/50 focus-within:shadow-[0_0_15px_rgba(99,102,241,0.1)] transition-all duration-300 flex items-center rounded-xl">
+              <form role="search" onSubmit={(e) => e.preventDefault()} className="relative flex-1 bg-white/80 border border-slate-200 focus-within:border-indigo-500/50 focus-within:shadow-[0_0_15px_rgba(99,102,241,0.1)] transition-all duration-300 flex items-center rounded-xl w-full">
+                <label htmlFor="skill-search" className="sr-only">{t("nav.search")}</label>
                 <Search
                   size={15}
                   className="absolute left-3.5 text-slate-400"
+                  aria-hidden="true"
                 />
                 <input
+                  ref={searchInputRef}
                   type="text"
                   placeholder={isMobile ? t("catalog.mobileSearchPlaceholder") : t("catalog.searchPlaceholder")}
                   value={searchVal}
@@ -556,12 +569,12 @@ export function SkillCatalogClient({
                   <span className={cn(
                     "h-1 w-1 rounded-full transition-all duration-300",
                     searchVal ? "bg-indigo-500 animate-pulse" : "bg-emerald-500"
-                  )} />
+                  )} aria-hidden="true" />
                   <span className="text-slate-500">
                     {searchVal ? `FOUND: ${filteredSkills.length}` : `TOTAL: ${filteredTotal}`}
                   </span>
                 </div>
-              </div>
+              </form>
             </div>
 
             {/* Active filters display bar */}
@@ -580,7 +593,7 @@ export function SkillCatalogClient({
                 )}
                 {activeProvider && (
                   <span className="px-2 py-0.5 rounded bg-slate-100 border border-slate-200 text-slate-600">
-                    {t("catalog.filterSource")} {activeProvider === "antigravity" ? "Antigravity" : "Minimax"}
+                    {t("catalog.filterSource")} {activeProvider === "antigravity" ? t("nav.antigravity") : t("nav.minimax")}
                   </span>
                 )}
 

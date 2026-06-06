@@ -17,13 +17,8 @@ platforms:
   - gemini-cli
   - universal
 featured: true
-description: >-
-  Khởi động quy trình phỏng vấn phản biện đa chiều giúp AI Agent cùng người dùng
-  làm rõ mục tiêu, kiến trúc và các quyết định thiết kế trước khi thực thi mã
-  nguồn.
-oneLiner: >-
-  Tương tác phản biện sâu sắc giúp làm rõ các yêu cầu kiến trúc và quyết định
-  thiết kế.
+description: Chế độ phỏng vấn và phản biện đa chiều giúp AI cùng bạn làm rõ mục tiêu, yêu cầu kỹ thuật và kế hoạch trước khi bắt tay vào viết code.
+oneLiner: Tương tác phản biện giúp làm rõ yêu cầu và kế hoạch triển khai.
 sourceUrl: ''
 sourceAuthor: Google DeepMind
 lastVerified: '2026-06-01'
@@ -38,53 +33,43 @@ provider: antigravity
 
 ## 📖 Tại Sao Cần Skill Này?
 
-Khi nhận yêu cầu từ người dùng, thông tin ban đầu thường mơ hồ hoặc thiếu chi tiết. Kỹ năng `/grill-me` giúp AI Agent chủ động:
-- **Phát hiện điểm mơ hồ**: Tìm các lỗ hổng thông tin trong bản đặc tả ban đầu (như luồng dữ liệu, bảo mật, xử lý lỗi).
-- **Đặt câu hỏi sắc bén**: Thực hiện phỏng vấn ngắn gọn (2-3 câu hỏi mỗi lượt) để thu thập thông tin thay vì hỏi dồn dập.
-- **Căn chỉnh kế hoạch**: Thống nhất giải pháp tối ưu và nhận phê duyệt của người dùng trước khi viết code.
+Khi bạn đưa ra yêu cầu phát triển phần mềm, thông tin ban đầu thường bị thiếu chi tiết hoặc chưa rõ ràng. Kỹ năng `/grill-me` giúp AI chủ động tìm ra các điểm chưa rõ, đặt các câu hỏi ngắn gọn nhưng tập trung, và thống nhất kế hoạch làm việc với bạn trước khi tiến hành viết code để tránh việc phải sửa đi sửa lại nhiều lần.
+
+- **Phát hiện thiếu sót**: Tìm kiếm các lỗ hổng thông tin trong yêu cầu ban đầu (như bảo mật, cách xử lý khi gặp lỗi, luồng đi của dữ liệu).
+- **Hỏi đáp thông minh**: Đặt câu hỏi ngắn gọn (chỉ 2-3 câu hỏi mỗi lượt) để cùng bạn tháo gỡ vấn đề thay vì hỏi dồn dập.
+- **Thống nhất kế hoạch**: Giúp hai bên hiểu rõ mong muốn của nhau và có kế hoạch triển khai cụ thể trước khi thực thi.
 
 ## ⚙️ Cách Hoạt Động
 
 ```
-[Nhận Yêu cầu ban đầu] ➔ 🔍 [Phân tích lỗ hổng thiết kế]
-                             └── Đặt câu hỏi phản biện ➔ 🗣️ [Trao đổi tương tác với Người dùng]
-                                                             └── Thống nhất ➔ 📐 [Tạo Bản Thiết Kế Chuẩn]
+Nhận yêu cầu ban đầu ➔ Tìm điểm thiếu sót ➔ Đặt câu hỏi phản biện ➔ Trò chuyện làm rõ ➔ Thống nhất kế hoạch triển khai
 ```
 
-Quy trình suy nghĩ của Agent khi thực thi `/grill-me`:
-1. **Phân tích đặc tả**: Quét yêu cầu đối chiếu với design patterns chuẩn để tìm thiếu sót.
-2. **Lên câu hỏi**: Chọn 2-3 câu hỏi quan trọng nhất về phạm vi (Scope), công nghệ (Technology), và xử lý lỗi (Error Handling).
-3. **Định hình**: Tạo lập tài liệu kế hoạch hành động (`implementation_plan.md`) sau khi đạt được sự đồng thuận.
+1. **Quét thông tin**: Đánh giá yêu cầu của bạn đối chiếu với các mô hình phần mềm chuẩn để xem còn thiếu khía cạnh nào.
+2. **Đặt câu hỏi**: Chọn ra 2-3 câu hỏi quan trọng nhất để hỏi bạn trong mỗi lượt trò chuyện.
+3. **Thống nhất**: Ghi nhận câu trả lời của bạn, đưa ra gợi ý tối ưu và tạo một bản kế hoạch thực hiện hoàn chỉnh sau khi bạn đồng ý.
 
 ## 🚀 Cách Sử Dụng
 
-````markdown
-# GRILL-ME INTERVIEW INSTRUCTIONS & RULES
+### Quy tắc phỏng vấn phản biện Grill-Me
 
-## 1. Interactive Interview Rule
-- Không đặt tất cả câu hỏi trong một lượt phản hồi duy nhất. Hãy chia nhỏ thành nhiều vòng trao đổi (mỗi vòng chỉ hỏi 2-3 câu hỏi cốt lõi).
-- Lắng nghe câu trả lời, phản hồi một cách thông minh bằng cách điều chỉnh câu hỏi tiếp theo dựa trên dữ liệu người dùng cung cấp.
-
-## 2. Subject Areas to Cover
-- Đảm bảo làm rõ các khía cạnh:
-  * **Scope**: Tính năng nào bắt buộc phải có ngay (MVP) vs. tính năng có thể làm sau.
-  * **Technology**: Các công nghệ hoặc thư viện bắt buộc phải dùng (hoặc tránh dùng).
-  * **Error Handling**: Các trường hợp ngoại lệ hoặc lỗi hệ thống nên xử lý như thế nào.
-
-## 3. Output Generation
-- Chỉ khi người dùng xác nhận đồng ý với mọi phương án giải quyết, mới chuyển sang tạo tệp tin kế hoạch triển khai chi tiết.
-````
+- **Hỏi đáp từng bước**: Không đặt tất cả câu hỏi trong một lượt phản hồi duy nhất. Hãy chia nhỏ cuộc phỏng vấn thành nhiều vòng trò chuyện, mỗi lượt chỉ hỏi tối đa 2-3 câu hỏi cốt lõi. Lắng nghe phản hồi của người dùng để tùy chỉnh câu hỏi tiếp theo cho phù hợp.
+- **Các khía cạnh cần làm rõ**:
+  - **Phạm vi (Scope)**: Tính năng nào bắt buộc phải có ngay ở phiên bản đầu tiên, tính năng nào có thể phát triển sau.
+  - **Công nghệ (Technology)**: Các công nghệ, ngôn ngữ hoặc thư viện bắt buộc phải dùng (hoặc cần tránh dùng).
+  - **Xử lý lỗi (Error Handling)**: Cách hệ thống phản hồi khi xảy ra các trường hợp lỗi ngoài ý muốn.
+- **Tạo kế hoạch triển khai**: Chỉ tiến hành viết file kế hoạch hành động chi tiết (`implementation_plan.md`) sau khi người dùng đã xác nhận đồng ý với các phương án giải quyết.
 
 ## 💡 Kịch Bản Lập Trình Thực Tế
 
 ### Nhà phát triển:
-> "Hãy hướng dẫn tôi cách thiết lập và sử dụng kỹ năng Grill Me Planning Interview để Tương tác phản biện sâu sắc giúp làm rõ các yêu cầu kiến trúc và quyết định thiết kế."
+> "Hãy giúp tôi viết code cho một hệ thống quản lý kho hàng."
 
 ### AI Agent (Đã được trang bị Kỹ năng):
-> "Tôi đã sẵn sàng. Dưới đây là kịch bản vận hành thực tế cho kỹ năng Grill Me Planning Interview:
-> 1. Thiết lập các thông số cấu hình và tham số đầu vào cần thiết cho hệ thống.
-> 2. Thực thi tuần tự các bước xử lý logic và tích hợp theo đúng chỉ dẫn của Grill Me Planning Interview.
-> 3. Kiểm thử đầu ra, tối ưu hóa hiệu năng và cung cấp kết quả hoàn chỉnh."
+> "Trước khi viết code, tôi muốn làm rõ một vài điểm thông qua quy trình phản biện `/grill-me` để đảm bảo kết quả đúng ý bạn nhất:
+> 1. Bạn muốn quản lý kho hàng dạng đơn giản hay cần theo dõi mã vạch và vị trí chính xác của từng món đồ?
+> 2. Hệ thống này có cần kết nối với bên vận chuyển nào có sẵn hay không?
+> 3. Khi hàng hóa trong kho sắp hết, hệ thống nên gửi cảnh báo qua email hay chỉ hiển thị trên màn hình?"
 
 ## ⚠️ Lưu Ý & Gotchas
 

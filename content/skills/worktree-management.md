@@ -2,16 +2,10 @@
 category: code-engineering
 command: /worktree-management
 complexity: advanced
-description: >-
-  Quản lý và thao tác với Git Worktrees để phát triển song song nhiều tính năng
-  trên cùng một repository mà không làm bẩn thư mục làm việc hiện tại. Hỗ trợ
-  phát hiện nhánh mặc định, tạo nhánh mới và dọn dẹp worktree sau khi hoàn
-  thành.
+description: Quản lý và sử dụng Git Worktrees để lập trình song song nhiều tính năng khác nhau trên cùng một dự án mà không cần chuyển đổi nhánh qua lại hoặc làm ảnh hưởng đến mã nguồn hiện tại.
 featured: false
 lastVerified: '2026-06-03'
-oneLiner: >-
-  Phát triển song song nhiều nhánh Git độc lập trên cùng một repository bằng Git
-  Worktrees.
+oneLiner: Lập trình song song nhiều nhánh Git độc lập trên cùng một dự án bằng Git Worktrees.
 platforms:
   - universal
   - cursor
@@ -22,10 +16,8 @@ provider: minimax
 relatedSkills:
   - plan-mode
   - mavis
-seoDescription: >-
-  Quy trình sử dụng Git Worktree để phát triển song song. Hướng dẫn tạo nhánh
-  feature/fix, rebase và tự động dọn dẹp.
-seoTitle: Worktree Management - Minimax Skill for AI Agents
+seoDescription: Hướng dẫn sử dụng Git Worktree để phát triển song song nhiều tính năng, tạo nhánh sửa lỗi độc lập và tự động dọn dẹp thư mục làm việc.
+seoTitle: Worktree Management - Quản lý nhánh làm việc song song bằng Git Worktree
 slug: worktree-management
 sourceAuthor: Minimax
 sourceUrl: ''
@@ -39,51 +31,35 @@ title: Worktree Management
 
 ## 📖 Tại Sao Cần Skill Này?
 
-Trong môi trường làm việc nhóm, việc chỉnh sửa mã nguồn trực tiếp trên nhánh chính thường gây ra xung đột Git và làm gián đoạn các server phát triển đang chạy chế độ theo dõi file (watch mode). Git Worktrees giúp Agent cô lập hoàn toàn môi trường code của từng tính năng trên các thư mục riêng biệt, giúp phát triển song song nhiều tính năng và chạy kiểm thử invasive độc lập an toàn.
+Khi đang viết dở một tính năng quan trọng và bất ngờ nhận yêu cầu sửa một lỗi gấp ở nhánh khác, bạn thường phải lưu tạm code đang viết (git stash) hoặc chuyển đổi nhánh qua lại rất bất tiện và dễ gây nhầm lẫn. Git Worktree giúp bạn tạo ra một thư mục làm việc hoàn toàn độc lập cho nhánh mới ngay trên máy tính của mình. Bạn có thể mở cả hai nhánh song song, sửa lỗi và chạy thử nghiệm ở nhánh này mà không lo làm bẩn hoặc ảnh hưởng đến code đang viết dở ở nhánh kia.
 
----
+- **Làm việc song song mượt mà**: Chạy và sửa lỗi trên nhiều nhánh cùng một lúc mà không cần chuyển đổi qua lại.
+- **Môi trường cách ly**: Tránh xung đột mã nguồn và không làm gián đoạn máy chủ thử nghiệm đang chạy.
+- **Dọn dẹp gọn gàng**: Dễ dàng xóa bỏ thư mục nhánh phụ sau khi công việc đã hoàn thành để tiết kiệm bộ nhớ máy tính.
 
 ## ⚙️ Cách Hoạt Động
 
-Quy trình quản lý Git Worktree:
-1. **Phát hiện Nhánh mặc định**: Tìm nhánh chính qua lệnh remote (ví dụ: `main` hoặc `dev`), tránh viết cứng tên nhánh.
-2. **Khởi tạo Worktree**: Sử dụng đường dẫn tuyệt đối tạo thư mục mới dưới dạng `$PROJECT_ROOT/.worktrees/feature-xxx` liên kết với nhánh Git tương ứng.
-3. **Cài đặt & Lập trình**: Di chuyển vào thư mục worktree mới, chạy cài đặt dependencies (nếu có) và thực hiện code/kiểm thử tại đây.
-4. **Đồng bộ & Rebase**: Chạy `git rebase` với nhánh chính để giải quyết xung đột trước khi tạo pull request.
-5. **Dọn dẹp**: Xóa thư mục worktree sau khi PR được merge bằng lệnh `git worktree remove`.
-
-Sơ đồ quy trình:
-```
-[Yêu cầu code / Nhánh chính] ➔ 🔍 [Tìm tên nhánh chính từ Git remote] ➔ 📁 [Tạo worktree dưới .worktrees/]
-                                    ➔ 💻 [Chạy code & Kiểm thử cô lập] ➔ 🧹 [Rebase & PR ➔ Xóa dọn dẹp worktree]
-```
-
----
+1. **Tìm nhánh chính**: Kiểm tra và xác định tên nhánh mặc định hiện tại của dự án (ví dụ: `main` hoặc `master`).
+2. **Khởi tạo thư mục làm việc phụ (Worktree)**: Tạo một thư mục con riêng liên kết trực tiếp với nhánh cần xử lý.
+3. **Lập trình và kiểm thử**: Thực hiện toàn bộ công việc chỉnh sửa và chạy thử nghiệm bên trong thư mục phụ này.
+4. **Đồng bộ và dọn dẹp**: Đẩy code lên GitHub, sau đó xóa thư mục phụ này để giải phóng không gian ổ đĩa.
 
 ## 🚀 Cách Sử Dụng
 
-```markdown
-# QUY TẮC QUẢN LÝ GIT WORKTREE
-- **Môi trường code cô lập**: Không được chỉnh sửa bất kỳ tệp tin nào của nhánh chính ở thư mục gốc. Tất cả các chỉnh sửa mã nguồn bắt buộc phải thực hiện trong thư mục con worktree.
-- **Đường dẫn tuyệt đối**: Luôn dùng lệnh `git rev-parse --show-toplevel` để phân giải thư mục gốc trước khi tạo worktree, tránh làm lệch thư mục đích do di chuyển cwd.
-- **Tên nhánh chuẩn hóa**: Nhánh tự tạo phải bắt đầu bằng tiền tố `feature/<kebab-case>` hoặc `fix/<kebab-case>`.
-- **Dọn dẹp sau khi hoàn thành**: Luôn chạy lệnh `git worktree prune` và xóa nhánh local sau khi code đã được merge thành công lên repo từ xa.
-```
-
----
+- Yêu cầu trợ lý tạo một thư mục làm việc phụ (worktree) để xử lý một tính năng mới hoặc sửa lỗi gấp ở một nhánh khác.
+- Trợ lý sẽ tự động thực hiện các câu lệnh Git để thiết lập thư mục và dọn dẹp sạch sẽ sau khi bạn hoàn thành công việc.
 
 ## 💡 Kịch Bản Lập Trình Thực Tế
 
-### Nhà phát triển:
-> "Hãy hướng dẫn tôi cách thiết lập và sử dụng kỹ năng Worktree Management để Phát triển song song nhiều nhánh Git độc lập trên cùng một repository bằng Git Worktrees."
+### Người dùng:
+> "Tôi đang code dở tính năng ở nhánh chính nhưng cần sửa gấp lỗi giao diện ở nhánh fix-bug. Hãy tạo thư mục làm việc riêng để tôi sửa lỗi này mà không làm ảnh hưởng đến code hiện tại."
 
-### AI Agent (Đã được trang bị Kỹ năng):
-> "Tôi đã sẵn sàng. Dưới đây là kịch bản vận hành thực tế cho kỹ năng Worktree Management:
-> 1. Thiết lập các thông số cấu hình và tham số đầu vào cần thiết cho hệ thống.
-> 2. Thực thi tuần tự các bước xử lý logic và tích hợp theo đúng chỉ dẫn của Worktree Management.
-> 3. Kiểm thử đầu ra, tối ưu hóa hiệu năng và cung cấp kết quả hoàn chỉnh."
+### Trợ lý:
+> "Tôi đã xử lý yêu cầu của bạn:
+> 1. Tôi tạo một thư mục làm việc phụ liên kết với nhánh `fix-bug` tại địa chỉ `.worktrees/fix-bug-layout`.
+> 2. Bây giờ bạn có thể mở thư mục này để sửa lỗi giao diện độc lập, trong khi code đang viết dở ở thư mục gốc vẫn được giữ nguyên an toàn."
 
 ## ⚠️ Lưu Ý & Gotchas
 
-* **Lỗi trùng cổng phát triển (Port Conflict)**: Khi khởi chạy các dev server trong nhiều thư mục worktree song song, các tiến trình sẽ bị lỗi do tranh chấp cùng một cổng mạng. Cần cấu hình đổi cổng chạy qua biến môi trường.
-* **Xử lý file node_modules**: Không sao chép node_modules giữa các thư mục worktree để tránh lỗi symlink hoặc sai lệch phiên bản package.
+- **Tránh xung đột cổng mạng (Port Conflict)**: Nếu bạn chạy máy chủ thử nghiệm (dev server) ở cả thư mục gốc và thư mục phụ cùng lúc, chương trình có thể bị lỗi do trùng cổng mạng. Hãy nhớ thay đổi cổng mạng trước khi khởi chạy thử nghiệm ở thư mục phụ.
+- **Quản lý thư viện cài đặt**: Tránh sao chép trực tiếp thư mục thư viện (`node_modules`) giữa các thư mục làm việc để tránh lỗi phiên bản hoặc làm hỏng các liên kết hệ thống.

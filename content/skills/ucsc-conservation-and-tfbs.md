@@ -18,9 +18,8 @@ platforms:
   - universal
 featured: false
 description: >-
-  Tải điểm bảo tồn tiến hóa gen (phyloP, phastCons) và vùng liên kết yếu tố
-  phiên mã thực nghiệm từ UCSC Genome Browser.
-oneLiner: Tra cứu điểm bảo tồn tiến hóa và vùng liên kết yếu tố phiên mã.
+  Kỹ năng tải điểm bảo tồn tiến hóa gen (độ bền vững của gen qua hàng triệu năm) và xác định các điểm liên kết kiểm soát gen từ cơ sở dữ liệu UCSC Genome Browser.
+oneLiner: Tra cứu mức độ bảo tồn tiến hóa của gen và các vùng điều khiển phiên mã.
 sourceUrl: 'https://genome.ucsc.edu/'
 sourceAuthor: Google DeepMind
 lastVerified: '2026-05-30'
@@ -34,61 +33,46 @@ provider: antigravity
 
 ## 📖 Tại Sao Cần Skill Này?
 
-Vùng genome được bảo tồn qua tiến hóa (evolutionary conservation) thường có chức năng sinh học quan trọng. UCSC Genome Browser cung cấp hai loại dữ liệu quan trọng:
+Các vùng gen được giữ nguyên qua hàng triệu năm tiến hóa thường có chức năng sinh học vô cùng quan trọng đối với sự sống. Kỹ năng này giúp bạn kiểm tra xem một vị trí gen cụ thể có được bảo tồn qua các loài động vật hay không, và xem vị trí đó có đóng vai trò như một "nút công tắc" (nơi các protein điều hòa liên kết) để bật/tắt hoạt động của gen hay không.
 
-- **Conservation scores**: phyloP (per-base conservation) và phastCons (continuous conserved elements) — đánh giá variant có nằm trong vùng bảo tồn không
-- **TFBS (Transcription Factor Binding Sites)**: Dữ liệu từ ENCODE, JASPAR, ReMap — xác định transcription factor nào bind tại vị trí variant
-
-Nếu variant nằm ở vùng highly conserved + disrupts TF binding → strong evidence for functional impact.
+- **Đánh giá mức độ bảo tồn**: Biết được vị trí gen này có thay đổi giữa các loài hay không (qua điểm số phyloP và phastCons).
+- **Tìm vị trí điều hòa (TFBS)**: Xác định xem protein điều hòa (yếu tố phiên mã) nào bám vào vị trí gen này.
+- **Dự đoán tác hại**: Nếu một đột biến xảy ra ở vùng gen cực kỳ ổn định và làm hỏng nút công tắc điều hòa, khả năng cao nó sẽ gây hại lớn cho cơ thể.
 
 ## ⚙️ Cách Hoạt Động
 
+Quy trình hoạt động:
 ```
-Genomic region (chr:start-end) → UCSC API → 
-Return phyloP/phastCons scores + TFBS overlaps
+[Tọa độ vùng gen (chr:bắt đầu-kết thúc)] ➔ [Truy vấn dữ liệu UCSC] ➔ [Trả về điểm bảo tồn & các yếu tố điều hòa]
 ```
 
-1. **Conservation**: Fetch phyloP scores (positive = conserved, negative = fast-evolving) và phastCons (0-1 probability)
-2. **TFBS**: Query ENCODE ChIP-seq, JASPAR motifs, ReMap peaks cho binding site overlaps
-3. **Interpretation**: Combine conservation + TFBS data để đánh giá regulatory importance
+1. **Tra cứu bảo tồn**: Lấy điểm số phyloP (số dương càng cao nghĩa là càng ít thay đổi qua tiến hóa) và phastCons (xác suất nằm trong vùng quan trọng).
+2. **Xác định vị trí liên kết**: Tìm kiếm dữ liệu từ các dự án lớn (ENCODE, JASPAR, ReMap) để xem có protein điều hòa nào bám vào vùng gen này không.
+3. **Đánh giá chung**: Tổng hợp cả hai thông tin để xác định mức độ quan trọng của vùng gen đó.
 
 ## 🚀 Cách Sử Dụng
 
-### Universal
-
 ```markdown
-# UCSC Conservation & TFBS Rules
-- phyloP > 2.0 = significantly conserved. phyloP > 4.0 = ultra-conserved.
-- phastCons > 0.9 = part of conserved element.
-- Kết hợp conservation + TFBS: conserved + TF binding = regulatory element.
-- Report ENCODE/JASPAR/ReMap project source cho mỗi TFBS hit.
-```
-
-### Cursor (.cursorrules)
-
-```markdown
-# UCSC Data
-- Dùng conservation scores khi đánh giá non-coding variants.
-- phyloP negative = accelerated evolution (có thể là adaptation, không phải unimportant).
-- TFBS data giúp xác định variant có disrupt regulatory element không.
+# QUY TẮC PHÂN TÍCH
+- Điểm phyloP > 2.0 được coi là vùng gen có tính bảo tồn cao. Điểm phyloP > 4.0 là vùng cực kỳ bảo thủ (hầu như không đổi giữa các loài).
+- Điểm phastCons > 0.9 thể hiện khả năng rất cao là một phần của vùng gen quan trọng.
+- Kết hợp cả hai dữ liệu: Nếu một vùng gen vừa được bảo tồn vừa có yếu tố điều hòa bám vào, đó chắc chắn là một vùng chức năng quan trọng.
 ```
 
 ## 💡 Kịch Bản Lập Trình Thực Tế
 
 ### 🧑‍💻 Nhà phát triển:
-> "Tôi muốn đánh giá xem vị trí đột biến chr17:7577120 trên gene TP53 có nằm trong vùng tiến hóa bảo thủ và có trùng với vị trí gắn của yếu tố phiên mã nào không."
+> "Tôi muốn kiểm tra xem vị trí gen chr17:7577120 trên gene TP53 có được bảo tồn qua tiến hóa không và có protein điều hòa nào bám vào đó không."
 
 ### 🤖 AI Agent (Đã được trang bị Kỹ năng):
-> "Tôi sẽ thực hiện truy vấn dữ liệu tiến hóa và điều hòa di truyền từ UCSC Genome Browser cho bạn:"
+> "Tôi sẽ truy vấn dữ liệu từ UCSC Genome Browser cho vị trí gen bạn yêu cầu:
 >
-> 1. **Lấy điểm số bảo thủ tiến hóa**: Tôi truy xuất điểm số `phyloP` và `phastCons` (quét qua 100 loài động vật có xương sống) tại tọa độ cụ thể. Tôi báo cáo điểm phyloP = 5.2 (độ bảo thủ tiến hóa cực kỳ cao, biến đổi vị trí này sẽ bị chọn lọc tự nhiên đào thải).
-> 2. **Tìm vị trí gắn TF (TFBS)**: Tôi truy vấn các track điều hòa từ dự án ENCODE và ChIP-seq để kiểm tra xem có đỉnh liên kết (binding peaks) của yếu tố phiên mã nào đè lên tọa độ này không.
-> 3. **Phát hiện sự chồng lấn điều hòa**: Tôi báo cáo tọa độ đột biến trùng khớp trực tiếp với motif liên kết của yếu tố phiên mã p300, đột biến tại đây có nguy cơ làm mất khả năng kích hoạt phiên mã của gene.
->
-> *Báo cáo phân tích tiến hóa điều hòa UCSC toàn diện đã sẵn sàng, giúp bạn có những bằng chứng thuyết phục về tính nguy hại của biến thể.*
+> 1. **Kiểm tra điểm bảo tồn**: Điểm phyloP tại vị trí này là 5.2, chứng tỏ đây là vùng gen cực kỳ bền vững và hầu như không thay đổi qua hàng triệu năm tiến hóa ở 100 loài động vật có xương sống.
+> 2. **Tìm protein liên kết**: Tôi phát hiện vị trí này trùng khớp với điểm bám của protein điều hòa p300.
+> 3. **Kết luận**: Đột biến xảy ra ở vị trí này có nguy cơ cao làm mất chức năng điều hòa hoạt động của gene TP53."
 
 ## ⚠️ Lưu Ý & Gotchas
 
-- **phyloP interpretation**: Positive = conserved (purifying selection), negative = fast-evolving (positive selection). Zero = neutral.
-- **Species alignment**: phyloP based on multi-species alignment. Score quality depends on alignment quality tại vùng đó.
-- **TFBS ≠ active**: ChIP-seq peak = TF was bound in that cell type. Không có nghĩa TF đang active trong tissue of interest.
+- **Giải thích điểm phyloP**: Điểm dương có nghĩa là vùng gen được bảo tồn tốt, điểm âm nghĩa là vùng gen đang tiến hóa rất nhanh (đang thích nghi nhanh), và bằng 0 là bình thường.
+- **Chất lượng dữ liệu**: Độ chính xác của điểm bảo tồn phụ thuộc vào độ chính xác khi xếp hàng trình tự gen giữa các loài động vật với nhau.
+- **Hoạt động thực tế**: Việc protein bám vào gen trong phòng thí nghiệm không đồng nghĩa với việc nó sẽ luôn hoạt động ở mọi loại tế bào hay mọi cơ quan trong cơ thể.

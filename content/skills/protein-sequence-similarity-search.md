@@ -18,9 +18,8 @@ platforms:
   - universal
 featured: false
 description: >-
-  Đối chiếu trình tự protein truy vấn với các cơ sở dữ liệu lớn để tìm kiếm
-  homologue di truyền và suy diễn chức năng sinh học.
-oneLiner: Tìm kiếm trình tự protein tương đồng bằng MMseqs2 hoặc BLAST.
+  Đối chiếu chuỗi protein chưa biết với cơ sở dữ liệu lớn để tìm các protein tương đồng, từ đó dự đoán chức năng sinh học bằng công cụ MMseqs2 hoặc BLAST.
+oneLiner: 'Tìm kiếm và đối chiếu các chuỗi protein tương đồng bằng MMseqs2 hoặc BLAST.'
 sourceUrl: 'https://www.ebi.ac.uk/Tools/sss/'
 sourceAuthor: Google DeepMind
 lastVerified: '2026-05-30'
@@ -37,54 +36,41 @@ provider: antigravity
 
 ## 📖 Tại Sao Cần Skill Này?
 
-- **Suy luận chức năng**: Định danh chức năng của protein chưa rõ bằng cách tìm kiếm các chuỗi tương đồng đã được chú giải.
-- **MMseqs2 (Mặc định)**: Cung cấp khả năng tìm kiếm nhanh gấp 100-1000 lần BLAST, tối ưu cho lần quét đầu tiên.
-- **BLAST (Dự phòng)**: Tìm kiếm toàn diện hơn, tự động kích hoạt khi MMseqs2 không trả về đủ kết quả.
+Khi bạn có một chuỗi protein mới chưa rõ chức năng, cách tốt nhất là tìm xem có protein nào của các loài sinh vật khác giống với nó và đã được nghiên cứu kỹ trước đó hay chưa. Kỹ năng này giúp bạn:
+- **Dự đoán chức năng**: Tìm ra vai trò sinh học của protein lạ dựa trên những protein tương đồng đã biết.
+- **MMseqs2 (Quét nhanh)**: Tìm kiếm siêu tốc trên các cơ sở dữ liệu khổng lồ, nhanh gấp hàng trăm lần phương pháp truyền thống.
+- **BLAST (Quét sâu)**: Tìm kiếm kỹ lưỡng và chi tiết hơn khi công cụ quét nhanh chưa trả về kết quả ưng ý.
+
 ## ⚙️ Cách Hoạt Động
 
+Quy trình tìm kiếm:
 ```
-Protein sequence (FASTA) → MMseqs2/BLAST search → 
-Return homologous proteins (E-value, identity%, coverage)
+Nhập chuỗi protein (FASTA) ──> Chạy quét MMseqs2 / BLAST ──> Trả về danh sách protein giống nhất
 ```
+- **Quét dữ liệu**: So khớp chuỗi amino acid với hàng triệu chuỗi protein đã biết trong cơ sở dữ liệu.
+- **Đánh giá kết quả**: Lọc và hiển thị các kết quả trùng khớp nhất dựa trên độ giống nhau về mặt di truyền.
 
-- **Đầu vào**: Trình tự protein hoặc tệp FASTA.
-- **Thuật toán quét**: Sử dụng MMseqs2 để tìm kiếm nhanh, tự động chuyển sang BLAST nếu cần kết quả sâu hơn.
-- **Đầu ra**: Trích xuất các homologs kèm E-value, phần trăm đồng nhất (identity%), độ phủ (coverage) và chú giải.
 ## 🚀 Cách Sử Dụng
 
-
-### Universal
-
-```markdown
-# Sequence Similarity Search
-- Khi người dùng cung cấp protein sequence → chạy MMseqs2 trước.
-- Nếu MMseqs2 trả ít kết quả → fallback sang BLAST.
-- Báo cáo: top hits, E-value, identity%, functional annotations.
-- KHÔNG dùng khi người dùng muốn tìm structural similarity → dùng Foldseek.
-```
-
-### Cursor (.cursorrules)
-
-```markdown
-# Protein Search
-- MMseqs2 là default search tool. Dùng BLAST khi cần comprehensive search.
-- E-value < 1e-5 = significant hit. Identity > 30% = likely same function.
-- Luôn report taxonomy của top hits để check evolutionary conservation.
-```
+- Nhập chuỗi protein của bạn để bắt đầu tìm kiếm. Hệ thống sẽ ưu tiên chạy quét nhanh bằng MMseqs2, và tự động chuyển sang BLAST nếu cần kết quả sâu hơn.
+- Đọc kết quả bằng cách chú ý đến chỉ số E-value (càng nhỏ và gần 0 thì độ tin cậy càng cao) và phần trăm trùng khớp (Identity trên 30% thường là có cùng chức năng).
+- Không dùng công cụ này khi muốn tìm kiếm sự tương đồng về hình dạng cấu trúc 3D (khi đó hãy dùng công cụ Foldseek).
 
 ## 💡 Kịch Bản Lập Trình Thực Tế
 
+### Người dùng yêu cầu:
+> "Tôi vừa tìm thấy một chuỗi protein lạ từ mẫu đất. Hãy chạy quét BLAST để tìm xem nó tương đồng với những protein nào đã biết."
 
-### 🧑‍💻 Nhà phát triển:
-> "Tôi vừa tìm thấy một chuỗi protein lạ từ mẫu đất. Hãy chạy BLAST để tìm xem protein này tương đồng với những protein đã biết nào."
+### Trợ lý AI thực hiện:
+> "Tôi sẽ tìm kiếm trên cơ sở dữ liệu cho bạn:
+> 1. Kiểm tra chuỗi amino acid bạn gửi để đảm bảo định dạng đúng chuẩn.
+> 2. Gửi chuỗi lên hệ thống quét trực tuyến để tìm các protein tương đồng.
+> 3. Trích xuất danh sách các protein giống nhất (ví dụ: giống 98% với một enzyme phân hủy xenluloza của vi khuẩn đất), giúp bạn dễ dàng đoán ra chức năng của mẫu protein lạ."
 
-### 🤖 AI Agent (Đã được trang bị Kỹ năng):
-> "Tôi sẽ thực hiện tìm kiếm tương đồng chuỗi siêu tốc bằng thuật toán BLAST/MMseqs2 của NCBI/EBI:"
->
-> 1. **Xác thực chuỗi truy vấn**: Tôi kiểm tra chuỗi amino acid của bạn để đảm bảo tính hợp lệ.
-> 2. **Khởi chạy BLAST search**: Tôi gửi chuỗi protein của bạn lên máy chủ NCBI BLAST để quét qua cơ sở dữ liệu phi tương đồng khổng lồ (nr database).
-> 3. **Phân tích các hit trùng khớp**: Tôi lọc danh sách các protein tương đồng nhất dựa trên chỉ số E-value (kỳ vọng sai số) gần bằng 0, điểm số Identity (tỷ lệ trùng khớp amino acid) và điểm Bit-score.
-> 4. **Báo cáo kết luận chức năng**: Tôi trình bày bảng kết quả chi tiết, xác định protein lạ của bạn có tỷ lệ trùng khớp 98% với một enzyme cellulase của vi khuẩn đất, giúp bạn suy luận chính xác chức năng sinh học của mẫu.
+## ⚠️ Lưu Ý & Gotchas
+
+- **Chỉ dùng chuỗi protein**: Không sử dụng trực tiếp chuỗi DNA/RNA. Nếu bạn chỉ có chuỗi gene, cần dịch mã sang chuỗi axit amin trước khi tìm kiếm.
+- **Độ giống nhau quá thấp**: Nếu độ trùng khớp chuỗi axit amin dưới 20%, công cụ này có thể không tìm ra kết quả. Khi đó, hãy cân nhắc sử dụng phương pháp đối chiếu cấu trúc 3D (Foldseek).cellulase của vi khuẩn đất, giúp bạn suy luận chính xác chức năng sinh học của mẫu.
 >
 > *Bảng kết quả BLAST và báo cáo chú giải chức năng chi tiết sẽ giúp bạn định danh mẫu protein lạ chỉ trong tích tắc.*
 

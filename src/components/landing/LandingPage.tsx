@@ -29,7 +29,7 @@ export function LandingPage(): React.ReactElement {
   }, []);
 
   return (
-    <div className="relative min-h-screen bg-[var(--color-bg-primary)] overflow-x-hidden">
+    <main id="main-content" tabIndex={-1} className="relative min-h-screen bg-[var(--color-bg-primary)] overflow-x-hidden outline-none">
       {/* Premium Cyberpunk Intro Loader */}
       <AnimatePresence mode="wait">
         {isLoading && (
@@ -77,6 +77,6 @@ export function LandingPage(): React.ReactElement {
 
       {/* Interactive Code Editor Sandbox Section */}
       <SandboxSection />
-    </div>
+    </main>
   );
 }

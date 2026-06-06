@@ -16,11 +16,8 @@ platforms:
   - claude-code
   - mcp
 featured: false
-description: >-
-  Kỹ năng chuyên gia thiết kế và xây dựng các tác nhân AI tự trị (AI Agents). Hỗ
-  trợ thiết kế kiến trúc agent, tích hợp công cụ, quản lý bộ nhớ, chiến lược lập
-  kế hoạch và điều phối đa tác nhân.
-oneLiner: Thiết kế và xây dựng các hệ thống AI Agent tự trị mạnh mẽ và an toàn.
+description: Hướng dẫn thiết kế và xây dựng các trợ lý AI tự động (AI Agents). Giúp bạn tạo ra các hệ thống AI biết tự lập kế hoạch, sử dụng công cụ và giải quyết công việc phức tạp một cách độc lập.
+oneLiner: Thiết kế và xây dựng trợ lý AI tự động thông minh và an toàn.
 sourceUrl: ''
 sourceAuthor: Minimax
 lastVerified: '2026-06-03'
@@ -37,38 +34,33 @@ provider: minimax
 
 ## 📖 Tại Sao Cần Skill Này?
 
-Trong việc phát triển AI Agent, các mô hình ngôn ngữ lớn cần một bộ khung vận hành chuẩn mực để tránh vòng lặp vô hạn, lỗi gọi công cụ (tool call), và tràn ngữ cảnh (context overflow). Kỹ năng này cung cấp các mẫu thiết kế (design patterns) chuẩn để xây dựng các agent tự trị ổn định, có thể quan sát (observable) và fail-safe.
+Khi tự động hóa công việc bằng AI, các trợ lý AI dễ bị lặp lại vô tận hoặc gặp lỗi khi chạy. Skill này giúp bạn xây dựng các trợ lý AI hoạt động ổn định, biết tự sửa lỗi và không tiêu tốn tài nguyên vô ích.
 
 ## ⚙️ Cách Hoạt Động
 
-Workflow hoạt động dựa trên mô hình vòng lặp ReAct và Plan-and-Execute:
-
-```
-[Task Input] -> [Planner/Reasoning] -> [Tool Call Registry] -> [Observation & Memory] -> [Final Answer/Loop]
-```
-
-1. **Reasoning**: Phân tích yêu cầu và đưa ra suy nghĩ (Thought) tiếp theo.
-2. **Action**: Lựa chọn công cụ phù hợp từ Tool Registry và gọi hàm.
-3. **Observation**: Nhận kết quả từ công cụ và cập nhật vào bộ nhớ chọn lọc (Selective Memory).
+Trợ lý AI hoạt động theo quy trình khép kín:
+1. **Suy nghĩ**: Phân tích yêu cầu của bạn và lên kế hoạch thực hiện.
+2. **Hành động**: Tự động chọn và sử dụng công cụ phù hợp để xử lý công việc.
+3. **Ghi nhớ**: Lưu lại kết quả và thông tin quan trọng để sử dụng cho các bước tiếp theo.
 
 ## 🚀 Cách Sử Dụng
 
-1. Luôn xác định giới hạn lặp tối đa (`max_iterations`) để tránh việc Agent chạy vô tận.
-2. Thiết kế Tool Schema rõ ràng, có đầy đủ mô tả tham số và ví dụ minh họa để Agent gọi chính xác.
-3. Sử dụng Selective Memory để lưu trữ các thông tin quan trọng vào bộ nhớ dài hạn, tránh làm loãng ngữ cảnh ngắn hạn.
+1. Đặt giới hạn số lần trợ lý AI được tự động thực hiện (tránh chạy vô tận).
+2. Mô tả rõ ràng các công cụ đi kèm để AI hiểu và chọn đúng.
+3. Chỉ lưu trữ thông tin thực sự cần thiết để tránh làm AI bị rối hoặc quá tải ngữ cảnh.
 
 ## 💡 Kịch Bản Lập Trình Thực Tế
 
-### Nhà phát triển:
-> "Hãy hướng dẫn tôi cách thiết lập và sử dụng kỹ năng AI Agents Architect để Thiết kế và xây dựng các hệ thống AI Agent tự trị mạnh mẽ và an toàn."
+### Người dùng:
+> "Hãy giúp tôi thiết kế một trợ lý AI tự động trả lời email và cập nhật lịch làm việc."
 
-### AI Agent (Đã được trang bị Kỹ năng):
-> "Tôi đã sẵn sàng. Dưới đây là kịch bản vận hành thực tế cho kỹ năng AI Agents Architect:
-> 1. Thiết lập các thông số cấu hình và tham số đầu vào cần thiết cho hệ thống.
-> 2. Thực thi tuần tự các bước xử lý logic và tích hợp theo đúng chỉ dẫn của AI Agents Architect.
-> 3. Kiểm thử đầu ra, tối ưu hóa hiệu năng và cung cấp kết quả hoàn chỉnh."
+### Trợ lý AI:
+> "Tôi sẽ thực hiện theo các bước sau:
+> 1. Thiết lập trợ lý đọc email mới và nhận diện các yêu cầu hẹn gặp.
+> 2. Kết nối với lịch làm việc để tự động điền lịch hẹn.
+> 3. Gửi email xác nhận lại cho người gửi và báo cáo kết quả."
 
 ## ⚠️ Lưu Ý & Gotchas
 
-- **Vòng lặp vô tận**: Khi Agent không thể giải quyết nhiệm vụ, nó có thể gọi đi gọi lại một công cụ. Luôn khống chế bằng bộ đếm vòng lặp.
-- **Lỗi gọi công cụ âm thầm**: Nếu công cụ trả về lỗi, hãy chuyển lỗi đó trực tiếp cho Agent dưới dạng quan sát (observation) để nó tự sửa lỗi thay vì dừng chương trình.
+- **Tránh chạy vô hạn**: Luôn cài đặt số lần chạy tối đa để AI tự dừng nếu gặp lỗi không thể giải quyết.
+- **Xử lý lỗi**: Khi công cụ bị lỗi, hãy gửi thông tin lỗi đó cho AI để nó tự tìm cách sửa và tiếp tục làm việc thay vì dừng chương trình đột ngột.

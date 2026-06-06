@@ -17,10 +17,8 @@ platforms:
   - mcp
 featured: false
 description: >-
-  Hệ thống theo dõi chủ đề tin tức và phân tích sự kiện chuyên sâu. Tự động thu
-  thập tin tức, phát hiện mâu thuẫn thông tin, kiểm chứng sự thật và biên soạn
-  bài báo tổng hợp đa chiều.
-oneLiner: 'Theo dõi chủ đề nóng, kiểm chứng sự thật và viết bài phân tích đa chiều.'
+  Kỹ năng tự động theo dõi các chủ đề nóng trên báo chí và mạng xã hội. Công cụ giúp thu thập tin tức, phát hiện thông tin mâu thuẫn, kiểm chứng sự thật và biên soạn bài viết phân tích đa chiều, khách quan.
+oneLiner: Theo dõi tin tức nóng, kiểm chứng sự thật và viết bài phân tích đa chiều.
 sourceUrl: ''
 sourceAuthor: Minimax
 lastVerified: '2026-06-03'
@@ -36,37 +34,34 @@ provider: minimax
 
 ## 📖 Tại Sao Cần Skill Này?
 
-Trong kỷ nguyên bùng nổ thông tin, các tin tức giả, tin tức mâu thuẫn xuất hiện tràn lan. Kỹ năng này biến Agent thành một chuyên gia phân tích thông tấn, có khả năng theo dõi một chủ đề tin tức liên tục, thu thập dữ liệu từ nhiều nguồn độc lập, phát hiện các điểm mâu thuẫn (contradictions), kiểm chứng thông tin (fact-check) và biên soạn bài viết phân tích khách quan.
+Ngày nay, thông tin trên mạng rất nhiều và dễ bị sai lệch hoặc mâu thuẫn. Kỹ năng này giúp bạn tự động theo dõi một chủ đề tin tức, tìm kiếm từ nhiều nguồn báo chí khác nhau, phát hiện xem có thông tin nào sai sự thật không và viết thành một bài tổng hợp rõ ràng để bạn nắm bắt toàn cảnh một cách chính xác nhất.
 
 ## ⚙️ Cách Hoạt Động
 
-Luồng xử lý thông tin tin tức:
+Quy trình theo dõi và xử lý thông tin diễn ra như sau:
 ```
-Nhap chu de/URL --> Quet tin tuc da chieu --> Phan tich mau thuan & Fact-check --> Bien tap bai bao khach quan
+[Nhập chủ đề] ➔ [Thu thập tin tức từ nhiều báo] ➔ [So sánh & Kiểm chứng thực tế] ➔ [Viết bài phân tích khách quan]
 ```
-1. **Thu thập tin tức**: Nhận chủ đề nóng cần theo dõi, thực hiện tìm kiếm tin tức liên quan trên các cổng thông tin lớn.
-2. **Phân tích đối lập**: Đọc các nguồn tin, lập bảng so sánh các tuyên bố (claims) khác nhau về cùng một sự kiện để tìm điểm mâu thuẫn.
-3. **Kiểm chứng**: Truy dấu nguồn tin gốc, tìm kiếm các báo cáo kiểm chứng từ các tổ chức độc lập.
-4. **Biên tập**: Viết bài luận tổng hợp khách quan, trình bày đầy đủ các luồng quan điểm khác nhau mà không thiên vị bên nào.
+1. **Thu thập tin tức**: Nhận chủ đề bạn quan tâm và tìm kiếm các bài viết liên quan từ nhiều trang tin lớn.
+2. **Tìm điểm mâu thuẫn**: So sánh xem các bài báo viết về sự kiện đó có điểm nào không thống nhất hoặc trái ngược nhau hay không.
+3. **Kiểm chứng**: Tra cứu xem thông tin nào là chính xác dựa trên nguồn tin gốc hoặc các trang kiểm chứng tin giả uy tín.
+4. **Biên soạn**: Viết một bài tóm tắt tổng hợp các quan điểm khác nhau một cách trung thực và khách quan.
 
 ## 🚀 Cách Sử Dụng
 
-- Luôn ghi rõ nguồn dẫn chứng (URL, tên báo, ngày xuất bản) cho từng tuyên bố được trích dẫn trong bài viết.
-- Giọng văn trung lập, khách quan; không đưa cảm xúc cá nhân hay nhận định mang tính định kiến vào bài phân tích.
-- Trình bày bài viết dưới dạng cấu trúc báo chí chuyên nghiệp: Tiêu đề cuốn hút -> Tóm tắt sự kiện -> Các luồng quan điểm đối lập -> Kết quả kiểm chứng thực tế.
+- Luôn ghi rõ nguồn trích dẫn (đường link, tên trang báo, ngày đăng) để người đọc có thể tự kiểm chứng lại khi cần.
+- Sử dụng giọng văn trung lập, không thiên vị hay đưa cảm xúc cá nhân vào bài viết.
+- Sắp xếp bài viết theo bố cục dễ hiểu: Tiêu đề ➔ Tóm tắt nhanh sự kiện ➔ Các quan điểm trái chiều ➔ Kết luận dựa trên sự thật đã kiểm chứng.
 
 ## 💡 Kịch Bản Lập Trình Thực Tế
 
 ### Nhà phát triển:
-> "Hãy hướng dẫn tôi cách thiết lập và sử dụng kỹ năng Topic Tracker để Theo dõi chủ đề nóng, kiểm chứng sự thật và viết bài phân tích đa chiều."
+> "Hãy theo dõi tin tức về dự án xe điện mới của hãng X và viết bài phân tích đa chiều về tiến độ thực tế của dự án này."
 
 ### AI Agent (Đã được trang bị Kỹ năng):
-> "Tôi đã sẵn sàng. Dưới đây là kịch bản vận hành thực tế cho kỹ năng Topic Tracker:
-> 1. Thiết lập các thông số cấu hình và tham số đầu vào cần thiết cho hệ thống.
-> 2. Thực thi tuần tự các bước xử lý logic và tích hợp theo đúng chỉ dẫn của Topic Tracker.
-> 3. Kiểm thử đầu ra, tối ưu hóa hiệu năng và cung cấp kết quả hoàn chỉnh."
+> "Tôi sẽ tìm kiếm tin tức về dự án xe điện của hãng X từ nhiều nguồn báo chí uy tín, đối chiếu các thông tin trái chiều về tiến độ, kiểm chứng với thông cáo báo chí chính thức và lập một bài phân tích khách quan gửi cho bạn."
 
 ## ⚠️ Lưu Ý & Gotchas
 
-- **Tin đồn thất thiệt**: Cảnh báo người dùng nếu chủ đề đang tìm kiếm chưa có thông tin chính thống xác nhận, tránh lan truyền tin đồn.
-- **Nguồn tin một chiều**: Không được chỉ trích dẫn từ một nguồn tin duy nhất đối với các sự kiện nhạy cảm hoặc đang tranh chấp.
+- **Tránh lan truyền tin đồn**: Nếu chủ đề bạn tìm kiếm chỉ là tin đồn và chưa được xác minh từ các nguồn uy tín, AI sẽ cảnh báo bạn trước chứ không khẳng định đó là sự thật.
+- **Cần đa dạng nguồn tin**: Đối với các sự kiện có nhiều tranh cãi, AI bắt buộc phải lấy thông tin từ nhiều trang báo khác nhau để đảm bảo tính công bằng.

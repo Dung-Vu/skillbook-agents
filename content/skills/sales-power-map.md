@@ -18,10 +18,8 @@ platforms:
   - mcp
 featured: false
 description: >-
-  Hệ thống lập bản đồ quyền lực doanh nghiệp B2B (Power Map). Hỗ trợ xác định
-  người ra quyết định, phân tích mối quan hệ nội bộ, đánh giá mức độ ảnh hưởng
-  và xây dựng chiến lược tiếp cận khách hàng lớn.
-oneLiner: Lập bản đồ quyền lực và chiến lược tiếp cận khách hàng doanh nghiệp B2B.
+  Hỗ trợ vẽ sơ đồ tổ chức và lập bản đồ các mối quan hệ quyền lực trong doanh nghiệp (Power Map). Giúp xác định người quyết định mua hàng, người có tầm ảnh hưởng, và lập kế hoạch tiếp cận khách hàng lớn (B2B) hiệu quả.
+oneLiner: Lập sơ đồ quyền lực và kế hoạch tiếp cận khách hàng doanh nghiệp B2B.
 sourceUrl: ''
 sourceAuthor: Minimax
 lastVerified: '2026-06-03'
@@ -37,37 +35,37 @@ provider: minimax
 
 ## 📖 Tại Sao Cần Skill Này?
 
-Trong bán hàng doanh nghiệp lớn (B2B Enterprise), việc không tiếp cận đúng người ra quyết định (Decision Maker) hoặc không hiểu sơ đồ quyền lực ngầm sẽ làm hỏng thương vụ. Kỹ năng này hướng dẫn Agent phân tích sơ đồ tổ chức, gán vai trò quyền lực (Người quyết định, Người ảnh hưởng, Người chặn đường), vẽ sơ đồ quan hệ Mermaid và đề xuất lộ trình tiếp cận tối ưu.
+Trong bán hàng doanh nghiệp (B2B), việc tiếp cận sai người hoặc không biết ai là người thực sự có quyền quyết định sẽ khiến bạn mất nhiều thời gian mà không chốt được hợp đồng. Kỹ năng này giúp bạn vẽ ra "bản đồ quyền lực" ngầm, biết rõ ai là người quyết định, ai là người ủng hộ, và ai có thể cản trở, từ đó có chiến lược tiếp cận phù hợp cho từng người.
 
 ## ⚙️ Cách Hoạt Động
 
-Quy trình lập bản đồ quyền lực:
+Quy trình hoạt động đơn giản:
 ```
-Thong tin khach hang --> Phan tich so do to chuc --> Ve so do quan he Mermaid --> Xay dung kich ban tiep can
+Thông tin khách hàng --> Xác định vai trò nhân sự --> Vẽ sơ đồ mối quan hệ --> Gợi ý cách tiếp cận
 ```
-1. **Thu thập dữ liệu**: Nhận thông tin về công ty mục tiêu, danh sách nhân sự chủ chốt và phòng ban liên quan.
-2. **Phân tích vai trò**: Phân loại đối tượng thành các nhóm: Decision Maker (DM), Influencer, Blocker, Champion.
-3. **Mô hình hóa trực quan**: Vẽ sơ đồ tổ chức và các mối liên kết ngầm bằng cú pháp sơ đồ Mermaid.
-4. **Xây dựng kịch bản**: Thiết kế nội dung tiếp cận (Outreach pitch) được cá nhân hóa cho từng vai trò cụ thể.
+1. **Nhận thông tin**: Đọc thông tin về công ty khách hàng và các nhân sự liên quan.
+2. **Phân tích vai trò**: Phân loại xem ai là người quyết định (Decision Maker), người ủng hộ (Champion), hay người có thể gây khó khăn (Blocker).
+3. **Vẽ sơ đồ (Mermaid)**: Tạo sơ đồ trực quan thể hiện mối quan hệ và mức độ ảnh hưởng giữa các nhân sự.
+4. **Lập kế hoạch**: Đề xuất kịch bản chào hàng và cách tiếp cận riêng cho từng vị trí.
 
 ## 🚀 Cách Sử Dụng
 
-- Luôn yêu cầu thông tin về ngành nghề, quy mô doanh nghiệp và sản phẩm B2B đang chào bán để cá nhân hóa sơ đồ.
-- Sơ đồ quan hệ Mermaid phải thể hiện rõ mức độ ảnh hưởng (Mạnh, Trung bình, Yếu) và thái độ đối với giải pháp (Ủng hộ, Trung lập, Phản đối).
-- Đề xuất kịch bản tiếp cận riêng biệt cho từng đối tượng DM, tránh dùng chung một email chào hàng mẫu cho tất cả các cấp bậc.
+- Cung cấp đầy đủ thông tin về doanh nghiệp mục tiêu, sản phẩm bạn muốn bán và những người bạn đã liên hệ được.
+- Sử dụng sơ đồ Mermaid để nhìn rõ ai có tiếng nói quyết định và mối liên kết giữa các phòng ban.
+- Soạn thảo nội dung email hoặc tin nhắn tiếp cận riêng cho từng người (không dùng chung một mẫu cho sếp lớn và nhân viên).
 
 ## 💡 Kịch Bản Lập Trình Thực Tế
 
 ### Nhà phát triển:
-> "Hãy hướng dẫn tôi cách thiết lập và sử dụng kỹ năng Sales Power Map để Lập bản đồ quyền lực và chiến lược tiếp cận khách hàng doanh nghiệp B2B."
+> "Hãy giúp tôi lập bản đồ quyền lực và lên kế hoạch tiếp cận các nhân sự chủ chốt tại Công ty ABC để chào bán phần mềm quản lý kho."
 
 ### AI Agent (Đã được trang bị Kỹ năng):
-> "Tôi đã sẵn sàng. Dưới đây là kịch bản vận hành thực tế cho kỹ năng Sales Power Map:
-> 1. Thiết lập các thông số cấu hình và tham số đầu vào cần thiết cho hệ thống.
-> 2. Thực thi tuần tự các bước xử lý logic và tích hợp theo đúng chỉ dẫn của Sales Power Map.
-> 3. Kiểm thử đầu ra, tối ưu hóa hiệu năng và cung cấp kết quả hoàn chỉnh."
+> "Tôi sẽ giúp bạn phân tích cấu trúc nhân sự của Công ty ABC:
+> 1. Phân loại vai trò của Giám đốc Công nghệ (người quyết định), Trưởng phòng Kho (người sử dụng trực tiếp/ủng hộ) và Kế toán trưởng (người kiểm soát ngân sách).
+> 2. Vẽ sơ đồ mối quan hệ và tầm ảnh hưởng giữa các vị trí này bằng công cụ Mermaid.
+> 3. Soạn thảo 3 kịch bản nhắn tin/gặp mặt riêng biệt, đánh trúng nhu cầu và mối quan tâm của từng người."
 
 ## ⚠️ Lưu Ý & Gotchas
 
-- **Giả định thiếu căn cứ**: Tránh tự vẽ ra sơ đồ quan hệ gia đình hoặc quan hệ cá nhân của các nhân sự khi chưa có dữ liệu thực tế kiểm chứng.
-- **Quá tải thông tin**: Chỉ tập trung lập bản đồ cho những người có liên quan trực tiếp đến quy trình mua hàng, không vẽ toàn bộ nhân viên công ty.
+- **Không tự đoán mò**: Chỉ lập sơ đồ dựa trên thông tin thực tế thu thập được, tránh tự suy diễn các mối quan hệ cá nhân khi chưa rõ ràng.
+- **Tập trung vào nhân sự cốt lõi**: Chỉ cần vẽ bản đồ những người có liên quan đến việc mua hàng, tránh vẽ toàn bộ sơ đồ nhân sự của cả công ty gây loãng thông tin.

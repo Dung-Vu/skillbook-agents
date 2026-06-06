@@ -2,16 +2,10 @@
 category: tool-integration
 command: /mavis-browser
 complexity: advanced
-description: >-
-  Điều khiển trình duyệt Chrome thực tế của người dùng qua CLI `mavis browser
-  tool`. Hỗ trợ truy cập các trang web yêu cầu đăng nhập, sử dụng cookies/SSO
-  hiện tại và thực hiện các tác vụ tự động hóa như chụp ảnh màn hình hoặc điền
-  form.
+description: Cho phép trợ lý điều khiển trình duyệt Chrome thực tế trên máy tính của bạn để mở các trang web cần đăng nhập, điền biểu mẫu tự động hoặc chụp ảnh màn hình.
 featured: false
 lastVerified: '2026-06-03'
-oneLiner: >-
-  Tự động hóa trình duyệt Chrome thực tế của người dùng sử dụng session đăng
-  nhập có sẵn.
+oneLiner: Cho phép trợ lý tự động hóa các thao tác trên trình duyệt Chrome của bạn.
 platforms:
   - universal
   - cursor
@@ -38,43 +32,34 @@ title: Mavis Browser
 
 ## 📖 Tại Sao Cần Skill Này?
 
-Agent cần kỹ năng này khi cần truy cập vào các trang web nội bộ, các bảng điều khiển SaaS hoặc các dịch vụ yêu cầu thông tin đăng nhập và cookie có sẵn của người dùng. Kỹ năng này cho phép Agent thao tác an toàn trên chính trình duyệt Chrome của nhà phát triển.
+Nhiều trang web yêu cầu bạn phải đăng nhập hoặc sử dụng cookie lưu sẵn mới có thể xem được nội dung. Kỹ năng này giúp trợ lý kết nối trực tiếp với trình duyệt Chrome đang mở trên máy tính của bạn để đọc thông tin, tự động điền form hoặc chụp ảnh màn hình các trang web đó một cách an toàn mà không cần bạn phải đưa mật khẩu cho trợ lý.
 
 ## ⚙️ Cách Hoạt Động
 
-Quy trình hoạt động:
-
-1. **Kiểm tra status**: Chạy `mavis browser status` để xác nhận daemon hoạt động và extension Chrome được kết nối.
-2. **Mở & Thao tác**: Mở tab mới ở chế độ background và gửi lệnh JSON để thao tác DOM (click, type, screenshot).
-3. **Giải phóng**: Tự động giải phóng tab khi session kết thúc để Agent khác sử dụng.
-
-```
-[Yêu cầu Trình duyệt] ➔ 🔍 [Kiểm tra status & extension] ➔ 📂 [Mở tab & Tự động claim]
-                           ➔ 💻 [Gửi lệnh click/type/screenshot] ➔ 🔓 [Giải phóng tab khi xong]
-```
+Quy trình điều khiển:
+1. Trợ lý kiểm tra xem trình duyệt Chrome của bạn đã được bật tiện ích kết nối (extension) chưa.
+2. Trợ lý mở một tab mới dưới nền (không làm ảnh hưởng đến màn hình của bạn).
+3. Trợ lý thực hiện các hành động như click chuột, gõ phím hoặc chụp ảnh màn hình theo lệnh của bạn.
+4. Trợ lý đóng hoặc giải phóng tab đó khi hoàn thành.
 
 ## 🚀 Cách Sử Dụng
 
-```markdown
-# QUY TẮC ĐIỀU KHIỂN TRÌNH DUYỆT CHROME
-- **Không tự thêm tiền tố**: Lệnh công cụ phải viết ở dạng trần (ví dụ: `click`, `screenshot`), không thêm tiền tố `browser_`.
-- **Mở tab ẩn danh mặc định**: Luôn mở tab mới với tham số `{"active": false}` trừ khi người dùng yêu cầu rõ ràng để tránh làm phiền màn hình làm việc.
-- **Xử lý ảnh chụp màn hình**: Lệnh `screenshot` trả về chuỗi base64 kèm tiền tố dữ liệu. Phải cắt bỏ `"data:image/png;base64,"` trước khi giải mã.
-- **Luôn parse JSON**: Tất cả đầu ra từ công cụ đều dạng JSON, không được giả định cấu trúc văn bản thô.
-```
+- Bạn có thể ra lệnh như: "Hãy mở trang web X, đăng nhập bằng tài khoản có sẵn trên máy và chụp ảnh màn hình bảng điều khiển cho tôi."
+- Trợ lý sẽ tự động thao tác trên tab ẩn để tránh làm gián đoạn công việc của bạn.
+- Tất cả dữ liệu ảnh chụp màn hình sẽ được trợ lý tự động xử lý và gửi lại cho bạn.
 
 ## 💡 Kịch Bản Lập Trình Thực Tế
 
-### Nhà phát triển:
-> "Hãy hướng dẫn tôi cách thiết lập và sử dụng kỹ năng Mavis Browser để Tự động hóa trình duyệt Chrome thực tế của người dùng sử dụng session đăng nhập có sẵn."
+### Người dùng:
+> "Hãy mở tài khoản Lark của tôi trên trình duyệt, điền thông tin báo cáo tuần này vào biểu mẫu và chụp ảnh xác nhận."
 
-### AI Agent (Đã được trang bị Kỹ năng):
-> "Tôi đã sẵn sàng. Dưới đây là kịch bản vận hành thực tế cho kỹ năng Mavis Browser:
-> 1. Thiết lập các thông số cấu hình và tham số đầu vào cần thiết cho hệ thống.
-> 2. Thực thi tuần tự các bước xử lý logic và tích hợp theo đúng chỉ dẫn của Mavis Browser.
-> 3. Kiểm thử đầu ra, tối ưu hóa hiệu năng và cung cấp kết quả hoàn chỉnh."
+### Trợ lý:
+> "Tôi đã thực hiện các bước sau trên trình duyệt Chrome của bạn:
+> 1. Mở trang biểu mẫu báo cáo tuần trên Lark (đã tự động nhận diện tài khoản của bạn).
+> 2. Điền đầy đủ nội dung báo cáo tuần vào các ô nhập liệu.
+> 3. Đây là ảnh chụp màn hình trang biểu mẫu sau khi đã điền xong để bạn kiểm tra trước khi nhấn gửi."
 
 ## ⚠️ Lưu Ý & Gotchas
 
-* **Lỗi Tab bị chiếm dụng**: Mỗi tab chỉ được điều khiển bởi một session tại một thời điểm. Cần dùng `force: true` nếu muốn ghi đè.
-* **Chụp ảnh màn hình nền**: Lệnh `screenshot` thực tế chụp toàn bộ cửa sổ nhìn thấy hiện tại của Chrome. Nếu tab đích đang chạy ở chế độ background, ảnh chụp sẽ hiển thị nội dung của tab đang active.
+- **Tránh xung đột tab**: Tại một thời điểm, trợ lý chỉ nên điều khiển một tab nhất định để tránh lỗi ghi đè thao tác.
+- **Lưu ý khi chụp ảnh**: Khi chụp ảnh tab chạy ngầm dưới nền, hãy chắc chắn cửa sổ Chrome không bị thu nhỏ hoặc bị che khuất để ảnh chụp được hiển thị chính xác nhất.

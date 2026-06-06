@@ -2,15 +2,10 @@
 category: research-analysis
 command: /x-link-reader
 complexity: intermediate
-description: >-
-  Trích xuất và phân tích nội dung từ các liên kết mạng xã hội X (Twitter). Kỹ
-  năng này hướng dẫn cách đọc thông tin chi tiết của một tweet đơn lẻ (bao gồm
-  lượt tương tác, nội dung văn bản) hoặc thông tin hồ sơ người dùng.
+description: Đọc và trích xuất nội dung từ các liên kết mạng xã hội X, giúp người dùng xem thông tin bài viết, lượt tương tác và thông tin hồ sơ mà không cần đăng nhập.
 featured: false
 lastVerified: '2026-06-03'
-oneLiner: >-
-  Đọc và trích xuất dữ liệu bài viết hoặc hồ sơ người dùng từ mạng xã hội X
-  (Twitter).
+oneLiner: Đọc và trích xuất thông tin bài viết hoặc hồ sơ người dùng từ mạng xã hội X.
 platforms:
   - universal
   - cursor
@@ -21,10 +16,8 @@ provider: minimax
 relatedSkills:
   - mavis-browser
   - visual-summary
-seoDescription: >-
-  Trích xuất nội dung X/Twitter không cần API key. Sử dụng api.fxtwitter.com để
-  lấy chi tiết tweet, thống kê và thông tin profile.
-seoTitle: X Link Reader - Minimax Skill for AI Agents
+seoDescription: Hướng dẫn AI Agent tự động chuyển đổi URL mạng xã hội X thông qua API trung gian để trích xuất nội dung bài đăng và hồ sơ người dùng không cần đăng nhập.
+seoTitle: X Link Reader - Đọc liên kết mạng xã hội X/Twitter tự động
 slug: x-link-reader
 sourceAuthor: Minimax
 sourceUrl: ''
@@ -38,51 +31,36 @@ title: X Link Reader
 
 ## 📖 Tại Sao Cần Skill Này?
 
-AI Agent thông thường không thể truy cập trực tiếp vào các liên kết x.com (Twitter) do cơ chế chống cào dữ liệu của nền tảng này, dẫn đến việc trả về các trang trống hoặc yêu cầu đăng nhập. Kỹ năng này hướng dẫn Agent định tuyến cuộc gọi qua proxy API của FxTwitter để trích xuất dữ liệu JSON của các bài viết hoặc thông tin người dùng công khai mà không cần tài khoản.
+Mạng xã hội X (Twitter) áp dụng cơ chế bảo mật rất nghiêm ngặt, thường yêu cầu đăng nhập tài khoản thì mới cho xem nội dung. Điều này khiến các trợ lý AI thông thường bị chặn và không thể đọc được nội dung từ đường link bạn gửi. Kỹ năng này giúp trợ lý vượt qua rào cản đó thông qua các cổng kết nối trung gian an toàn để đọc nội dung bài viết, thống kê số lượt thích, chia sẻ hoặc xem thông tin hồ sơ một cách nhanh chóng.
 
----
+- **Vượt rào cản đăng nhập**: Xem nội dung bài đăng trực tiếp mà không cần có tài khoản X.
+- **Tóm tắt nhanh chóng**: Hiển thị nội dung bài đăng và số liệu tương tác một cách gọn gàng, trực quan.
+- **Tiết kiệm thời gian**: Không cần tự mình mở trình duyệt và đăng nhập tài khoản để đọc tin.
 
 ## ⚙️ Cách Hoạt Động
 
-Quy trình đọc tin từ mạng xã hội X:
-1. **Phát hiện URL**: Nhận dạng các liên kết có chứa định dạng tên miền `x.com` hoặc `twitter.com`.
-2. **Chuyển đổi URL Proxy**: Thay thế tên miền gốc sang tên miền proxy `api.fxtwitter.com`.
-3. **Thao tác Fetch dữ liệu**:
-   - Lấy tweet: Truy vấn `https://api.fxtwitter.com/{user}/status/{id}` ở định dạng text.
-   - Lấy profile: Truy vấn `https://api.fxtwitter.com/{username}`.
-4. **Phân tích cú pháp & Trình bày**: Đọc dữ liệu JSON trả về (author, text, likes, retweets, views, media) và viết tóm tắt ngắn gọn.
-
-Sơ đồ quy trình:
-```
-[URL x.com / twitter.com] ➔ 🔄 [Đổi tên miền sang api.fxtwitter.com] ➔ 🌐 [Gọi webfetch dạng text (JSON)]
-                                ➔ 🧩 [Parse JSON tìm Text & Lượt tương tác] ➔ 📝 [Hiển thị tóm tắt]
-```
-
----
+1. **Nhận dạng đường link**: Phát hiện các liên kết từ mạng xã hội X (`x.com` hoặc `twitter.com`).
+2. **Chuyển đổi liên kết**: Tự động chuyển hướng liên kết qua cổng API trung gian miễn phí (FxTwitter).
+3. **Trích xuất thông tin**: Tải và đọc dữ liệu bài đăng (nội dung chữ, hình ảnh đi kèm, số lượt tương tác).
+4. **Tóm tắt**: Biên soạn thông tin thu được thành một đoạn văn ngắn gọn, dễ hiểu cho bạn.
 
 ## 🚀 Cách Sử Dụng
 
-```markdown
-# QUY TẮC ĐỌC LIÊN KẾT X/TWITTER
-- **Tuyệt đối không fetch trực tiếp**: Nghiêm cấm gửi request HTTP trực tiếp đến các máy chủ `x.com` hay `twitter.com`.
-- **Dịch thuật bài viết**: Nếu người dùng yêu cầu dịch bài viết, có thể chèn hậu tố `/translate/{lang}` (ví dụ: `/translate/zh`) vào cuối URL truy vấn proxy.
-- **Trình bày tóm tắt**: Chỉ hiển thị các thông tin cô đọng cho người dùng (Người đăng, Nội dung, Ngày đăng, Lượt tương tác), không được in thô toàn bộ JSON ra màn hình chat.
-```
-
----
+- Gửi đường dẫn bài đăng hoặc link hồ sơ người dùng trên X cho trợ lý.
+- Trợ lý sẽ đọc và gửi lại bản tóm tắt nội dung bài viết cùng số liệu tương tác.
 
 ## 💡 Kịch Bản Lập Trình Thực Tế
 
-### Nhà phát triển:
-> "Hãy hướng dẫn tôi cách thiết lập và sử dụng kỹ năng X Link Reader để Đọc và trích xuất dữ liệu bài viết hoặc hồ sơ người dùng từ mạng xã hội X (Twitter)."
+### Người dùng:
+> "Đọc và tóm tắt giúp tôi bài viết này trên X: `https://x.com/elonmusk/status/123456789`"
 
-### AI Agent (Đã được trang bị Kỹ năng):
-> "Tôi đã sẵn sàng. Dưới đây là kịch bản vận hành thực tế cho kỹ năng X Link Reader:
-> 1. Thiết lập các thông số cấu hình và tham số đầu vào cần thiết cho hệ thống.
-> 2. Thực thi tuần tự các bước xử lý logic và tích hợp theo đúng chỉ dẫn của X Link Reader.
-> 3. Kiểm thử đầu ra, tối ưu hóa hiệu năng và cung cấp kết quả hoàn chỉnh."
+### Trợ lý:
+> "Tôi đã đọc nội dung bài viết của Elon Musk cho bạn:
+> - **Người đăng**: Elon Musk (@elonmusk)
+> - **Nội dung**: 'Hệ thống tên lửa thế hệ mới của chúng tôi đã hoàn thành bài kiểm thử động cơ thành công vào sáng nay.'
+> - **Tương tác**: 45.000 Lượt thích, 8.500 Lượt chia sẻ."
 
 ## ⚠️ Lưu Ý & Gotchas
 
-* **Bài viết riêng tư / Đã xóa**: Các tài khoản được bảo vệ (khóa) hoặc các tweet đã bị chủ tài khoản xóa sẽ khiến proxy trả về lỗi 404 hoặc 401. Agent cần thông báo rõ ràng trường hợp này cho người dùng.
-* **Không hỗ trợ viết bài**: Proxy này là công cụ đọc công cộng, chỉ hỗ trợ trích xuất dữ liệu một chiều. Tuyệt đối không dùng để đăng bài hoặc tương tác trực tiếp lên mạng xã hội X.
+- **Bài viết riêng tư hoặc đã xóa**: Trợ lý sẽ không thể đọc được nội dung của các tài khoản cài đặt chế độ riêng tư (tài khoản khóa) hoặc các bài viết đã bị chủ tài khoản xóa.
+- **Chỉ hỗ trợ đọc thông tin**: Kỹ năng này hoạt động như một công cụ đọc công cộng, chỉ hỗ trợ trích xuất thông tin một chiều, không thể dùng để đăng bài viết mới hoặc tương tác (like, bình luận) thay cho bạn.

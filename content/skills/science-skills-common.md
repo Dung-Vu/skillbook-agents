@@ -14,12 +14,8 @@ platforms:
   - universal
 featured: false
 description: >-
-  Cung cấp hạ tầng HTTP client dùng chung, kiểm soát tần suất truy cập
-  (rate-limiting) và cơ chế tự động thử lại với exponential backoff khi gọi
-  external APIs khoa học (NCBI, EBI, RCSB).
-oneLiner: >-
-  Gói hạ tầng HTTP client rate-limiting và retry dùng chung cho các AI Science
-  Agents.
+  Thư viện dùng chung giúp kết nối mạng an toàn cho các tác vụ nghiên cứu khoa học. Công cụ này tự động điều chỉnh tốc độ gửi yêu cầu (tránh bị khóa IP) và tự động tải lại nếu máy chủ bị lỗi tạm thời.
+oneLiner: Thư viện hỗ trợ kết nối mạng an toàn, chống chặn IP khi gọi dữ liệu khoa học.
 sourceUrl: 'https://github.com/google-deepmind'
 sourceAuthor: Google DeepMind
 lastVerified: '2026-05-31'
@@ -33,61 +29,36 @@ provider: antigravity
 
 ## 📖 Tại Sao Cần Skill Này?
 
-- **Tránh chặn IP**: Tự động tuân thủ giới hạn tần suất request (Rate Limit) của các máy chủ khoa học lớn (NCBI, Ensembl, UniProt) để tránh lỗi HTTP 429.
-- **Tự động thử lại**: Áp dụng cơ chế Exponential Backoff để tự động trì hoãn và thử lại khi gặp sự cố kết nối tạm thời hoặc quá tải máy chủ (500, 503).
-- **Đồng bộ đa tiến trình**: Sử dụng cơ chế khóa file (`file-locking`) đảm bảo kiểm soát rate limit an toàn giữa nhiều tiến trình chạy song song.
+Khi viết mã để lấy dữ liệu từ các máy chủ khoa học lớn trên thế giới (như NCBI, UniProt, Ensembl), nếu gửi yêu cầu quá nhanh và liên tục, địa chỉ IP của bạn sẽ bị chặn ngay lập tức. Skill này giúp bạn giải quyết vấn đề đó bằng cách:
+- **Tự động khống chế tốc độ**: Đảm bảo số lượng yêu cầu gửi đi nằm trong giới hạn cho phép của máy chủ (chống lỗi bị chặn IP - HTTP 429).
+- **Tự động thử lại thông minh**: Nếu mạng bị chập chờn hoặc máy chủ bị quá tải tạm thời, công cụ sẽ tự động đợi một lát rồi thử lại với thời gian giãn cách tăng dần.
+- **Phối hợp nhiều luồng**: Khi bạn chạy nhiều chương trình cùng lúc, công cụ sẽ tự động điều phối để tổng tốc độ của chúng không vượt quá giới hạn an toàn.
+
 ## ⚙️ Cách Hoạt Động
 
-```
-[Science Script] ➔ 📞 [Gọi API qua RateLimitedClient]
-                         ├── Dưới ngưỡng ➔ 🌐 [Gọi API] ➔ [Trả Về Kết Quả]
-                         └── Vượt ngưỡng ➔ ⏳ [File Lock / Tự Động Trì Hoãn] ➔ [Thử Lại]
-```
+Quy trình hoạt động ngầm của thư viện diễn ra như sau:
+1. **Kiểm tra giới hạn**: Mỗi khi chương trình của bạn chuẩn bị gửi yêu cầu lấy dữ liệu từ Internet, công cụ sẽ kiểm tra tốc độ hiện tại.
+2. **Trì hoãn nếu cần**: Nếu tốc độ sắp vượt ngưỡng an toàn, nó sẽ tự động tạm dừng chương trình trong vài mili giây.
+3. **Gửi yêu cầu & Xử lý lỗi**: Gửi dữ liệu đi. Nếu gặp lỗi kết nối hoặc máy chủ bận, nó sẽ tự động thử lại tối đa vài lần trước khi báo lỗi thực sự.
 
-- **Nhận diện**: Xác định đây là thư viện chia sẻ (shared library), không chạy độc lập.
-- **Tích hợp**: Sử dụng `RateLimitedClient` thay vì `requests` thô sơ trong các script Python gọi API.
-- **Cấu hình**: Thiết lập tham số tần suất (RPS) và số lần thử lại tối đa (`max_retries`) phù hợp với máy chủ đích.
 ## 🚀 Cách Sử Dụng
 
-### Hướng dẫn tích hợp IDE
-- **Với Cursor**: Hãy thêm quy tắc prompt dưới đây vào tệp `.cursorrules` của các dự án nghiên cứu khoa học y sinh để Cursor luôn import thư viện dùng chung này khi viết code Python gọi API.
-- **Với Windsurf (Cascade)**: Nhúng các quy tắc này vào `.windsurfrules` để Cascade Agent tự động sử dụng `RateLimitedClient` thay vì thư viện `requests` thô sơ cho mọi tác vụ kết nối mạng.
+Khi làm việc với trợ lý AI hoặc viết code:
+- Nhận biết rằng đây là một thư viện hỗ trợ nằm bên dưới (shared library), không phải là công cụ chạy độc lập để ra kết quả ngay.
+- Yêu cầu AI luôn sử dụng bộ công cụ kết nối mạng này (`RateLimitedClient`) thay vì thư viện kết nối mạng mặc định (`requests` hoặc `urllib`) khi viết các đoạn mã Python để lấy dữ liệu y học, sinh học.
+- Đặt giới hạn tốc độ phù hợp với từng máy chủ mục tiêu (thường mặc định dưới 10 yêu cầu/giây).
 
-### Quy tắc cho Agent
-````markdown
-# SCIENCE COMMON LIBRARY RULES & GUIDELINES
-
-## 1. Role Recognition
-- Nhận diện `science-skills-common` là một thư viện chia sẻ (shared library). Không cố gắng chạy trực tiếp `/science-skills-common` trên Terminal.
-- Thư viện này là điều kiện cần (dependency) cho các kỹ năng khoa học khác (PubMed, UniProt, ClinVar, v.v.).
-
-## 2. Coding Implementation Rules
-- Khi viết các script Python kết nối với external APIs, tuyệt đối không dùng thư viện `requests` thô sơ hoặc `urllib`.
-- Bắt buộc import và sử dụng `RateLimitedClient` từ thư viện dùng chung:
-  ```python
-  from science_skills_common.http_client import RateLimitedClient
-  ```
-- Khai báo các tham số an toàn:
-  * `requests_per_second`: Thiết lập phù hợp với máy chủ (mặc định ≤ 10).
-  * `max_retries`: Thiết lập ≥ 3.
-  * Tự động xử lý ngoại lệ an toàn, thông báo lỗi sạch sẽ cho lập trình viên.
-````
 ## 💡 Kịch Bản Lập Trình Thực Tế
 
-
 ### 🧑‍💻 Nhà phát triển:
-> "Tôi cần viết một công cụ Python tải thông tin của hàng trăm mẫu protein từ cơ sở dữ liệu quốc tế UniProt để phân tích. Làm sao để đảm bảo công cụ chạy ổn định cả đêm mà không bị máy chủ UniProt chặn IP?"
+> "Tôi muốn viết một chương trình Python để tải thông tin của hàng ngàn gen từ cơ sở dữ liệu quốc tế NCBI. Làm sao để chạy chương trình an toàn không bị khóa IP giữa chừng?"
 
 ### 🤖 AI Agent (Đã được trang bị Kỹ năng):
-> "Tôi sẽ thiết kế một giải pháp tự động hóa an toàn bằng cách nhúng thư viện hạ tầng dùng chung `science-skills-common` của hệ thống. Đây là quy trình bảo vệ mà tôi sẽ áp dụng ngầm khi mã nguồn của bạn chạy:"
->
-> 1. **Kiểm soát lưu lượng thông minh**: Thay vì sử dụng thư viện kết nối mạng thô sơ gửi yêu cầu ồ ạt, tôi sẽ cấu hình mã nguồn của bạn import `RateLimitedClient`. Thư viện này tự động khống chế tần suất gọi tối đa là 10 requests/giây để tuyệt đối tuân thủ chính sách của máy chủ UniProt.
-> 2. **Tự động vượt lỗi kết nối**: Nếu máy chủ UniProt bị quá tải tạm thời hoặc gặp sự cố mạng (trả về lỗi HTTP 429 hoặc 503), client thông minh sẽ tự động kích hoạt cơ chế thử lại (Exponential Backoff), tăng dần thời gian chờ giữa các lần thử để bảo vệ kết nối của bạn.
-> 3. **Đồng bộ đa luồng an toàn**: Khi bạn chạy nhiều tiến trình phân tích protein song song, thư viện sẽ tự động kích hoạt cơ chế khóa file (`file-locking`) để đồng bộ lưu lượng giữa các luồng, đảm bảo toàn bộ hệ thống của bạn không bao giờ vượt ngưỡng cho phép của máy chủ UniProt.
->
-> *Nhờ sự bảo vệ ngầm này, script Python của bạn có thể chạy bền bỉ cả đêm, tải hàng nghìn protein một cách trơn tru mà không sợ bị máy chủ UniProt khóa IP hay làm gián đoạn tiến trình nghiên cứu.*
-
----
+> "Tôi sẽ viết mã nguồn cho bạn bằng cách tích hợp thư viện an toàn `science-skills-common`. Chương trình của bạn sẽ hoạt động như sau:
+> 
+> 1. **Sử dụng kết nối an toàn**: Tôi sẽ import `RateLimitedClient` để gửi yêu cầu đi.
+> 2. **Giới hạn tốc độ**: Tôi sẽ đặt cấu hình tối đa là 3 yêu cầu/giây theo đúng quy định của NCBI.
+> 3. **Tự động phục hồi**: Nếu máy chủ NCBI bị quá tải và trả về lỗi, chương trình sẽ tự động tạm dừng 1 giây, sau đó thử lại. Nếu vẫn lỗi, nó sẽ đợi tiếp 2 giây, rồi 4 giây, giúp chương trình chạy xuyên suốt mà không bị ngắt quãng giữa chừng."
 
 ## ⚠️ Lưu Ý & Gotchas
 

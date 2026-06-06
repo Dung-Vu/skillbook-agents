@@ -17,11 +17,8 @@ platforms:
   - claude-code
   - mcp
 featured: false
-description: >-
-  Trình tạo nội dung trực quan đa dạng. Hỗ trợ tạo sơ đồ tư duy (Mindmaps), biểu
-  đồ tiến trình (Timelines), đồ họa thông tin (Infographics) và bảng điều khiển
-  (Dashboards) dạng ảnh sắc nét.
-oneLiner: 'Tự động thiết kế sơ đồ tư duy, infographic và timeline dạng hình ảnh.'
+description: Trình thiết kế nội dung trực quan tự động. Giúp chuyển đổi các số liệu, mốc thời gian phức tạp thành sơ đồ tư duy, dòng thời gian hoặc đồ họa thông tin dạng hình ảnh dễ hiểu.
+oneLiner: Tự động thiết kế sơ đồ tư duy, infographic và timeline dạng hình ảnh.
 sourceUrl: ''
 sourceAuthor: Minimax
 lastVerified: '2026-06-03'
@@ -29,46 +26,43 @@ relatedSkills:
   - pptx-generator
   - nano-banana-pro
   - video-story-generator
-seoTitle: Visual Content Generator - Minimax Skill for AI Agents
-seoDescription: >-
-  Cách tích hợp kỹ năng Visual Content Generator để AI Agent tự động thiết kế
-  các biểu đồ, timeline và dashboard đẹp mắt.
+seoTitle: Visual Content Generator - Thiết kế sơ đồ và đồ họa thông tin tự động
+seoDescription: Cấu hình AI Agent tự động thiết kế sơ đồ tư duy, dòng thời gian và đồ họa thông tin (infographics) từ dữ liệu văn bản thô.
 provider: minimax
 ---
 
 ## 📖 Tại Sao Cần Skill Này?
 
-Người dùng thường khó tiếp thu lượng thông tin văn bản khổng lồ và mong muốn được xem các biểu đồ trực quan hóa dữ liệu sinh động. Kỹ năng này cung cấp cho Agent khả năng tự thiết kế các biểu đồ cấu trúc, timeline sự kiện và infographics bằng cách sinh mã SVG hoặc viết script python vẽ hình chuyên dụng, mang lại sản phẩm trực quan chất lượng cao.
+Đọc một tài liệu dài đầy số liệu thống kê hoặc mốc thời gian thường rất nhàm chán và khó nhớ. Kỹ năng này giúp trợ lý tự động chuyển đổi những văn bản khô khan đó thành các hình ảnh trực quan sinh động như sơ đồ tư duy, biểu đồ phân tích hay dòng thời gian bắt mắt, giúp người xem dễ dàng nắm bắt ý chính chỉ trong vài giây.
+
+- **Dễ tiếp thu**: Biến thông tin phức tạp thành hình ảnh trực quan, dễ nhớ.
+- **Tiết kiệm thời gian**: Tự động thiết kế sơ đồ đẹp mắt mà không cần bạn phải tự tay vẽ trên các phần mềm đồ họa.
+- **Tính ứng dụng cao**: Tạo ra các file ảnh chất lượng cao để chèn trực tiếp vào slide thuyết trình hoặc bài viết.
 
 ## ⚙️ Cách Hoạt Động
 
-Quy trình thiết kế đồ họa thông tin:
-```
-Du lieu tho --> Lua chon loai Bieu do --> Thiet ke bo cuc & Mau sac --> Xuat ma do hoa --> Luu anh
-```
-1. **Lọc dữ liệu**: Phân tích thông tin đầu vào, chọn lọc các mốc thời gian, số liệu thống kê hoặc nút sơ đồ tư duy chính.
-2. **Chọn định dạng**: Quyết định dạng biểu diễn trực quan phù hợp nhất (Sơ đồ cây cho Mindmap, Dòng thời gian cho Timeline).
-3. **Lập trình thiết kế**: Viết mã nguồn SVG tự chứa hoặc mã Python (sử dụng thư viện Pillow hoặc Matplotlib).
-4. **Xuất bản**: Chuyển đổi mã đồ họa thành tệp ảnh chất lượng cao để hiển thị hoặc tải xuống.
+1. **Lọc thông tin**: Phân tích nội dung đầu vào để chọn ra các ý chính, số liệu quan trọng hoặc các mốc thời gian.
+2. **Chọn loại sơ đồ**: Quyết định dạng biểu diễn phù hợp nhất (ví dụ: dòng thời gian cho lịch sử sự kiện, sơ đồ nhánh cho sơ đồ tư duy).
+3. **Phối màu & thiết kế**: Tự động sắp xếp bố cục, chọn phông chữ và phối màu tương phản rõ ràng.
+4. **Xuất ảnh chất lượng cao**: Tạo ra tệp ảnh định dạng sắc nét (như PNG hoặc SVG) để gửi cho bạn.
 
 ## 🚀 Cách Sử Dụng
 
-- Sử dụng bảng màu hài hòa, có sự tương phản tốt giữa chữ và nền để đảm bảo tính dễ đọc.
-- Bố cục thông tin cân đối, tránh xếp quá nhiều chữ sát nhau khiến hình ảnh bị rối mắt.
-- Định dạng tệp xuất ra nên là SVG hoặc PNG độ phân giải cao để không bị vỡ hình khi phóng to.
+- Gửi nội dung văn bản hoặc bảng số liệu cho trợ lý và yêu cầu vẽ sơ đồ/timeline tương ứng.
+- Trợ lý sẽ thiết kế và trả về đường dẫn tải file ảnh sơ đồ hoàn chỉnh.
 
 ## 💡 Kịch Bản Lập Trình Thực Tế
 
-### Nhà phát triển:
-> "Hãy hướng dẫn tôi cách thiết lập và sử dụng kỹ năng Visual Content Generator để Tự động thiết kế sơ đồ tư duy, infographic và timeline dạng hình ảnh."
+### Người dùng:
+> "Vẽ giúp tôi dòng thời gian các mốc lịch sử phát triển quan trọng của Facebook."
 
-### AI Agent (Đã được trang bị Kỹ năng):
-> "Tôi đã sẵn sàng. Dưới đây là kịch bản vận hành thực tế cho kỹ năng Visual Content Generator:
-> 1. Thiết lập các thông số cấu hình và tham số đầu vào cần thiết cho hệ thống.
-> 2. Thực thi tuần tự các bước xử lý logic và tích hợp theo đúng chỉ dẫn của Visual Content Generator.
-> 3. Kiểm thử đầu ra, tối ưu hóa hiệu năng và cung cấp kết quả hoàn chỉnh."
+### Trợ lý:
+> "Tôi đã thiết kế dòng thời gian lịch sử phát triển của Facebook cho bạn:
+> - **Các mốc sự kiện**: Lọc ra 4 cột mốc chính: 2004 (Thành lập), 2012 (Mua Instagram), 2014 (Mua WhatsApp), và 2021 (Đổi tên thành Meta).
+> - **Thiết kế**: Bố cục dạng dòng chảy thời gian nằm ngang màu xanh dương, các mốc sự kiện đi kèm biểu tượng trực quan. 
+> - **Thành phẩm**: Đã xuất thành file ảnh sắc nét `facebook_milestones.png` để bạn tải về."
 
 ## ⚠️ Lưu Ý & Gotchas
 
-- **Mã SVG bị lỗi hiển thị**: Cần kiểm tra kỹ các thẻ đóng mở của SVG và đảm bảo tất cả tọa độ vẽ hình được tính toán chính xác để tránh hình ảnh bị cắt cụt.
-- **Font chữ bị lỗi**: Tránh sử dụng các phông chữ lạ không phổ biến trên hệ thống máy chủ khi render hình ảnh bằng Python.
+- **Tránh quá nhiều chữ**: Mục tiêu của sơ đồ là tóm tắt trực quan. Việc nhồi nhét quá nhiều câu chữ dài dòng vào ảnh sẽ làm thiết kế bị chật chội và phản tác dụng.
+- **Định dạng ảnh**: File ảnh SVG là lựa chọn tốt nhất nếu bạn muốn phóng to thu nhỏ sơ đồ mà không sợ bị mờ hay vỡ nét chữ.

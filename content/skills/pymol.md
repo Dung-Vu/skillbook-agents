@@ -18,9 +18,8 @@ platforms:
   - universal
 featured: true
 description: >-
-  Dựng ảnh cấu trúc protein 3D chất lượng cao, căn chỉnh cấu trúc tương đồng, đo
-  khoảng cách liên kết và tô màu theo pLDDT.
-oneLiner: Trực quan hóa và dựng hình ảnh cấu trúc phân tử bằng PyMOL.
+  Công cụ trực quan hóa cấu trúc protein dưới dạng 3D. Giúp tạo hình ảnh động, tô màu cấu trúc theo độ tin cậy để phân tích và chuẩn bị hình ảnh minh họa cho các bài báo cáo khoa học.
+oneLiner: Tạo hình ảnh 3D và trực quan hóa cấu trúc protein phân tử bằng PyMOL.
 sourceUrl: 'https://www.pymol.org/'
 sourceAuthor: Google DeepMind
 lastVerified: '2026-05-30'
@@ -34,70 +33,39 @@ provider: antigravity
 
 ## 📖 Tại Sao Cần Skill Này?
 
-Cấu trúc protein dạng file text (mmCIF, PDB) gần như không thể hiểu được bằng mắt thường. PyMOL biến dữ liệu tọa độ 3D thành hình ảnh trực quan — giúp phân tích binding sites, so sánh cấu trúc, và tạo figure cho publication.
-
-- **Render headless**: Chạy trên server không cần GPU hay màn hình (OSMesa software rendering)
-- **Automation**: Viết Python script để tự động hóa rendering pipeline
-- **Rich analysis**: Đo khoảng cách, tô màu theo B-factor/pLDDT, superposition, mutagenesis
+Các file dữ liệu cấu trúc protein (như mmCIF hay PDB) thực chất chỉ chứa các tọa độ chữ và số khô khan, rất khó hình dung bằng mắt thường. PyMOL giúp bạn:
+- **Trực quan hóa sinh động**: Biến các tọa độ số thành hình ảnh cấu trúc 3D trực quan, dễ quan sát.
+- **Phân tích chi tiết**: Đo đạc khoảng cách giữa các nguyên tử, tô màu theo độ tin cậy của cấu trúc (pLDDT) và xác định vị trí các túi liên kết.
+- **Tự động hóa**: Viết kịch bản lệnh Python để tự động vẽ hàng loạt hình ảnh protein mà không cần làm thủ công từng cái.
 
 ## ⚙️ Cách Hoạt Động
 
-```
-Structure file (.cif/.pdb) → PyMOL Python script → 
-Render PNG + Save .pse session → Report metrics
-```
-
-1. **Viết script**: Python script với PEP 0723 header, dùng `pymol-open-source-whl`
-2. **Chạy headless**: `uv run render.py` với `PYOPENGL_PLATFORM=osmesa`
-3. **Output**: PNG images + `.pse` session file (mở được trong PyMOL desktop)
-
-Mọi script PHẢI có init boilerplate bắt buộc và kết thúc bằng `cmd.quit()`.
+Quy trình hoạt động của PyMOL diễn ra như sau:
+1. **Đọc file cấu trúc**: Tải file cấu trúc protein (định dạng `.cif` hoặc `.pdb`) vào chương trình.
+2. **Xử lý hình ảnh**: Chạy mã Python viết sẵn để thiết lập kiểu hiển thị (dạng hoạt hình ribbon, dạng bề mặt, v.v.), điều chỉnh góc camera và đổ bóng.
+3. **Xuất kết quả**: Lưu lại file dự án PyMOL (`.pse`) và xuất ra ảnh định dạng `.png` chất lượng cao.
 
 ## 🚀 Cách Sử Dụng
 
-### Universal
-
-```markdown
-# PyMOL Visualization Rules
-- Luôn kiểm tra file cấu trúc tồn tại trước khi viết script.
-- Mọi script PHẢI có init boilerplate: pymol.finish_launching() trước from pymol import cmd.
-- Luôn save .pse session file bên cạnh PNG output.
-- Luôn gọi cmd.quit() ở cuối script — bỏ sót sẽ khiến process treo.
-- Sử dụng cmd.png() cho output, KHÔNG dùng cmd.ray() hay cmd.draw() (không tương thích OSMesa).
-- Verify structure load: kiểm tra cmd.count_atoms("all") > 0 sau khi load.
-```
-
-### Cursor (.cursorrules)
-
-```markdown
-# PyMOL Rules
-- Software rendering only (OSMesa). Không dùng hardware acceleration.
-- Output paths phải absolute hoặc relative to project root.
-- Kết hợp với AlphaFold hoặc PDB skill để tải structure trước khi visualize.
-- Có sẵn 16+ recipes: cartoon coloring, B-factor, surface, pocket, superposition, mutagenesis.
-```
+Khi làm việc với trợ lý AI:
+- Cung cấp file cấu trúc protein cần vẽ (hoặc yêu cầu AI tải trước bằng kỹ năng PDB).
+- Xác định rõ bạn muốn hiển thị cấu trúc theo phong cách nào (ví dụ: dạng hoạt hình Ribbon sang trọng, dạng que biểu diễn axit amin, hay dạng bề mặt khối màu).
+- Đảm bảo AI chèn mã khởi chạy phần mềm bắt buộc (`pymol.finish_launching()`) ở đầu script và lệnh thoát (`cmd.quit()`) ở cuối script để tránh treo máy.
 
 ## 💡 Kịch Bản Lập Trình Thực Tế
 
 ### 🧑‍💻 Nhà phát triển:
-> "Tôi muốn tạo một bức ảnh 3D đẹp mắt của protein insulin để đưa vào bài báo cáo. Hãy giúp tôi viết kịch bản lệnh PyMOL để tô màu theo độ tin cậy và render ảnh."
+> "Tôi muốn tạo một bức ảnh 3D đẹp mắt của protein insulin để đưa vào bài báo cáo. Hãy giúp tôi viết kịch bản lệnh PyMOL để tô màu chuỗi axit amin và render ảnh."
 
 ### 🤖 AI Agent (Đã được trang bị Kỹ năng):
-> "Tôi sẽ thiết kế một kịch bản lệnh PyMOL tự động hóa toàn bộ quy trình kết xuất đồ họa chất lượng cao cho bạn:"
->
-> 1. **Thiết lập kịch bản lệnh (Scripting)**: Tôi tự động viết một tệp lệnh `.pml` bao gồm:
->    * Tải cấu trúc insulin từ PDB (mã ID: **1MSO**).
->    * Hiển thị cấu trúc dưới dạng hoạt hình Ribbon sang trọng (`show cartoon`).
->    * Tô màu chuỗi A và chuỗi B bằng hai tông màu gradient hài hòa.
->    * Hiển thị các liên kết disulfide cốt lõi dưới dạng que phát sáng màu vàng (`show sticks` tại các gốc Cysteine).
->    * Đặt góc chụp camera tối ưu, bật đổ bóng sâu (`ray` rendering) và xuất ảnh PNG nền trong suốt (`ray 1200, 900`).
-> 2. **Hướng dẫn thực thi**: Tôi cung cấp file lệnh `.pml` hoàn chỉnh cùng chỉ dẫn cách bạn mở phần mềm PyMOL và chạy lệnh `run script.pml` chỉ trong 1 giây để có bức ảnh bài báo tuyệt đẹp.
->
-> *Kịch bản đồ họa PyMOL chuyên nghiệp đã sẵn sàng, giúp bạn có những bức ảnh cấu trúc protein chất lượng xuất bản tạp chí.*
+> "Tôi đã viết một kịch bản lệnh Python để tự động hóa quy trình vẽ ảnh insulin (mã PDB ID: 1MSO) cho bạn:
+> 
+> 1. **Cấu hình hiển thị**: Thiết lập hiển thị cấu trúc insulin dạng hoạt hình Ribbon nổi bật, tô màu chuỗi A và chuỗi B bằng hai tông màu khác nhau để dễ phân biệt.
+> 2. **Làm nổi bật chi tiết**: Hiển thị các liên kết disulfide quan trọng dưới dạng que màu vàng nổi bật.
+> 3. **Xuất ảnh**: Thiết lập góc chụp camera đẹp nhất, bật đổ bóng sâu và xuất ra file ảnh `insulin.png` độ phân giải cao cùng file dự án `insulin.pse` để bạn có thể tự điều chỉnh thêm."
 
 ## ⚠️ Lưu Ý & Gotchas
 
-- **Cần file cấu trúc**: Phải tải .cif hoặc .pdb trước bằng AlphaFold hoặc PDB skill.
-- **Init boilerplate bắt buộc**: `from pymol import cmd` PHẢI đặt SAU `pymol.finish_launching()`, không phải trước.
-- **Không dùng cho docking/MD**: PyMOL chỉ để visualize, không chạy molecular dynamics hay docking.
-- **Session file lớn**: Surface rendering có thể tạo `.pse` >500 MB — tăng `--max_output_mb` nếu cần.
+- **Cần có file dữ liệu trước**: PyMOL không tự dự đoán cấu trúc gen hay protein. Bạn phải cung cấp file cấu trúc sẵn có hoặc tải từ ngân hàng dữ liệu PDB trước khi sử dụng kỹ năng này.
+- **Bắt buộc có lệnh đóng**: Trong các đoạn code tự động chạy, luôn phải gọi lệnh `cmd.quit()` khi kết thúc để đóng ứng dụng ngầm. Nếu thiếu lệnh này, tiến trình sẽ chạy vô hạn và làm treo máy chủ.
+- **Giới hạn chức năng**: PyMOL chỉ dùng để dựng hình và đo đạc trực quan, không hỗ trợ mô phỏng động lực học phân tử (Molecular Dynamics) hay tính toán gắn kết thuốc (Docking).

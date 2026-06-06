@@ -17,10 +17,8 @@ platforms:
   - mcp
 featured: false
 description: >-
-  Biến các khái niệm trừu tượng (vật lý, toán học, cơ khí) thành mô hình hoạt
-  hình tương tác Web trực quan bằng thư viện đồ họa (React Three Fiber, Canvas,
-  D3.js).
-oneLiner: Tạo các mô phỏng Web tương tác trực quan để giải thích nguyên lý khoa học.
+  Biến các lý thuyết khoa học hoặc số liệu khô khan thành các mô hình mô phỏng 2D/3D tương tác trực quan trên trang web, giúp người dùng dễ dàng thử nghiệm và thấu hiểu nguyên lý.
+oneLiner: Tạo các mô phỏng web tương tác trực quan giúp giải thích các nguyên lý khoa học phức tạp.
 sourceUrl: ''
 sourceAuthor: Minimax
 lastVerified: '2026-06-03'
@@ -31,44 +29,44 @@ relatedSkills:
 seoTitle: Interactive Visualization Architect - Minimax Skill for AI Agents
 seoDescription: >-
   Kiến trúc sư thiết kế mô hình tương tác web: lập trình đồ họa 3D/2D bằng
-  Canvas, Three.js, React Three Fiber và D3.js phục vụ giáo dục trực quan.
+  Canvas, Three.js, React Three Fiber và D3.js phục vụ giáo văn trực quan.
 provider: minimax
 ---
 
 ## 📖 Tại Sao Cần Skill Này?
 
-Việc giải thích các nguyên lý khoa học phức tạp bằng chữ viết thường rất khó hiểu. Kỹ năng này cho phép Agent đóng vai trò là lập trình viên đồ họa web đỉnh cao, thiết kế ra các trang web tương tác (Interactive Web Apps) nơi người dùng có thể kéo thả, trượt thanh cuộn để trực tiếp quan sát sự thay đổi của vật lý hoặc toán học.
+Giải thích các nguyên lý khoa học, toán học hoặc vật lý phức tạp chỉ bằng lời nói hay chữ viết thường rất trừu tượng và khó hiểu. Kỹ năng này cho phép trợ lý AI tạo ra các trang web mô phỏng trực quan sinh động. Tại đây, người dùng có thể kéo thả, di chuyển thanh trượt để thay đổi các thông số và lập tức nhìn thấy kết quả thay đổi trong thời gian thực, giúp việc tiếp thu kiến thức trở nên dễ dàng và thú vị hơn rất nhiều.
 
 ## ⚙️ Cách Hoạt Động
 
 Quy trình xây dựng mô hình trực quan tương tác:
 
 ```
-[Scientific Concept] -> [Identify 'Aha Moment'] -> [Select Tech Stack (3D/2D)] -> [Code Interactive Demo] -> [Deliver Shareable URL]
+[Khái niệm khoa học] -> [Xác định điểm mấu chốt cần làm nổi bật] -> [Chọn công nghệ đồ họa (2D/3D)] -> [Viết code trang mô phỏng] -> [Cung cấp đường link trải nghiệm]
 ```
 
-1. **Aha Moment**: Tìm ra điểm mấu chốt dễ gây ấn tượng và dễ hiểu nhất của khái niệm.
-2. **Stack Selection**: Chọn Canvas API, SVG hay WebGL (Three.js) tùy thuộc vào độ phức tạp.
-3. **Deployment**: Triển khai mã nguồn lên môi trường web và cung cấp một đường link (URL) để trải nghiệm trực tiếp.
+1. **Tìm điểm cốt lõi**: Xác định yếu tố trực quan nào sẽ giúp người học hiểu nhanh nhất khái niệm đó (ví dụ: mô phỏng chuyển động của lò xo).
+2. **Chọn công nghệ**: Lựa chọn thư viện vẽ phù hợp (như D3.js cho biểu đồ, Three.js cho mô hình 3D, hoặc HTML5 Canvas thông thường).
+3. **Phát triển và Triển khai**: Lập trình mã nguồn và đưa trang web lên hoạt động để cung cấp một đường link (URL) dùng thử trực tiếp cho bạn.
 
 ## 🚀 Cách Sử Dụng
 
-1. Mục tiêu tối thượng là phải bàn giao được một đường link URL chạy được giao diện tương tác; thiết kế suông mà không có link là thất bại.
-2. Thiết kế cơ chế 'Playful Learning' (học qua chơi) bằng cách thêm các nút bấm, thanh trượt (sliders) điều chỉnh tham số.
-3. Tối ưu hóa mã nguồn đồ họa để chạy mượt mà ở tốc độ 60 FPS trên cả thiết bị di động.
+1. Mục tiêu cuối cùng là cung cấp một đường link trang web hoạt động được để người dùng trải nghiệm trực tiếp, thay vì chỉ mô tả lý thuyết suông.
+2. Thiết kế các công cụ tương tác dễ sử dụng như nút bấm, thanh trượt điều chỉnh số liệu để người dùng tự do thử nghiệm các trường hợp khác nhau.
+3. Đảm bảo mã nguồn tối ưu để hình ảnh mô phỏng chuyển động mượt mà ngay cả trên điện thoại di động.
 
 ## 💡 Kịch Bản Lập Trình Thực Tế
 
-### Nhà phát triển:
-> "Hãy hướng dẫn tôi cách thiết lập và sử dụng kỹ năng Interactive Visualization Architect để Tạo các mô phỏng Web tương tác trực quan để giải thích nguyên lý khoa học."
+### 🧑‍💻 Nhà phát triển:
+> "Hãy hướng dẫn tôi cách sử dụng kỹ năng Interactive Visualization Architect để tạo một trang web mô phỏng lực hấp dẫn tương tác."
 
-### AI Agent (Đã được trang bị Kỹ năng):
-> "Tôi đã sẵn sàng. Dưới đây là kịch bản vận hành thực tế cho kỹ năng Interactive Visualization Architect:
-> 1. Thiết lập các thông số cấu hình và tham số đầu vào cần thiết cho hệ thống.
-> 2. Thực thi tuần tự các bước xử lý logic và tích hợp theo đúng chỉ dẫn của Interactive Visualization Architect.
-> 3. Kiểm thử đầu ra, tối ưu hóa hiệu năng và cung cấp kết quả hoàn chỉnh."
+### 🤖 AI Agent (Đã được trang bị Kỹ năng):
+> "Tôi đã sẵn sàng. Dưới đây là cách thực hiện dự án này:
+> 1. **Thiết kế kịch bản**: Tạo mô hình hai hành tinh quay quanh nhau và cho phép người dùng thay đổi khối lượng hành tinh bằng thanh trượt.
+> 2. **Lập trình đồ họa**: Sử dụng thư viện HTML Canvas để vẽ quỹ đạo chuyển động thời gian thực dựa trên các công thức vật lý.
+> 3. **Cung cấp sản phẩm**: Triển khai trang web và gửi cho bạn đường link để trực tiếp thử kéo thả các hành tinh và xem lực hấp dẫn thay đổi ra sao."
 
 ## ⚠️ Lưu Ý & Gotchas
 
-- **Quá tải tài nguyên đồ họa**: Khởi tạo quá nhiều đối tượng 3D không giải phóng bộ nhớ sẽ làm đơ trình duyệt. Luôn dọn dẹp các mesh, texture sau khi component bị hủy (unmount).
-- **Trải nghiệm di động kém**: Các tương tác kéo thả trên máy tính có thể bị lỗi trên màn hình cảm ứng di động. Hãy thiết kế tương tác thân thiện với cảm ứng (touch-friendly).
+- **Nặng máy**: Các hiệu ứng 3D phức tạp có thể làm chậm trình duyệt của người dùng nếu không được tối ưu bộ nhớ. Hãy chú ý dọn dẹp các tài nguyên đồ họa khi không dùng tới.
+- **Không thân thiện với điện thoại**: Giao diện kéo thả thiết kế cho chuột máy tính đôi khi hoạt động không tốt trên màn hình cảm ứng điện thoại. Hãy đảm bảo các nút bấm đủ to và dễ tương tác bằng ngón tay.

@@ -18,9 +18,8 @@ platforms:
   - universal
 featured: false
 description: >-
-  Phân tích làm giàu con đường sinh học (Pathway enrichment), tra cứu phản ứng
-  chuyển hóa tế bào và tải sơ đồ mạng sinh học.
-oneLiner: Truy vấn con đường chuyển hóa sinh học từ cơ sở dữ liệu Reactome.
+  Công cụ phân tích các con đường sinh học trong cơ thể (phản ứng hóa sinh, trao đổi chất, truyền tín hiệu), giúp tìm ra các nhóm gen liên quan trực tiếp đến các loại bệnh lý.
+oneLiner: Tra cứu và phân tích các con đường sinh học, phản ứng hóa sinh trong cơ thể.
 sourceUrl: 'https://reactome.org/'
 sourceAuthor: Google DeepMind
 lastVerified: '2026-05-30'
@@ -37,54 +36,41 @@ provider: antigravity
 
 ## 📖 Tại Sao Cần Skill Này?
 
-Reactome là curated pathway database — mô tả chi tiết các phản ứng sinh học, từ metabolic pathways đến signaling cascades, với từng bước reaction và participants cụ thể.
-
-- **Pathway enrichment**: Submit gene list → tìm pathways over-represented
-- **Reaction details**: Inputs, outputs, catalysts, regulators cho mỗi reaction step
-- **Pathway hierarchy**: Top-level → sub-pathway → reaction navigation
-- **Diagram export**: Pathway diagrams cho visualization
+Trong cơ thể, các gen và protein không hoạt động riêng lẻ mà phối hợp với nhau tạo thành các "con đường sinh học" (giống như một dây chuyền sản xuất trong nhà máy). Skill này giúp bạn:
+- **Phân tích nhóm gen**: Đưa vào một danh sách gen bị lỗi/đột biến để tìm xem chúng đang làm gián đoạn dây chuyền sản xuất (con đường sinh học) nào.
+- **Xem chi tiết phản ứng**: Biết rõ chất đầu vào, chất đầu ra và chất xúc tác cho từng bước phản ứng hóa sinh cụ thể.
+- **Sơ đồ hóa**: Xem hoặc tải sơ đồ mô tả trực quan các con đường sinh học này hoạt động thế nào trong tế bào.
 
 ## ⚙️ Cách Hoạt Động
 
-```
-Gene list / Pathway ID → Reactome API → 
-Return enrichment results, pathway hierarchy, reaction details
-```
-
-1. **Enrichment analysis**: Submit gene/protein list → get enriched pathways (p-value, FDR)
-2. **Pathway content**: Reaction participants (inputs/outputs/catalysts)
-3. **Hierarchy**: Browse pathway tree từ top-level categories
+Khi bạn gửi danh sách gen hoặc mã con đường sinh học, hệ thống sẽ:
+1. **Đối chiếu cơ sở dữ liệu**: Kiểm tra danh sách gen trên hệ thống dữ liệu chuẩn hóa của Reactome.
+2. **Tính toán thống kê**: Tìm kiếm xem các gen này tập trung nhiều nhất ở con đường sinh học nào và tính toán xem sự trùng hợp này có đáng tin cậy hay không (dựa trên chỉ số thống kê FDR).
+3. **Hiển thị kết quả**: Trả về tên con đường sinh học, tỷ lệ gen trùng khớp và liên kết xem sơ đồ trực quan.
 
 ## 🚀 Cách Sử Dụng
 
-### Universal
-
-```markdown
-# Reactome Rules
-- Enrichment: submit gene list → sort by FDR (< 0.05 = significant).
-- Report: pathway name, entities found/total, p-value, FDR.
-- Unmapped identifiers: check và report IDs not found in Reactome.
-- Diagram export available cho pathway visualization.
-```
+Khi viết yêu cầu cho trợ lý AI:
+- Cung cấp danh sách các gen cần phân tích (dùng tên gen chuẩn như `TP53`, `EGFR` hoặc mã UniProt, Ensembl).
+- Yêu cầu sắp xếp kết quả theo chỉ số FDR (nhỏ hơn 0.05 là có ý nghĩa sinh học thực tế).
+- Kiểm tra danh sách gen xem có gen nào hệ thống không nhận diện được (unmapped) để báo cáo lại.
 
 ## 💡 Kịch Bản Lập Trình Thực Tế
 
 ### 🧑‍💻 Nhà phát triển:
-> "Tôi có danh sách 10 gene đột biến tìm thấy trong mẫu ung thư. Hãy chạy phân tích làm giàu con đường sinh học (pathway enrichment) trên Reactome."
+> "Tôi có danh sách 10 gen đột biến tìm thấy trong mẫu bệnh án ung thư. Hãy kiểm tra xem chúng nằm trong những con đường sinh học nào trên Reactome."
 
 ### 🤖 AI Agent (Đã được trang bị Kỹ năng):
-> "Tôi sẽ thực hiện phân tích làm giàu con đường sinh hóa bằng công cụ Reactome Analysis Service thông qua quy trình tự động:"
->
-> 1. **Xác thực danh sách gene**: Tôi kiểm tra danh sách gene của bạn, chuẩn hóa sang mã HGNC chuẩn.
-> 2. **Chạy phân tích Enrichment**: Tôi gửi danh sách gene lên máy chủ Reactome để chạy phân tích thống kê siêu hình học.
-> 3. **Phân tích con đường bị ảnh hưởng**: Tôi trích xuất các con đường sinh học có ý nghĩa thống kê nhất.
-> 4. **Báo cáo kết quả**: Tôi trình bày bảng kết quả chỉ ra các con đường bị ảnh hưởng nặng nề nhất kèm theo tỷ lệ gene trùng khớp và liên kết trực tiếp đến sơ đồ con đường sinh hóa tương tác trên Reactome.
->
-> *Báo cáo con đường sinh học Reactome chi tiết sẽ giúp bạn khám phá ngay lập tức cơ chế sinh lý bệnh đứng sau các đột biến.*
+> "Tôi đã gửi danh sách 10 gen của bạn lên Reactome để thực hiện phân tích:
+> 
+> 1. **Kết quả đối chiếu**: Cả 10 gen đều được nhận diện thành công trên hệ thống.
+> 2. **Con đường sinh học bị ảnh hưởng nhiều nhất**:
+>    * **Sự truyền tín hiệu của EGFR** (`R-HSA-177929`): Có 4 gen của bạn nằm trong con đường này. Chỉ số tin cậy FDR cực thấp (rất đáng chú ý).
+>    * **Chu kỳ tế bào** (`R-HSA-1640170`): Có 3 gen trùng khớp.
+> 3. **Xem sơ đồ**: Tôi đã chuẩn bị các liên kết trực tiếp dẫn đến sơ đồ chi tiết của từng con đường trên trang Reactome để bạn theo dõi trực quan."
 
 ## ⚠️ Lưu Ý & Gotchas
 
-- **FDR, not p-value**: Luôn dùng FDR (False Discovery Rate) để assess significance, không dùng raw p-value.
-- **Identifier mapping**: Reactome accept UniProt, Ensembl, Gene Symbol — check unmapped IDs.
-- **Human-centric**: Reactome phong phú nhất cho human pathways. Species khác có ít data hơn.
-- **Reactome vs KEGG**: Reactome = open-access, curated, detailed reactions. KEGG = proprietary, broader coverage.
+- **Chỉ số tin cậy FDR**: Luôn ưu tiên dùng chỉ số FDR (False Discovery Rate) thay vì p-value thông thường để đánh giá độ chính xác, mức chuẩn thường dùng là dưới 0.05.
+- **Độ phủ đối tượng**: Reactome hoạt động tốt nhất và đầy đủ nhất đối với cơ thể người. Với các loài sinh vật khác, dữ liệu sẽ ít chi tiết hơn.
+- **Sự khác biệt**: Khác với các hệ thống đóng phí khác, Reactome là cơ sở dữ liệu mã nguồn mở hoàn toàn miễn phí và cực kỳ chi tiết về từng bước phản ứng hóa học nhỏ nhất.

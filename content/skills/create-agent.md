@@ -2,13 +2,10 @@
 category: workflow-orchestration
 command: /create-agent
 complexity: intermediate
-description: >-
-  Kỹ năng khởi tạo và thiết lập cấu hình cho một Agent mới trên đĩa. Hỗ trợ tự
-  động tạo cấu trúc thư mục, tệp agent.md đóng vai trò là system prompt và các
-  tệp cấu hình cần thiết để Agent hoạt động độc lập hoặc tích hợp vào dự án.
+description: Hướng dẫn tạo lập, cấu hình và thiết lập một AI Agent trợ lý mới cho dự án để thực hiện các nhiệm vụ chuyên biệt một cách tự động.
 featured: false
 lastVerified: '2026-06-03'
-oneLiner: Khởi tạo và cấu hình nhanh một Agent mới độc lập hoặc tích hợp trong dự án.
+oneLiner: Tạo và thiết lập một AI Agent trợ lý mới một cách tự động và dễ dàng.
 platforms:
   - universal
   - cursor
@@ -20,10 +17,8 @@ relatedSkills:
   - init-harness
   - skill-creator
   - mavis
-seoDescription: >-
-  Kỹ năng khởi tạo Agent mới trên đĩa cho AI Agent. Hướng dẫn thiết lập tệp
-  agent.md, cấu trúc thư mục và cấu hình hệ thống.
-seoTitle: Create Agent - Minimax Skill for AI Agents
+seoDescription: Kỹ năng tạo AI Agent mới hỗ trợ tự động cấu hình vai trò, nhiệm vụ và tệp hướng dẫn.
+seoTitle: Create Agent - Tạo AI Agent trợ lý mới
 slug: create-agent
 sourceAuthor: Minimax
 sourceUrl: ''
@@ -37,52 +32,36 @@ title: Create Agent
 
 ## 📖 Tại Sao Cần Skill Này?
 
-AI Agent cần kỹ năng này để tự động thiết lập và mở rộng đội ngũ Agent của chính nó. Khi một nhiệm vụ đòi hỏi kỹ năng chuyên biệt mới vượt quá khả năng của các Agent hiện tại, thay vì làm quá tải Agent hiện có, hệ thống có thể tạo ra một Agent mới có trách nhiệm cụ thể để chia sẻ công việc, giúp duy trì cấu trúc module và tối ưu hóa chi phí vận hành prompt.
+Khi dự án ngày càng phức tạp, một trợ lý AI duy nhất không thể kiêm nhiệm hết mọi việc. Kỹ năng này giúp bạn nhanh chóng tạo ra các "trợ lý phụ" chuyên biệt (ví dụ: trợ lý viết bài, trợ lý kiểm thử code, trợ lý thiết kế) để cùng chia sẻ công việc, giúp tăng tốc độ xử lý và nâng cao hiệu quả.
 
----
+- **Mở rộng đội ngũ dễ dàng**: Tự động hóa quá trình tạo và cấu hình trợ lý mới.
+- **Phân vai rõ ràng**: Mỗi trợ lý phụ tập trung làm tốt một việc duy nhất, tránh nhầm lẫn.
+- **Dễ quản lý**: Tổ chức các trợ lý theo cấu trúc thư mục khoa học.
 
 ## ⚙️ Cách Hoạt Động
 
-Quy trình hoạt động tuân theo 5 bước rõ ràng:
-1. **Chọn tên**: Đặt tên dạng `kebab-case` mô tả chính xác trách nhiệm (ví dụ: `payments-expert`), kiểm tra tên đã tồn tại chưa qua `mavis agent info`.
-2. **Khởi dựng (Scaffold)**: Chạy lệnh `mavis agent new <name>` để sinh cấu trúc thư mục mặc định hoặc tự tạo thủ công trong `.harness/reins/<name>/`.
-3. **Viết agent.md**: Tạo file system prompt trả lời cụ thể 4 câu hỏi: Vai trò là gì, Phạm vi quản lý (Scope), Cách làm việc, và Tiêu chuẩn dừng lại (Stop when).
-4. **Bổ sung thành phần phụ trợ**: Thêm `config.yaml` (nếu cần thay đổi model/thinking), `PERSONA.md` (giọng điệu) hoặc hooks/crons (nếu có).
-5. **Xác thực**: Chạy `mavis agent info <name>` để đảm bảo file YAML/markdown phân tích cú pháp thành công.
-
-Sơ đồ quy trình:
-```
-[Yêu cầu tạo Agent] ➔ 🏷️ [Chọn tên & Kiểm tra trùng] ➔ 📂 [Tạo Scaffold thư mục]
-                             ➔ 📝 [Viết agent.md (system prompt)] ➔ 🧪 [Xác thực mavis agent info]
-```
-
----
+1. **Đặt tên**: Chọn một tên gợi nhớ ngắn gọn mô tả nhiệm vụ (ví dụ: `marketing-assistant`).
+2. **Tạo thư mục**: Thiết lập tự động thư mục làm việc riêng cho trợ lý đó.
+3. **Soạn hướng dẫn**: Tạo tệp mô tả chi tiết vai trò, những việc được làm, không được làm và tiêu chí hoàn thành công việc.
+4. **Kích hoạt**: Kiểm tra cấu hình để đảm bảo trợ lý mới đã có thể hoạt động trơn tru.
 
 ## 🚀 Cách Sử Dụng
 
-```markdown
-# QUY TẮC KHỞI TẠO AGENT CHUYÊN BIỆT
-- **K kebab-case**: Tên agent phải viết thường, cách nhau bằng dấu gạch ngang và phản ánh đúng trách nhiệm (không dùng Senior/Junior).
-- **Cấu trúc agent.md bắt buộc**: File system prompt phải chứa YAML frontmatter đóng và đủ các mục: Scope, How you work, và Stop when.
-- **Tiêu chí dừng rõ ràng**: Phần `Stop when` phải chứa các tiêu chí đo lường được (ví dụ: "chạy build thành công, kiểm thử pass và đã commit").
-- **Không tự dịch lệnh**: Bắt buộc đọc tệp tham chiếu lệnh dòng lệnh tương ứng với nền tảng (`win32` vs `darwin/linux`) trước khi thực hiện.
-```
-
----
+- Đưa ra yêu cầu tạo trợ lý mới kèm nhiệm vụ cụ thể cho trợ lý chính.
+- Trợ lý chính sẽ tự động thực hiện các bước cấu hình và báo cáo lại khi hoàn tất.
 
 ## 💡 Kịch Bản Lập Trình Thực Tế
 
-### Nhà phát triển:
-> "Hãy hướng dẫn tôi cách thiết lập và sử dụng kỹ năng Create Agent để Khởi tạo và cấu hình nhanh một Agent mới độc lập hoặc tích hợp trong dự án."
+### Người dùng:
+> "Tạo cho tôi một trợ lý chuyên viết bài chuẩn SEO bằng tiếng Việt."
 
-### AI Agent (Đã được trang bị Kỹ năng):
-> "Tôi đã sẵn sàng. Dưới đây là kịch bản vận hành thực tế cho kỹ năng Create Agent:
-> 1. Thiết lập các thông số cấu hình và tham số đầu vào cần thiết cho hệ thống.
-> 2. Thực thi tuần tự các bước xử lý logic và tích hợp theo đúng chỉ dẫn của Create Agent.
-> 3. Kiểm thử đầu ra, tối ưu hóa hiệu năng và cung cấp kết quả hoàn chỉnh."
+### Trợ lý:
+> "Tôi đang tạo trợ lý mới có tên `seo-vietnamese-writer`:
+> 1. Thiết lập thư mục làm việc riêng.
+> 2. Soạn thảo bộ quy tắc viết bài chuẩn SEO, từ khóa và độ dài bài viết.
+> 3. Kiểm tra tính hợp lệ của cấu hình. Trợ lý viết bài SEO đã được tạo thành công và sẵn sàng nhận việc."
 
 ## ⚠️ Lưu Ý & Gotchas
 
-* **Trùng lặp phạm vi**: Tránh tạo hai Agent có phạm vi công việc chồng chéo lên nhau, điều này làm bộ điều phối (orchestrator) phân vai ngẫu nhiên và mất kiểm soát.
-* **YAML lỗi cú pháp**: Lỗi phổ biến là thụt lề bằng phím tab hoặc thiếu ký tự đóng `---` ở frontmatter, khiến Agent không xuất hiện trong danh sách.
-* **Stop condition quá mơ hồ**: Viết "khi hoàn thành công việc" sẽ khiến Agent báo cáo xong mà không thực tế chạy kiểm thử hay build thử.
+- **Tránh trùng lặp**: Không tạo các trợ lý có nhiệm vụ quá giống nhau để tránh chồng chéo công việc.
+- **Mô tả cụ thể**: Hướng dẫn cho trợ lý mới cần chi tiết và thực tế, ví dụ thay vì ghi "viết bài tốt" hãy ghi "viết bài tối thiểu 500 từ và chứa 3 từ khóa chính".

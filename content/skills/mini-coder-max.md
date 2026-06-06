@@ -17,11 +17,8 @@ platforms:
   - claude-code
   - mcp
 featured: false
-description: >-
-  Agent lập trình tự động giúp lập kế hoạch, triển khai, đánh giá và bàn giao mã
-  nguồn chất lượng cao. Xử lý các tác vụ từ đơn giản đến hệ thống doanh nghiệp
-  lớn phức tạp.
-oneLiner: Agent lập trình tự động hóa quy trình từ thiết kế đến chất lượng code.
+description: Trợ lý lập trình chuyên nghiệp giúp bạn lên kế hoạch xây dựng phần mềm, viết mã nguồn sạch đẹp, tự động kiểm tra lỗi và bàn giao sản phẩm phần mềm hoàn thiện.
+oneLiner: Trợ lý viết code, sửa lỗi và quản lý chất lượng phần mềm tự động.
 sourceUrl: ''
 sourceAuthor: Minimax
 lastVerified: '2026-06-03'
@@ -38,40 +35,36 @@ provider: minimax
 
 ## 📖 Tại Sao Cần Skill Này?
 
-Lập trình trực tiếp từ yêu cầu mà không có bước chuẩn bị thường dẫn đến cấu trúc code lộn xộn, lỗi bảo mật và thiếu xử lý ngoại lệ. Kỹ năng này cung cấp một quy trình lập trình khép kín và kỷ luật, giảm thiểu rủi ro kỹ thuật thông qua các giai đoạn lập kế hoạch chi tiết, tự kiểm thử và chất lượng hóa trước khi phân phối.
+Viết code trực tiếp mà không lập kế hoạch rất dễ gây ra lỗi, code lộn xộn và khó bảo trì. Kỹ năng này giúp trợ lý làm việc như một kỹ sư phần mềm thực thụ: tự lên kế hoạch rõ ràng, nghiên cứu công nghệ phù hợp, viết code chuẩn và tự kiểm tra lỗi trước khi bàn giao cho bạn.
 
 ## ⚙️ Cách Hoạt Động
 
-Bản đồ quy trình hoạt động:
-```
-Yêu cầu người dùng ──> Lên kế hoạch (Phase 1) ──> Nghiên cứu thư viện (Phase 2) ──> Triển khai code (Phase 3) ──> Đánh giá QA (Phase 4) ──> Bàn giao
-```
-1. **Lên kế hoạch**: Phân tích yêu cầu, phân loại độ phức tạp (Đơn giản, Vừa, Phức tạp, Hệ thống lớn) và tạo tài liệu `plan.md`.
-2. **Nghiên cứu**: Tìm kiếm tài liệu API chính thức và đánh giá sự phù hợp của các thư viện bên thứ ba.
-3. **Triển khai**: Viết mã nguồn sạch, xử lý lỗi chi tiết và tuân thủ các chuẩn lập trình quốc tế (PEP 8, ES6+, SOLID).
-4. **Đánh giá QA**: Tự duyệt code qua danh sách kiểm tra (đúng chức năng, bảo mật, hiệu năng, tài liệu).
-5. **Bàn giao**: Đóng gói mã nguồn và hướng dẫn sử dụng chi tiết.
+Quy trình viết code:
+1. Bạn đưa ra yêu cầu phần mềm.
+2. Trợ lý lập kế hoạch chi tiết (xác định cấu trúc, độ khó và các bước làm).
+3. Trợ lý nghiên cứu tài liệu công nghệ và thư viện phù hợp.
+4. Trợ lý tiến hành viết code sạch, dễ hiểu và dễ bảo trì.
+5. Trợ lý tự chạy thử nghiệm để kiểm tra lỗi bảo mật hoặc hiệu năng.
+6. Trợ lý đóng gói mã nguồn và viết hướng dẫn sử dụng chi tiết cho bạn.
 
 ## 🚀 Cách Sử Dụng
 
-- Luôn tạo tài liệu kế hoạch phát triển trước khi gõ bất kỳ dòng code nào.
-- Đặt tên biến và hàm có tính mô tả cao, không lồng ghép các vòng lặp quá 3 cấp và tránh sử dụng số 'ma thuật' (magic numbers) không giải thích.
-- Gắn nhãn phân loại mức độ nghiêm trọng cho các vấn đề phát hiện được khi review (🔴 Nghiêm trọng, 🟠 Cao, 🟡 Trung bình, 🟢 Thấp).
-- Đảm bảo viết tài liệu hướng dẫn sử dụng chi tiết (API doc, hướng dẫn cài đặt) đi kèm với sản phẩm bàn giao.
+- Đưa ra yêu cầu cụ thể về phần mềm hoặc tính năng bạn muốn viết (ví dụ "Hãy viết một trang web quản lý công việc đơn giản bằng React").
+- Yêu cầu trợ lý giải thích kế hoạch phát triển trước khi bắt đầu viết code để bạn nắm được tiến độ.
+- Nhờ trợ lý đánh giá hoặc sửa lỗi một đoạn code có sẵn bằng cách dán code vào khung chat.
 
 ## 💡 Kịch Bản Lập Trình Thực Tế
 
-### Nhà phát triển:
-> "Hãy hướng dẫn tôi cách thiết lập và sử dụng kỹ năng Mini Coder Max để Agent lập trình tự động hóa quy trình từ thiết kế đến chất lượng code."
+### Người dùng:
+> "Tôi muốn viết một đoạn code Python để tự động gửi email báo cáo công việc vào cuối ngày."
 
-### AI Agent (Đã được trang bị Kỹ năng):
-> "Tôi đã sẵn sàng. Dưới đây là kịch bản vận hành thực tế cho kỹ năng Mini Coder Max:
-> 1. Thiết lập các thông số cấu hình và tham số đầu vào cần thiết cho hệ thống.
-> 2. Thực thi tuần tự các bước xử lý logic và tích hợp theo đúng chỉ dẫn của Mini Coder Max.
-> 3. Kiểm thử đầu ra, tối ưu hóa hiệu năng và cung cấp kết quả hoàn chỉnh."
+### Trợ lý:
+> "Tôi đã lên kế hoạch và hoàn thành đoạn code Python cho bạn:
+> 1. Kế hoạch: Sử dụng thư viện có sẵn của Python, kết nối bảo mật và đọc file báo cáo từ máy tính.
+> 2. Đoạn code đã được tối ưu, dễ đọc và xử lý sẵn các trường hợp lỗi mạng.
+> 3. Đây là đoạn code hoàn chỉnh kèm hướng dẫn cài đặt mật khẩu email an toàn."
 
 ## ⚠️ Lưu Ý & Gotchas
 
-- **Không bỏ qua bước QA**: Tuyệt đối không bàn giao code khi chưa chạy qua danh sách tự kiểm tra chất lượng.
-- **Tránh Over-engineering**: Chỉ tập trung phát triển các tính năng trong phạm vi yêu cầu hiện tại, tránh tự ý thêm các kiến trúc phức tạp không cần thiết.
-- **Thông tin xác thực**: Không bao giờ được hardcode các thông tin mật như API key hay mật khẩu trong mã nguồn.
+- **Bảo mật**: Không bao giờ viết trực tiếp mật khẩu hoặc khóa bảo mật (API Key) vào trong đoạn code. Luôn sử dụng biến môi trường hoặc cấu hình riêng.
+- **Không làm quá phức tạp**: Trợ lý sẽ tập trung viết đúng tính năng bạn yêu cầu, tránh tự ý thêm các phần phức tạp không cần thiết làm chậm hệ thống của bạn.

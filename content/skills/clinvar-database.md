@@ -16,80 +16,49 @@ platforms:
   - gemini-cli
   - universal
 featured: false
-description: >-
-  Truy vấn cơ sở dữ liệu ClinVar về tính gây bệnh (Pathogenic, Benign, VUS) và
-  bằng chứng lâm sàng của biến thể gen người.
-oneLiner: >-
-  Tra cứu phân loại lâm sàng và tính gây bệnh của các biến thể di truyền di
-  truyền.
+description: Tra cứu dữ liệu y khoa ClinVar để kiểm tra xem một đột biến gen cụ thể có khả năng gây bệnh hay không và xem các bằng chứng khoa học đi kèm.
+oneLiner: Tra cứu đột biến gen xem có gây hại hay không từ cơ sở dữ liệu y khoa ClinVar.
 sourceUrl: 'https://www.ncbi.nlm.nih.gov/clinvar/'
 sourceAuthor: Google DeepMind
 lastVerified: '2026-05-30'
 relatedSkills: []
 seoTitle: ClinVar Clinical Variants — Skillbook Agents
-seoDescription: >-
-  Hướng dẫn Agent tra cứu pathogenicity và clinical significance của biến thể di
-  truyền từ ClinVar.
+seoDescription: Hướng dẫn Agent tra cứu tính gây bệnh lâm sàng của biến thể di truyền từ cơ sở dữ liệu ClinVar.
 provider: antigravity
 ---
 
 ## 📖 Tại Sao Cần Skill Này?
 
-ClinVar là database chuẩn vàng của NCBI chứa phân loại lâm sàng cho hàng triệu biến thể di truyền người. Khi gặp một variant, câu hỏi đầu tiên luôn là: **"Variant này có gây bệnh không?"**
+Khi nghiên cứu về di truyền học, câu hỏi quan trọng nhất luôn là: **"Một đột biến gen cụ thể có gây ra bệnh hay không?"** Kỹ năng này giúp bạn tự động tìm câu trả lời từ ClinVar – thư viện y khoa hàng đầu thế giới về biến thể gen người.
 
-- **5-tier classification**: Pathogenic → Likely Pathogenic → VUS → Likely Benign → Benign
-- **Evidence-based**: Mỗi classification kèm bằng chứng từ clinical labs, review panels (ClinGen)
-- **Benchmark controls**: Tìm "hard positive" variants đã được xác nhận pathogenic cho validation
+- **Biết ngay mức độ nguy hiểm**: Xác định đột biến là gây bệnh, lành tính hay chưa rõ ràng.
+- **Tiết kiệm thời gian**: Không cần phải tự mình lục tìm hàng ngàn tài liệu y sinh phức tạp.
+- **Độ tin cậy cao**: Cung cấp mức độ đồng thuận của cộng đồng y khoa đối với kết quả tra cứu.
 
 ## ⚙️ Cách Hoạt Động
 
-```
-Variant ID (rsID/HGVS/coordinates) → ClinVar API → 
-Return classification, evidence, conditions, review status
-```
-
-1. **Input**: rsID (rs123456), HGVS notation (NM_000546.6:c.215C>G), hoặc genomic coordinates
-2. **Lookup**: Query ClinVar database qua NCBI E-utilities
-3. **Output**: Clinical significance, review status (★ rating), associated conditions, submitter evidence
+1. **Nhận thông tin**: Bạn cung cấp mã đột biến gen (ví dụ: mã rsID hoặc định dạng chuẩn HGVS).
+2. **Truy vấn ClinVar**: Hệ thống tự động tìm kiếm trên cơ sở dữ liệu ClinVar của NCBI.
+3. **Trả về kết quả**: Cung cấp báo cáo về khả năng gây bệnh, loại bệnh liên quan và mức độ tin cậy của dữ liệu đó.
 
 ## 🚀 Cách Sử Dụng
 
-### Universal
-
-```markdown
-# ClinVar Lookup Rules
-- Khi user hỏi "variant X có gây bệnh không?" → tra ClinVar trước.
-- Báo cáo: classification, review stars, associated conditions.
-- VUS (Variant of Uncertain Significance) = chưa đủ evidence → KHÔNG kết luận pathogenic hay benign.
-- Luôn báo review status (★): 4★ = expert panel reviewed, 1★ = single submitter.
-```
-
-### Cursor (.cursorrules)
-
-```markdown
-# ClinVar Rules
-- ClinVar classification không phải chẩn đoán — luôn khuyên tham khảo genetic counselor.
-- Cross-reference với gnomAD allele frequency: rare + pathogenic = high concern.
-- Đối với VUS, suggest thêm evidence từ AlphaGenome hoặc functional studies.
-```
+- Đưa mã đột biến gen cần kiểm tra cho trợ lý.
+- Trợ lý sẽ trả về kết luận y khoa ngắn gọn và dễ hiểu về mức độ gây hại của biến thể đó.
 
 ## 💡 Kịch Bản Lập Trình Thực Tế
 
-### 🧑‍💻 Nhà phát triển:
-> "Tôi phát hiện biến thể BRCA1 c.5096G>A (p.Arg1699Gln) trong dữ liệu giải trình tự. Hãy kiểm tra xem biến thể này đã được phân loại lâm sàng như thế nào trên ClinVar."
+### Người dùng:
+> "Biến thể BRCA1 c.5096G>A có gây nguy hiểm gì không bạn?"
 
-### 🤖 AI Agent (Đã được trang bị Kỹ năng):
-> "Tôi sẽ kết nối trực tiếp với cơ sở dữ liệu ClinVar của NCBI để kiểm tra và lập báo cáo lâm sàng cho bạn:"
->
-> 1. **Truy xuất thông tin biến thể**: Tôi truy vấn ClinVar dựa trên chuỗi HGVS chuẩn `BRCA1:c.5096G>A`.
-> 2. **Phân tích mức độ gây bệnh (Pathogenicity)**: Tôi trích xuất trạng thái đồng thuận lâm sàng hiện tại của biến thể này là **Pathogenic (Đợt gây bệnh)**.
-> 3. **Thu thập bằng chứng lâm sàng**: Tôi tổng hợp các báo cáo từ các trung tâm uy tín (như ENIGMA, Ambry Genetics) đi kèm mã chứng cứ ClinVar SCV, các kiểu hình liên quan (Hereditary Breast and Ovarian Cancer Syndrome) và số lượng sao đánh giá mức độ tin cậy (Review Status: 3 stars - reviewed by expert panel).
->
-> *Báo cáo kiểm định biến thể ClinVar chi tiết đã sẵn sàng, giúp bạn đưa ra kết luận chẩn đoán di truyền chính xác và an toàn.*
+### Trợ lý:
+> "Tôi đã tra cứu cơ sở dữ liệu ClinVar cho bạn:
+> - **Kết luận**: Biến thể BRCA1 này được xếp loại là **Gây bệnh (Pathogenic)**.
+> - **Bệnh liên quan**: Hội chứng ung thư vú và buồng trứng di truyền.
+> - **Độ tin cậy**: Rất cao (được xác nhận bởi hội đồng chuyên gia)."
 
 ## ⚠️ Lưu Ý & Gotchas
 
-- **Không phải chẩn đoán**: ClinVar classification là reference, không thay thế genetic counseling.
-- **VUS trap**: ~50% variants trong ClinVar là VUS — đừng tự kết luận chúng benign hay pathogenic.
-- **Review stars matter**: 1★ single submitter ≠ 4★ expert panel reviewed. Luôn report review status.
-- **Updates**: Classifications có thể thay đổi theo thời gian khi có thêm evidence.
+- **Chỉ mang tính chất tham khảo**: Kết quả không thay thế cho các chẩn đoán y khoa chuyên nghiệp từ bác sĩ di truyền.
+- **Biến thể chưa rõ ràng (VUS)**: Khoảng một nửa đột biến chưa có đủ bằng chứng khoa học để kết luận là tốt hay xấu, vì vậy không nên tự ý suy đoán.
+- **Kiểm tra độ tin cậy**: Luôn chú ý đến số sao đánh giá (từ 1 đến 4 sao) để biết mức độ đồng thuận y khoa của kết quả đó.

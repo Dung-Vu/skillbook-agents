@@ -16,11 +16,8 @@ platforms:
   - claude-code
   - mcp
 featured: false
-description: >-
-  Tạo giao diện người dùng đẹp mắt, tinh tế và tránh cảm giác 'AI slop' đại trà.
-  Tập trung vào phong cách thiết kế độc đáo, phân cấp trực quan rõ ràng và mã
-  nguồn frontend chất lượng cao.
-oneLiner: 'Thiết kế và lập trình giao diện frontend đẳng cấp, tinh tế và sáng tạo.'
+description: Thiết kế và lập trình giao diện người dùng (frontend) tinh tế, hiện đại bằng cách sử dụng Tailwind CSS và tránh phong cách thiết kế đại trà do AI tự tạo.
+oneLiner: Thiết kế và lập trình giao diện frontend đẹp mắt, hiện đại và sáng tạo.
 sourceUrl: ''
 sourceAuthor: Minimax
 lastVerified: '2026-06-03'
@@ -34,38 +31,40 @@ provider: minimax
 
 ## 📖 Tại Sao Cần Skill Này?
 
-Hầu hết các mã nguồn giao diện do AI tạo ra thường có giao diện rập khuôn, sử dụng các bảng màu nhạt nhòa và bố cục thiếu cá tính (gọi là 'AI slop'). Kỹ năng này hướng dẫn Agent áp dụng tư duy thẩm mỹ thực tế, chọn một hướng đi phong cách rõ ràng (ví dụ: brutalism, neo-brutalism, organic, retro-futurism) và triển khai với các hiệu ứng tương tác mượt mà.
+Hầu hết giao diện do AI tạo ra thường rập khuôn, sử dụng các bảng màu nhạt nhòa và thiếu cá tính. Kỹ năng này giúp xây dựng giao diện có thẩm mỹ cao, chọn phong cách thiết kế rõ ràng (như hiện đại, cổ điển hoặc phá cách) và có các hiệu ứng chuyển động mượt mà để tạo điểm nhấn đặc sắc cho sản phẩm.
+
+- **Nâng tầm giao diện**: Thoát khỏi các thiết kế nhàm chán, tạo phong cách riêng biệt và lôi cuốn cho website của bạn.
+- **Tối ưu hóa mã nguồn**: Viết mã CSS gọn gàng, dễ bảo trì thông qua hệ thống tiện ích Tailwind CSS.
+- **Tương tác mượt mà**: Thêm các hiệu ứng chuyển động nhỏ nhưng tinh tế giúp người dùng có trải nghiệm tốt hơn.
 
 ## ⚙️ Cách Hoạt Động
 
-Quy trình thiết kế và code giao diện:
-
 ```
-[UI Requirement] -> [Choose Aesthetic Direction] -> [Define Theme & Colors] -> [Draft Layout & Spacing] -> [Clean Code & Animation]
+Yêu cầu UI → Chọn phong cách thiết kế → Xác định màu và chủ đề → Dựng bố cục và khoảng cách → Viết mã và tạo hiệu ứng chuyển động
 ```
 
-1. **Vibe Check**: Xác định phong cách thiết kế cụ thể phù hợp với đối tượng sử dụng.
-2. **System Setup**: Định nghĩa bảng màu độc đáo, font chữ và các biến thiết kế (design tokens).
-3. **Implementation**: Viết mã nguồn sạch (React/Vue/HTML/CSS), sử dụng Tailwind CSS và thêm thắt các tương tác vi mô (micro-interactions).
+1. **Chọn phong cách**: Xác định phong cách thiết kế phù hợp nhất với nhóm người dùng mục tiêu.
+2. **Thiết lập hệ thống**: Định nghĩa bảng màu độc đáo, font chữ và các biến thiết kế đồng bộ.
+3. **Lập trình**: Viết mã nguồn sạch (sử dụng React, Vue hoặc HTML/CSS) kết hợp với các hiệu ứng tương tác vi mô tinh tế.
 
 ## 🚀 Cách Sử Dụng
 
-1. Luôn ưu tiên thiết kế Mobile-First và đảm bảo tính thích ứng (responsive) trên mọi kích thước màn hình.
-2. Sử dụng thư viện `cn` (clsx + twMerge) để quản lý các class Tailwind động một cách an toàn.
-3. Tránh sử dụng các giá trị kích thước tùy ý (arbitrary values như `w-[347px]`), luôn tuân thủ hệ thống lưới và spacing chuẩn của Tailwind.
+1. Luôn thiết kế ưu tiên cho thiết bị di động (Mobile-First) và đảm bảo hiển thị đẹp trên mọi màn hình.
+2. Quản lý các lớp CSS động một cách an toàn bằng các công cụ gộp class chuyên dụng.
+3. Sử dụng các kích thước khoảng cách chuẩn của Tailwind CSS để đảm bảo giao diện cân đối, tránh dùng các kích thước tự đặt tùy tiện.
 
 ## 💡 Kịch Bản Lập Trình Thực Tế
 
 ### Nhà phát triển:
-> "Hãy hướng dẫn tôi cách thiết lập và sử dụng kỹ năng Frontend Design để Thiết kế và lập trình giao diện frontend đẳng cấp, tinh tế và sáng tạo."
+> "Hãy thiết kế cho tôi một giao diện trang chủ hiện đại cho ứng dụng âm nhạc."
 
 ### AI Agent (Đã được trang bị Kỹ năng):
-> "Tôi đã sẵn sàng. Dưới đây là kịch bản vận hành thực tế cho kỹ năng Frontend Design:
-> 1. Thiết lập các thông số cấu hình và tham số đầu vào cần thiết cho hệ thống.
-> 2. Thực thi tuần tự các bước xử lý logic và tích hợp theo đúng chỉ dẫn của Frontend Design.
-> 3. Kiểm thử đầu ra, tối ưu hóa hiệu năng và cung cấp kết quả hoàn chỉnh."
+> "Tôi sẽ lập trình giao diện trang chủ âm nhạc với phong cách hiện đại:
+> 1. Thiết lập bảng màu nền tối phối hợp với các chi tiết màu neon nổi bật để tạo cảm giác trẻ trung.
+> 2. Sử dụng lưới CSS cân đối để hiển thị danh sách bài hát và album rõ ràng.
+> 3. Thêm các hiệu ứng chuyển động nhẹ nhàng khi di chuột vào đĩa nhạc hoặc nút phát nhạc."
 
 ## ⚠️ Lưu Ý & Gotchas
 
-- **Giao diện quá tải**: Cố gắng nhồi nhét quá nhiều hiệu ứng động (animations) sẽ làm giảm hiệu năng ứng dụng. Hãy giữ các chuyển động tinh tế, ngắn gọn (dưới 300ms).
-- **Bất cân xứng màu sắc**: Việc phối hợp màu sắc tùy tiện làm giảm tính chuyên nghiệp. Hãy bám sát một bảng màu tối đa 3-4 màu chủ đạo.
+- **Hiệu ứng quá đà**: Lạm dụng quá nhiều chuyển động hoạt họa sẽ làm chậm trang web. Hãy giữ các chuyển động ngắn gọn (dưới 0.3 giây) và tinh tế.
+- **Phối màu tùy tiện**: Sử dụng quá nhiều màu sắc khác nhau sẽ làm giao diện bị rối mắt. Chỉ nên dùng tối đa từ 3 đến 4 màu chính.

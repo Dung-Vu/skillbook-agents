@@ -17,82 +17,48 @@ platforms:
   - gemini-cli
   - universal
 featured: true
-description: >-
-  Truy cập cơ sở tri thức protein toàn cầu UniProtKB để tra cứu mô tả chức năng,
-  đột biến điểm và tài liệu liên quan.
-oneLiner: Tra cứu chú giải chức năng protein và trình tự từ UniProt.
+description: Truy cập bách khoa toàn thư protein toàn cầu UniProt để tra cứu thông tin chi tiết về chức năng sinh học, cấu trúc và tài liệu nghiên cứu liên quan đến mọi loại protein.
+oneLiner: Tra cứu thông tin chi tiết và chức năng của các loại protein từ UniProt.
 sourceUrl: 'https://www.uniprot.org/'
 sourceAuthor: Google DeepMind
 lastVerified: '2026-05-30'
 relatedSkills: []
-seoTitle: UniProt Protein Database — Skillbook Agents
-seoDescription: >-
-  Hướng dẫn Agent truy xuất protein metadata, function annotations, và sequences
-  từ UniProtKB.
+seoTitle: UniProt Protein Database — Tra cứu bách khoa toàn thư protein UniProt
+seoDescription: Hướng dẫn Agent truy xuất thông tin chức năng, trình tự axit amin và dữ liệu liên kết của protein từ cơ sở dữ liệu UniProtKB.
 provider: antigravity
 ---
 
 ## 📖 Tại Sao Cần Skill Này?
 
-UniProt là **bách khoa toàn thư về protein** — chứa thông tin chức năng, cấu trúc, taxonomy, và cross-references cho hàng trăm triệu protein sequences. Đây là điểm khởi đầu cho hầu hết mọi phân tích protein.
+UniProt là **bách khoa toàn thư lớn nhất thế giới về protein**. Khi nghiên cứu sinh học, câu hỏi cơ bản luôn là: *"Protein này làm nhiệm vụ gì trong cơ thể, nó nằm ở đâu và cấu trúc ra sao?"* Kỹ năng này giúp trợ lý nhanh chóng tìm ra câu trả lời chính xác từ UniProt, giúp bạn hiểu rõ cơ chế hoạt động của mọi loại protein mà không cần đọc hàng tá tài liệu phức tạp.
 
-- **Functional annotation**: Protein làm gì, catalyze phản ứng nào, nằm ở đâu trong tế bào
-- **ID mapping**: Chuyển đổi giữa UniProt ↔ Ensembl ↔ PDB ↔ RefSeq ↔ Gene Name
-- **Sequence retrieval**: Canonical và isoform sequences
-- **Swiss-Prot vs TrEMBL**: Reviewed (curated) vs Unreviewed (automated)
+- **Tra cứu toàn diện**: Xem chức năng sinh học, vị trí hoạt động trong tế bào và các bệnh lý liên quan đến protein.
+- **Lấy trình tự nhanh chóng**: Tải về chuỗi axit amin chuẩn của protein để phục vụ phân tích.
+- **Liên kết đa cơ sở dữ liệu**: Dễ dàng chuyển đổi mã định danh giữa các hệ thống dữ liệu sinh học khác nhau (như Ensembl, PDB, NCBI).
 
 ## ⚙️ Cách Hoạt Động
 
-```
-Protein name / Gene / ID → UniProt REST API → 
-Return functional annotations, sequences, cross-references, publications
-```
-
-1. **Search**: Free-text search hoặc ID lookup (P00520, KRAS_HUMAN)
-2. **Annotations**: Function, catalytic activity, subcellular location, disease associations
-3. **Cross-references**: Links to PDB, Ensembl, InterPro, STRING, Reactome
+1. **Nhận thông tin**: Bạn nhập tên gen, tên protein hoặc mã định danh UniProt (ví dụ: P01308).
+2. **Truy vấn hệ thống**: Trợ lý tự động kết nối và tìm kiếm trên cơ sở dữ liệu UniProtKB.
+3. **Trả về báo cáo**: Cung cấp mô tả chức năng sinh học, vị trí hoạt động, các mối liên kết y khoa và chuỗi axit amin của protein.
 
 ## 🚀 Cách Sử Dụng
 
-### Universal
-
-```markdown
-# UniProt Query Rules
-- UniProt là starting point cho protein information. Luôn check UniProt trước.
-- Ưu tiên Swiss-Prot entries (reviewed, curated) over TrEMBL (automated).
-- Dùng ID mapping service để convert giữa database identifiers.
-- KHÔNG dùng cho: sequence alignment (dùng MSA skill), protein folding, similarity search.
-```
-
-### Cursor (.cursorrules)
-
-```markdown
-# UniProt
-- Swiss-Prot = reviewed by human curators. TrEMBL = automated annotation.
-- UniProt ID format: P00520 (accession) hoặc ABL1_HUMAN (entry name).
-- Function, GO terms, disease associations, literature — tất cả trong UniProt entry.
-```
+- Gửi tên protein hoặc mã số UniProt bạn muốn nghiên cứu cho trợ lý.
+- Trợ lý sẽ tổng hợp hồ sơ sinh học chi tiết của protein đó một cách dễ hiểu.
 
 ## 💡 Kịch Bản Lập Trình Thực Tế
 
-### 🧑‍💻 Nhà phát triển:
-> "Tôi muốn lấy toàn bộ thông tin chức năng, các vị trí hoạt động (active sites) và các biến đổi sau dịch mã (PTMs) của protein Insulin người từ UniProt."
+### Người dùng:
+> "Tra cứu giúp tôi thông tin về protein Insulin của người trên UniProt."
 
-### 🤖 AI Agent (Đã được trang bị Kỹ năng):
-> "Tôi sẽ kết nối trực tiếp với cơ sở dữ liệu UniProtKB để trích xuất hồ sơ protein Insulin toàn diện cho bạn:"
->
-> 1. **Xác định Accession ID chuẩn**: Tôi tìm kiếm Insulin người và xác định mã ID chuẩn là **P01308**.
-> 2. **Truy xuất thông tin chức năng**: Tôi trích xuất mô tả chi tiết về chức năng điều hòa đường huyết của Insulin.
-> 3. **Lấy các tọa độ chức năng di truyền (Features)**:
->    * **Vị trí hoạt động (Active sites)**: Xác định các gốc amino acid liên kết với thụ thể Insulin.
->    * **Biến đổi sau dịch mã (PTMs)**: Tải thông tin về 3 liên kết disulfide cốt lõi quyết định cấu trúc gập nếp của protein.
->    * **Isoforms**: Liệt kê các biến thể phiên bản dịch mã khác nhau của Insulin.
->
-> *Hồ sơ protein UniProt chi tiết đã sẵn sàng, hỗ trợ tối đa cho các phân tích sinh học cấu trúc và sinh hóa của bạn.*
+### Trợ lý:
+> "Tôi đã tìm thấy thông tin trên UniProt cho bạn:
+> - **Mã định danh (ID)**: P01308.
+> - **Chức năng chính**: Là hormone quan trọng giúp điều hòa lượng đường trong máu bằng cách kích thích các tế bào hấp thụ glucose.
+> - **Cấu trúc**: Gồm hai chuỗi axit amin liên kết chặt chẽ với nhau. Đột biến trên cấu trúc này có thể dẫn đến bệnh tiểu đường."
 
 ## ⚠️ Lưu Ý & Gotchas
 
-- **Swiss-Prot preferred**: Khi có nhiều entries cho cùng protein, ưu tiên reviewed Swiss-Prot entry.
-- **Canonical vs isoforms**: UniProt chọn 1 canonical sequence — isoforms có thể khác đáng kể.
-- **Not for alignment**: Dùng protein-sequence-msa hoặc protein-sequence-similarity-search cho alignment tasks.
-- **ID mapping delays**: UniProt ID mapping service có thể chậm cho large batch requests.
+- **Ưu tiên dữ liệu đã kiểm duyệt (Swiss-Prot)**: Cơ sở dữ liệu UniProt có hai phần: Swiss-Prot (được các nhà khoa học kiểm tra thủ công, độ chính xác cao) và TrEMBL (chú giải tự động bằng máy tính). Trợ lý sẽ luôn ưu tiên dữ liệu từ Swiss-Prot.
+- **Không dùng để so sánh trình tự**: UniProt dùng để tra cứu thông tin của từng protein đơn lẻ. Nếu bạn cần so sánh trình tự giữa nhiều protein với nhau, hãy dùng các kỹ năng so sánh trình tự chuyên biệt (như MSA hoặc Sequence Similarity Search).

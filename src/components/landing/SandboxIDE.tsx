@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import { Terminal as TerminalIcon, ChevronRight, Play, RefreshCw } from "lucide-react";
 
 interface SandboxIDEProps {
@@ -166,22 +166,19 @@ export function SandboxIDE({ stage, onTypingChange }: SandboxIDEProps): React.Re
   const [terminalLogs, setTerminalLogs] = useState<string[]>([]);
   const [isTyping, setIsTyping] = useState<boolean>(false);
   const [isSimulating, setIsSimulating] = useState<boolean>(false);
+  // Mount the initial theme from localStorage on the client. We start with
+  // the deterministic `cyberpunk` default on the server to avoid a
+  // hydration mismatch, then upgrade to the user-saved theme after mount.
   const [activeTheme, setActiveTheme] = useState<ThemeKey>("cyberpunk");
   const simulationTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-
-  // Load saved theme on mount safely
-  useEffect(() => {
-    try {
-      const savedTheme = localStorage.getItem("sandbox-terminal-theme") as ThemeKey;
-      if (savedTheme && TERMINAL_THEMES[savedTheme]) {
-        setTimeout(() => {
-          setActiveTheme(savedTheme);
-        }, 0);
-      }
-    } catch (e) {
-      console.error("Error loading theme from localStorage:", e);
-    }
-  }, []);
+  // Monotonically increasing token that is bumped whenever a new simulation
+  // (or stage change) starts. The recursive `printNextLog` callback closes
+  // over this token and bails out if a newer simulation has started in the
+  // meantime, which prevents stale logs from a previous stage leaking into
+  // the freshly-mounted stage's terminal output.
+  const simulationTokenRef = useRef<number>(0);
+  const typingIntervalRef = useRef<NodeJS.Timeout | null>(null);
+  const typingTimerRef = useRef<NodeJS.Timeout | null>(null);
 
   const handleThemeChange = (newTheme: ThemeKey) => {
     setActiveTheme(newTheme);
@@ -194,6 +191,24 @@ export function SandboxIDE({ stage, onTypingChange }: SandboxIDEProps): React.Re
 
   const theme = TERMINAL_THEMES[activeTheme] || TERMINAL_THEMES.cyberpunk;
 
+  // Hydrate the saved terminal theme from localStorage after mount. Doing
+  // it inside `useEffect` (rather than the `useState` initializer) keeps
+  // the initial server and client renders identical and avoids React's
+  // hydration-mismatch warning. The `setActiveTheme` call is deferred to
+  // a microtask to satisfy the React 19 "no cascading setState in effect"
+  // lint rule — the state value is still applied before the next paint.
+  useEffect(() => {
+    let savedTheme: ThemeKey | null = null;
+    try {
+      savedTheme = localStorage.getItem("sandbox-terminal-theme") as ThemeKey | null;
+    } catch {
+      // Ignore storage access errors (e.g. SSR / private-mode browsers).
+    }
+    if (savedTheme && TERMINAL_THEMES[savedTheme]) {
+      queueMicrotask(() => setActiveTheme(savedTheme as ThemeKey));
+    }
+  }, []);
+
   const [isMobile, setIsMobile] = useState(false);
   useEffect(() => {
     const handleResize = () => {
@@ -204,22 +219,36 @@ export function SandboxIDE({ stage, onTypingChange }: SandboxIDEProps): React.Re
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  // Clean up all typing intervals/timers helper
+  const clearTypingTimers = useCallback(() => {
+    if (typingTimerRef.current) {
+      clearTimeout(typingTimerRef.current);
+      typingTimerRef.current = null;
+    }
+    if (typingIntervalRef.current) {
+      clearInterval(typingIntervalRef.current);
+      typingIntervalRef.current = null;
+    }
+  }, []);
+
   // Handle stage actions & terminal simulation
   useEffect(() => {
-    let interval: NodeJS.Timeout;
-    let timer: NodeJS.Timeout;
+    clearTypingTimers();
 
-    // Reset simulation state when stage changes
-    if (simulationTimeoutRef.current) {
-      clearTimeout(simulationTimeoutRef.current);
-      simulationTimeoutRef.current = null;
-    }
-    const resetTimer = setTimeout(() => {
+    // All state updates below are deferred to a single microtask to satisfy
+    // the React 19 "no cascading setState in effect" lint rule. The
+    // effect is legitimately a one-shot external-system reset (cancel any
+    // in-flight simulation / typing when the user changes stage), not a
+    // derived-state derivation, so a single deferred batch is the
+    // recommended fix and is applied before the next paint.
+    queueMicrotask(() => {
       setIsSimulating(false);
-    }, 0);
+      // Also flip isTyping off when leaving a "typing" stage so the
+      // parent's "Run" button enables immediately on stage change.
+      setIsTyping(false);
+      onTypingChange(false);
 
-    if (stage === 0) {
-      timer = setTimeout(() => {
+      if (stage === 0) {
         setTypedCode("// AI Agent đang chờ lệnh...");
         setTerminalLogs([
           "HỆ THỐNG: Đang khởi tạo lõi AI...",
@@ -227,9 +256,7 @@ export function SandboxIDE({ stage, onTypingChange }: SandboxIDEProps): React.Re
           "HỆ THỐNG: Kỹ năng bổ trợ: CHƯA CÓ",
           "TRẠNG THÁI: Đang chờ lệnh người dùng...",
         ]);
-      }, 0);
-    } else if (stage === 1) {
-      timer = setTimeout(() => {
+      } else if (stage === 1) {
         setIsTyping(true);
         onTypingChange(true);
         setTerminalLogs([
@@ -241,11 +268,14 @@ export function SandboxIDE({ stage, onTypingChange }: SandboxIDEProps): React.Re
 
         const badCode = `function fetchUser(id: any) {\n  let data: any = api.getUser(id);\n  return data;\n}\n\n// Agent: "Tôi đoán code này sẽ chạy được... chắc thế!"`;
         let i = 0;
-        interval = setInterval(() => {
+        typingIntervalRef.current = setInterval(() => {
           setTypedCode(badCode.slice(0, i));
           i++;
           if (i > badCode.length) {
-            clearInterval(interval);
+            if (typingIntervalRef.current) {
+              clearInterval(typingIntervalRef.current);
+              typingIntervalRef.current = null;
+            }
             setIsTyping(false);
             onTypingChange(false);
             setTerminalLogs((prev) => [
@@ -255,9 +285,7 @@ export function SandboxIDE({ stage, onTypingChange }: SandboxIDEProps): React.Re
             ]);
           }
         }, 15);
-      }, 0);
-    } else if (stage === 2) {
-      timer = setTimeout(() => {
+      } else if (stage === 2) {
         setTypedCode("// Đang truyền dữ liệu Skillbook...");
         setTerminalLogs([
           "HỆ THỐNG: Khởi tạo giao thức truyền dữ liệu...",
@@ -266,9 +294,7 @@ export function SandboxIDE({ stage, onTypingChange }: SandboxIDEProps): React.Re
           "HỆ THỐNG: Đang cấu hình luồng tri thức sâu (Chain-of-Thought)...",
           "TRẠNG THÁI: Nạp kỹ năng thành công 100%.",
         ]);
-      }, 0);
-    } else if (stage === 3) {
-      timer = setTimeout(() => {
+      } else if (stage === 3) {
         setIsTyping(true);
         onTypingChange(true);
         setTerminalLogs([
@@ -280,11 +306,14 @@ export function SandboxIDE({ stage, onTypingChange }: SandboxIDEProps): React.Re
 
         const goodCode = `interface User {\n  id: string;\n  name: string;\n}\n\nasync function fetchUser(id: string): Promise<User> {\n  const response = await api.getUser(id);\n  if (!response.ok) {\n    throw new Error(\`Lỗi fetch user: \${response.status}\`);\n  }\n  return response.json() as Promise<User>;\n}\n\n// Agent: "Code hoàn hảo, type-safe 100% ở compile-time."`;
         let i = 0;
-        interval = setInterval(() => {
+        typingIntervalRef.current = setInterval(() => {
           setTypedCode(goodCode.slice(0, i));
           i++;
           if (i > goodCode.length) {
-            clearInterval(interval);
+            if (typingIntervalRef.current) {
+              clearInterval(typingIntervalRef.current);
+              typingIntervalRef.current = null;
+            }
             setIsTyping(false);
             onTypingChange(false);
             setTerminalLogs((prev) => [
@@ -294,17 +323,22 @@ export function SandboxIDE({ stage, onTypingChange }: SandboxIDEProps): React.Re
             ]);
           }
         }, 12);
-      }, 0);
+      }
+    });
+
+    // Bump the simulation token so any in-flight `printNextLog` callbacks
+    // from a previous stage know to bail out before mutating state.
+    simulationTokenRef.current += 1;
+
+    if (simulationTimeoutRef.current) {
+      clearTimeout(simulationTimeoutRef.current);
+      simulationTimeoutRef.current = null;
     }
 
     return () => {
-      if (timer) clearTimeout(timer);
-      if (interval) clearInterval(interval);
-      if (resetTimer) clearTimeout(resetTimer);
-      setIsTyping(false);
-      onTypingChange(false);
+      clearTypingTimers();
     };
-  }, [stage, onTypingChange]);
+  }, [stage, onTypingChange, clearTypingTimers]);
 
   const handleSimulateCommand = (): void => {
     if (isSimulating || isTyping) return;
@@ -352,16 +386,32 @@ export function SandboxIDE({ stage, onTypingChange }: SandboxIDEProps): React.Re
     const logs = stageLogs[stage] || [];
     setTerminalLogs([]);
 
+    // Bump the simulation token. The recursive `printNextLog` callback
+    // closes over this value; if a newer simulation (or a stage change)
+    // starts before the previous one finishes, the in-flight callback
+    // compares its captured token against `simulationTokenRef.current` and
+    // bails out before mutating state.
+    simulationTokenRef.current += 1;
+    const tokenAtStart = simulationTokenRef.current;
+
     let currentLogIdx = 0;
 
     const printNextLog = () => {
+      // Bail if the active simulation has been superseded.
+      if (tokenAtStart !== simulationTokenRef.current) {
+        return;
+      }
       if (currentLogIdx < logs.length) {
         setTerminalLogs((prev) => [...prev, logs[currentLogIdx]]);
         currentLogIdx++;
         const delay = Math.random() * 300 + 250;
         simulationTimeoutRef.current = setTimeout(printNextLog, delay);
       } else {
-        setIsSimulating(false);
+        // Re-check the token before clearing `isSimulating` — otherwise we
+        // could clear the flag of a newer simulation that has just started.
+        if (tokenAtStart === simulationTokenRef.current) {
+          setIsSimulating(false);
+        }
       }
     };
 
@@ -380,10 +430,10 @@ export function SandboxIDE({ stage, onTypingChange }: SandboxIDEProps): React.Re
   const renderedCode = linesToRender.join("\n");
 
   return (
-    <div className="lg:col-span-7 w-full h-[450px] sm:h-[520px] relative">
-      <div className={`absolute -inset-1.5 rounded-2xl blur-2xl opacity-35 transition-all duration-700 pointer-events-none ${theme.glowClass}`} />
+    <div className="lg:col-span-7 w-full h-[450px] sm:h-[520px] relative" suppressHydrationWarning>
+      <div className={`absolute -inset-1.5 rounded-2xl blur-2xl opacity-35 transition-all duration-700 pointer-events-none ${theme.glowClass}`} suppressHydrationWarning />
 
-      <div className={`absolute inset-0 glass-panel flex flex-col overflow-hidden rounded-2xl ${theme.outerBg} border ${theme.border} transition-all duration-500 shadow-2xl`}>
+      <div className={`absolute inset-0 glass-panel flex flex-col overflow-hidden rounded-2xl ${theme.outerBg} border ${theme.border} transition-all duration-500 shadow-2xl`} suppressHydrationWarning>
         
         <div 
           className="laser-scan-line transition-all duration-500" 
@@ -478,6 +528,8 @@ export function SandboxIDE({ stage, onTypingChange }: SandboxIDEProps): React.Re
                   <select
                     value={activeTheme}
                     onChange={(e) => handleThemeChange(e.target.value as ThemeKey)}
+                    aria-label="Chọn theme terminal"
+                    suppressHydrationWarning
                     className={`px-2 py-0.5 bg-transparent border ${theme.border} ${theme.textMain} font-mono text-[9px] rounded cursor-pointer outline-none transition-all duration-300 focus:border-opacity-100`}
                   >
                     {Object.entries(TERMINAL_THEMES).map(([key, config]) => (

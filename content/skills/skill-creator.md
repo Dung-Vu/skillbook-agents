@@ -3,12 +3,10 @@ category: workflow-orchestration
 command: /skill-creator
 complexity: advanced
 description: >-
-  Khởi tạo các kỹ năng Antigravity mới tuân thủ tiêu chuẩn Luminous. Hướng dẫn
-  Agent xác định nền tảng (shell command router) và cấu trúc thư mục chứa
-  `SKILL.md` kèm theo các script Python chạy độc lập bằng `uv`.
+  Công cụ hỗ trợ tạo mới các kỹ năng (Skills) cho AI theo chuẩn Luminous. Hỗ trợ tạo cấu trúc thư mục chuẩn, file hướng dẫn SKILL.md và các đoạn mã tự động hóa đi kèm.
 featured: false
 lastVerified: '2026-06-03'
-oneLiner: Tạo mới kỹ năng Antigravity theo chuẩn Luminous với CLI và scripts hỗ trợ.
+oneLiner: Tạo mới kỹ năng cho AI theo cấu trúc chuẩn hóa và tự động.
 platforms:
   - universal
   - cursor
@@ -34,51 +32,40 @@ title: Skill Creator
 
 ## 📖 Tại Sao Cần Skill Này?
 
-Để AI Agent hoạt động hiệu quả lâu dài trong một dự án, nó cần khả năng tự động hóa và đóng gói các quy trình làm việc lặp đi lặp lại thành các Kỹ năng (Skills) tiêu chuẩn. Kỹ năng này cung cấp cấu trúc Luminous Standard để Agent tạo ra các chỉ dẫn prompt chuyên nghiệp kèm theo script Python độc lập để mở rộng thư viện năng lực của Mavis.
-
----
+Khi làm việc với các hệ thống AI, việc lặp đi lặp lại một quy trình hướng dẫn thủ công sẽ tốn rất nhiều thời gian. Cách giải quyết triệt để là đóng gói quy trình đó thành một Kỹ năng (Skill) chuẩn hóa. Skill này giúp bạn:
+- **Tự động đóng gói**: Dễ dàng biến các thao tác phức tạp (như viết code, gọi API, phân tích dữ liệu) thành một kỹ năng AI có thể tái sử dụng ngay lập tức.
+- **Chuẩn hóa cấu trúc**: Tạo ra các thư mục và file hướng dẫn chuyên nghiệp để bất kỳ trợ lý AI nào cũng đọc hiểu được.
+- **Tích hợp mã chạy tự động**: Cho phép chèn các đoạn mã Python để thực thi các tác vụ thực tế khi AI kích hoạt kỹ năng.
 
 ## ⚙️ Cách Hoạt Động
 
-Quy trình tạo kỹ năng mới:
-1. **Kiểm tra trùng lặp**: Liệt kê các kỹ năng hiện có qua `list-skills` để tránh tạo trùng lặp.
-2. **Xác định phạm vi**: Quyết định lưu kỹ năng ở cấp Người dùng (`~/.mavis/skills`), Agent (`~/.mavis/agents/...`), hay Dự án (`.harness/skills/`).
-3. **Thiết kế & Tạo file**: Tạo tệp `SKILL.md` theo khung chuẩn, viết các script bổ trợ trong thư mục `scripts/` sử dụng định dạng PEP 0723.
-4. **Chạy linter**: Thực thi công cụ kiểm tra `lint-skill.js` để đảm bảo định dạng markdown và frontmatter hoàn hảo.
-5. **Đánh giá (Eval)**: Chạy so sánh hiệu năng chạy thử giữa Agent có kỹ năng mới và Agent sử dụng prompt thô (baseline).
-
-Sơ đồ quy trình:
-```
-[Quy trình cần đóng gói] ➔ 🔍 [Kiểm tra trùng lặp] ➔ 📁 [Thiết lập cấu mục & viết SKILL.md]
-                              ➔ 🧹 [Chạy lint-skill.js] ➔ 🧪 [Chạy thử nghiệm so sánh (Eval)]
-```
-
----
+Quy trình tạo một kỹ năng mới diễn ra như sau:
+1. **Kiểm tra trùng lặp**: Hệ thống xem kỹ năng bạn muốn tạo đã có sẵn trên hệ thống chưa để tránh trùng lặp.
+2. **Tạo khung dự án**: Thiết lập thư mục chứa file hướng dẫn `SKILL.md` và các file mã nguồn bổ trợ (nằm trong thư mục `scripts/`).
+3. **Kiểm tra chất lượng**: Chạy một công cụ kiểm lỗi (linter) để đảm bảo file viết đúng cú pháp.
+4. **Đánh giá hiệu năng**: Thử nghiệm so sánh xem trợ lý AI khi sử dụng kỹ năng mới này hoạt động tốt hơn thế nào so với việc dùng câu lệnh thông thường.
 
 ## 🚀 Cách Sử Dụng
 
-```markdown
-# QUY TẮC TẠO KỸ NĂNG MỚI
-- **Quy chuẩn Luminous**: File `SKILL.md` phải tuân thủ đúng cấu trúc phân mục quy định, mô tả kích hoạt ngắn gọn trong frontmatter.
-- **Script PEP 0723**: Mọi script Python đi kèm phải khai báo dependencies ở đầu tệp để tương thích với `uv run`.
-- **Bắt buộc vượt qua linter**: Không được phép bàn giao kỹ năng nếu chưa chạy linter cục bộ và đạt kết quả xanh.
-- **Không nhúng shell cụ thể**: Mọi câu lệnh shell hệ thống phải được tách biệt hoàn toàn khỏi thân tệp `SKILL.md`, chuyển vào tệp tham chiếu nền tảng.
-```
-
----
+Khi làm việc với trợ lý AI để tạo kỹ năng mới:
+- Cho biết rõ tên kỹ năng, mục đích sử dụng và các bước thực hiện cụ thể.
+- Yêu cầu AI khai báo rõ các thư viện phần mềm cần dùng trong file script để hệ thống tự động cài đặt.
+- Luôn chạy linter để kiểm tra lỗi định dạng trước khi hoàn thành.
 
 ## 💡 Kịch Bản Lập Trình Thực Tế
 
-### Nhà phát triển:
-> "Hãy hướng dẫn tôi cách thiết lập và sử dụng kỹ năng Skill Creator để Tạo mới kỹ năng Antigravity theo chuẩn Luminous với CLI và scripts hỗ trợ."
+### 🧑‍💻 Nhà phát triển:
+> "Tôi vừa xây dựng xong một quy trình tự động sao lưu dữ liệu lên đám mây. Hãy giúp tôi tạo một Kỹ năng mới để trợ lý AI sau này có thể tự động chạy quy trình này."
 
-### AI Agent (Đã được trang bị Kỹ năng):
-> "Tôi đã sẵn sàng. Dưới đây là kịch bản vận hành thực tế cho kỹ năng Skill Creator:
-> 1. Thiết lập các thông số cấu hình và tham số đầu vào cần thiết cho hệ thống.
-> 2. Thực thi tuần tự các bước xử lý logic và tích hợp theo đúng chỉ dẫn của Skill Creator.
-> 3. Kiểm thử đầu ra, tối ưu hóa hiệu năng và cung cấp kết quả hoàn chỉnh."
+### 🤖 AI Agent (Đã được trang bị Kỹ năng):
+> "Tôi sẽ khởi tạo Kỹ năng sao lưu dữ liệu mới cho bạn theo các bước sau:
+> 
+> 1. **Tạo thư mục**: Khởi tạo thư mục kỹ năng mới với file hướng dẫn `SKILL.md`.
+> 2. **Viết kịch bản**: Tạo file script Python trong thư mục `scripts/` chứa mã kết nối đám mây và thực hiện sao lưu.
+> 3. **Kiểm tra lỗi**: Chạy chương trình kiểm tra cú pháp để đảm bảo không có lỗi định dạng markdown.
+> 4. **Bàn giao**: Kỹ năng đã sẵn sàng hoạt động. Bây giờ bạn chỉ cần gọi lệnh `/backup-data` để yêu cầu AI thực hiện."
 
 ## ⚠️ Lưu Ý & Gotchas
 
-* **Phình to Prompt (Prompt Bloat)**: Không đưa các phần giải thích lý thuyết dài dòng hoặc mã nguồn ví dụ khổng lồ vào tệp `SKILL.md`. Hãy chuyển các tài liệu này vào thư mục `references/`.
-* **Bỏ qua bước Eval**: Tạo kỹ năng mà không chạy thử nghiệm so sánh với baseline sẽ dễ dẫn đến việc sinh ra các chỉ dẫn prompt không thực tế hoặc làm suy giảm khả năng suy luận của mô hình.
+- **Tránh viết quá dài dòng**: Không đưa các đoạn mã nguồn ví dụ quá dài hoặc tài liệu giải thích lý thuyết lê thê vào file hướng dẫn chính `SKILL.md`. Hãy chuyển chúng vào các file tham chiếu phụ để file hướng dẫn chính luôn ngắn gọn, súc tích.
+- **Bắt buộc kiểm tra lỗi**: Việc bỏ qua bước chạy linter có thể dẫn đến việc tạo ra các kỹ năng bị lỗi cú pháp, khiến AI sau này không thể nhận diện hoặc hiểu sai cách thức hoạt động.

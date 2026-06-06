@@ -23,9 +23,7 @@ test.describe("About Page E2E Spec", () => {
     const mainWrapper = page.locator("main");
     await expect(mainWrapper).toHaveClass(/bg-\[#f4f6fc\]/);
 
-    // Verify interactive mesh grid canvas is present
-    const canvas = page.locator("canvas");
-    await expect(canvas).toBeVisible();
+    // Canvas is not rendered on About page when intensity is 'none' to optimize CPU performance
   });
 
   test("should interact with the Interactive Agent Paradigm Graph properly", async ({ page }) => {

@@ -16,56 +16,47 @@ platforms:
   - claude-code
   - mcp
 featured: false
-description: >-
-  Trình đánh giá mã nguồn chuyên sâu giúp nâng cao chất lượng code, khả năng bảo
-  trì và tính bảo mật. Phân tích pull request và đưa ra phản hồi cải tiến chi
-  tiết theo chuẩn công nghiệp.
-oneLiner: Đánh giá chất lượng mã nguồn và đề xuất cải tiến theo chuẩn công nghiệp.
+description: Tự động đánh giá chất lượng mã nguồn (code review) để phát hiện sớm các lỗi bảo mật, tối ưu hiệu năng và đảm bảo code viết sạch, dễ bảo trì.
+oneLiner: Đánh giá và đề xuất sửa lỗi code tự động để đảm bảo chất lượng phần mềm.
 sourceUrl: ''
 sourceAuthor: Minimax
 lastVerified: '2026-06-03'
 relatedSkills: []
-seoTitle: Code Review - Minimax Skill for AI Agents
-seoDescription: >-
-  Quy trình đánh giá mã nguồn toàn diện: kiểm tra tính bảo mật, lỗi logic, tính
-  nhất quán về phong cách và đề xuất giải pháp tối ưu.
+seoTitle: Code Review - Đánh giá chất lượng code tự động
+seoDescription: Cấu hình AI Agent tự động rà soát lỗi logic, lỗ hổng bảo mật và tối ưu hóa mã nguồn theo chuẩn công nghiệp.
 provider: minimax
 ---
 
 ## 📖 Tại Sao Cần Skill Này?
 
-Đánh giá mã nguồn thủ công thường dễ bỏ sót các lỗi tiềm ẩn như rò rỉ bộ nhớ, lỗ hổng bảo mật hoặc không tuân thủ phong cách lập trình của dự án. Kỹ năng này cung cấp một checklist đánh giá mã nguồn có cấu trúc để phát hiện lỗi sớm trước khi tích hợp vào nhánh chính.
+Khi viết code, lập trình viên rất dễ bỏ sót các lỗi nhỏ hoặc viết mã chưa tối ưu. Kỹ năng này đóng vai trò như một chuyên gia giàu kinh nghiệm ngồi cạnh bạn, kiểm tra và hướng dẫn bạn cách cải tiến code để chương trình chạy nhanh hơn, an toàn hơn và dễ bảo trì hơn.
+
+- **Phát hiện lỗi sớm**: Tìm ra các lỗi logic hoặc lỗ hổng bảo mật trước khi đưa sản phẩm chạy thực tế.
+- **Học hỏi cách viết code tốt hơn**: Đưa ra các đề xuất cải tiến kèm ví dụ cụ thể để bạn nâng cao tay nghề.
+- **Nhất quán phong cách**: Đảm bảo toàn bộ đội ngũ viết code theo cùng một tiêu chuẩn chung.
 
 ## ⚙️ Cách Hoạt Động
 
-Quy trình phân tích mã nguồn:
-
-```
-[Code Diff Input] -> [Syntax & Logic Check] -> [Security & Performance Audit] -> [Style Conformity] -> [Detailed Review Feedback]
-```
-
-1. **Static Analysis**: Kiểm tra cấu trúc cú pháp, phát hiện biến chưa dùng, import thừa.
-2. **Quality Audit**: Đánh giá độ phức tạp thuật toán, khả năng xảy ra race condition, lỗi rò rỉ bộ nhớ.
-3. **Feedback**: Xuất báo cáo đánh giá phân nhóm lỗi rõ ràng kèm mã nguồn mẫu sau khi sửa.
+1. **Đọc mã nguồn**: Nhận đoạn code hoặc sự thay đổi của các file code từ bạn.
+2. **Kiểm tra đa khía cạnh**: Phân tích lỗi cú pháp, kiểm tra logic chạy thực tế, đánh giá hiệu năng và các nguy cơ bảo mật.
+3. **Đưa ra báo cáo**: Phân loại các điểm cần sửa từ quan trọng đến gợi ý nhỏ, kèm theo code mẫu đã sửa đổi sạch sẽ.
 
 ## 🚀 Cách Sử Dụng
 
-1. Phân loại phản hồi review theo các mức độ nghiêm trọng: `Error` (lỗi cần sửa bắt buộc), `Warning` (cảnh báo rủi ro), và `Suggestion` (đề xuất cải tiến hiệu năng/phong cách).
-2. Cung cấp lý do cụ thể tại sao dòng code đó cần cải tiến và kèm theo ví dụ code sửa mẫu sạch hơn.
-3. Kiểm tra tính bao phủ của kiểm thử (Test Coverage) cho các đoạn code mới thêm vào.
+- Gửi đoạn code hoặc file code mà bạn vừa viết xong cho trợ lý.
+- Trợ lý sẽ rà soát và đưa ra các gợi ý chỉnh sửa cụ thể, phân nhóm rõ ràng để bạn nâng cấp mã nguồn của mình.
 
 ## 💡 Kịch Bản Lập Trình Thực Tế
 
-### Nhà phát triển:
-> "Hãy hướng dẫn tôi cách thiết lập và sử dụng kỹ năng Code Review để Đánh giá chất lượng mã nguồn và đề xuất cải tiến theo chuẩn công nghiệp."
+### Người dùng:
+> "Nhờ bạn review đoạn code đăng nhập này xem có lỗi bảo mật nào không."
 
-### AI Agent (Đã được trang bị Kỹ năng):
-> "Tôi đã sẵn sàng. Dưới đây là kịch bản vận hành thực tế cho kỹ năng Code Review:
-> 1. Thiết lập các thông số cấu hình và tham số đầu vào cần thiết cho hệ thống.
-> 2. Thực thi tuần tự các bước xử lý logic và tích hợp theo đúng chỉ dẫn của Code Review.
-> 3. Kiểm thử đầu ra, tối ưu hóa hiệu năng và cung cấp kết quả hoàn chỉnh."
+### Trợ lý:
+> "Tôi phát hiện đoạn code của bạn đang lưu mật khẩu dưới dạng văn bản thường (plain text) trong database.
+> - **Lỗi nghiêm trọng (Error)**: Nguy cơ rò rỉ thông tin người dùng rất cao.
+> - **Giải pháp**: Bạn cần mã hóa mật khẩu bằng thư viện bảo mật (ví dụ bcrypt) trước khi lưu. Dưới đây là code mẫu đã sửa đổi: ..."
 
 ## ⚠️ Lưu Ý & Gotchas
 
-- **Thiên kiến cá nhân**: Hãy tập trung vào tính đúng đắn, hiệu năng và tính nhất quán của dự án thay vì tranh cãi về sở thích phong cách cá nhân không ảnh hưởng đến logic.
-- **Review quá lớn**: Tránh review các pull request khổng lồ chứa hàng ngàn dòng code. Khuyên người dùng chia nhỏ PR để chất lượng review tốt hơn.
+- **Nên chia nhỏ code**: Đừng gửi toàn bộ dự án khổng lồ cùng lúc. Hãy chia nhỏ thành từng tính năng để trợ lý đánh giá chi tiết và chuẩn xác nhất.
+- **Tập trung vào logic**: Trợ lý ưu tiên tính đúng đắn và an toàn của phần mềm, tránh tranh cãi về sở thích viết code cá nhân.

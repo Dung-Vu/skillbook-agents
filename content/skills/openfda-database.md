@@ -18,9 +18,8 @@ platforms:
   - universal
 featured: false
 description: >-
-  Tra cứu dữ liệu chính thức của FDA về tác dụng phụ của thuốc, thu hồi sản
-  phẩm, nhãn hướng dẫn và đăng ký thiết bị y tế.
-oneLiner: 'Truy vấn dữ liệu Labeling, phản ứng phụ và phê duyệt của FDA.'
+  Truy cập cơ sở dữ liệu chính thức của FDA (Hoa Kỳ) để kiểm tra thông tin an toàn thuốc, tác dụng phụ, các trường hợp thu hồi sản phẩm, nhãn hướng dẫn sử dụng và thiết bị y tế.
+oneLiner: 'Tra cứu tác dụng phụ, nhãn hướng dẫn thuốc và cảnh báo an toàn từ FDA.'
 sourceUrl: 'https://open.fda.gov/'
 sourceAuthor: Google DeepMind
 lastVerified: '2026-05-30'
@@ -35,50 +34,37 @@ provider: antigravity
 
 ## 📖 Tại Sao Cần Skill Này?
 
-- **Phản ứng phụ & An toàn**: Tra cứu báo cáo tác dụng phụ tự nguyện (FAERS) của bệnh nhân và nhân viên y tế.
-- **Nhãn hướng dẫn & Thu hồi**: Tra cứu chỉ định, chống chỉ định, cảnh báo liều lượng và thông tin thu hồi thuốc.
-- **Phê duyệt & Đa danh mục**: Tiếp cận 28 cổng dữ liệu FDA gồm phê duyệt thiết bị y tế (510k), thực phẩm, mỹ phẩm.
+Khi nghiên cứu hoặc sử dụng các loại thuốc và sản phẩm y tế, việc nắm rõ thông tin chính thức từ cơ quan quản lý là rất quan trọng. Kỹ năng này giúp bạn nhanh chóng tra cứu:
+- **Tác dụng phụ**: Các báo cáo thực tế về phản ứng không mong muốn của người dùng.
+- **Nhãn hướng dẫn & Liều lượng**: Cách dùng, cảnh báo và đối tượng không nên sử dụng.
+- **Thu hồi sản phẩm**: Danh sách các lô thuốc, thực phẩm hoặc mỹ phẩm bị thu hồi do lỗi chất lượng.
+
 ## ⚙️ Cách Hoạt Động
 
-
+Quy trình tìm kiếm thông tin:
 ```
-Drug name / NDC / Query → openFDA REST API → 
-Return adverse events, labeling, recalls, approval data
+Nhập tên thuốc / mã NDC ──> Truy vấn cơ sở dữ liệu openFDA ──> Hiển thị tác dụng phụ, nhãn thuốc, lịch sử thu hồi
 ```
 
 ## 🚀 Cách Sử Dụng
 
-
-### Universal
-
-```markdown
-# openFDA Rules
-- Adverse events: count by reaction, seriousness, outcome.
-- Drug labeling: indications_and_usage, warnings, contraindications.
-- Report source: FAERS reports are voluntary — not complete surveillance.
-- 28 endpoints available — specify which type of data needed.
-```
+- Nhập tên thuốc (ví dụ: Ibuprofen) hoặc mã số thuốc để bắt đầu tìm kiếm.
+- Yêu cầu xem chi tiết nhãn thuốc bao gồm: chỉ định sử dụng, cảnh báo và các chống chỉ định y khoa.
+- Phân tích số lượng báo cáo tác dụng phụ để đánh giá mức độ an toàn chung của sản phẩm.
 
 ## 💡 Kịch Bản Lập Trình Thực Tế
 
+### Người dùng yêu cầu:
+> "Hãy kiểm tra các báo cáo về tác dụng phụ nguy hiểm của thuốc Ibuprofen trên hệ thống openFDA gần đây."
 
-### 🧑‍💻 Nhà phát triển:
-> "Hãy kiểm tra các báo cáo phản ứng phụ nghiêm trọng liên quan đến thuốc giảm đau Ibuprofen trên hệ thống openFDA gần đây."
-
-### 🤖 AI Agent (Đã được trang bị Kỹ năng):
-> "Tôi sẽ truy vấn trực tiếp cổng API openFDA của Cục quản lý Thực phẩm và Dược phẩm Hoa Kỳ để lập báo cáo an toàn dược phẩm:"
->
-> 1. **Thiết lập bộ lọc phản ứng có hại (Adverse Events)**: Tôi xây dựng truy vấn lọc theo tên hoạt chất `ibuprofen` và giới hạn các báo cáo trong 6 tháng gần nhất.
-> 2. **Trích xuất số liệu thống kê**: Tôi phân tích hàng nghìn báo cáo tự nguyện gửi về, tự động phân loại các phản ứng phụ xuất hiện nhiều nhất (như suy thận cấp, xuất huyết tiêu hóa, dị ứng da).
-> 3. **Phân tích nhân khẩu học**: Tôi tổng hợp tỷ lệ phân bố phản ứng phụ theo độ tuổi và giới tính của bệnh nhân.
-> 4. **Báo cáo Dược cảnh giác (Pharmacovigilance)**: Tôi trình bày báo cáo dạng bảng trực quan, cung cấp các thông số cảnh báo lâm sàng hữu ích cho bác sĩ và nhà nghiên cứu dược.
->
-> *Báo cáo an toàn thuốc toàn diện từ dữ liệu FDA chính thống đã được chuẩn bị đầy đủ, giúp bạn đánh giá rủi ro lâm sàng tối ưu.*
+### Trợ lý AI thực hiện:
+> "Tôi sẽ truy vấn cơ sở dữ liệu openFDA để lập báo cáo an toàn cho bạn:
+> 1. Tìm kiếm các báo cáo liên quan đến hoạt chất `ibuprofen` trong thời gian gần đây.
+> 2. Thống kê và hiển thị các phản ứng phụ xuất hiện nhiều nhất (như đau dạ dày, dị ứng da).
+> 3. Phân tích tỷ lệ gặp tác dụng phụ theo độ tuổi và giới tính để bạn dễ dàng theo dõi."
 
 ## ⚠️ Lưu Ý & Gotchas
 
-
-- **Voluntary reporting**: FAERS không capture tất cả adverse events — under-reporting phổ biến.
-- **Report ≠ causation**: Adverse event report không chứng minh drug gây ra reaction.
-- **No denominator**: Không biết bao nhiêu người dùng drug → không tính được incidence rate.
-- **US-focused**: openFDA là US FDA data. Regulatory data các nước khác cần sources khác.
+- **Báo cáo tự nguyện**: Các báo cáo tác dụng phụ là do người dùng và bác sĩ tự nguyện gửi về, nên có thể không đầy đủ.
+- **Không khẳng định nguyên nhân**: Một báo cáo tác dụng phụ không đồng nghĩa với việc chắc chắn do thuốc đó gây ra.
+- **Dữ liệu tại Mỹ**: Dữ liệu này thuộc FDA Hoa Kỳ. Quy định và thông tin y tế ở các quốc gia khác có thể khác nhau.

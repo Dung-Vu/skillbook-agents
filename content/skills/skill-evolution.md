@@ -3,12 +3,10 @@ category: workflow-orchestration
 command: /skill-evolution
 complexity: advanced
 description: >-
-  Định hình quy trình tiến hóa kỹ năng bằng cách cập nhật các chỉ dẫn trong tệp
-  `SKILL.md` có sẵn từ tín hiệu runtime hoặc đề xuất thực tế. Đảm bảo vá lỗi an
-  toàn, bảo toàn các logic cũ và tránh phình to prompt.
+  Công cụ hướng dẫn nâng cấp và cập nhật các kỹ năng có sẵn cho AI. Giúp phát hiện các lỗi sai trong hướng dẫn cũ, tiếp nhận đề xuất cải tiến từ thực tế và tiến hành vá lỗi an toàn mà không làm hỏng các tính năng cũ.
 featured: false
 lastVerified: '2026-06-03'
-oneLiner: Cập nhật và tiến hóa nội dung kỹ năng có sẵn từ phản hồi và thực nghiệm.
+oneLiner: Báo cáo lỗi và đề xuất cải tiến cho các kỹ năng AI hiện có.
 platforms:
   - universal
   - cursor
@@ -37,51 +35,41 @@ title: Skill Evolution
 
 ## 📖 Tại Sao Cần Skill Này?
 
-Khi môi trường thay đổi (API nâng cấp, hệ thống đổi câu lệnh) hoặc khi phát hiện một chỉ dẫn prompt trong kỹ năng đang bị sai lệch, hệ thống cần một quy trình tiến hóa kỹ năng an toàn. Kỹ năng này hướng dẫn Agent phân loại phản hồi, ghi nhận lỗi qua kênh Signal hoặc đề xuất kỹ năng mới qua kênh Proposal để đảm bảo các thay đổi được kiểm duyệt an toàn.
-
----
+Sau một thời gian sử dụng, các kỹ năng (Skills) của AI có thể bị cũ (ví dụ: liên kết API bị đổi, câu lệnh hệ thống thay đổi) hoặc phát hiện ra các lỗi sai cần sửa đổi. Skill này giúp bạn:
+- **Nâng cấp kỹ năng an toàn**: Cập nhật thông tin mới vào các file hướng dẫn có sẵn mà không làm ảnh hưởng đến các tính năng đang hoạt động tốt.
+- **Tiếp nhận phản hồi tự động**: Ghi nhận lỗi từ thực tế quá trình chạy thử (Signal) hoặc các ý tưởng cải tiến mới (Proposal).
+- **Quy trình duyệt rõ ràng**: Đảm bảo các thay đổi đều được kiểm tra kỹ lưỡng trước khi áp dụng chính thức.
 
 ## ⚙️ Cách Hoạt Động
 
-Quy trình hoạt động:
-1. **Phát hiện tín hiệu**:
-   - Nếu kỹ năng hiện tại bị lỗi/thiếu sót: Chuẩn bị gửi một **Signal**.
-   - Nếu phát hiện quy trình làm việc mới có thể tái sử dụng: Chuẩn bị gửi một **Proposal**.
-2. **Thu thập bằng chứng**: Trích xuất đoạn hội thoại thực tế hoặc dấu vết lỗi (dưới 200 ký tự cho Signal, dưới 300 ký tự cho Proposal).
-3. **Gửi lên hệ thống**: Sử dụng các câu lệnh CLI Mavis tương ứng (như `mavis skill signal report`).
-4. **Triage ban đêm**: Kênh tiến hóa chạy ngầm hàng đêm sẽ tự động phân loại và giao việc cập nhật lại cho `skill-refiner` hoặc `skill-creator`.
-
-Sơ đồ quy trình:
-```
-[Tín hiệu lỗi / Quy trình mới] ➔ 📋 [Phân loại: Signal hay Proposal] ➔ 🔍 [Trích xuất bằng chứng hội thoại]
-                                     ➔ 💻 [Chạy Mavis CLI report] ➔ 🔄 [Đợi quy trình Triage ban đêm]
-```
-
----
+Quy trình cập nhật kỹ năng được thực hiện như sau:
+1. **Phát hiện sự cố hoặc cơ hội cải tiến**:
+   - Nếu phát hiện kỹ năng có lỗi hoặc thông tin đã cũ: Chuẩn bị gửi một **Báo cáo lỗi (Signal)**.
+   - Nếu phát hiện một quy trình mới tiện lợi có thể dùng nhiều lần: Chuẩn bị gửi một **Đề xuất mới (Proposal)**.
+2. **Trích xuất bằng chứng**: Chụp lại đoạn hội thoại bị lỗi hoặc ghi nhận thông báo lỗi từ hệ thống làm minh chứng thực tế.
+3. **Gửi lên hệ thống**: Sử dụng các câu lệnh của Mavis CLI để đẩy báo cáo lên hàng đợi.
+4. **Xử lý tự động**: Hệ thống chạy ngầm sẽ tự động phân loại các báo cáo này và giao nhiệm vụ cho AI cập nhật lại kỹ năng phù hợp.
 
 ## 🚀 Cách Sử Dụng
 
-```markdown
-# QUY TẮC TIẾN HÓA KỸ NĂNG
-- **Bằng chứng xác thực**: Mọi Signal và Proposal gửi lên bắt buộc phải đính kèm bằng chứng thực tế được trích dẫn trực tiếp từ lịch sử hội thoại, không tự tóm tắt.
-- **Không tự ý sửa built-in skill**: Tuyệt đối không chỉnh sửa trực tiếp các kỹ năng tích hợp sẵn của hệ thống. Phải gửi Signal và đề xuất tạo pull request (MR) sửa đổi.
-- **Chỉ gửi Proposal khi lặp lại**: Một tác vụ phức tạp chỉ chạy một lần duy nhất không đủ điều kiện để tạo Proposal.
-```
-
----
+Khi làm việc với trợ lý AI:
+- Khi phát hiện kỹ năng hoạt động không đúng, hãy cung cấp chính xác lỗi và đoạn chat bị lỗi cho AI, thay vì chỉ nói chung chung là "bị lỗi".
+- Đối với các kỹ năng mặc định của hệ thống, không tự ý sửa đổi code trực tiếp. Hãy tạo một báo cáo lỗi để hệ thống ghi nhận và xử lý sau.
+- Chỉ tạo đề xuất xây dựng kỹ năng mới khi quy trình đó lặp đi lặp lại nhiều lần.
 
 ## 💡 Kịch Bản Lập Trình Thực Tế
 
-### Nhà phát triển:
-> "Hãy hướng dẫn tôi cách thiết lập và sử dụng kỹ năng Skill Evolution để Cập nhật và tiến hóa nội dung kỹ năng có sẵn từ phản hồi và thực nghiệm."
+### 🧑‍💻 Nhà phát triển:
+> "Khi tôi chạy lệnh sao lưu dữ liệu, AI báo lỗi không tìm thấy thư mục lưu trữ mới do máy chủ vừa thay đổi đường dẫn. Tôi phải làm gì?"
 
-### AI Agent (Đã được trang bị Kỹ năng):
-> "Tôi đã sẵn sàng. Dưới đây là kịch bản vận hành thực tế cho kỹ năng Skill Evolution:
-> 1. Thiết lập các thông số cấu hình và tham số đầu vào cần thiết cho hệ thống.
-> 2. Thực thi tuần tự các bước xử lý logic và tích hợp theo đúng chỉ dẫn của Skill Evolution.
-> 3. Kiểm thử đầu ra, tối ưu hóa hiệu năng và cung cấp kết quả hoàn chỉnh."
+### 🤖 AI Agent (Đã được trang bị Kỹ năng):
+> "Tôi sẽ thực hiện quy trình báo cáo lỗi để cập nhật kỹ năng này:
+> 
+> 1. **Thu thập bằng chứng**: Tôi sẽ copy đoạn thông báo lỗi 'Folder not found' kèm theo đường dẫn cũ bị lỗi.
+> 2. **Gửi báo cáo lỗi (Signal)**: Tôi sử dụng lệnh của Mavis CLI để gửi báo cáo lỗi này lên hệ thống kiểm duyệt.
+> 3. **Cập nhật**: Hệ thống kiểm duyệt sẽ ghi nhận lỗi này, phân tích đường dẫn mới của máy chủ và cập nhật lại file hướng dẫn của kỹ năng sao lưu để AI không bao giờ lặp lại lỗi này nữa."
 
 ## ⚠️ Lưu Ý & Gotchas
 
-* **Gửi đề xuất sửa lỗi trong Signal**: Lỗi phổ biến là viết hướng dẫn vá lỗi trực tiếp vào nội dung Signal. Kênh Signal chỉ ghi nhận lỗi và bằng chứng, việc thiết kế bản vá sẽ do Agent phụ trách tinh chỉnh (refiner) thực hiện sau.
-* **Lỗi phân loại nhầm**: Nhầm lẫn giữa lỗi logic của Agent (Agent không làm theo chỉ dẫn đúng) với lỗi của Skill. Nếu lỗi do Agent không đọc kỹ file chỉ dẫn, tuyệt đối không gửi Signal.
+- **Gửi kèm bằng chứng thực tế**: Báo cáo lỗi hoặc đề xuất cải tiến bắt buộc phải đi kèm đoạn chat hoặc thông báo lỗi thực tế từ hệ thống. Tránh tự viết mô tả lỗi chung chung không có dẫn chứng.
+- **Phân biệt lỗi của AI và lỗi của Kỹ năng**: Nếu AI không làm theo hướng dẫn trong khi file hướng dẫn viết hoàn toàn đúng, đó là lỗi do AI chưa đọc kỹ (không cần báo cáo sửa kỹ năng). Chỉ báo cáo khi thông tin hướng dẫn trong kỹ năng thực sự bị sai hoặc thiếu sót.

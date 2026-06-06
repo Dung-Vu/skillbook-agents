@@ -15,7 +15,7 @@ import {
   Variants,
   MotionStyle,
 } from "framer-motion";
-import { cn, formatDate, formatCommand } from "@/lib/utils";
+import { cn, formatDate, formatCommand, copyToClipboard } from "@/lib/utils";
 import { parseMarkdownToHtml } from "@/lib/markdown";
 import {
   ArrowUp,
@@ -217,12 +217,12 @@ export function SkillDetailClient({
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      setTimeout(() => {
-        if (!window.__paperCrumpleOverlayRegistered) {
-          window.__canvasPaused = false;
-          window.dispatchEvent(new CustomEvent("canvas-resume"));
-        }
-      }, 0);
+      const transition = window.__transition;
+      if (!transition || !transition.paperCrumpleOverlayRegistered) {
+        window.__transition = window.__transition || {};
+        window.__transition.canvasPaused = false;
+        window.dispatchEvent(new CustomEvent("canvas-resume"));
+      }
     }
   }, []);
 
@@ -294,6 +294,7 @@ export function SkillDetailClient({
       // Create Premium Copy Button with absolute Tooltip inside it
       const button = document.createElement("button");
       button.type = "button";
+      button.setAttribute("aria-label", t("detail.copyCommand"));
       button.className =
         "copy-button absolute top-3 right-3 p-3 md:p-1.5 rounded-lg border border-white/10 " +
         "bg-zinc-900/80 hover:bg-zinc-800 text-zinc-400 hover:text-white opacity-100 md:opacity-0 md:group-hover/wrapper:opacity-100 transition-all duration-300 " +
@@ -311,22 +312,15 @@ export function SkillDetailClient({
       const iconContainer = document.createElement("div");
       iconContainer.className = "relative w-3.5 h-3.5 flex items-center justify-center";
       iconContainer.innerHTML = `
-        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="copy-svg transition-all duration-300 transform scale-100 opacity-100"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
-        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="check-svg absolute transition-all duration-300 transform scale-0 opacity-0 text-emerald-400"><path d="M20 6 9 17l-5-5"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="copy-svg transition-all duration-300 transform scale-100 opacity-100" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="check-svg absolute transition-all duration-300 transform scale-0 opacity-0 text-emerald-400" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
       `;
       button.appendChild(iconContainer);
 
       button.addEventListener("click", async () => {
         const codeText = pre.querySelector("code")?.textContent || pre.innerText || "";
-        let copied = false;
+        const copied = await copyToClipboard(codeText);
         
-        try {
-          await navigator.clipboard.writeText(codeText);
-          copied = true;
-        } catch (err) {
-          console.error("Failed to copy code: ", err);
-        }
-
         if (copied) {
           const copySvg = button.querySelector(".copy-svg");
           const checkSvg = button.querySelector(".check-svg");
@@ -482,36 +476,15 @@ export function SkillDetailClient({
     });
   }, [htmlContent, platforms, t]);
 
-  // 2. Đảm bảo hiển thị tất cả các platform cùng lúc (loại bỏ lọc)
-  useEffect(() => {
-    const container = containerRef.current;
-    if (!container) return;
-
-    const activeWrappers = container.querySelectorAll(".platform-wrapper-block");
-    activeWrappers.forEach((wrapper) => {
-      wrapper.classList.remove("hidden");
-      wrapper.classList.add("block");
-    });
-
-    // 2.3: Trích xuất danh sách các tiêu đề hiển thị trong Mục Lục
-    const headingElements = container.querySelectorAll("h2, h3");
-    const visibleHeadings: { id: string; text: string; level: number }[] = [];
-
-    headingElements.forEach((el, index) => {
-      const rawText = el.textContent || "";
-      const cleanedText = rawText
-        .replace(/[\u{1F300}-\u{1F9FF}]|[\u{2600}-\u{26FF}]|[\u{2700}-\u{27BF}]|[\u{1F1E0}-\u{1F1FF}]/gu, "")
-        .trim();
-
-      visibleHeadings.push({
-        id: el.id || `heading-${index}`,
-        text: cleanedText,
-        level: el.tagName === "H2" ? 2 : 3,
-      });
-    });
-
-    setHeadings(visibleHeadings);
-  }, [htmlContent]);
+  // NOTE: A previous revision of this file had a second `useEffect` here
+  // that re-ran on every `htmlContent` change. It did two things:
+  //   1. forced every `.platform-wrapper-block` to be visible (no-op —
+  //      Effect 1 never adds a `hidden` class, so this loop did nothing),
+  //   2. re-extracted the heading list and re-`setHeadings()`.
+  // Both pieces duplicated work that the Effect 1 above already performs,
+  // and (2) risked an interleaved `setHeadings` race with the first effect.
+  // The dead effect has been removed; Effect 1 is the single source of
+  // truth for DOM decoration and the heading list.
 
   // R1: Tối ưu hoá TOC Active Link Tracking bằng IntersectionObserver (Không gây Layout Thrashing)
   useEffect(() => {
@@ -616,8 +589,8 @@ export function SkillDetailClient({
         behavior: "smooth",
       });
 
-      if (typeof window !== "undefined" && window.history.pushState) {
-        window.history.pushState(null, "", `#${id}`);
+      if (typeof window !== "undefined" && window.history.replaceState) {
+        window.history.replaceState(null, "", `#${id}`);
       } else if (typeof window !== "undefined") {
         // eslint-disable-next-line react-hooks/immutability
         window.location.hash = id;
@@ -641,7 +614,9 @@ export function SkillDetailClient({
           initial="initial"
           animate={isExiting ? "exit" : "animate"}
           exit="exit"
-          className="min-h-screen pt-24 pb-20 px-6 w-full will-change-transform will-change-opacity origin-top transform-gpu"
+          id="main-content"
+          tabIndex={-1}
+          className="min-h-screen pt-24 pb-20 px-6 w-full will-change-transform will-change-opacity origin-top transform-gpu outline-none"
         >
           <div className="max-w-7xl mx-auto">
             {/* R1: Hero Banner bọc trong motion.div */}
@@ -666,7 +641,7 @@ export function SkillDetailClient({
                 <nav className="flex items-center gap-2 text-xs text-[var(--color-text-muted)] mb-4 sm:mb-6 flex-wrap font-mono select-none">
                   <Link
                     href="/skills"
-                    onClick={(e) => navigateTo(e as unknown as React.MouseEvent<HTMLAnchorElement>, "/skills")}
+                    onClick={(e) => navigateTo(e, "/skills")}
                     className="hover:text-[var(--color-accent-primary)] no-underline transition-colors"
                   >
                     Skills
@@ -699,16 +674,6 @@ export function SkillDetailClient({
                       >
                         {formatCommand(skill.command, skill.slug)}
                       </span>
-                      {skill.provider && (
-                        <span className={cn(
-                          "text-xs font-mono font-bold px-2 py-0.5 rounded border uppercase shrink-0 tracking-wider",
-                          skill.provider === "antigravity" 
-                            ? "bg-indigo-500/10 border-indigo-500/30 text-indigo-400"
-                            : "bg-rose-500/10 border-rose-500/30 text-rose-400"
-                        )}>
-                          {skill.provider}
-                        </span>
-                      )}
                     </h1>
                   </div>
 
@@ -736,7 +701,7 @@ export function SkillDetailClient({
                   )}
                   <div className="flex items-center gap-1.5 text-[11px] text-[var(--color-text-muted)] font-mono">
                     <Calendar size={12} />
-                    <span>{t("detail.lastVerified")} {formatDate(skill.lastVerified)}</span>
+                    <span>{t("detail.lastVerified")} {formatDate(skill.lastVerified, language)}</span>
                   </div>
                 </div>
               </div>
@@ -776,11 +741,12 @@ export function SkillDetailClient({
                               ? "text-[var(--color-accent-primary)] font-semibold"
                               : "text-[var(--color-text-muted)] hover:text-[var(--color-text-primary)]"
                           )}
+                          aria-current={activeId === h.id ? "location" : undefined}
                         >
                           {h.level === 3 ? (
-                            <ChevronRight size={10} className="shrink-0 text-zinc-500/60" />
+                            <ChevronRight size={10} className="shrink-0 text-zinc-500/60" aria-hidden="true" />
                           ) : (
-                            getHeadingIcon(h.text)
+                            <span aria-hidden="true">{getHeadingIcon(h.text)}</span>
                           )}
                           <span className="truncate block flex-1 pr-1 line-clamp-1">{h.text}</span>
                         </a>
@@ -831,11 +797,6 @@ export function SkillDetailClient({
                     >
                       <div className="flex items-start justify-between gap-2">
                         <span className="skill-card__command transition-colors duration-200">{formatCommand(rs.command, rs.slug)}</span>
-                        {rs.provider !== skill.provider && (
-                          <span className="shrink-0 text-[9px] font-mono font-bold px-1.5 py-0.5 rounded bg-indigo-50 border border-indigo-200/50 text-indigo-600">
-                            also available in {rs.provider}
-                          </span>
-                        )}
                       </div>
                       <p className="skill-card__description transition-colors duration-200">{rs.description}</p>
                     </HologramCard>
@@ -879,9 +840,10 @@ export function SkillDetailClient({
             exit={{ opacity: 0, scale: 0.8, y: 20 }}
             onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
             className="fixed bottom-6 right-6 p-3 rounded-full bg-[var(--color-bg-secondary)] border border-[var(--color-border-accent)] text-[var(--color-accent-primary)] shadow-[0_0_15px_rgba(167,139,250,0.3)] hover:shadow-[0_0_25px_rgba(167,139,250,0.5)] hover:bg-[var(--color-bg-card-hover)] transition-all cursor-pointer z-50 flex items-center justify-center hover:scale-105 active:scale-95 group"
+            aria-label={t("detail.scrollTop")}
             title={t("detail.scrollTop")}
           >
-            <ArrowUp size={18} className="group-hover:-translate-y-0.5 transition-transform duration-200" />
+            <ArrowUp size={18} className="group-hover:-translate-y-0.5 transition-transform duration-200" aria-hidden="true" />
           </motion.button>
         )}
       </AnimatePresence>
@@ -1015,9 +977,9 @@ function ElasticPaginationLink({ href, isNext, skill, onClick }: { href: string;
       />
 
       <span className="text-[10px] font-bold font-mono tracking-wider text-[var(--color-text-muted)] uppercase flex items-center gap-1 group-hover:text-[var(--color-accent-primary)] transition-colors relative z-10">
-        {!isNext && <ArrowLeft size={10} />}
+        {!isNext && <ArrowLeft size={10} aria-hidden="true" />}
         {isNext ? t("detail.nextSkill") : t("detail.prevSkill")}
-        {isNext && <ArrowRight size={10} />}
+        {isNext && <ArrowRight size={10} aria-hidden="true" />}
       </span>
       <span className="text-base font-bold text-[var(--color-text-primary)] font-mono group-hover:text-[var(--color-accent-primary)] transition-colors mt-1 relative z-10">
         {skill.command}

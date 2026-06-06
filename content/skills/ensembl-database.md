@@ -17,10 +17,8 @@ platforms:
   - gemini-cli
   - universal
 featured: false
-description: >-
-  Tra cứu cơ sở dữ liệu Ensembl để dịch mã ID gen/transcript, tải trình tự FASTA
-  và dự đoán ảnh hưởng biến thể (VEP).
-oneLiner: 'Truy xuất trình tự genomic, cấu trúc gen và dự đoán hậu quả biến thể.'
+description: Tìm kiếm thông tin gen, cấu trúc gen và dự đoán ảnh hưởng của các đột biến gen trên cơ sở dữ liệu Ensembl.
+oneLiner: Tìm kiếm thông tin gen, cấu trúc gen và dự đoán ảnh hưởng đột biến.
 sourceUrl: 'https://www.ensembl.org/'
 sourceAuthor: Google DeepMind
 lastVerified: '2026-05-30'
@@ -29,48 +27,46 @@ seoTitle: Ensembl Genome Browser — Skillbook Agents
 seoDescription: >-
   Hướng dẫn Agent tra cứu gene, transcript, protein IDs và dự đoán variant
   consequences bằng Ensembl VEP.
-provider: antigravity
+provider: minimax
 ---
 
 ## 📖 Tại Sao Cần Skill Này?
 
-Ensembl là genome browser và database chính cho annotation genome — cung cấp gene structures, transcript variants, protein translations, và variant effect predictions. Là **công cụ dịch ID** trung tâm trong bioinformatics.
+Ensembl là thư viện lớn lưu trữ thông tin về bản đồ gen của nhiều loài sinh vật, đặc biệt là con người. Kỹ năng này giúp bạn dễ dàng tra cứu mã gen, tìm cấu trúc gen và biết được các thay đổi trong gen có thể gây ra ảnh hưởng gì.
 
-- **ID translation**: ENSG → ENST → ENSP (gene → transcript → protein ID mapping)
-- **Sequence retrieval**: Lấy DNA, cDNA, CDS, protein sequences theo ID
-- **VEP (Variant Effect Predictor)**: Dự đoán consequences của variant (missense, nonsense, splice, etc.)
-- **Gene structure**: Exon boundaries, transcript isoforms, UTRs
+- **Tìm kiếm thông tin**: Chuyển đổi qua lại giữa tên gen và các mã định danh sinh học tiêu chuẩn.
+- **Lấy chuỗi dữ liệu**: Tải về chuỗi DNA hoặc chuỗi protein của gen cần nghiên cứu.
+- **Dự đoán đột biến**: Phân tích sự thay đổi trong gen để xem nó có gây hại hay không.
+- **Xem cấu trúc gen**: Biết được ranh giới và các phần cấu thành nên gen.
 
 ## ⚙️ Cách Hoạt Động
 
 ```
-Gene/Transcript ID → Ensembl REST API → 
-Return gene info, sequences, exon structures, variant consequences
+Tên/Mã gen → Hệ thống Ensembl → Trả về thông tin gen, chuỗi DNA và dự đoán đột biến
 ```
 
-1. **ID lookup**: Resolve ENSG/ENST/ENSP IDs thành gene info, coordinates, cross-references
-2. **Sequence fetch**: Lấy genomic, cDNA, CDS, hoặc protein sequence
-3. **VEP**: Submit variant → nhận consequence type (missense, frameshift, splice_donor, etc.)
+1. **Tìm kiếm mã**: Khớp tên gen thông thường với các mã nhận diện chuẩn quốc tế.
+2. **Tải dữ liệu**: Lấy thông tin chi tiết về chuỗi DNA hoặc chuỗi protein tương ứng.
+3. **Phân tích đột biến**: Gửi thông tin biến thể gen để nhận dự đoán về mức độ ảnh hưởng (như vô hại hay gây hại).
 
 ## 🚀 Cách Sử Dụng
 
 ### Universal
 
 ```markdown
-# Ensembl Query Rules
-- Dùng Ensembl làm primary ID translator: gene name ↔ ENSG ↔ ENST ↔ ENSP ↔ UniProt.
-- VEP cho coding variants: report consequence type, amino acid change, SIFT/PolyPhen scores.
-- Khi cần genomic hoặc protein sequence → fetch từ Ensembl API.
-- Tọa độ trên GRCh38 (human) mặc định.
+# Quy tắc truy vấn Ensembl
+- Dùng Ensembl để chuyển đổi mã gen: tên gen ↔ mã ENSG ↔ mã ENST ↔ mã ENSP.
+- Dự đoán ảnh hưởng đột biến gen: báo cáo loại ảnh hưởng, sự thay đổi axit amin và điểm số mức độ gây hại (SIFT/PolyPhen).
+- Lấy chuỗi DNA hoặc protein trực tiếp từ Ensembl khi cần thiết.
+- Mặc định sử dụng hệ tọa độ GRCh38 (người).
 ```
 
 ### Cursor (.cursorrules)
 
 ```markdown
 # Ensembl
-- Ensembl = primary genome annotation source. Dùng cho ID resolution, sequence retrieval, VEP.
-- VEP consequence hierarchy: transcript_ablation > frameshift > stop_gained > missense > synonymous.
-- SIFT < 0.05 = damaging. PolyPhen > 0.85 = probably damaging.
+- Sử dụng Ensembl làm nguồn thông tin chính cho cấu trúc gen và dự đoán đột biến.
+- Báo cáo mức độ ảnh hưởng của đột biến theo thứ tự từ nghiêm trọng đến ít nghiêm trọng.
 ```
 
 ## 💡 Kịch Bản Lập Trình Thực Tế
@@ -89,7 +85,6 @@ Return gene info, sequences, exon structures, variant consequences
 
 ## ⚠️ Lưu Ý & Gotchas
 
-- **Transcript matters**: Cùng variant có thể là missense trên transcript A nhưng intronic trên transcript B. Luôn report canonical transcript.
-- **VEP vs prediction**: VEP cho consequence type, SIFT/PolyPhen cho impact prediction — hai khái niệm khác nhau.
-- **Species-specific**: Ensembl hỗ trợ nhiều species. Specify species khi query (default: human).
-- **API rate limit**: Ensembl REST API có rate limit — script wrapper tự động handle.
+- **Chọn phiên bản chuẩn**: Mỗi gen có thể có nhiều phiên bản phiên mã khác nhau. Luôn sử dụng phiên bản tiêu chuẩn để đảm bảo kết quả chính xác nhất.
+- **Phân biệt loại đột biến**: Loại đột biến và mức độ gây hại thực tế là hai khái niệm khác nhau. Đột biến có thể thay đổi axit amin nhưng chưa chắc đã gây hại cho cơ thể.
+- **Giới hạn tốc độ**: Hệ thống Ensembl giới hạn số lượng yêu cầu trong một thời gian ngắn. Kỹ năng này sẽ tự động điều chỉnh tốc độ gửi yêu cầu để không bị chặn.

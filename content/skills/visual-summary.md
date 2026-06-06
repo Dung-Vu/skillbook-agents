@@ -2,15 +2,10 @@
 category: content-communication
 command: /visual-summary
 complexity: intermediate
-description: >-
-  Tạo tóm tắt trực quan từ tài liệu hoặc dữ liệu phức tạp dưới dạng sơ đồ
-  Mermaid, cây thư mục hoặc bảng so sánh. Giúp nhà phát triển dễ dàng nắm bắt
-  cấu trúc hệ thống và luồng logic chỉ trong nháy mắt.
+description: Tạo tóm tắt thông tin phức tạp dưới dạng sơ đồ quy trình, cây cấu trúc hoặc bảng so sánh trực quan, giúp người dùng dễ dàng nắm bắt thông tin nhanh chóng.
 featured: false
 lastVerified: '2026-06-03'
-oneLiner: >-
-  Tạo sơ đồ Mermaid, cây cấu trúc và bảng so sánh trực quan từ thông tin phức
-  tạp.
+oneLiner: Tạo sơ đồ, bảng so sánh và cây cấu trúc trực quan từ thông tin phức tạp.
 platforms:
   - universal
   - cursor
@@ -21,10 +16,8 @@ provider: minimax
 relatedSkills:
   - plan-mode
   - minimax-pdf
-seoDescription: >-
-  Tạo tóm tắt trực quan dạng HTML tự động. Nhúng biểu đồ Chart.js, sơ đồ Mermaid
-  và SVG tối ưu hóa trải nghiệm đọc.
-seoTitle: Visual Summary - Minimax Skill for AI Agents
+seoDescription: Kỹ năng tự động tạo tóm tắt trực quan, biểu đồ quy trình và sơ đồ Mermaid từ tài liệu phức tạp giúp tối ưu hóa khả năng đọc hiểu.
+seoTitle: Visual Summary - Tóm tắt thông tin bằng sơ đồ trực quan
 slug: visual-summary
 sourceAuthor: Minimax
 sourceUrl: ''
@@ -38,50 +31,35 @@ title: Visual Summary
 
 ## 📖 Tại Sao Cần Skill Này?
 
-Khi đối mặt với các cấu trúc hệ thống phức tạp, luồng API lằng nhằng hoặc các bảng so sánh dữ liệu đồ sộ, việc trình bày bằng văn bản Markdown thông thường sẽ gây mệt mỏi cho người đọc. Kỹ năng này cho phép Agent chủ động thiết kế một trang web HTML cục bộ tuyệt đẹp, nhúng sơ đồ trực quan và gửi trực tiếp qua khung chat để nhà phát triển nắm bắt toàn bộ kiến trúc dự án chỉ trong vài giây.
+Khi đối mặt với các quy trình phức tạp, sơ đồ tổ chức công ty hay bảng so sánh dữ liệu khổng lồ, việc đọc các đoạn văn dài dòng rất mệt mỏi và dễ gây nhầm lẫn. Kỹ năng này giúp trợ lý tự động chuyển đổi các thông tin khô khan, phức tạp đó thành các sơ đồ quy trình hoặc bảng đối chiếu sinh động, giúp bạn và đội ngũ nắm bắt toàn bộ cấu trúc thông tin chỉ trong vài giây.
 
----
+- **Dễ hiểu ngay lập tức**: Thay thế các khối chữ dài bằng sơ đồ hình ảnh trực quan, khoa học.
+- **Cấu trúc rõ ràng**: Tổ chức thông tin theo các nhánh tư duy logic hoặc các cột so sánh dễ nhìn.
+- **Tiện lợi chia sẻ**: Tạo ra các sơ đồ có thể nhúng trực tiếp vào tài liệu hoặc slide thuyết trình của bạn.
 
 ## ⚙️ Cách Hoạt Động
 
-Quy trình tạo trang tóm tắt trực quan:
-1. **Chọn chế độ trang**: Chọn Data UI (cho biểu đồ, bảng số liệu), Report (cho báo cáo chữ dài, dùng font Serif) hoặc Terminal (cho log, mã nguồn).
-2. **Thiết kế màu sắc & Chữ**: Áp dụng các bảng màu nhã nhặn, cấm sử dụng các dải màu gradient AI màu tím/xanh bão hòa hoặc màu đen tuyền `#000`. Sử dụng font chữ chuyên nghiệp (Outfit, JetBrains Mono).
-3. **Nhúng Sơ đồ / SVG**: Viết tệp HTML tự chứa (self-contained) nhúng inline SVG, CSS Bench bar, hoặc Mermaid nếu sơ đồ nhiều hơn 4 nút.
-4. **Gửi File & Thẻ Media**: Lưu tệp vào workspace và gửi mã thẻ `<media>` chứa đường dẫn tuyệt đối của tệp HTML để kích hoạt trình xem thử trên giao diện chat.
-
-Sơ đồ quy trình:
-```
-[Dữ liệu phức tạp / Yêu cầu] ➔ 📐 [Chọn Page Mode & Bảng màu phù hợp] ➔ 💻 [Tạo tệp HTML tự chứa (self-contained)]
-                                  ➔ 🧪 [Kiểm tra Responsive & Inline SVG] ➔ 🖼️ [Gửi tin nhắn kèm thẻ <media>]
-```
-
----
+1. **Phân tích dữ liệu**: Lọc ra các bước trong quy trình, các tiêu chí so sánh hoặc các cấp bậc trong cấu trúc.
+2. **Lựa chọn định dạng**: Quyết định sử dụng sơ đồ quy trình (Mermaid), bảng so sánh đối chiếu hay sơ đồ cây phân cấp tùy thuộc vào loại dữ liệu.
+3. **Thiết kế bố cục**: Sắp xếp thông tin khoa học, sử dụng màu sắc tương phản tốt và biểu tượng trực quan để làm nổi bật các bước quan trọng.
+4. **Xuất sơ đồ**: Trả về sơ đồ hiển thị trực tiếp hoặc tệp ảnh/HTML tự chứa để bạn lưu trữ.
 
 ## 🚀 Cách Sử Dụng
 
-```markdown
-# QUY TẮC THIẾT KẾ TRANG TRỰC QUAN
-- **Không dùng ảnh ASCII**: Tuyệt đối không vẽ sơ đồ bằng ký tự ASCII dạng hộp vẽ (`┌─┐ │ ├─`). Bắt buộc dùng Mermaid hoặc vẽ SVG inline.
-- **Không dùng emoji làm Icon**: Sử dụng các icon SVG dạng inline của thư viện Lucide với màu sắc kế thừa (`currentColor`).
-- **Thẻ Media bắt buộc**: Định dạng bàn giao bắt buộc phải chứa thẻ `<media type="file" src="..." caption="..." />` ở dòng riêng biệt.
-- **Hỗ trợ Responsive**: Giao diện trang HTML phải tự động co giãn đẹp mắt trên các thiết bị di động, không xuất hiện thanh cuộn ngang ở màn hình nhỏ.
-```
-
----
+- Gửi tài liệu, dữ liệu hoặc quy trình bạn muốn tóm tắt cho trợ lý.
+- Trợ lý sẽ xử lý và gửi lại sơ đồ quy trình hoặc bảng so sánh trực quan được thiết kế gọn gàng nhất.
 
 ## 💡 Kịch Bản Lập Trình Thực Tế
 
-### Nhà phát triển:
-> "Hãy hướng dẫn tôi cách thiết lập và sử dụng kỹ năng Visual Summary để Tạo sơ đồ Mermaid, cây cấu trúc và bảng so sánh trực quan từ thông tin phức tạp."
+### Người dùng:
+> "Hãy vẽ giúp tôi sơ đồ quy trình xử lý đơn hàng của một trang web bán hàng trực tuyến."
 
-### AI Agent (Đã được trang bị Kỹ năng):
-> "Tôi đã sẵn sàng. Dưới đây là kịch bản vận hành thực tế cho kỹ năng Visual Summary:
-> 1. Thiết lập các thông số cấu hình và tham số đầu vào cần thiết cho hệ thống.
-> 2. Thực thi tuần tự các bước xử lý logic và tích hợp theo đúng chỉ dẫn của Visual Summary.
-> 3. Kiểm thử đầu ra, tối ưu hóa hiệu năng và cung cấp kết quả hoàn chỉnh."
+### Trợ lý:
+> "Tôi đã vẽ sơ đồ quy trình xử lý đơn hàng cho bạn:
+> - **Các bước quy trình**: Khách đặt hàng ➔ Kiểm tra kho (nếu hết hàng: thông báo hủy; nếu còn hàng: xác nhận đơn) ➔ Khách thanh toán ➔ Đóng gói và giao hàng ➔ Hoàn tất đơn hàng.
+> - **Cách hiển thị**: Sơ đồ được vẽ trực quan bằng công cụ Mermaid với các mũi tên chỉ luồng hoạt động rõ ràng giúp bạn dễ dàng theo dõi dòng chảy của dữ liệu."
 
 ## ⚠️ Lưu Ý & Gotchas
 
-* **Lỗi CORS khi tải tài nguyên bên ngoài**: Tránh tải các file JS/CSS/Fonts từ CDN không hỗ trợ CORS hoặc các domain lạ. Ưu tiên các CDN chính thống như `cdn.tailwindcss.com` hoặc nhúng trực tiếp code vào file HTML.
-* **Tải chậm sơ đồ Mermaid phức tạp**: Đối với các sơ đồ Mermaid có số lượng nút quá lớn (> 20 nút), trình duyệt cần nhiều thời gian để render layout. Khi đó, nên cân nhắc chia nhỏ sơ đồ hoặc xuất ảnh tĩnh SVG để tăng tốc độ tải trang.
+- **Tránh quá tải chi tiết**: Đối với các quy trình quá lớn, hãy chia nhỏ thành nhiều sơ đồ con để người xem không bị ngợp thông tin.
+- **Không vẽ thủ công bằng ký tự**: Tránh sử dụng các ký tự bàn phím tự vẽ sơ đồ vì chúng sẽ bị lệch hàng và vỡ bố cục khi xem trên màn hình điện thoại di động.

@@ -17,9 +17,8 @@ platforms:
   - universal
 featured: false
 description: >-
-  Lập lịch thực hiện các hành động tự động theo chu kỳ thời gian hoặc hẹn giờ
-  chạy một lần cho AI Agent.
-oneLiner: Lên lịch chạy tác vụ tự động định kỳ hoặc hẹn giờ chạy một lần.
+  Công cụ hẹn giờ và lên lịch tự động cho AI. Giúp đặt giờ chạy một nhiệm vụ sau một khoảng thời gian nhất định hoặc thiết lập lịch chạy lặp đi lặp lại tự động (như gửi báo cáo hàng ngày).
+oneLiner: Đặt hẹn giờ chạy một lần hoặc lên lịch chạy tự động định kỳ cho AI.
 sourceUrl: ''
 sourceAuthor: Google DeepMind
 lastVerified: '2026-06-01'
@@ -35,55 +34,38 @@ provider: antigravity
 
 ## 📖 Tại Sao Cần Skill Này?
 
-- **Lập lịch định kỳ**: Chạy tác vụ tự động theo chu kỳ thời gian (cron) để cập nhật dữ liệu hoặc quét báo cáo mà không cần nhắc nhở thủ công.
-- **Hẹn giờ chạy một lần**: Sử dụng khoảng thời gian chờ để tự động kích hoạt tác vụ kiểm tra sau khi các tiến trình nền kết thúc.
-- **Chạy nền không đồng bộ**: Theo dõi hệ thống ngầm và chỉ chủ động gửi thông báo/báo cáo khi phát hiện sự cố hoặc thay đổi quan trọng.
+Khi quản lý hệ thống hoặc dự án, có những công việc bạn không muốn phải tự tay bấm nút chạy mỗi ngày. Skill này giúp bạn:
+- **Tự động hóa định kỳ**: Lên lịch cho AI tự động gửi báo cáo, kiểm tra dữ liệu mỗi giờ, mỗi ngày, hoặc mỗi tuần mà không cần nhắc nhở.
+- **Hẹn giờ thực hiện**: Đặt hẹn giờ để AI kiểm tra lại công việc sau 5 hoặc 10 phút (ví dụ: đợi bản build code chạy xong rồi báo cáo kết quả).
+- **Tiết kiệm thời gian**: Hệ thống sẽ tự chạy ngầm và chỉ gửi thông báo cho bạn khi hoàn thành hoặc có lỗi phát sinh.
+
 ## ⚙️ Cách Hoạt Động
 
-```
-[Thiết lập Lịch Hẹn Giờ] ➔ 🕒 [Bộ Đếm Chạy Ngầm]
-                                 ├── Định kỳ (Cron) ➔ 🔄 [Kích hoạt Tác vụ] ➔ [Báo cáo kết quả]
-                                 └── Hẹn giờ một lần ➔ ⏳ [Hết giờ] ➔ [Chạy chẩn đoán]
-```
+Hệ thống lập lịch hoạt động đơn giản như sau:
+1. **Tiếp nhận yêu cầu**: Bạn đưa ra yêu cầu hẹn giờ chạy một lần (đếm ngược theo giây) hoặc chạy định kỳ (theo giờ/ngày).
+2. **Kích hoạt ngầm**: Hệ thống đưa nhiệm vụ vào bộ đếm thời gian chạy ngầm.
+3. **Thực thi và báo cáo**: Khi đến giờ hẹn, AI sẽ tự động thực hiện hành động được giao và gửi thông báo kết quả cho bạn.
 
-- **Đăng ký tác vụ**: Phân tích yêu cầu lập lịch (định kỳ qua `CronExpression` hoặc một lần qua `DurationSeconds`).
-- **Quản lý ngầm**: Đưa tác vụ vào bộ lập lịch nền của hệ thống để đếm ngược hoặc lập chu kỳ.
-- **Thực thi & Cảnh báo**: Khi kích hoạt, Agent chạy kịch bản/kỹ năng tương ứng và gửi thông báo kết quả cho người dùng.
 ## 🚀 Cách Sử Dụng
 
-
-````markdown
-# SCHEDULE COMMAND INSTRUCTIONS & RULES
-
-## 1. Scheduling Types
-
-- Phân biệt rõ hai chế độ lập lịch:
-  * **One-shot timer**: Sử dụng `DurationSeconds` để đặt hẹn giờ một lần (tối đa 900 giây).
-  * **Recurring cron**: Sử dụng `CronExpression` (5 trường chuẩn) để lên lịch lặp lại.
-
-## 2. Notification & Logging
-
-- Tránh in các log quá dài dòng khi chạy tác vụ ngầm định kỳ.
-- Chỉ tạo các cảnh báo hoặc báo cáo ngắn gọn khi phát hiện có biến động dữ liệu hoặc lỗi phát sinh trong hệ thống.
-- Sử dụng công cụ quản lý tác vụ ngầm để theo dõi và hủy lịch hẹn khi người dùng yêu cầu.
-````
-
----
+Khi viết yêu cầu cho trợ lý AI:
+- **Hẹn giờ một lần**: Nói rõ thời gian chờ bằng giây hoặc phút (ví dụ: "Hãy kiểm tra lại máy chủ sau 5 phút nữa").
+- **Lập lịch định kỳ**: Sử dụng định dạng lịch chuẩn (cron) hoặc nói rõ tần suất (ví dụ: "Cứ 9 giờ sáng mỗi ngày hãy gửi báo cáo").
+- **Hủy lịch**: Bạn có thể yêu cầu dừng hoặc xóa lịch hẹn bất cứ lúc nào nếu không còn nhu cầu.
 
 ## 💡 Kịch Bản Lập Trình Thực Tế
 
+### 🧑‍💻 Nhà phát triển:
+> "Tôi muốn lên lịch cho AI tự động kiểm tra trạng thái hoạt động của website cứ 30 phút một lần và báo cáo nếu website bị sập."
 
-### Nhà phát triển:
-> "Hãy hướng dẫn tôi cách thiết lập và sử dụng kỹ năng Schedule Recurring Task để Lên lịch chạy tác vụ tự động định kỳ hoặc hẹn giờ chạy một lần."
-
-### AI Agent (Đã được trang bị Kỹ năng):
-> "Tôi đã sẵn sàng. Dưới đây là kịch bản vận hành thực tế cho kỹ năng Schedule Recurring Task:
-> 1. Thiết lập các thông số cấu hình và tham số đầu vào cần thiết cho hệ thống.
-> 2. Thực thi tuần tự các bước xử lý logic và tích hợp theo đúng chỉ dẫn của Schedule Recurring Task.
-> 3. Kiểm thử đầu ra, tối ưu hóa hiệu năng và cung cấp kết quả hoàn chỉnh."
+### 🤖 AI Agent (Đã được trang bị Kỹ năng):
+> "Tôi đã thiết lập lịch hẹn chạy ngầm cho bạn:
+> 
+> 1. **Cấu hình**: Chạy kiểm tra mỗi 30 phút.
+> 2. **Hành động**: Tôi sẽ ping thử địa chỉ website của bạn để xem có hoạt động không.
+> 3. **Báo cáo**: Nếu website hoạt động bình thường, tôi sẽ ghi nhận ngầm và không làm phiền bạn. Nếu website không phản hồi, tôi sẽ gửi tin nhắn cảnh báo khẩn cấp ngay lập tức."
 
 ## ⚠️ Lưu Ý & Gotchas
 
-
-* **Giới Hạn Lặp (Max Iterations)**: Đối với các tác vụ cron định kỳ, luôn cân nhắc thiết lập `MaxIterations` để tự động dừng tiến trình lập lịch sau một số lần chạy nhất định, tránh tiêu tốn tài nguyên vô ích khi người dùng không còn theo dõi.
-* **Xử Lý Trùng Lặp**: Đảm bảo rằng phiên chạy mới không bị xung đột tài nguyên hoặc ghi đè lên file kết quả của phiên chạy trước nếu phiên chạy trước chưa kết thúc.
+- **Giới hạn số lần chạy**: Để tránh lãng phí tài nguyên, bạn nên thiết lập số lần chạy tối đa (ví dụ: chỉ chạy lặp lại 10 lần rồi tự động dừng).
+- **Tránh trùng lặp dữ liệu**: Nếu một nhiệm vụ chạy mất nhiều thời gian hơn chu kỳ lặp lại (ví dụ: tác vụ chạy mất 40 phút nhưng lịch hẹn là 30 phút/lần), các phiên chạy có thể bị đè lên nhau gây lỗi. Hãy thiết lập thời gian giãn cách hợp lý.

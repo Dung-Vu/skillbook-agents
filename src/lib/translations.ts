@@ -6,6 +6,8 @@ export const translations = {
     "nav.search": "Tìm kiếm",
     "nav.compare": "So sánh",
     "nav.antigravity": "Antigravity",
+    "nav.minimax": "Minimax",
+    "nav.providers": "Nhà cung cấp",
     
     // Footer
     "footer.desc": "Lưu trữ và phân loại kỹ năng tối ưu cho AI Agents.",
@@ -101,6 +103,8 @@ export const translations = {
     // About Page
     "about.briefing": "MISSION BRIEFING / WHITEPAPER",
     "about.title": "Tri thức Bản địa dành cho AI Agents tự chủ",
+    "about.heroTitlePart1": "Tri thức Bản địa dành cho ",
+    "about.heroTitlePart2": "AI Agents tự chủ",
     "about.desc": "Trong kỷ nguyên AI tự vận hành, sự khác biệt giữa một tác vụ thất bại và một kết quả hoàn mỹ nằm ở Skills — các gói tri thức chỉ dẫn được cấu trúc hóa để định hình phương pháp tư duy và hành động tối ưu cho Agent.",
     "about.paradigmTitle": "INTERACTIVE AGENT PARADIGM",
     "about.paradigmPrompt": "Hover/Click để khám phá bảng mạch tri thức:",
@@ -143,6 +147,8 @@ export const translations = {
     "nav.search": "Search",
     "nav.compare": "Compare",
     "nav.antigravity": "Antigravity",
+    "nav.minimax": "Minimax",
+    "nav.providers": "Providers",
 
     // Footer
     "footer.desc": "Optimal storage and classification of skills for AI Agents.",
@@ -238,6 +244,8 @@ export const translations = {
     // About Page
     "about.briefing": "MISSION BRIEFING / WHITEPAPER",
     "about.title": "Local Knowledge for Autonomous AI Agents",
+    "about.heroTitlePart1": "Local Knowledge for ",
+    "about.heroTitlePart2": "Autonomous AI Agents",
     "about.desc": "In the era of autonomous AI, the difference between a failed task and a perfect result lies in Skills — structured instruction sets designed to shape the agent's optimal reasoning and action paradigms.",
     "about.paradigmTitle": "INTERACTIVE AGENT PARADIGM",
     "about.paradigmPrompt": "Hover/Click to explore the neural knowledge grid:",

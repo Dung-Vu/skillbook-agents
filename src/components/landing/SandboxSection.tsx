@@ -145,7 +145,7 @@ export function SandboxSection(): React.ReactElement {
                   <ArrowRight size={12} className="shrink-0" />
                 </button>
               ) : (
-                <Link href="/skills" className="btn-primary flex-1 sm:flex-initial flex items-center justify-center gap-1.5 px-2 sm:px-5 py-2 sm:py-2.5 text-[10px] xs:text-[11px] sm:text-sm animate-pulse-glow font-sans decoration-none whitespace-nowrap">
+                <Link href="/skills" className="btn-primary flex-1 sm:flex-initial flex items-center justify-center gap-1.5 px-2 sm:px-5 py-2 sm:py-2.5 text-[10px] xs:text-[11px] sm:text-sm animate-pulse-glow font-sans no-underline whitespace-nowrap">
                   {STAGES[stage].cta}
                   <ArrowRight size={12} className="shrink-0" />
                 </Link>

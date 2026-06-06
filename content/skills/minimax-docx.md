@@ -2,13 +2,10 @@
 category: content-communication
 command: /docx
 complexity: intermediate
-description: >-
-  Đọc, phân tích cú pháp và thao tác với các tệp tin Microsoft Word (`.docx`).
-  Kỹ năng này vượt qua các rào cản môi trường (chẳng hạn như thiếu thư viện
-  ngoài hoặc binary) bằng cách sử dụng các tệp tham chiếu lệnh hệ thống.
+description: Giúp bạn tự động hóa việc đọc, tạo mới, chỉnh sửa nội dung và định dạng các tệp tin Microsoft Word (`.docx`) một cách chuyên nghiệp.
 featured: false
 lastVerified: '2026-06-03'
-oneLiner: Đọc và xử lý tài liệu Word (.docx) hiệu quả trên nhiều hệ điều hành.
+oneLiner: Hỗ trợ đọc, tạo và chỉnh sửa tệp Word (.docx) tự động.
 platforms:
   - universal
   - cursor
@@ -37,42 +34,33 @@ title: Minimax Docx
 
 ## 📖 Tại Sao Cần Skill Này?
 
-Lập trình viên và AI Agent cần kỹ năng này khi có nhiệm vụ tạo báo cáo doanh nghiệp, hợp đồng pháp lý hoặc các tài liệu chính thức theo định dạng Microsoft Word (`.docx`). Kỹ năng này cung cấp các tiêu chuẩn căn lề, typography và các chốt chặn môi trường để thao tác trực tiếp với XML của tệp DOCX an toàn.
+Viết báo cáo, hợp đồng, hoặc tài liệu hành chính trên Microsoft Word tốn rất nhiều thời gian để căn lề, chỉnh font chữ hay tạo mục lục. Kỹ năng này giúp trợ lý ảo tự động hóa việc tạo mới, thay đổi nội dung, thiết lập định dạng văn bản chuẩn công sở trực tiếp trên file Word mà không làm hỏng cấu trúc file.
 
 ## ⚙️ Cách Hoạt Động
 
-Quy trình xử lý file DOCX:
-
-1. **Xác minh môi trường**: Chạy lệnh kiểm tra môi trường tương ứng (ví dụ: `env_check.ps1` trên Windows) trước khi thao tác.
-2. **Định tuyến & Thực thi**: Lựa chọn lộ trình (Tạo mới, Áp dụng template, Chỉnh sửa, Đọc) và gọi CLI `.NET` hoặc script Python để xử lý XML của tệp DOCX an toàn.
-3. **Kiểm thử**: Xuất PDF kiểm tra trực quan layout và TOC để đảm bảo tài liệu hiển thị chính xác.
-
-```
-[Tệp tin Word / Yêu cầu] ➔ 🛡️ [Kiểm tra env_check.sh/ps1] ➔ 📐 [Định tuyến mục đích (Create/Edit/Read)]
-                              ➔ 💻 [Chạy CLI .NET hoặc Python script] ➔ 🧪 [Kiểm tra Layout & TOC]
-```
+Quy trình xử lý file Word:
+1. Trợ lý kiểm tra xem máy tính của bạn đã cài đặt sẵn công cụ xử lý file Word chưa (ví dụ: Python hoặc .NET).
+2. Trợ lý thực hiện thao tác (Đọc thông tin, Thay thế chữ, hoặc Tạo tài liệu mới từ mẫu có sẵn).
+3. Trợ lý kiểm tra lại xem bố cục, bảng biểu và mục lục có hiển thị đúng và đẹp mắt không.
 
 ## 🚀 Cách Sử Dụng
 
-```markdown
-# QUY TẮC XỬ LÝ ĐỊNH DẠNG DOCX
-- **Không tự ý chuyển đổi PDF**: Khi được yêu cầu chuyển DOCX sang PDF, hãy sử dụng script render trực tiếp (`docx_to_pdf.py` hoặc LibreOffice), không chuyển qua trung gian Markdown/HTML vì sẽ làm mất cấu trúc căn lề, header/footer của Word.
-- **Không ghi đè trực tiếp XML bằng String**: Tuyệt đối không chỉnh sửa XML của tệp DOCX bằng cách thay thế chuỗi (string replace) thủ công, vì việc này làm hỏng cấu trúc schema của Word. Phải sử dụng backend được phê duyệt.
-- **Tuân thủ CJK typography**: Văn bản hỗn hợp chữ Latinh và tiếng Trung/Việt phải tuân thủ nghiêm ngặt quy tắc ghép font và cỡ chữ tiêu chuẩn của tài liệu chính thống (ví dụ: Times New Roman ghép với Microsoft YaHei).
-```
+- Yêu cầu trợ lý tạo file Word từ nội dung có sẵn, ví dụ: "Tạo file Word hợp đồng lao động dựa trên thông tin này".
+- Nhờ trợ lý chỉnh sửa nội dung hoặc thay đổi font chữ, căn lề văn bản cho đúng chuẩn.
+- Khi cần xuất file Word sang file PDF, hãy yêu cầu trợ lý sử dụng công cụ chuyển đổi trực tiếp để không bị lệch định dạng.
 
 ## 💡 Kịch Bản Lập Trình Thực Tế
 
-### Nhà phát triển:
-> "Hãy hướng dẫn tôi cách thiết lập và sử dụng kỹ năng Minimax Docx để Đọc và xử lý tài liệu Word (.docx) hiệu quả trên nhiều hệ điều hành."
+### Người dùng:
+> "Tôi có một danh sách thông tin khách hàng, hãy tạo một file Word hợp đồng dịch vụ cho từng người dựa trên file mẫu có sẵn."
 
-### AI Agent (Đã được trang bị Kỹ năng):
-> "Tôi đã sẵn sàng. Dưới đây là kịch bản vận hành thực tế cho kỹ năng Minimax Docx:
-> 1. Thiết lập các thông số cấu hình và tham số đầu vào cần thiết cho hệ thống.
-> 2. Thực thi tuần tự các bước xử lý logic và tích hợp theo đúng chỉ dẫn của Minimax Docx.
-> 3. Kiểm thử đầu ra, tối ưu hóa hiệu năng và cung cấp kết quả hoàn chỉnh."
+### Trợ lý:
+> "Tôi đã xử lý yêu cầu của bạn:
+> 1. Tôi sử dụng file mẫu hợp đồng có sẵn.
+> 2. Điền thông tin chi tiết của từng khách hàng vào các vị trí tương ứng trong file Word.
+> 3. Các file Word hợp đồng đã được tạo và lưu trữ gọn gàng trong thư mục của bạn."
 
 ## ⚠️ Lưu Ý & Gotchas
 
-* **Lỗi CLI trên Windows**: Windows PowerShell yêu cầu chính sách bỏ qua thực thi (`-ExecutionPolicy Bypass`) khi gọi các script `.ps1`. Nếu không truyền cờ này, script kiểm tra môi trường sẽ bị chặn.
-* **Lỗi nạp thư viện ngoài**: Backend ghi `.NET` yêu cầu phiên bản dotnet sdk >= 9. Nếu môi trường thiếu SDK này, việc ghi sẽ thất bại ở bước biên dịch CLI.
+- **Tránh lỗi định dạng**: Khi chuyển đổi từ Word sang PDF, trợ lý sẽ dùng công cụ chuyển đổi gốc để đảm bảo chữ không bị chạy hoặc mất hàng.
+- **Không tự chỉnh sửa file bằng cách thủ công**: File Word thực chất là một cấu trúc mã phức tạp, trợ lý sẽ dùng các thư viện chuyên dụng để chỉnh sửa nhằm tránh làm hỏng file (khiến Word báo lỗi không mở được).
